@@ -7,44 +7,28 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 
-import com.job.softclick_mobile.databinding.ActivityLoginBinding;
+import com.job.softclick_mobile.databinding.ActivitySignupBinding;
 
-public class LoginActivity extends AppCompatActivity {
+public class SignupActivity extends AppCompatActivity {
     private int currentApiVersion;
-    private ActivityLoginBinding binding;
+    private ActivitySignupBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         hideSystemUi();
-        binding = ActivityLoginBinding.inflate(getLayoutInflater());
+        binding = ActivitySignupBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
     }
 
-    public void login(View view){
+    public void signup(View view){
 
     }
 
-    public void goToSignupPage(View view){
-        Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
+    public void goToLoginPage(View view){
+        Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
         startActivity(intent);
-    }
-
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus)
-    {
-        super.onWindowFocusChanged(hasFocus);
-        if(currentApiVersion >= Build.VERSION_CODES.KITKAT && hasFocus)
-        {
-            getWindow().getDecorView().setSystemUiVisibility(
-                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                            | View.SYSTEM_UI_FLAG_FULLSCREEN
-                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
-        }
     }
 
     private void hideSystemUi(){

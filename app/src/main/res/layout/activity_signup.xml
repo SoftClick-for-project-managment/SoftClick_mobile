@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.LoginActivity">
+    tools:context=".ui.SignupActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,13 +13,13 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="273dp" >
+            android:layout_height="150dp" >
             <ImageView
-                android:layout_width="170dp"
-                android:layout_height="170dp"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
                 android:src="@drawable/logo"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="65dp" />
+                android:layout_marginTop="25dp" />
         </FrameLayout>
 
         <LinearLayout
@@ -37,11 +37,11 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/username"
-                    android:layout_toRightOf="@+id/username_icon"
+                    android:id="@+id/firstName"
+                    android:layout_toRightOf="@+id/firstname_icon"
                     android:background="@color/transparent"
                     android:fontFamily="@font/roboto_regular"
-                    android:hint="Username"
+                    android:hint="Last Name"
                     android:inputType="textPersonName"
                     android:maxLines="1"
                     android:paddingLeft="17dp"
@@ -51,7 +51,7 @@
                     android:textSize="16sp"/>
 
                 <ImageView
-                    android:id="@+id/username_icon"
+                    android:id="@+id/firstname_icon"
                     android:layout_width="26dp"
                     android:layout_height="30dp"
                     android:layout_centerVertical="true"
@@ -62,9 +62,67 @@
 
             <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:layout_marginTop="20dp">
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/lastName"
+                    android:layout_toRightOf="@+id/lastname_icon"
+                    android:background="@color/transparent"
+                    android:fontFamily="@font/roboto_regular"
+                    android:hint="First Name"
+                    android:inputType="textPersonName"
+                    android:maxLines="1"
+                    android:paddingLeft="17dp"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:textCursorDrawable="@drawable/cursor_color"
+                    android:textSize="16sp"/>
+
+                <ImageView
+                    android:id="@+id/lastname_icon"
+                    android:layout_width="26dp"
+                    android:layout_height="30dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="17dp"
+                    android:src="@drawable/user"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/email"
+                    android:layout_toRightOf="@+id/email_icon"
+                    android:background="@color/transparent"
+                    android:fontFamily="@font/roboto_regular"
+                    android:hint="Email"
+                    android:inputType="textEmailAddress"
+                    android:maxLines="1"
+                    android:paddingLeft="17dp"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:textCursorDrawable="@drawable/cursor_color"
+                    android:textSize="16sp"/>
+
+                <ImageView
+                    android:id="@+id/email_icon"
+                    android:layout_width="26dp"
+                    android:layout_height="30dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="17dp"
+                    android:src="@drawable/mail"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
                 <EditText
                     android:layout_width="match_parent"
@@ -92,6 +150,36 @@
 
             </RelativeLayout>
 
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/passwordConfirmation"
+                    android:layout_toRightOf="@+id/passwordConfirmation_icon"
+                    android:background="@color/transparent"
+                    android:fontFamily="@font/roboto_regular"
+                    android:hint="Password Confirmation"
+                    android:inputType="textPassword"
+                    android:maxLines="1"
+                    android:paddingLeft="17dp"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:textCursorDrawable="@drawable/cursor_color"
+                    android:textSize="16sp"/>
+
+                <ImageView
+                    android:id="@+id/passwordConfirmation_icon"
+                    android:layout_width="26dp"
+                    android:layout_height="30dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="17dp"
+                    android:src="@drawable/locked"/>
+
+            </RelativeLayout>
+
         </LinearLayout>
 
         <RelativeLayout
@@ -111,10 +199,10 @@
                 android:fontFamily="@font/roboto_regular"
                 android:gravity="center"
                 android:clickable="true"
-                android:onClick="login"
+                android:onClick="signup"
                 android:paddingTop="15dp"
                 android:paddingBottom="15dp"
-                android:text="Login"
+                android:text="Sign up"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
 
@@ -126,7 +214,7 @@
                 android:textAlignment="textStart"
                 android:layout_marginTop="14dp"
                 android:fontFamily="@font/roboto_regular"
-                android:text="Have no account? create one "
+                android:text="Already have an account ? sign in "
                 android:textColor="@color/gray"
                 android:textSize="14sp" />
 
@@ -137,7 +225,7 @@
                 android:layout_marginTop="14dp"
                 android:layout_toRightOf="@+id/question"
                 android:clickable="true"
-                android:onClick="goToSignupPage"
+                android:onClick="goToLoginPage"
                 android:text="here"
                 android:textColor="@color/link" />
         </RelativeLayout>
@@ -207,6 +295,4 @@
 
 
     </LinearLayout>
-
-
 </RelativeLayout>
