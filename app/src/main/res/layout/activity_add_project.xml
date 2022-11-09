@@ -1,9 +1,218 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.AddProjectActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/between_cards"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginBottom="35dp"
+                android:background="@color/white" />
+
+            <EditText
+                android:id="@+id/editTextTextPersonName7"
+                style="@style/Widget.Material3.AutoCompleteTextView.OutlinedBox.Dense"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:ems="10"
+                android:fontFamily="@font/roboto_regular"
+                android:hint="Project Name"
+                android:inputType="textPersonName"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/editTextTextMultiLine2"
+                style="@style/Widget.Material3.AutoCompleteTextView.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:ems="10"
+                android:fontFamily="@font/roboto_regular"
+                android:gravity="start|top"
+                android:hint="Description"
+                android:inputType="textMultiLine"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textSize="16sp" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:hint="@string/domain"
+
+                android:textColorHint="#574D4D"
+                app:boxBackgroundMode="outline"
+                app:endIconMode="dropdown_menu"
+                app:hintAnimationEnabled="false"
+                app:hintEnabled="false"
+                app:hintTextAppearance="@style/TextAppearance.AppCompat.Large">
+
+                <AutoCompleteTextView
+                    style="@style/Widget.Material3.AutoCompleteTextView.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_regular"
+                    android:hint="@string/domain"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:textSize="16sp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:hint="@string/client"
+
+                android:layout_marginTop="25dp"
+                android:textColorHint="#574D4D"
+                app:boxBackgroundMode="outline"
+                app:endIconMode="dropdown_menu"
+                app:hintAnimationEnabled="false"
+                app:hintEnabled="false"
+                app:hintTextAppearance="@style/TextAppearance.AppCompat.Large">
+
+                <AutoCompleteTextView
+                    style="@style/Widget.Material3.AutoCompleteTextView.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:hint="@string/client"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:textSize="16sp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:hint="@string/chef_projet"
+
+
+                android:textColorHint="#574D4D"
+                app:boxBackgroundMode="outline"
+                app:endIconMode="dropdown_menu"
+                app:hintAnimationEnabled="false"
+                app:hintEnabled="false"
+                app:hintTextAppearance="@style/TextAppearance.AppCompat.Large">
+
+                <AutoCompleteTextView
+                    style="@style/Widget.Material3.AutoCompleteTextView.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:hint="@string/chef_projet"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:textSize="16sp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:hint="@string/date_debut"
+                android:layout_marginTop="25dp"
+
+                android:textColorHint="#574D4D"
+                app:boxBackgroundMode="outline"
+
+                app:hintAnimationEnabled="false"
+                app:hintEnabled="false"
+                app:hintTextAppearance="@style/TextAppearance.AppCompat.Large">
+
+                <AutoCompleteTextView
+                    style="@style/Widget.Material3.AutoCompleteTextView.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="57dp"
+                    android:layout_marginTop="25dp"
+                    android:drawableEnd="@android:drawable/ic_menu_agenda"
+                    android:fontFamily="@font/roboto_regular"
+                    android:hint="@string/date_debut"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:textSize="16sp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:hint="@string/date_fin"
+
+                android:textColorHint="#574D4D"
+                app:boxBackgroundMode="outline"
+
+                app:hintAnimationEnabled="false"
+                app:hintEnabled="false"
+                app:hintTextAppearance="@style/TextAppearance.AppCompat.Large">
+
+                <AutoCompleteTextView
+                    style="@style/Widget.Material3.AutoCompleteTextView.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="57dp"
+                    android:layout_marginTop="25dp"
+                    android:drawableEnd="@android:drawable/ic_menu_agenda"
+                    android:fontFamily="@font/roboto_regular"
+                    android:hint="@string/date_fin"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:textSize="16sp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <EditText
+                android:id="@+id/editTextTextPersonName10"
+                style="@style/Widget.Material3.AutoCompleteTextView.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:ems="10"
+                android:fontFamily="@font/roboto_regular"
+                android:hint="Revenue"
+                android:inputType="textPersonName"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/loginBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="80dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/button_bg"
+                android:clickable="true"
+                android:fontFamily="@font/roboto_regular"
+                android:gravity="center"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:text="Add"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">SoftClick_mobile</string>
+    <string name="domain">Domain</string>
+    <string name="client">Client</string>
+    <string name="chef_projet">Chef Projet</string>
+    <string name="date_debut">Date debut</string>
+    <string name="date_fin">Date fin</string>
 </resources>
