@@ -5,4 +5,8 @@
     <string name="chef_projet">Chef Projet</string>
     <string name="date_debut">Date debut</string>
     <string name="date_fin">Date fin</string>
+    <string name="diriger_par">Dirigé par : </string>
+    <string name="dirige_par">Dirigé par : </string>
+    <string name="chefname">Mr Youssef Gahi</string>
+    <string name="commande_par">Commandé par : </string>
 </resources>
