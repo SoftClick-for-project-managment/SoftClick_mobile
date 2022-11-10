@@ -32,13 +32,17 @@
                 android:layout_marginBottom="6dp"
                 app:srcCompat="@drawable/back_arrow" />
 
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="29dp"
-                android:layout_height="34dp"
-                android:layout_alignParentRight="true"
-                android:layout_marginTop="5dp"
-                app:srcCompat="@drawable/more" />
+            <TextView
+                android:id="@+id/pageTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="65dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/roboto_medium"
+                android:text="Details Project"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textSize="18sp" />
+
         </RelativeLayout>
 
         <RelativeLayout
