@@ -81,6 +81,7 @@
                 android:layout_height="1dp"
                 android:background="#979797"/>
             <com.google.android.material.textfield.TextInputLayout
+
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -95,7 +96,7 @@
                 app:hintTextAppearance="@style/TextAppearance.AppCompat.Large">
 
                 <AutoCompleteTextView
-
+                    android:id="@+id/domain_combo"
                     style="@style/Widget.Material3.AutoCompleteTextView.OutlinedBox.Dense"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -111,6 +112,7 @@
 
 
             <com.google.android.material.textfield.TextInputLayout
+
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -126,6 +128,7 @@
                 app:hintTextAppearance="@style/TextAppearance.AppCompat.Large">
 
                 <AutoCompleteTextView
+                    android:id="@+id/client_combo"
                     style="@style/Widget.Material3.AutoCompleteTextView.OutlinedBox.Dense"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -145,6 +148,7 @@
                 android:background="#979797"/>
 
             <com.google.android.material.textfield.TextInputLayout
+
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -160,6 +164,7 @@
                 app:hintTextAppearance="@style/TextAppearance.AppCompat.Large">
 
                 <AutoCompleteTextView
+                    android:id="@+id/chef_combo"
                     style="@style/Widget.Material3.AutoCompleteTextView.OutlinedBox.Dense"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
