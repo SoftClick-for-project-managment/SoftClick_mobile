@@ -48,14 +48,14 @@
 
 
             <EditText
-                android:id="@+id/editTextTextPersonName7"
+                android:id="@+id/name_project_input"
                 style="@style/Widget.Material3.AutoCompleteTextView.OutlinedBox.Dense"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:ems="10"
                 android:fontFamily="@font/roboto_regular"
-                android:hint="Project Name"
+                android:hint="@string/project_name_hint"
                 android:inputType="textPersonName"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textSize="16sp" />
@@ -64,7 +64,7 @@
                 android:layout_height="1dp"
                 android:background="#979797"/>
             <EditText
-                android:id="@+id/editTextTextMultiLine2"
+                android:id="@+id/desciption_input"
                 style="@style/Widget.Material3.AutoCompleteTextView.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -72,7 +72,7 @@
                 android:ems="10"
                 android:fontFamily="@font/roboto_regular"
                 android:gravity="start|top"
-                android:hint="Description"
+                android:hint="@string/desciption_hint"
                 android:inputType="textMultiLine"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textSize="16sp" />
@@ -246,14 +246,14 @@
                 android:background="#979797"/>
 
             <EditText
-                android:id="@+id/editTextTextPersonName10"
+                android:id="@+id/revenue_input"
                 style="@style/Widget.Material3.AutoCompleteTextView.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:ems="10"
                 android:fontFamily="@font/roboto_regular"
-                android:hint="Revenue"
+                android:hint="@string/revenue_hint"
                 android:inputType="textPersonName"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textSize="16sp"
