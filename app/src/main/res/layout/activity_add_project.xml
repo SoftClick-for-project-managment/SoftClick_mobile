@@ -188,6 +188,7 @@
                 app:hintTextAppearance="@style/TextAppearance.AppCompat.Large">
 
                 <AutoCompleteTextView
+                    android:id="@+id/date_debut"
                     style="@style/Widget.Material3.AutoCompleteTextView.OutlinedBox.Dense"
                     android:layout_width="match_parent"
                     android:layout_height="57dp"
@@ -221,6 +222,7 @@
                 app:hintTextAppearance="@style/TextAppearance.AppCompat.Large">
 
                 <AutoCompleteTextView
+                    android:id="@+id/date_picker_fin"
                     style="@style/Widget.Material3.AutoCompleteTextView.OutlinedBox.Dense"
                     android:layout_width="match_parent"
                     android:layout_height="57dp"
