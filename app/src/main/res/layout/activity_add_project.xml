@@ -49,7 +49,10 @@
                 android:inputType="textPersonName"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textSize="16sp" />
-
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:background="#979797"/>
             <EditText
                 android:id="@+id/editTextTextMultiLine2"
                 style="@style/Widget.Material3.AutoCompleteTextView.OutlinedBox"
@@ -63,7 +66,10 @@
                 android:inputType="textMultiLine"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textSize="16sp" />
-
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:background="#979797"/>
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
@@ -80,9 +86,10 @@
 
                 <AutoCompleteTextView
 
-                    style="@style/Widget.Material3.AutoCompleteTextView.OutlinedBox"
+                    style="@style/Widget.Material3.AutoCompleteTextView.OutlinedBox.Dense"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="#00000000"
                     android:drawableStart="@android:drawable/ic_menu_preferences"
                     android:fontFamily="@font/roboto_regular"
                     android:hint="@string/domain"
@@ -109,17 +116,24 @@
                 app:hintTextAppearance="@style/TextAppearance.AppCompat.Large">
 
                 <AutoCompleteTextView
-                    style="@style/Widget.Material3.AutoCompleteTextView.OutlinedBox"
+                    style="@style/Widget.Material3.AutoCompleteTextView.OutlinedBox.Dense"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
+                    android:background="#00000000"
                     android:drawableStart="@android:drawable/ic_menu_call"
                     android:fontFamily="@font/roboto_regular"
                     android:hint="@string/client"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     android:textSize="16sp" />
 
+
             </com.google.android.material.textfield.TextInputLayout>
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:background="#979797"/>
+
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
@@ -136,10 +150,11 @@
                 app:hintTextAppearance="@style/TextAppearance.AppCompat.Large">
 
                 <AutoCompleteTextView
-                    style="@style/Widget.Material3.AutoCompleteTextView.OutlinedBox"
+                    style="@style/Widget.Material3.AutoCompleteTextView.OutlinedBox.Dense"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
 
+                    android:background="#00000000"
                     android:drawableStart="@android:drawable/ic_menu_myplaces"
                     android:fontFamily="@font/roboto_regular"
                     android:hint="@string/chef_projet"
@@ -163,17 +178,23 @@
                 app:hintTextAppearance="@style/TextAppearance.AppCompat.Large">
 
                 <AutoCompleteTextView
-                    style="@style/Widget.Material3.AutoCompleteTextView.OutlinedBox"
+                    style="@style/Widget.Material3.AutoCompleteTextView.OutlinedBox.Dense"
                     android:layout_width="match_parent"
                     android:layout_height="57dp"
                     android:layout_marginTop="15dp"
+                    android:background="#00000000"
                     android:drawableEnd="@android:drawable/ic_menu_agenda"
                     android:fontFamily="@font/roboto_regular"
                     android:hint="@string/date_debut"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     android:textSize="16sp" />
 
+
             </com.google.android.material.textfield.TextInputLayout>
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:background="#979797"/>
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -190,10 +211,11 @@
                 app:hintTextAppearance="@style/TextAppearance.AppCompat.Large">
 
                 <AutoCompleteTextView
-                    style="@style/Widget.Material3.AutoCompleteTextView.OutlinedBox"
+                    style="@style/Widget.Material3.AutoCompleteTextView.OutlinedBox.Dense"
                     android:layout_width="match_parent"
                     android:layout_height="57dp"
                     android:layout_marginTop="25dp"
+                    android:background="#00000000"
                     android:drawableEnd="@android:drawable/ic_menu_agenda"
                     android:fontFamily="@font/roboto_regular"
                     android:hint="@string/date_fin"
@@ -201,6 +223,10 @@
                     android:textSize="16sp" />
 
             </com.google.android.material.textfield.TextInputLayout>
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:background="#979797"/>
 
             <EditText
                 android:id="@+id/editTextTextPersonName10"
@@ -213,7 +239,8 @@
                 android:hint="Revenue"
                 android:inputType="textPersonName"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                />
 
             <TextView
                 android:id="@+id/loginBtn"
