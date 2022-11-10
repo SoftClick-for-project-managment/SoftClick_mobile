@@ -11,20 +11,16 @@
         android:theme="@style/Theme.SoftClick_mobile">
         <activity
             android:name=".ui.DetailProjetctivity"
-            android:exported="true">
+            android:exported="false">
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
         </activity>
         <activity
             android:name=".ui.VerificationActivity"
             android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
+
         </activity>
         <activity
             android:name=".ui.SignupActivity"
@@ -41,10 +37,12 @@
         <!-- </activity> -->
         <activity
             android:name=".ui.LoginActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
 
         </activity>
         <activity
