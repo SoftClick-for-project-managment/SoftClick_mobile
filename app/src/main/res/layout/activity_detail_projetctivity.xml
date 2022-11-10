@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/project_name"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.AddProjectActivity">
@@ -72,7 +72,7 @@
                     android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/textView"
+                    android:id="@+id/project_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
@@ -147,6 +147,7 @@
                                 android:text="@string/dirige_par"
                                 />
                                 <TextView
+                                    android:id="@+id/name_chef"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="@string/chefname"
@@ -161,6 +162,7 @@
                                     android:layout_marginLeft="10dp"
                                     />
                                 <TextView
+                                    android:id="@+id/clients_text"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text=" - mr lghali \n - mr faisal \n- mr hassan"
@@ -170,10 +172,11 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Les équipes : "
+                                android:text="@string/equipe_par"
                                 android:layout_marginLeft="10dp"
                                 />
                             <TextView
+                                android:id="@+id/equipes_text"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text=" - Front end Num 1 \n - Front end Num 5 \n- Devops "
@@ -189,16 +192,17 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="État d'avancement : "
+                                android:text="@string/etat_avancement"
                                 />
                             <com.google.android.material.progressindicator.LinearProgressIndicator
+                                android:id="@+id/etat_avancement"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="20dp"
                                 app:trackColor="@color/gray"
                                 app:indicatorColor="@color/secondary"
                                 app:trackThickness="10dp"
-
+                                android:progress="25"
 
                                 />
                         </LinearLayout>
@@ -212,9 +216,10 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Revenu Total : "
+                                    android:text="@string/revenue"
                                     />
                                 <TextView
+                                    android:id="@+id/revenu_total"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="500000 DH"
@@ -230,9 +235,10 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Depense Total : "
+                                    android:text="@string/depense"
                                     />
                                 <TextView
+                                    android:id="@+id/depense_total"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="20000 DH"

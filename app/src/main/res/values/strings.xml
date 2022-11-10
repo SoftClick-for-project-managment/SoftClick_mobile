@@ -9,4 +9,8 @@
     <string name="dirige_par">Dirigé par : </string>
     <string name="chefname">Mr Youssef Gahi</string>
     <string name="commande_par">Commandé par : </string>
+    <string name="equipe_par">"Les équipes : "</string>
+    <string name="etat_avancement">État d\'avancement : \"</string>
+    <string name="revenue">"Revenu Total : "</string>
+    <string name="depense">"Depense Total : "</string>
 </resources>
