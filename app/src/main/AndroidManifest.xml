@@ -24,6 +24,7 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+        <activity
             android:name=".ui.DetailProjetctivity"
             android:exported="false">
 
@@ -32,17 +33,13 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".ui.VerificationActivity"
-            android:exported="false">
-
-        </activity>
-        <activity
             android:name=".ui.SignupActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
-        </activity> <!-- <activity -->
+        </activity>
+        <!-- <activity -->
         <!-- android:name=".LoginActivity" -->
         <!-- android:exported="false"> -->
         <!-- <meta-data -->
@@ -65,7 +62,6 @@
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
-
         </activity>
     </application>
 
