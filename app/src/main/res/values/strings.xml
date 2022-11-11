@@ -4,4 +4,20 @@
     <string name="closeNavDrawer">Navigation Drawer Close</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="domain">Domain</string>
+    <string name="client">Client</string>
+    <string name="chef_projet">Chef Projet</string>
+    <string name="date_debut">Date debut</string>
+    <string name="date_fin">Date fin</string>
+    <string name="diriger_par">Dirigé par : </string>
+    <string name="dirige_par">Dirigé par : </string>
+    <string name="chefname">Mr Youssef Gahi</string>
+    <string name="commande_par">Commandé par : </string>
+    <string name="equipe_par">Les équipes : </string>
+    <string name="etat_avancement">État d\'avancement : </string>
+    <string name="revenue">Revenu Total en DH : </string>
+    <string name="depense">Depense Total en DH : </string>
+    <string name="project_name_hint">Project Name</string>
+    <string name="desciption_hint">Description</string>
+    <string name="revenue_hint">Revenue en DH</string>
 </resources>
