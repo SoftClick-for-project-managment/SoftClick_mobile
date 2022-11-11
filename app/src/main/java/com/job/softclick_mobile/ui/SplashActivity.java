@@ -2,8 +2,10 @@ package com.job.softclick_mobile.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 
 import com.job.softclick_mobile.R;
@@ -20,6 +22,15 @@ public class SplashActivity extends AppCompatActivity {
         binding = ActivitySplashBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+                startActivity(intent);
+                SplashActivity.this.finish();
+            }
+        }, 3000);
     }
 
     @Override
