@@ -10,8 +10,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SoftClick_mobile">
         <activity
-            android:name=".SplashActivity"
-            android:exported="false">
+            android:name=".ui.MenuActivity"
+            android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -29,15 +29,23 @@
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
-        </activity> <!-- <activity -->
-        <!-- android:name=".LoginActivity" -->
-        <!-- android:exported="false"> -->
-        <!-- <meta-data -->
-        <!-- android:name="android.app.lib_name" -->
-        <!-- android:value="" /> -->
-        <!-- </activity> -->
+        </activity>
         <activity
-            android:name=".ui.LoginActivity"
+            android:name=".ui.AddProjectActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+         <activity
+             android:name=".ui.LoginActivity"
+             android:exported="false">
+             <meta-data
+             android:name="android.app.lib_name"
+             android:value="" />
+         </activity>
+        <activity
+            android:name=".ui.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
