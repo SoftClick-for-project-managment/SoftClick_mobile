@@ -10,13 +10,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.navigation.NavigationView;
 import com.job.softclick_mobile.R;
+import com.job.softclick_mobile.databinding.ActivityLoginBinding;
+import com.job.softclick_mobile.databinding.FooterBinding;
 
 public class FooterActivity  extends AppCompatActivity {
+    private FooterBinding binding;
     private BottomAppBar mBottomAppBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.footer);
+        binding = FooterBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        setContentView(view);
         mBottomAppBar= findViewById(R.id.bottomAppBar);
         setSupportActionBar(mBottomAppBar);
         mBottomAppBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_CENTER);
