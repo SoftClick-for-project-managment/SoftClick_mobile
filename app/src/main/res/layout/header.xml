@@ -10,15 +10,16 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/menu_toolbar"
             style="@style/Widget.MaterialComponents.Toolbar.Primary"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:menu="@menu/header_menu"
-            app:navigationIcon="@drawable/menu"
-            android:background="@color/primary"
-            />
+            android:background="@color/primary">
+
+        </com.google.android.material.appbar.MaterialToolbar>
+
 
         <!-- The main content view where fragments are loaded -->
         <FrameLayout

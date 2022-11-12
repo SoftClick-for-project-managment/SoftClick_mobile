@@ -8,7 +8,10 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.app.ActionBar;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -21,11 +24,6 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
 
     private ActivityMenuBinding binding;
 
-    private Toolbar toolbar;
-
-    private DrawerLayout drawerLayout;
-    private NavigationView navigationView;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,25 +32,34 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         View view = binding.getRoot();
         setContentView(view);
 
-        toolbar = findViewById(R.id.menu_toolbar);
-        setSupportActionBar(toolbar);
-
-        drawerLayout =findViewById(R.id.drawer_layout);
-        navigationView = findViewById(R.id.nav_view);
+        setSupportActionBar(binding.menuHeader.menuToolbar);
+        binding.menuHeader.menuToolbar.showOverflowMenu();
 
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(
                 this,
-                drawerLayout,
-                toolbar,
+                binding.drawerLayout,
+                binding.menuHeader.menuToolbar,
                 R.string.openNavDrawer,
                 R.string.closeNavDrawer
         );
 
-
-        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        binding.drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
-        navigationView.setNavigationItemSelectedListener(this);
+        binding.navView.setNavigationItemSelectedListener(this);
 
+        //------------To change Navigation drawer icon ---------------
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.menu);
+
+
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.header_menu, menu);
+        return true;
     }
 
     @Override
@@ -127,7 +134,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         setTitle(item.getTitle());
 
         // Close the navigation drawer
-        drawerLayout.closeDrawers();
+        binding.drawerLayout.closeDrawers();
 
         return true;
     }
@@ -137,9 +144,4 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         super.onPointerCaptureChanged(hasCapture);
     }
 
-    /*@NonNull
-    @Override
-    public androidx.lifecycle.viewmodel.CreationExtras getDefaultViewModelCreationExtras() {
-        return super.getDefaultViewModelCreationExtras();
-    }*/
 }
