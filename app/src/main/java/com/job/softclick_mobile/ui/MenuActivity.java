@@ -12,6 +12,7 @@ import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -23,6 +24,7 @@ import com.job.softclick_mobile.databinding.ActivityMenuBinding;
 public class MenuActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private ActivityMenuBinding binding;
+    private  FragmentManager fragmentManager = getSupportFragmentManager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,15 +54,32 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.menu);
 
+        Fragment fragment2 = null;
+        Class fragmentClass2;
+        fragmentClass2 = FooterFragment.class;
+        try {
+            fragment2 = (Fragment) fragmentClass2.newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // Insert the fragment by replacing any existing fragment
+        fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.fContentFooter, fragment2).commit();
+
+
+
 
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.header_menu, menu);
+    /*@Override
+    public boolean onCreateOptionsMenu(Menu menu1) {
+        super.onCreateOptionsMenu(menu1);
+        getMenuInflater().inflate(R.menu.header_menu, menu1);
         return true;
-    }
+    }*/
+
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -72,8 +91,11 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         switch (item.getItemId()) {
             case R.id.tasks_item:
             {
+
                 Toast.makeText(MenuActivity.this, "tasks selected", Toast.LENGTH_SHORT).show();
+
                 fragmentClass = FirstFragment.class;
+
                 break;
             }
             case R.id.teams_item:
@@ -119,13 +141,21 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
 
         try {
             fragment = (Fragment) fragmentClass.newInstance();
+            Bundle bundle = new Bundle();
+            bundle.putInt("newInt", 5);
+            bundle.putString("newText", "Tasks Selected");
+            fragment.setArguments(bundle);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
+
+
         // Insert the fragment by replacing any existing fragment
-        FragmentManager fragmentManager = getSupportFragmentManager();
+        //FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+
+
 
         // Highlight the selected item has been done by NavigationView
         item.setChecked(true);
