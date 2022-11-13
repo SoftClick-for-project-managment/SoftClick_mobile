@@ -14,6 +14,11 @@
         android:layout_height="wrap_content"
         layout="@layout/header" />
 
+    <include
+        android:id="@+id/menu_footer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/footer" />
 
     <!-- The navigation drawer -->
     <com.google.android.material.navigation.NavigationView
@@ -23,5 +28,7 @@
         android:id="@+id/nav_view"
         android:layout_gravity="start"
         app:headerLayout="@layout/nav_header_layout" />
+
+
 
 </androidx.drawerlayout.widget.DrawerLayout>
