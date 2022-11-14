@@ -108,7 +108,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
             case R.id.employees_item:
             {
                 Toast.makeText(this, "employees selected", Toast.LENGTH_SHORT).show();
-                fragmentClass = FirstFragment.class;
+                fragmentClass = EmployeeFormFragment.class;
                 break;
             }
             case R.id.expenses_item:
@@ -156,7 +156,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         item.setChecked(true);
 
         // Set action bar title
-        setTitle(item.getTitle());
+        binding.menuHeader.menuToolbar.setTitle(item.getTitle());
 
         // Close the navigation drawer
         binding.drawerLayout.closeDrawers();
