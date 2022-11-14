@@ -66,11 +66,6 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         // Insert the fragment by replacing any existing fragment
         fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.fContentFooter, fragment2).commit();
-
-
-
-
-
     }
 
     /*@Override
@@ -107,7 +102,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
             case R.id.clients_item:
             {
                 Toast.makeText(this, "clients selected", Toast.LENGTH_SHORT).show();
-                fragmentClass = FirstFragment.class;
+                fragmentClass = ClientListFragment.class;
                 break;
             }
             case R.id.employees_item:
@@ -141,10 +136,10 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
 
         try {
             fragment = (Fragment) fragmentClass.newInstance();
-            Bundle bundle = new Bundle();
-            bundle.putInt("newInt", 5);
-            bundle.putString("newText", "Tasks Selected");
-            fragment.setArguments(bundle);
+//            Bundle bundle = new Bundle();
+//            bundle.putInt("newInt", 5);
+//            bundle.putString("newText", "Tasks Selected");
+//            fragment.setArguments(bundle);
         } catch (Exception e) {
             e.printStackTrace();
         }
