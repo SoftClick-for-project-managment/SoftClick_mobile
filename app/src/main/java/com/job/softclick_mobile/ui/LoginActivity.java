@@ -19,7 +19,7 @@ public class LoginActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
     }
-
+////////////////// change develop////////////////////////////
     public void login(View view){
         Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
         startActivity(intent);
