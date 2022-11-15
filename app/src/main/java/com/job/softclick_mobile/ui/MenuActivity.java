@@ -120,7 +120,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
             case R.id.invoices_item:
             {
                 Toast.makeText(this, "invoices selected", Toast.LENGTH_SHORT).show();
-                fragmentClass = FirstFragment.class;
+                fragmentClass = InvoiceFormFragment.class;
                 break;
             }
             case R.id.logout_item:
