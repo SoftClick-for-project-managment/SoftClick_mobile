@@ -9,23 +9,26 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.job.softclick_mobile.R;
+import com.job.softclick_mobile.contracts.RecyclerViewHandler;
 import com.job.softclick_mobile.models.Client;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ClientListAdapter extends RecyclerView.Adapter<ClientListAdapter.ClientListViewHolder> {
-    List<Client> clients;
+    private List<Client> clients;
+    private final RecyclerViewHandler recyclerViewHandler;
 
-    public ClientListAdapter(List<Client> clients) {
+    public ClientListAdapter(List<Client> clients, RecyclerViewHandler recyclerViewHandler) {
         this.clients = clients;
+        this.recyclerViewHandler = recyclerViewHandler;
     }
 
     @NonNull
     @Override
     public ClientListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.client_card,parent,false);
-        return new ClientListViewHolder(view);
+        return new ClientListViewHolder(view, recyclerViewHandler);
     }
 
     @Override
@@ -46,7 +49,7 @@ public class ClientListAdapter extends RecyclerView.Adapter<ClientListAdapter.Cl
     class ClientListViewHolder extends RecyclerView.ViewHolder
     {
         TextView nom, prenom, nomEntreprise, ville, pays;
-        public ClientListViewHolder(@NonNull View itemView)
+        public ClientListViewHolder(@NonNull View itemView, RecyclerViewHandler rvh)
         {
             super(itemView);
             nom = itemView.findViewById(R.id.nom);
@@ -54,6 +57,18 @@ public class ClientListAdapter extends RecyclerView.Adapter<ClientListAdapter.Cl
             nomEntreprise = itemView.findViewById(R.id.nomEntreprise);
             ville = itemView.findViewById(R.id.ville);
             pays = itemView.findViewById(R.id.pays);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (rvh != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            rvh.onItemClick(position);
+                        }
+                    }
+                }
+            });
         }
     }
 }
