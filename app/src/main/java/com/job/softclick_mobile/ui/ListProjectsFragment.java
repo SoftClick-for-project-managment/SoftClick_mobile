@@ -33,6 +33,7 @@ public class ListProjectsFragment extends Fragment {
     private FragmentListProjectsBinding binding;
     private ActivityMenuBinding menuBinding;
 
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -76,13 +77,8 @@ public class ListProjectsFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         binding = FragmentListProjectsBinding.inflate(inflater, container, false);
-
-
-        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fContentFooter,new Fragment()).commit() ;
-
         initData();
         mainRecyclerView = binding.mainRecycleView;
-
         MainRecyclerAdapter mainRecyclerAdapter = new MainRecyclerAdapter(sections);
         mainRecyclerView.setAdapter(mainRecyclerAdapter);
 

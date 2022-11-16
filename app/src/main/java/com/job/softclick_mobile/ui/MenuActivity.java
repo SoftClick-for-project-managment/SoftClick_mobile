@@ -95,12 +95,6 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
                 fragmentClass = FirstFragment.class;
                 break;
             }
-            case R.id.projects_item:
-            {
-                Toast.makeText(this, "projects selected", Toast.LENGTH_SHORT).show();
-                fragmentClass = FirstFragment.class;
-                break;
-            }
             case R.id.clients_item:
             {
                 Toast.makeText(this, "clients selected", Toast.LENGTH_SHORT).show();
@@ -128,7 +122,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
             }
             case R.id.projects_item:
             {
-                Toast.makeText(this, "invoices selected", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "projects selected", Toast.LENGTH_SHORT).show();
                 fragmentClass = ListProjectsFragment.class;
                 break;
             }
