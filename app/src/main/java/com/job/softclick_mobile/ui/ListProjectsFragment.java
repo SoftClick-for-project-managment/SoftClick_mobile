@@ -99,7 +99,7 @@ public class ListProjectsFragment extends Fragment {
 
         String priority_3 = "normal priority";
         List<String> section_priority_3 = new ArrayList<>();
-        section_priority_3.add("ecommerce site web");section_priority_3.add("mobile app for reservation");
+        section_priority_3.add("ecommerce site web");section_priority_3.add("mobile app reservation");
 
         String priority_4 = "not important";
         List<String> section_priority_4 = new ArrayList<>();

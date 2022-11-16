@@ -4,11 +4,10 @@
         <rotate
             android:layout_width="match_parent"
 
-            android:fromDegrees="187"
+            android:fromDegrees="184"
             >
             <shape android:shape="rectangle">
-                <stroke android:color="#6F197E" />
-                <solid android:color="#7ED382" />
+                <solid android:color="#527CA2" />
             </shape>
         </rotate>
     </item>
