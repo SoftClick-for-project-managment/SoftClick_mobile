@@ -1,6 +1,8 @@
 package com.job.softclick_mobile.models;
 
-public class Employee {
+import java.io.Serializable;
+
+public class Employee implements Serializable {
 
     private int id, employeeImage;
     private String employeeFirstName, employeeLastName, employeeFunction, employeeEmail, employeePhone;

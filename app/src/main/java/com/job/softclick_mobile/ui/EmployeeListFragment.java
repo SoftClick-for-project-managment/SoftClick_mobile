@@ -3,34 +3,31 @@ package com.job.softclick_mobile.ui;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.adapters.EmployeeListAdapter;
+import com.job.softclick_mobile.contracts.RecyclerViewHandler;
 import com.job.softclick_mobile.models.Employee;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class EmployeeListFragment extends Fragment {
+public class EmployeeListFragment extends Fragment implements RecyclerViewHandler {
 
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
     private FloatingActionButton addButton;
-
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    private String mParam1;
-    private String mParam2;
+    private ArrayList<Employee> employeeArrayList;
 
     public EmployeeListFragment() {
         // Required empty public constructor
@@ -39,8 +36,6 @@ public class EmployeeListFragment extends Fragment {
     public static EmployeeListFragment newInstance(String param1, String param2) {
         EmployeeListFragment fragment = new EmployeeListFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -49,8 +44,7 @@ public class EmployeeListFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+
         }
     }
 
@@ -61,15 +55,14 @@ public class EmployeeListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_employee_list, container, false);
         recyclerView = view.findViewById(R.id.employeeListRecyclerView) ;
 
-        ArrayList<Employee> employeeArrayList= new ArrayList<>();
+        employeeArrayList= new ArrayList<>();
         employeeArrayList.add(new Employee(R.drawable.user_photo, "Tiger", "Nixon", "Talent Acquisition Specialist", "tigernixon@gmail.com", "+2120065354675"));
         employeeArrayList.add(new Employee(R.drawable.user_photo, "Garrett", "Winters", "FullStack Developer", "garrettwinters@gmail.com", "+2120065354675"));
         employeeArrayList.add(new Employee(R.drawable.user_photo, "Brielle", "Williamson", "Front-End Developer", "briellewilliamson@gmail.com", "+2120065354675"));
 
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this.getContext());
-        adapter = new EmployeeListAdapter(employeeArrayList);
-
+        adapter = new EmployeeListAdapter(employeeArrayList, this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
@@ -92,4 +85,21 @@ public class EmployeeListFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onItemClick(int position) {
+        Employee employee = employeeArrayList.get(position);
+
+        Fragment fragment = new EmployeeDetailsFragment();
+
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("employee", employee);
+        fragment.setArguments(bundle);
+
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.flContent, fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+
+    }
 }

@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.job.softclick_mobile.R;
+import com.job.softclick_mobile.contracts.RecyclerViewHandler;
 import com.job.softclick_mobile.models.Employee;
 
 import java.util.ArrayList;
@@ -17,6 +18,8 @@ import java.util.ArrayList;
 public class EmployeeListAdapter extends RecyclerView.Adapter<EmployeeListAdapter.EmployeeViewHolder>{
 
     private ArrayList<Employee> mEmployeeList;
+    private final RecyclerViewHandler recyclerViewHandler;
+
 
     public static class EmployeeViewHolder extends RecyclerView.ViewHolder {
         public ImageView imageView;
@@ -25,25 +28,38 @@ public class EmployeeListAdapter extends RecyclerView.Adapter<EmployeeListAdapte
         public TextView emailView;
         public TextView phoneView;
 
-        public EmployeeViewHolder(@NonNull View itemView) {
+        public EmployeeViewHolder(@NonNull View itemView, RecyclerViewHandler recyclerViewHandler) {
             super(itemView);
             imageView = itemView.findViewById(R.id.employeePhoto);
             fullNameView = itemView.findViewById(R.id.employeeFullName);
             functionView = itemView.findViewById(R.id.employeeFunction);
             emailView = itemView.findViewById(R.id.employeeEmail);
             phoneView = itemView.findViewById(R.id.employeePhone);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(recyclerViewHandler != null) {
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION) {
+                            recyclerViewHandler.onItemClick(position);
+                        }
+                    }
+                }
+            });
         }
     }
 
-    public EmployeeListAdapter(ArrayList<Employee> employeeList) {
-        mEmployeeList = employeeList;
+    public EmployeeListAdapter(ArrayList<Employee> employeeList, RecyclerViewHandler recyclerViewHandler) {
+        this.mEmployeeList = employeeList;
+        this.recyclerViewHandler = recyclerViewHandler;
     }
 
     @NonNull
     @Override
     public EmployeeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.employee_card, parent, false);
-        EmployeeViewHolder evh = new EmployeeViewHolder(v);
+        EmployeeViewHolder evh = new EmployeeViewHolder(v, recyclerViewHandler);
         return evh;
     }
 
