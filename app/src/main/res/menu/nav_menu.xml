@@ -13,6 +13,10 @@
             android:title="Teams"
             android:icon="@drawable/teams"/>
         <item
+            android:id="@+id/projects_item"
+            android:title="Projects"
+            android:icon="@drawable/projects"/>
+        <item
             android:id="@+id/clients_item"
             android:title="Clients"
             android:icon="@drawable/clients"/>
