@@ -1,8 +1,11 @@
 package com.job.softclick_mobile.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,12 +16,13 @@ import android.view.ViewGroup;
 
 import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.adapters.ClientListAdapter;
+import com.job.softclick_mobile.contracts.RecyclerViewHandler;
 import com.job.softclick_mobile.models.Client;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClientListFragment extends Fragment {
+public class ClientListFragment extends Fragment implements RecyclerViewHandler {
 
     private String mParam1;
     private String mParam2;
@@ -69,9 +73,26 @@ public class ClientListFragment extends Fragment {
         clients.add(new Client("Waylon","Abshire  ","savanna06@reilly.net      ","+1-828-433-3907  ", "Kutch, Torphy and Cremin","Casimirmouth   ","BQ"));
         clients.add(new Client("Joany","Gerhold  ","pamela.boehm@ward.com     ","240.523.7261     ", "Quitzon PLC","Shanahanview   ","CA"));
 
-        recyclerView.setAdapter(new ClientListAdapter(clients));
+        recyclerView.setAdapter(new ClientListAdapter(clients, this));
 
         return view;
 
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        Client client = clients.get(position);
+
+        Fragment fragment = new ClientDetailsFragment();
+
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("client", client);
+        fragment.setArguments(bundle);
+
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.flContent, fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 }
