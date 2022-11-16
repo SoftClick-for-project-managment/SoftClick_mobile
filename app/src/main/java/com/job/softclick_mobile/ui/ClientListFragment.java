@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -79,10 +81,18 @@ public class ClientListFragment extends Fragment implements RecyclerViewHandler 
 
     @Override
     public void onItemClick(int position) {
-        Intent intent = new Intent(getActivity().getApplicationContext(), ClientDetailsActivity.class);
         Client client = clients.get(position);
 
-        intent.putExtra("client", client);
-        startActivity(intent);
+        Fragment fragment = new ClientDetailsFragment();
+
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("client", client);
+        fragment.setArguments(bundle);
+
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.flContent, fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 }

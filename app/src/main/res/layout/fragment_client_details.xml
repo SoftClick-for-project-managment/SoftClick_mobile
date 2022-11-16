@@ -1,44 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.ClientDetailsActivity"
-    android:id="@+id/drawer_layout">
-
+    tools:context=".ui.ClientDetailsFragment">
     <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ui.MenuActivity">
-
-        <com.google.android.material.appbar.AppBarLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/menu_toolbar"
-                style="@style/Widget.MaterialComponents.Toolbar.Primary"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="@color/primary"
-                app:menu="@menu/header_menu">
-
-            </com.google.android.material.appbar.MaterialToolbar>
-
-
-            <!-- The main content view where fragments are loaded -->
-            <FrameLayout
-                android:id="@+id/flContent"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/white"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/menu_toolbar">
-                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
@@ -91,7 +58,7 @@
                                 android:gravity="center"
                                 android:layout_columnWeight="1"
                                 android:orientation="vertical"
-                                android:layout_marginLeft="10dp"
+                                android:layout_marginLeft="20dp"
                                 app:cardElevation="0dp"
                                 app:cardBackgroundColor="@color/transparent">
                                 <LinearLayout
@@ -156,7 +123,7 @@
                                 android:gravity="center"
                                 android:layout_columnWeight="1"
                                 android:orientation="vertical"
-                                android:layout_marginLeft="10dp"
+                                android:layout_marginLeft="20dp"
                                 app:cardElevation="0dp"
                                 app:cardBackgroundColor="@color/transparent">
                                 <LinearLayout
@@ -220,7 +187,7 @@
                                 android:gravity="center"
                                 android:layout_columnWeight="1"
                                 android:orientation="vertical"
-                                android:layout_marginLeft="10dp"
+                                android:layout_marginLeft="20dp"
                                 app:cardElevation="0dp"
                                 app:cardBackgroundColor="@color/transparent">
                                 <LinearLayout
@@ -283,7 +250,7 @@
                                 android:gravity="center"
                                 android:layout_columnWeight="1"
                                 android:orientation="vertical"
-                                android:layout_marginLeft="10dp"
+                                android:layout_marginLeft="20dp"
                                 app:cardElevation="0dp"
                                 app:cardBackgroundColor="@color/transparent">
                                 <LinearLayout
@@ -308,19 +275,4 @@
                             </androidx.cardview.widget.CardView>
                         </GridLayout>
                 </RelativeLayout>
-            </FrameLayout>
-
-        </com.google.android.material.appbar.AppBarLayout>
-
-    </RelativeLayout>
-
-    <!-- The navigation drawer -->
-    <com.google.android.material.navigation.NavigationView
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        app:menu="@menu/nav_menu"
-        android:id="@+id/nav_view"
-        android:layout_gravity="start"
-        app:headerLayout="@layout/nav_header_layout" />
-
-</androidx.drawerlayout.widget.DrawerLayout>
+</FrameLayout>
