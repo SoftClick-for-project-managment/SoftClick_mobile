@@ -89,7 +89,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
 
                 Toast.makeText(MenuActivity.this, "tasks selected", Toast.LENGTH_SHORT).show();
 
-                fragmentClass = UpdateTask.class;
+                fragmentClass = DetailsTask.class;
 
                 break;
             }
