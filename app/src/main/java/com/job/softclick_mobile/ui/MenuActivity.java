@@ -54,18 +54,14 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.menu);
 
-        Fragment fragment2 = null;
-        Class fragmentClass2;
-        fragmentClass2 = FooterFragment.class;
+        // Insert the fragment by replacing any existing fragment
+        fragmentManager = getSupportFragmentManager();
         try {
-            fragment2 = (Fragment) fragmentClass2.newInstance();
+            fragmentManager.beginTransaction().replace(R.id.fContentFooter, (Fragment) FooterFragment.class.newInstance()).commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        // Insert the fragment by replacing any existing fragment
-        fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.fContentFooter, fragment2).commit();
     }
 
     /*@Override
@@ -99,6 +95,12 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
                 fragmentClass = FirstFragment.class;
                 break;
             }
+            case R.id.projects_item:
+            {
+                Toast.makeText(this, "projects selected", Toast.LENGTH_SHORT).show();
+                fragmentClass = FirstFragment.class;
+                break;
+            }
             case R.id.clients_item:
             {
                 Toast.makeText(this, "clients selected", Toast.LENGTH_SHORT).show();
@@ -108,7 +110,8 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
             case R.id.employees_item:
             {
                 Toast.makeText(this, "employees selected", Toast.LENGTH_SHORT).show();
-                fragmentClass = EmployeeFormFragment.class;
+                fragmentClass = EmployeeListFragment.class;
+                //findViewById(R.id.addButton).setOnClickListener(EmployeeListFragment.add());
                 break;
             }
             case R.id.expenses_item:
@@ -141,6 +144,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         }
 
         try {
+            fragmentManager.beginTransaction().replace(R.id.fContentFooter, (Fragment) FooterFragment.class.newInstance()).commit();
             fragment = (Fragment) fragmentClass.newInstance();
 //            Bundle bundle = new Bundle();
 //            bundle.putInt("newInt", 5);
