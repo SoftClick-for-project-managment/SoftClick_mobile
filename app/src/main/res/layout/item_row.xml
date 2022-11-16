@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="#FDFCFC"
+    android:elevation="10dp">
+
+
+    <TextView
+        android:id="@+id/title_project"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFFCFC"
+        android:gravity="left"
+        android:padding="5dp"
+        android:paddingLeft="10dp"
+        android:text="Gestion de stock AI"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/textView"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:background="#9F9494" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="250dp"
+        android:layout_marginTop="20dp"
+        android:text="Mr faisal soft" />
+
+
+</RelativeLayout>
