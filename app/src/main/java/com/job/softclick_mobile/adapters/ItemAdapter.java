@@ -12,18 +12,19 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.job.softclick_mobile.R;
-import com.job.softclick_mobile.models.DataModel;
+
 import com.job.softclick_mobile.adapters.NestedAdapter;
+import com.job.softclick_mobile.models.Task;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder> {
 
-    private List<DataModel> mList;
+    private List<Task> mList;
     private List<String> list = new ArrayList<>();
 
-    public ItemAdapter(List<DataModel> mList){
+    public ItemAdapter(List<Task> mList){
         this.mList  = mList;
     }
     @NonNull
@@ -36,7 +37,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
 
-        DataModel model = mList.get(position);
+        Task model = mList.get(position);
         holder.mTextView.setText(model.getItemText());
 
         boolean isExpandable = model.isExpandable();

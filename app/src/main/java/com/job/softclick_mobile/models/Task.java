@@ -2,12 +2,12 @@ package com.job.softclick_mobile.models;
 
 import java.util.List;
 
-public class DataModel {
+public class Task  {
     private List<String> nestedList;
     private String itemText;
     private boolean isExpandable;
 
-    public DataModel(List<String> itemList, String itemText) {
+    public Task(List<String> itemList, String itemText) {
         this.nestedList = itemList;
         this.itemText = itemText;
         isExpandable = false;

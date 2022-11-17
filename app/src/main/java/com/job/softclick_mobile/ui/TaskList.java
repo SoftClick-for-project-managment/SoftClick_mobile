@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 
 import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.adapters.ItemAdapter;
-import com.job.softclick_mobile.models.DataModel;
+import com.job.softclick_mobile.models.Task;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +24,7 @@ import java.util.List;
  */
 public class TaskList extends Fragment {
     private RecyclerView recyclerView;
-    private List<DataModel> mList;
+    private List<Task> mList;
     private ItemAdapter adapter;
 
     // TODO: Rename parameter arguments, choose names that match
@@ -124,10 +124,10 @@ public class TaskList extends Fragment {
 
 
 
-        mList.add(new DataModel(nestedList1 , "TO DO"));
-        mList.add(new DataModel( nestedList2,"DONE"));
-        mList.add(new DataModel( nestedList3,"ON PROGRESS"));
-        mList.add(new DataModel(nestedList4 ,"Overdue"));
+        mList.add(new Task(nestedList1 , "TO DO"));
+        mList.add(new Task( nestedList2,"DONE"));
+        mList.add(new Task( nestedList3,"ON PROGRESS"));
+        mList.add(new Task(nestedList4 ,"Overdue"));
 
 
         adapter = new ItemAdapter(mList);
