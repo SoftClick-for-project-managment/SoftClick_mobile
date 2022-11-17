@@ -1,13 +1,16 @@
 package com.job.softclick_mobile.ui;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
+
 
 import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.databinding.ActivityAddExpenseBinding;
@@ -31,6 +34,10 @@ public class AddExpenseActivity extends AppCompatActivity {
         binding = ActivityAddExpenseBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("Add new Expense/Income");
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
 
 
 

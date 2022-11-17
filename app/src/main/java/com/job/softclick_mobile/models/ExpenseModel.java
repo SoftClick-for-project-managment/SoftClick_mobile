@@ -8,6 +8,7 @@ public class ExpenseModel {
     private String type;
     private String category;
     private String project;
+
     public ExpenseModel(){
 
     }
@@ -58,4 +59,5 @@ public class ExpenseModel {
     public void setType(String type){
         this.type=type;
     }
+
 }
