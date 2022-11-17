@@ -35,6 +35,7 @@ public class EmployeeListAdapter extends RecyclerView.Adapter<EmployeeListAdapte
         }
     }
 
+
     public EmployeeListAdapter(ArrayList<Employee> employeeList) {
         mEmployeeList = employeeList;
     }

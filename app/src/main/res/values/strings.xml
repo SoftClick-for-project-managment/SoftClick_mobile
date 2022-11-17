@@ -20,4 +20,9 @@
     <string name="project_name_hint">Project Name</string>
     <string name="desciption_hint">Description</string>
     <string name="revenue_hint">Revenue en DH</string>
+    <string name="amount">Amount</string>
+    <string name="project">Project</string>
+    <string name="description">Description</string>
+    <string name="category">Category</string>
+    <string name="done">done</string>
 </resources>
