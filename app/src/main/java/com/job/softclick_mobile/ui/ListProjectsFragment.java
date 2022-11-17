@@ -8,9 +8,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.adapters.MainRecyclerAdapter;
+import com.job.softclick_mobile.adapters.OnItemClickListener;
+import com.job.softclick_mobile.adapters.RvItemClickListener;
 import com.job.softclick_mobile.databinding.ActivityMenuBinding;
 import com.job.softclick_mobile.databinding.FragmentListProjectsBinding;
 import com.job.softclick_mobile.models.Project_section;
@@ -23,7 +26,7 @@ import java.util.List;
  * Use the {@link ListProjectsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ListProjectsFragment extends Fragment {
+public class ListProjectsFragment extends Fragment implements RvItemClickListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -79,7 +82,7 @@ public class ListProjectsFragment extends Fragment {
         binding = FragmentListProjectsBinding.inflate(inflater, container, false);
         initData();
         mainRecyclerView = binding.mainRecycleView;
-        MainRecyclerAdapter mainRecyclerAdapter = new MainRecyclerAdapter(sections);
+        MainRecyclerAdapter mainRecyclerAdapter = new MainRecyclerAdapter(sections,this);
         mainRecyclerView.setAdapter(mainRecyclerAdapter);
 
         return binding.getRoot();
@@ -106,5 +109,11 @@ public class ListProjectsFragment extends Fragment {
         sections.add(new Project_section(priority_2,section_priority_2));
         sections.add(new Project_section(priority_3,section_priority_3));
         sections.add(new Project_section(priority_4,section_priority_4));
+    }
+
+
+    @Override
+    public void onChildItemClick(int parentPosition, int childPosition, String item) {
+        Toast.makeText(getContext(), item + "is selected", Toast.LENGTH_SHORT).show();
     }
 }

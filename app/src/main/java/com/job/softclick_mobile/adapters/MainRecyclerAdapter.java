@@ -18,9 +18,14 @@ import java.util.List;
 public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapter.MainViewHolder> {
 
     List<Project_section> project_sectionList;
+    RvItemClickListener rvItemClickListener;
 
-    public MainRecyclerAdapter(List<Project_section> project_sectionList) {
+
+
+    public MainRecyclerAdapter(List<Project_section> project_sectionList ,RvItemClickListener rvItemClickListener) {
         this.project_sectionList = project_sectionList;
+        this.rvItemClickListener = rvItemClickListener;
+
     }
 
     @NonNull
@@ -40,6 +45,17 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
         holder.priority.setText(priority);
 
         Child_recyclerAdapter child_recyclerAdapter = new Child_recyclerAdapter(projects);
+
+        child_recyclerAdapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(int childPosition) {
+                String item = projects.get(childPosition);
+                rvItemClickListener.onChildItemClick(holder.getAdapterPosition(), childPosition, item);
+            }
+        });
+
+
+
         holder.child_recycler_view.setAdapter(child_recyclerAdapter);
 
 
@@ -58,6 +74,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
             super(itemView);
             priority = itemView.findViewById(R.id.priority);
             child_recycler_view = itemView.findViewById(R.id.child_recycle_view);
+
         }
     }
 }
