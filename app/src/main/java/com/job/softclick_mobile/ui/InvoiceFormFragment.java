@@ -32,6 +32,7 @@ public class InvoiceFormFragment extends Fragment {
     private FragmentInvoiceFormBinding binding;
     private ActivityMenuBinding menuBinding;
     private EditText date;
+    private EditText total;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -81,6 +82,7 @@ public class InvoiceFormFragment extends Fragment {
         //return view;
         //
         date = binding.date;
+        total = binding.total;
         date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -115,6 +117,12 @@ public class InvoiceFormFragment extends Fragment {
                 datePickerDialog.show();
             }
         });
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            date.setText(bundle.getString("date"));
+            total.setText(bundle.getString("total"));
+
+        }
         return binding.getRoot();
 
     }
