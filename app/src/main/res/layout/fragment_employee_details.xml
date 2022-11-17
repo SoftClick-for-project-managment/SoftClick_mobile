@@ -13,7 +13,7 @@
         >
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/back"
             android:layout_width="73dp"
             android:layout_height="32dp"
 
@@ -31,6 +31,16 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textSize="18sp" />
 
+        <ImageView
+            android:id="@+id/moreOptions"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/more"
+            android:layout_alignParentEnd="true"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginTop="10dp"
+            />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -46,7 +56,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp"
             android:orientation="vertical"
-            android:layout_below="@+id/imageView"
+            android:layout_below="@+id/back"
             >
 
             <ImageView
