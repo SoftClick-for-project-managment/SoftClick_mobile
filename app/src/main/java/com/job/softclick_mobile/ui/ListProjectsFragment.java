@@ -10,11 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.adapters.MainRecyclerAdapter;
 import com.job.softclick_mobile.adapters.OnItemClickListener;
 import com.job.softclick_mobile.adapters.RvItemClickListener;
-import com.job.softclick_mobile.databinding.ActivityMenuBinding;
 import com.job.softclick_mobile.databinding.FragmentListProjectsBinding;
 import com.job.softclick_mobile.models.Project_section;
 
@@ -34,7 +34,7 @@ public class ListProjectsFragment extends Fragment implements RvItemClickListene
     private static final String ARG_PARAM2 = "param2";
 
     private FragmentListProjectsBinding binding;
-    private ActivityMenuBinding menuBinding;
+
 
 
     // TODO: Rename and change types of parameters
@@ -43,6 +43,7 @@ public class ListProjectsFragment extends Fragment implements RvItemClickListene
 
     List<Project_section> sections = new ArrayList<>();
     RecyclerView mainRecyclerView;
+    private FloatingActionButton addButton;
 
     public ListProjectsFragment() {
         // Required empty public constructor
@@ -85,6 +86,21 @@ public class ListProjectsFragment extends Fragment implements RvItemClickListene
         MainRecyclerAdapter mainRecyclerAdapter = new MainRecyclerAdapter(sections,this);
         mainRecyclerView.setAdapter(mainRecyclerAdapter);
 
+        addButton = this.getActivity().findViewById(R.id.addButton);
+        if(addButton != null) {
+            addButton.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    try {
+                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContent,(Fragment) AddProjectFragment.class.newInstance(),"ADD").addToBackStack("ADD").commit() ;
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    } catch (java.lang.InstantiationException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
+
         return binding.getRoot();
     }
     private void initData(){
@@ -115,5 +131,12 @@ public class ListProjectsFragment extends Fragment implements RvItemClickListene
     @Override
     public void onChildItemClick(int parentPosition, int childPosition, String item) {
         Toast.makeText(getContext(), item + "is selected", Toast.LENGTH_SHORT).show();
+        try {
+            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContent,(Fragment) DetailProjectFragment.class.newInstance(),"DET").addToBackStack("DET").commit() ;
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (java.lang.InstantiationException e) {
+            e.printStackTrace();
+        }
     }
 }
