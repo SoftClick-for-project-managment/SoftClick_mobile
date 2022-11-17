@@ -24,7 +24,7 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="45dp"
+                    android:layout_height="60dp"
                     android:layout_marginBottom="30dp"
                     android:background="@color/white" />
 
@@ -47,6 +47,16 @@
                     android:text="Details Project"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     android:textSize="18sp" />
+                <ImageView
+                    android:id="@+id/moreOptions"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/more"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginHorizontal="30dp"
+                    android:layout_marginTop="10dp"
+                    />
+
 
             </RelativeLayout>
 

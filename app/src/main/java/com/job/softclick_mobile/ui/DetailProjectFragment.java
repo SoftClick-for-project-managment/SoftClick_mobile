@@ -4,8 +4,10 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
@@ -37,7 +40,7 @@ public class DetailProjectFragment extends Fragment {
     private FragmentDetailProjectBinding binding;
     TextView project_name ,domain, date_debut ,date_fin , description , name_chef ,clients,equips,revenue,depense;
     LinearProgressIndicator etat_avancement;
-    ImageView flesh_back;
+    ImageView flesh_back , moreOptions;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -72,6 +75,7 @@ public class DetailProjectFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -92,6 +96,8 @@ public class DetailProjectFragment extends Fragment {
         depense = binding.depenseTotal;
         etat_avancement = binding.etatAvancement;
         flesh_back = binding.fleshBack;
+        moreOptions = binding.moreOptions;
+
         fetchDate();
 
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fContentFooter,new Fragment()).commit() ;
@@ -100,10 +106,56 @@ public class DetailProjectFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if(getParentFragmentManager().getBackStackEntryCount() > 0){
+                    try{
+                    getParentFragmentManager().beginTransaction().replace(R.id.fContentFooter, (Fragment) FooterFragment.class.newInstance()).commit();
                     getParentFragmentManager().popBackStackImmediate();
+                }catch (Exception e) {
+                    e.printStackTrace();
+                }
                 }
             }
         });
+
+        if(binding.moreOptions != null) {
+            binding.moreOptions.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    PopupMenu popupMenu = new PopupMenu(getActivity(),binding.moreOptions);
+                    popupMenu.getMenuInflater().inflate(R.menu.details_menu, popupMenu.getMenu());
+                    popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem menuItem) {
+                            // Toast message on menu item clicked
+                            Toast.makeText(getActivity(), "You Clicked " + menuItem.getTitle(), Toast.LENGTH_SHORT).show();
+                            switch (menuItem.getItemId()) {
+                                case R.id.edit:
+
+                                    Fragment fragment = new EmployeeFormFragment();
+
+                                    Bundle bundle = new Bundle();
+                                    fragment.setArguments(bundle);
+
+                                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                                    fragmentTransaction.replace(R.id.flContent, fragment);
+                                    fragmentTransaction.addToBackStack(null);
+                                    fragmentTransaction.commit();
+                                    break;
+
+                                case R.id.delete:
+                                    showDialogDeleteConfirmation();
+
+
+                                default:
+                                    break;
+                            }
+                            return true;
+                        }
+                    });
+                    popupMenu.show();
+                }
+            });
+        }
 
         return binding.getRoot();
 
@@ -112,22 +164,8 @@ public class DetailProjectFragment extends Fragment {
 
 
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.edit:
-                return true;
-
-            case R.id.delete:
-                showDialogDeleteConfirmation();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-
-    }
     public void showDialogDeleteConfirmation(){
-        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(newInstance("","").getContext());
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getActivity());
         builder.setTitle("Delete Confirmation");
         builder.setMessage("Are you sure you want to delete this project ?");
         builder.setPositiveButton("Yes I'm Sure", new DialogInterface.OnClickListener() {

@@ -160,7 +160,12 @@ public class AddProjectFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if(getParentFragmentManager().getBackStackEntryCount() > 0){
-                    getParentFragmentManager().popBackStackImmediate();
+                    try {
+                        getParentFragmentManager().beginTransaction().replace(R.id.fContentFooter, (Fragment) FooterFragment.class.newInstance()).commit();
+                        getParentFragmentManager().popBackStackImmediate();
+                    }catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });
