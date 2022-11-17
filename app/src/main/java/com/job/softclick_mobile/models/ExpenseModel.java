@@ -6,15 +6,33 @@ public class ExpenseModel {
     private long amount;
     private long time;
     private String type;
+    private String category;
+    private String project;
     public ExpenseModel(){
 
     }
-    public ExpenseModel(String expenseId, String description,long amount, long time,  String type){
+    public ExpenseModel(String expenseId, String description,long amount, long time,  String type, String category,String project){
         this.expenseId=expenseId;
         this.description=description;
         this.amount=amount;
         this.time=time;
         this.type=type;
+        this.category=category;
+        this.project=project;
+    }
+    public String getCategory(){
+        return this.category;
+    }
+    public String getProject(){
+        return this.project;
+    }
+    public void setCategory(String category){
+        this.category=category;
+
+    }
+    public void setProject(String project){
+        this.project=project;
+
     }
     public long getAmount(){
         return amount;

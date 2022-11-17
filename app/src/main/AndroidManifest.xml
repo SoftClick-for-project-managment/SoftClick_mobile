@@ -32,13 +32,6 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".ui.ListExpensesActivity"
-            android:exported="true">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
             android:name=".ui.VerificationActivity"
             android:exported="false">
             <meta-data
@@ -62,6 +55,13 @@
         <activity
             android:name=".ui.LoginActivity"
             android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".ui.AddExpenseActivity"
+            android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
