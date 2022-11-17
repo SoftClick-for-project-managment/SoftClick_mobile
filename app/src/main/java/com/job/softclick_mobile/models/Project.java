@@ -1,8 +1,9 @@
 package com.job.softclick_mobile.models;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Project {
+public class Project implements Serializable {
     private Integer idProject,imageProject;
     private String nameProject , descriptionProject , domain ;
     private Date dateDebut , dateFin;
@@ -21,6 +22,10 @@ public class Project {
         this.chefProject = chefProject;
         this.projectEtat = projectEtat;
         this.projectPriority = projectPriority;
+    }
+
+    public Project(String nameProject) {
+        this.nameProject = nameProject;
     }
 
     public Integer getIdProject() {

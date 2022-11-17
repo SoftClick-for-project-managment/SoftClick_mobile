@@ -11,23 +11,24 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.job.softclick_mobile.R;
+import com.job.softclick_mobile.models.Project;
 
 import java.util.List;
 
 public class Child_recyclerAdapter extends RecyclerView.Adapter<Child_recyclerAdapter.Child_viewHolder> {
 
-    List<String> projects;
+    List<Project> projects;
     OnItemClickListener onItemClickListener;
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
     }
 
-    public void setProjects(List<String> projects) {
+    public void setProjects(List<Project> projects) {
         this.projects = projects;
     }
 
-    public Child_recyclerAdapter(List<String> projects) {
+    public Child_recyclerAdapter(List<Project> projects) {
         this.projects = projects;
     }
 
@@ -43,9 +44,9 @@ public class Child_recyclerAdapter extends RecyclerView.Adapter<Child_recyclerAd
 
     @Override
     public void onBindViewHolder(@NonNull Child_viewHolder holder, int position) {
-        String title_project = projects.get(position);
+        Project title_project = projects.get(position);
 
-        holder.title_project.setText(title_project);
+        holder.title_project.setText(title_project.getNameProject());
 
     }
 

@@ -11,12 +11,14 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.databinding.FragmentAddProjectBinding;
 import com.job.softclick_mobile.databinding.FragmentEmployeeFormBinding;
+import com.job.softclick_mobile.models.Project;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,17 +29,19 @@ public class AddProjectFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String ARG_PARAM1 = "project";
+
 
 
     private FragmentAddProjectBinding binding;
+    EditText name_project , description , revenue;
     EditText date_picker_debut;
     EditText date_picker_fin;
     private AutoCompleteTextView Combo_domain;
     private AutoCompleteTextView Combo_client;
     private AutoCompleteTextView Combo_chef;
     ImageView flesh_back;
+    TextView add_btn,update_btn , title_page;
     String[] domains = new String[]{
             "Info",
             "indus",
@@ -62,27 +66,20 @@ public class AddProjectFragment extends Fragment {
     };
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private Project project= null;
+
 
     public AddProjectFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment AddProjectFragment.
-     */
+
     // TODO: Rename and change types and number of parameters
-    public static AddProjectFragment newInstance(String param1, String param2) {
+    public static AddProjectFragment newInstance(Project project_param) {
         AddProjectFragment fragment = new AddProjectFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putSerializable(ARG_PARAM1, project_param);
+
         fragment.setArguments(args);
         return fragment;
     }
@@ -91,8 +88,7 @@ public class AddProjectFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            project = (Project) getArguments().getSerializable(ARG_PARAM1);
         }
     }
 
@@ -104,12 +100,33 @@ public class AddProjectFragment extends Fragment {
 
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fContentFooter,new Fragment()).commit() ;
 
+        title_page = binding.pageTitle;
+        name_project = binding.nameProjectInput;
+        description = binding.desciptionInput;
+        revenue = binding.revenueInput;
         date_picker_debut =  binding.dateDebut;
         date_picker_fin = binding.datePickerFin;
         Combo_domain = binding.domainCombo;
         Combo_client = binding.clientCombo;
         Combo_chef = binding.chefCombo;
         flesh_back = binding.fleshBack;
+        add_btn = binding.addbtn;
+        update_btn = binding.updatebtn;
+
+        if(project == null){
+            title_page.setText(R.string.add_project);
+            update_btn.setVisibility(View.GONE);
+            add_btn.setVisibility(View.VISIBLE);
+            title_page.setText(R.string.addbtn);
+        }else{
+            title_page.setText(R.string.updatebtn);
+            add_btn.setVisibility(View.GONE);
+            update_btn.setVisibility(View.VISIBLE);
+            name_project.setText(project.getNameProject());
+            description.setText(project.getDescriptionProject());
+            //and complete all fields ... TODO
+
+        }
 
         ArrayAdapter<String> adapter_domain = new ArrayAdapter<>(getActivity(),
                 R.layout.dropdown_item,domains);

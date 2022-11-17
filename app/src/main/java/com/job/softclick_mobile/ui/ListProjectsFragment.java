@@ -3,6 +3,8 @@ package com.job.softclick_mobile.ui;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
@@ -16,6 +18,7 @@ import com.job.softclick_mobile.adapters.MainRecyclerAdapter;
 import com.job.softclick_mobile.adapters.OnItemClickListener;
 import com.job.softclick_mobile.adapters.RvItemClickListener;
 import com.job.softclick_mobile.databinding.FragmentListProjectsBinding;
+import com.job.softclick_mobile.models.Project;
 import com.job.softclick_mobile.models.Project_section;
 
 import java.util.ArrayList;
@@ -105,20 +108,20 @@ public class ListProjectsFragment extends Fragment implements RvItemClickListene
     }
     private void initData(){
         String priority_1 = "hight priority";
-        List<String> section_priority_1 = new ArrayList<>();
-        section_priority_1.add("Violance");section_priority_1.add("wizara important");
+        List<Project> section_priority_1 = new ArrayList<>();
+        section_priority_1.add(new Project("Violance"));section_priority_1.add(new Project("wizara important"));
 
         String priority_2 = "meduim priority";
-        List<String> section_priority_2 = new ArrayList<>();
-        section_priority_2.add("mat3am jami3i");section_priority_2.add("stad footbal");
+        List<Project> section_priority_2 = new ArrayList<>();
+        section_priority_2.add(new Project("mat3am jami3i"));section_priority_2.add(new Project("stad footbal"));
 
         String priority_3 = "normal priority";
-        List<String> section_priority_3 = new ArrayList<>();
-        section_priority_3.add("ecommerce site web");section_priority_3.add("mobile app reservation");
+        List<Project> section_priority_3 = new ArrayList<>();
+        section_priority_3.add(new Project("ecommerce site web"));section_priority_3.add(new Project("mobile app reservation"));
 
         String priority_4 = "not important";
-        List<String> section_priority_4 = new ArrayList<>();
-        section_priority_4.add("maintenance stock");section_priority_4.add("maintenance inventair");
+        List<Project> section_priority_4 = new ArrayList<>();
+        section_priority_4.add(new Project("maintenance stock"));section_priority_4.add(new Project("maintenance inventair"));
 
 
         sections.add(new Project_section(priority_1,section_priority_1));
@@ -131,12 +134,20 @@ public class ListProjectsFragment extends Fragment implements RvItemClickListene
     @Override
     public void onChildItemClick(int parentPosition, int childPosition, String item) {
         Toast.makeText(getContext(), item + "is selected", Toast.LENGTH_SHORT).show();
-        try {
-            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContent,(Fragment) DetailProjectFragment.class.newInstance(),"DET").addToBackStack("DET").commit() ;
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (java.lang.InstantiationException e) {
-            e.printStackTrace();
-        }
+        Project project = sections.get(parentPosition).getProjects().get(childPosition);
+        Fragment fragment = new DetailProjectFragment();
+
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("project", project);
+        fragment.setArguments(bundle);
+
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.flContent, fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+
+        //          getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContent,(Fragment) DetailProjectFragment.class.newInstance(),"DET").addToBackStack("DET").commit() ;
+
     }
 }

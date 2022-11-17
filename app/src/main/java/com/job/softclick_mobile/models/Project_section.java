@@ -4,12 +4,12 @@ import java.util.List;
 
 public class Project_section {
     String priority ;
-    List<String> projects;
+    List<Project> projects;
 
     public Project_section() {
     }
 
-    public Project_section(String priority, List<String> projects) {
+    public Project_section(String priority, List<Project> projects) {
         this.priority = priority;
         this.projects = projects;
     }
@@ -22,11 +22,11 @@ public class Project_section {
         this.priority = priority;
     }
 
-    public List<String> getProjects() {
+    public List<Project> getProjects() {
         return projects;
     }
 
-    public void setProjects(List<String> projects) {
+    public void setProjects(List<Project> projects) {
         this.projects = projects;
     }
 }

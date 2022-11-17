@@ -24,6 +24,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
 import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.databinding.FragmentDetailProjectBinding;
+import com.job.softclick_mobile.models.Project;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,7 +35,7 @@ public class DetailProjectFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM1 = "project";
     private static final String ARG_PARAM2 = "param2";
 
     private FragmentDetailProjectBinding binding;
@@ -43,7 +44,7 @@ public class DetailProjectFragment extends Fragment {
     ImageView flesh_back , moreOptions;
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
+    private Project project;
     private String mParam2;
 
     public DetailProjectFragment() {
@@ -72,7 +73,7 @@ public class DetailProjectFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
+            project = (Project) getArguments().getSerializable(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
         setHasOptionsMenu(true);
@@ -130,9 +131,10 @@ public class DetailProjectFragment extends Fragment {
                             switch (menuItem.getItemId()) {
                                 case R.id.edit:
 
-                                    Fragment fragment = new EmployeeFormFragment();
+                                    Fragment fragment = new AddProjectFragment();
 
                                     Bundle bundle = new Bundle();
+                                    bundle.putSerializable("project", project);
                                     fragment.setArguments(bundle);
 
                                     FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
@@ -184,7 +186,7 @@ public class DetailProjectFragment extends Fragment {
     }
 
     public void fetchDate(){
-        project_name.setText("Systém de détéction de violance");
+        project_name.setText(project.getNameProject());
         domain.setText("Intelligance Artificial & Big Data");
         date_debut.setText("18/12/2021");
         date_fin.setText("18/12/2022");

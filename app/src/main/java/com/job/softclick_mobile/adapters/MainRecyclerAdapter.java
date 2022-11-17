@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.job.softclick_mobile.R;
+import com.job.softclick_mobile.models.Project;
 import com.job.softclick_mobile.models.Project_section;
 
 import java.util.List;
@@ -40,7 +41,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
     public void onBindViewHolder(@NonNull MainViewHolder holder, int position) {
         Project_section project_section = project_sectionList.get(position);
         String priority = project_section.getPriority();
-        List<String> projects = project_section.getProjects();
+        List<Project> projects = project_section.getProjects();
 
         holder.priority.setText(priority);
 
@@ -49,8 +50,8 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
         child_recyclerAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(int childPosition) {
-                String item = projects.get(childPosition);
-                rvItemClickListener.onChildItemClick(holder.getAdapterPosition(), childPosition, item);
+                Project item = projects.get(childPosition);
+                rvItemClickListener.onChildItemClick(holder.getAdapterPosition(), childPosition, item.getNameProject());
             }
         });
 
