@@ -1,7 +1,10 @@
 package com.job.softclick_mobile.ui;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -43,7 +46,7 @@ public class AddProjectFragment extends Fragment {
     private AutoCompleteTextView Combo_domain;
     private AutoCompleteTextView Combo_client;
     private AutoCompleteTextView Combo_chef;
-    ImageView flesh_back;
+    ImageView flesh_back , chooseImage;
     TextView add_btn,update_btn , title_page ;
     String[] domains = new String[]{
             "Info",
@@ -115,6 +118,7 @@ public class AddProjectFragment extends Fragment {
         flesh_back = binding.fleshBack;
         add_btn = binding.addbtn;
         update_btn = binding.updatebtn;
+        chooseImage = binding.chooseImage;
 
         if(project == null){
             title_page.setText(R.string.add_project);
@@ -204,7 +208,28 @@ public class AddProjectFragment extends Fragment {
             }
         });
 
+        chooseImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent,"title"),1);
+            }
+        });
+
+
         return binding.getRoot();
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 1){
+            Uri uri = data.getData();
+            chooseImage.setImageURI(uri);
+        }
     }
 
     public Boolean validate(){
