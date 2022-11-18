@@ -1,4 +1,4 @@
-package com.job.softclick_mobile.ui;
+package com.job.softclick_mobile.ui.projectFragments;
 
 import android.os.Bundle;
 
@@ -15,7 +15,6 @@ import android.widget.Toast;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.adapters.MainRecyclerAdapter;
-import com.job.softclick_mobile.adapters.OnItemClickListener;
 import com.job.softclick_mobile.adapters.RvItemClickListener;
 import com.job.softclick_mobile.databinding.FragmentListProjectsBinding;
 import com.job.softclick_mobile.models.Project;
@@ -37,7 +36,6 @@ public class ListProjectsFragment extends Fragment implements RvItemClickListene
     private static final String ARG_PARAM2 = "param2";
 
     private FragmentListProjectsBinding binding;
-
 
 
     // TODO: Rename and change types of parameters
@@ -86,15 +84,15 @@ public class ListProjectsFragment extends Fragment implements RvItemClickListene
         binding = FragmentListProjectsBinding.inflate(inflater, container, false);
         initData();
         mainRecyclerView = binding.mainRecycleView;
-        MainRecyclerAdapter mainRecyclerAdapter = new MainRecyclerAdapter(sections,this);
+        MainRecyclerAdapter mainRecyclerAdapter = new MainRecyclerAdapter(sections, this);
         mainRecyclerView.setAdapter(mainRecyclerAdapter);
 
         addButton = this.getActivity().findViewById(R.id.addButton);
-        if(addButton != null) {
+        if (addButton != null) {
             addButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     try {
-                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContent,(Fragment) AddProjectFragment.class.newInstance(),"ADD").addToBackStack("ADD").commit() ;
+                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContent, (Fragment) AddProjectFragment.class.newInstance(), "ADD").addToBackStack("ADD").commit();
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                     } catch (java.lang.InstantiationException e) {
@@ -106,28 +104,32 @@ public class ListProjectsFragment extends Fragment implements RvItemClickListene
 
         return binding.getRoot();
     }
-    private void initData(){
+
+    private void initData() {
         String priority_1 = "hight priority";
         List<Project> section_priority_1 = new ArrayList<>();
-        section_priority_1.add(new Project("Violance","projet detection de violance based A I",500000));section_priority_1.add(new Project("gestion de dossier","stocker les dossier legaliseés et les chercher par une simple scan intelligent",600000));
+        section_priority_1.add(new Project("Violance", "projet detection de violance based A I", 500000));
+        section_priority_1.add(new Project("gestion de dossier", "stocker les dossier legaliseés et les chercher par une simple scan intelligent", 600000));
 
         String priority_2 = "meduim priority";
         List<Project> section_priority_2 = new ArrayList<>();
-        section_priority_2.add(new Project("mat3am jami3i","mat3am jami3i , payment reservation , validation de repas ...",300000));
+        section_priority_2.add(new Project("mat3am jami3i", "mat3am jami3i , payment reservation , validation de repas ...", 300000));
 
         String priority_3 = "normal priority";
         List<Project> section_priority_3 = new ArrayList<>();
-        section_priority_3.add(new Project("ecommerce site web","t-shirt plateform qui automatise les adds on fb et google",800000));section_priority_3.add(new Project("mobile app reservation","application mobile de reservation de rendez vous",200000));
+        section_priority_3.add(new Project("ecommerce site web", "t-shirt plateform qui automatise les adds on fb et google", 800000));
+        section_priority_3.add(new Project("mobile app reservation", "application mobile de reservation de rendez vous", 200000));
 
         String priority_4 = "not important";
         List<Project> section_priority_4 = new ArrayList<>();
-        section_priority_4.add(new Project("maintenance stock","maintenir un site web avec nouvelle technologies",15000));section_priority_4.add(new Project("maintenance inventair","maintenir un site web qui suite inventaires dans les entreprises",350000));
+        section_priority_4.add(new Project("maintenance stock", "maintenir un site web avec nouvelle technologies", 15000));
+        section_priority_4.add(new Project("maintenance inventair", "maintenir un site web qui suite inventaires dans les entreprises", 350000));
 
 
-        sections.add(new Project_section(priority_1,section_priority_1));
-        sections.add(new Project_section(priority_2,section_priority_2));
-        sections.add(new Project_section(priority_3,section_priority_3));
-        sections.add(new Project_section(priority_4,section_priority_4));
+        sections.add(new Project_section(priority_1, section_priority_1));
+        sections.add(new Project_section(priority_2, section_priority_2));
+        sections.add(new Project_section(priority_3, section_priority_3));
+        sections.add(new Project_section(priority_4, section_priority_4));
     }
 
 

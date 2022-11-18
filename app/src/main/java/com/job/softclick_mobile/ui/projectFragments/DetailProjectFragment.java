@@ -1,18 +1,14 @@
-package com.job.softclick_mobile.ui;
+package com.job.softclick_mobile.ui.projectFragments;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +21,7 @@ import com.google.android.material.progressindicator.LinearProgressIndicator;
 import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.databinding.FragmentDetailProjectBinding;
 import com.job.softclick_mobile.models.Project;
+import com.job.softclick_mobile.ui.FooterFragment;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -39,9 +36,9 @@ public class DetailProjectFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     private FragmentDetailProjectBinding binding;
-    TextView project_name ,domain, date_debut ,date_fin , description , name_chef ,clients,equips,revenue,depense;
+    TextView project_name, domain, date_debut, date_fin, description, name_chef, clients, equips, revenue, depense;
     LinearProgressIndicator etat_avancement;
-    ImageView flesh_back , moreOptions;
+    ImageView flesh_back, moreOptions;
 
     // TODO: Rename and change types of parameters
     private Project project;
@@ -83,7 +80,7 @@ public class DetailProjectFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding = FragmentDetailProjectBinding .inflate(inflater, container, false);
+        binding = FragmentDetailProjectBinding.inflate(inflater, container, false);
 
         project_name = binding.projectName;
         domain = binding.domainProject;
@@ -101,27 +98,27 @@ public class DetailProjectFragment extends Fragment {
 
         fetchDate();
 
-        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fContentFooter,new Fragment()).commit() ;
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fContentFooter, new Fragment()).commit();
 
         flesh_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(getParentFragmentManager().getBackStackEntryCount() > 0){
-                    try{
-                    getParentFragmentManager().beginTransaction().replace(R.id.fContentFooter, (Fragment) FooterFragment.class.newInstance()).commit();
-                    getParentFragmentManager().popBackStackImmediate();
-                }catch (Exception e) {
-                    e.printStackTrace();
-                }
+                if (getParentFragmentManager().getBackStackEntryCount() > 0) {
+                    try {
+                        getParentFragmentManager().beginTransaction().replace(R.id.fContentFooter, (Fragment) FooterFragment.class.newInstance()).commit();
+                        getParentFragmentManager().popBackStackImmediate();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });
 
-        if(binding.moreOptions != null) {
+        if (binding.moreOptions != null) {
             binding.moreOptions.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    PopupMenu popupMenu = new PopupMenu(getActivity(),binding.moreOptions);
+                    PopupMenu popupMenu = new PopupMenu(getActivity(), binding.moreOptions);
                     popupMenu.getMenuInflater().inflate(R.menu.details_menu, popupMenu.getMenu());
                     popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                         @Override
@@ -164,9 +161,7 @@ public class DetailProjectFragment extends Fragment {
     }
 
 
-
-
-    public void showDialogDeleteConfirmation(){
+    public void showDialogDeleteConfirmation() {
         MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getActivity());
         builder.setTitle("Delete Confirmation");
         builder.setMessage("Are you sure you want to delete this project ?");
@@ -185,7 +180,7 @@ public class DetailProjectFragment extends Fragment {
         builder.show();
     }
 
-    public void fetchDate(){
+    public void fetchDate() {
         project_name.setText(project.getNameProject());
         domain.setText("Intelligance Artificial & Big Data");
         date_debut.setText("18/12/2021");
@@ -194,7 +189,7 @@ public class DetailProjectFragment extends Fragment {
         name_chef.setText("Mr Youssef Gahi");
         clients.setText("- oukacha prison \n - école sanabil \n - Army American");
         equips.setText("- équipe frontend N° 1 \n équipe fullstack N° 5");
-        revenue.setText(project.getRevenue().toString()+" DH ");
+        revenue.setText(project.getRevenue().toString() + " DH ");
         depense.setText("200000 DH");
         etat_avancement.setProgress(25);
     }
