@@ -1,6 +1,5 @@
-package com.job.softclick_mobile.ui;
+package com.job.softclick_mobile.ui.clients;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -16,7 +15,7 @@ import android.view.ViewGroup;
 
 import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.adapters.ClientListAdapter;
-import com.job.softclick_mobile.contracts.RecyclerViewHandler;
+import com.job.softclick_mobile.ui.contracts.RecyclerViewHandler;
 import com.job.softclick_mobile.models.Client;
 
 import java.util.ArrayList;

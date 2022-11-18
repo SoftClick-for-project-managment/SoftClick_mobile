@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.job.softclick_mobile.R;
-import com.job.softclick_mobile.contracts.InvoiceListInterface;
+import com.job.softclick_mobile.ui.contracts.InvoiceListInterface;
 import com.job.softclick_mobile.models.Invoice;
 
 import java.util.List;
