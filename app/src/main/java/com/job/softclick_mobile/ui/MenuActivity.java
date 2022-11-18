@@ -92,7 +92,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
             case R.id.teams_item:
             {
                 Toast.makeText(this, "teams selected", Toast.LENGTH_SHORT).show();
-                fragmentClass = FirstFragment.class;
+                fragmentClass = TeamListFragment.class;
                 break;
             }
             case R.id.projects_item:

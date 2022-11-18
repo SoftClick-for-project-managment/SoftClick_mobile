@@ -25,4 +25,21 @@
     <string name="description">Description</string>
     <string name="category">Category</string>
     <string name="done">done</string>
+    <string name="team1"> Development Team</string>
+    <string name="team2">IT Operations Team </string>
+    <string name="team3">DevOps Team</string>
+    <string name="team4">Scrum Team  </string>
+    <string name="team5">Security Team </string>
+    <string name="team6">Process Team </string>
+    <string name="team7">Testing Team </string>
+
+
+
+    <string name="member1"> Soukaina</string>
+    <string name="member2">Manal</string>
+    <string name="member3">Hajar</string>
+    <string name="member4">Wafae  </string>
+    <string name="member5">Hind </string>
+    <string name="member6">Youssef </string>
+    <string name="member7">Othmane </string>
 </resources>
