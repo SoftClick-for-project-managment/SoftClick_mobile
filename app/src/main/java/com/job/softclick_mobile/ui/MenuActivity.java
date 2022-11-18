@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.app.ActionBar;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -17,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.navigation.NavigationView;
 import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.databinding.ActivityMenuBinding;
@@ -95,12 +97,6 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
                 fragmentClass = FirstFragment.class;
                 break;
             }
-            case R.id.projects_item:
-            {
-                Toast.makeText(this, "projects selected", Toast.LENGTH_SHORT).show();
-                fragmentClass = FirstFragment.class;
-                break;
-            }
             case R.id.clients_item:
             {
                 Toast.makeText(this, "clients selected", Toast.LENGTH_SHORT).show();
@@ -124,6 +120,12 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
             {
                 Toast.makeText(this, "invoices selected", Toast.LENGTH_SHORT).show();
                 fragmentClass = InvoiceListFragment.class;
+                break;
+            }
+            case R.id.projects_item:
+            {
+                Toast.makeText(this, "projects selected", Toast.LENGTH_SHORT).show();
+                fragmentClass = ListProjectsFragment.class;
                 break;
             }
             case R.id.logout_item:
@@ -172,5 +174,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
     public void onPointerCaptureChanged(boolean hasCapture) {
         super.onPointerCaptureChanged(hasCapture);
     }
+
+
 
 }

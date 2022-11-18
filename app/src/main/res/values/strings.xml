@@ -25,4 +25,8 @@
     <string name="description">Description</string>
     <string name="category">Category</string>
     <string name="done">done</string>
+    <string name="addbtn">Add</string>
+    <string name="updatebtn">Update</string>
+    <string name="add_project">Add Project</string>
+    <string name="update_project">Update Project</string>
 </resources>
