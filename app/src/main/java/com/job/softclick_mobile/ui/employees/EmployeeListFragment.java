@@ -1,4 +1,4 @@
-package com.job.softclick_mobile.ui;
+package com.job.softclick_mobile.ui.employees;
 
 import android.os.Bundle;
 
