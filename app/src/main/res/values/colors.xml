@@ -12,6 +12,8 @@
     <color name="secondary">#FF7D4CBB</color>
     <color name="gray">#FFaeaeae</color>
     <color name="link">#FF1DA1F2</color>
+    <color name="red">#E91E3C</color>
+
     <color name="transparent">#00FFFFFF</color>
     <color name="between_cards">#F5F5F5</color>
 </resources>
