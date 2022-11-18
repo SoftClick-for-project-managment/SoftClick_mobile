@@ -15,6 +15,7 @@ import com.job.softclick_mobile.contracts.RecyclerViewHandler;
 import com.job.softclick_mobile.models.Team;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Team_List_Adapter extends RecyclerView.Adapter<Team_List_Adapter.ViewHolder> {
     private final RecyclerViewHandler recyclerViewHandler;
@@ -29,11 +30,12 @@ public class Team_List_Adapter extends RecyclerView.Adapter<Team_List_Adapter.Vi
         }
     }
 
-    ArrayList<Team> TeamsArrayList;
-    public Team_List_Adapter(ArrayList<Team> TeamsArrayList, RecyclerViewHandler recyclerViewHandler ){
+    List<Team> TeamsArrayList;
+    public Team_List_Adapter(List<Team> TeamsArrayList, RecyclerViewHandler recyclerViewHandler ){
         this.TeamsArrayList=TeamsArrayList;
         this.recyclerViewHandler = recyclerViewHandler;
     }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

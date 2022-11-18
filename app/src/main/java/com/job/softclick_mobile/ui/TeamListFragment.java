@@ -8,43 +8,48 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.adapters.ClientListAdapter;
 import com.job.softclick_mobile.adapters.Team_List_Adapter;
+import com.job.softclick_mobile.contracts.RecyclerViewHandler;
 import com.job.softclick_mobile.models.Client;
-import com.job.softclick_mobile.models.Member;
 import com.job.softclick_mobile.models.Team;
-import com.job.softclick_mobile.models.TeamDatails;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TeamListFragment extends Fragment {
+public class TeamListFragment extends Fragment  implements RecyclerViewHandler {
     private RecyclerView recyclerView;
     private Team_List_Adapter team_list_adapter;
     ArrayList<Team> TeamsArrayList;
     private int[] imageTeam;
     private String[] TeamName;
-    private List<TeamDatails> teams;
+    private List<Team> teams;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_team_list, container, false);
+        dataInitialize();
+        View view= inflater.inflate(R.layout.fragment_team_list, container, false);
 
+        recyclerView=view.findViewById(R.id.recyclerview);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setAdapter(new Team_List_Adapter(teams, this));
+        return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        dataInitialize();
-        recyclerView=view.findViewById(R.id.recyclerview);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setHasFixedSize(true);
+
 
     }
     private void dataInitialize() {
@@ -70,10 +75,26 @@ public class TeamListFragment extends Fragment {
 
 
         };
+        teams =new ArrayList<>();
         for(int i=0;i<TeamName.length;i++){
-            Team teams=new Team(TeamName[i],imageTeam[i]);
-            TeamsArrayList.add(teams);
+            teams.add(new Team(TeamName[i],imageTeam[i],TeamName));
         }
     }
-    
+
+    @Override
+    public void onItemClick(int position) {
+        Team team = teams.get(position);
+
+        Fragment fragment = new ClientDetailsFragment();
+
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("team", (Serializable) team);
+        fragment.setArguments(bundle);
+
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.flContent, fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+    }
 }
