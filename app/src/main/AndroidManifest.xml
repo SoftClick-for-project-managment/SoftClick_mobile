@@ -12,15 +12,7 @@
         android:theme="@style/Theme.SoftClick_mobile">
 
         <activity
-            android:name=".ui.clients.ClientDetailsFragment"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-
-        </activity>
-        <activity
-            android:name=".ui.MenuActivity"
+            android:name=".ui.SplashActivity"
             android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"
@@ -30,13 +22,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name=".ui.FooterActivity"
-            android:exported="true">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
         </activity>
         <activity
             android:name=".ui.auth.VerificationActivity"
@@ -68,9 +53,11 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".ui.SplashActivity"
+            android:name=".ui.MenuActivity"
             android:exported="true">
-
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
         </activity>
     </application>
 
