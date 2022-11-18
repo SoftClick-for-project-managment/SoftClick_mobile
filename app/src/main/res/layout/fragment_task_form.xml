@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".ui.TaskForm">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            >
+
+            <ImageView
+                android:id="@+id/back_icon"
+                android:layout_width="26dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:background="@drawable/back_arrow" />
+
+            <TextView
+                android:id="@+id/form_txt_title"
+                android:layout_width="339dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/back_icon"
+                android:fontFamily="@font/roboto_medium"
+                android:gravity="center_vertical"
+                android:text="Task Creation"
+                android:textSize="20dp"
+                android:textColor="@color/black" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:background="@drawable/border_rounded_bg"
+            >
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/taskname"
+                    android:layout_toRightOf="@+id/taskname_icon"
+                    android:background="@color/transparent"
+                    android:fontFamily="@font/roboto_regular"
+                    android:hint="Task name"
+                    android:inputType="textPersonName"
+                    android:maxLines="1"
+                    android:paddingLeft="17dp"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:textCursorDrawable="@drawable/cursor_color"
+                    android:textSize="16sp"/>
+
+                <ImageView
+                    android:id="@+id/taskname_icon"
+                    android:layout_width="26dp"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="17dp"
+                    android:src="@drawable/nameoftask" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="20dp">
+
+                <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/text1"
+                    android:layout_toRightOf="@+id/taskstatus_icon"
+                    android:background="@color/transparent"
+                    android:fontFamily="@font/roboto_regular"
+                    android:paddingLeft="17dp"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+
+                    />
+
+                <ImageView
+                    android:id="@+id/taskstatus_icon"
+                    android:layout_width="26dp"
+                    android:layout_height="30dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="17dp"
+                    android:src="@drawable/statusoftask"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="20dp">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/startdate"
+                    android:layout_toRightOf="@+id/startdate_icon"
+                    android:background="@color/transparent"
+                    android:fontFamily="@font/roboto_regular"
+                    android:hint="Start date :DD/MM/YYYY"
+                    android:inputType="date"
+                    android:maxLines="1"
+                    android:paddingLeft="17dp"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:textCursorDrawable="@drawable/cursor_color"
+                    android:textSize="16sp"/>
+
+                <ImageView
+                    android:id="@+id/startdate_icon"
+                    android:layout_width="26dp"
+                    android:layout_height="30dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="17dp"
+                    android:src="@drawable/calendar"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="20dp">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/Enddate"
+                    android:layout_toRightOf="@+id/Enddate_icon"
+                    android:background="@color/transparent"
+                    android:fontFamily="@font/roboto_regular"
+                    android:hint="End date : DD/MM/YYYY "
+                    android:inputType="date"
+                    android:maxLines="1"
+                    android:paddingLeft="17dp"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:textCursorDrawable="@drawable/cursor_color"
+                    android:textSize="16sp"/>
+
+                <ImageView
+                    android:id="@+id/Enddate_icon"
+                    android:layout_width="26dp"
+                    android:layout_height="30dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="17dp"
+                    android:src="@drawable/calendar"/>
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/taskdescription"
+                    android:layout_toRightOf="@+id/taskdescription_icon"
+                    android:background="@color/transparent"
+                    android:fontFamily="@font/roboto_regular"
+                    android:hint="Description"
+                    android:inputType="textLongMessage"
+                    android:maxLines="3"
+                    android:paddingLeft="17dp"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:textCursorDrawable="@drawable/cursor_color"
+                    android:textSize="16sp"/>
+
+                <ImageView
+                    android:id="@+id/taskdescription_icon"
+                    android:layout_width="26dp"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="17dp"
+                    android:src="@drawable/write" />
+
+            </RelativeLayout>
+        </LinearLayout>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginTop="20dp">
+
+            <TextView
+                android:id="@+id/createtaskBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_bg"
+                android:fontFamily="@font/roboto_regular"
+                android:gravity="center"
+                android:clickable="true"
+                android:onClick="createTask"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:layout_marginBottom="100dp"
+                android:text="Create"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+
+
+</RelativeLayout>
