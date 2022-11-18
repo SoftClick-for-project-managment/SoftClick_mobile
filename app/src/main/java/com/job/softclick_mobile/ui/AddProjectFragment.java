@@ -3,6 +3,8 @@ package com.job.softclick_mobile.ui;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,8 +19,9 @@ import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.databinding.FragmentAddProjectBinding;
-import com.job.softclick_mobile.databinding.FragmentEmployeeFormBinding;
 import com.job.softclick_mobile.models.Project;
+
+import java.util.Calendar;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -41,7 +44,7 @@ public class AddProjectFragment extends Fragment {
     private AutoCompleteTextView Combo_client;
     private AutoCompleteTextView Combo_chef;
     ImageView flesh_back;
-    TextView add_btn,update_btn , title_page;
+    TextView add_btn,update_btn , title_page ;
     String[] domains = new String[]{
             "Info",
             "indus",
@@ -124,6 +127,7 @@ public class AddProjectFragment extends Fragment {
             update_btn.setVisibility(View.VISIBLE);
             name_project.setText(project.getNameProject());
             description.setText(project.getDescriptionProject());
+            revenue.setText(project.getRevenue().toString());
             //and complete all fields ... TODO
 
         }
@@ -186,7 +190,87 @@ public class AddProjectFragment extends Fragment {
                 }
             }
         });
+        add_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                add_project();
+            }
+        });
+
+        update_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                update_project();
+            }
+        });
+
         return binding.getRoot();
     }
+
+    public Boolean validate(){
+        Boolean isValidated = true;
+        String name = name_project.getText().toString().trim();
+        String client = Combo_client.getText().toString().trim();
+        String domain = Combo_domain.getText().toString().trim();
+        if(name.equals("")){
+            name_project.setHint(" Project name is required ! ");
+            name_project.setHintTextColor(getResources().getColor(R.color.design_default_color_error));
+            isValidated = false;
+
+        }
+        if(domain.equals("") ){
+            Combo_domain.setHint(" Domain is required ! ");
+            Combo_domain.setHintTextColor(getResources().getColor(R.color.design_default_color_error));
+            isValidated = false;
+        }
+        if(client.equals("") ){
+            Combo_client.setHint(" Client is required ! ");
+            Combo_client.setHintTextColor(getResources().getColor(R.color.design_default_color_error));
+            isValidated = false;
+        }
+
+        if(date_picker_debut.getText().toString().trim().equals("")){
+            date_picker_debut.setHint(" Date debut is required ! ");
+            date_picker_debut.setHintTextColor(getResources().getColor(R.color.design_default_color_error));
+            isValidated = false;
+        }
+        return  isValidated;
+    }
+    public void update_project(){
+        Boolean isValidated = validate();
+        if(isValidated){
+            try {
+                getParentFragmentManager().beginTransaction().replace(R.id.fContentFooter, (Fragment) FooterFragment.class.newInstance()).commit();
+                Fragment fragment = new ListProjectsFragment();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.flContent, fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+    public void add_project(){
+       Boolean isValidated = validate();
+        if(isValidated){
+            try {
+                getParentFragmentManager().beginTransaction().replace(R.id.fContentFooter, (Fragment) FooterFragment.class.newInstance()).commit();
+                Fragment fragment = new ListProjectsFragment();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.flContent, fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+
+    }
+
 
 }

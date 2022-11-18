@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.AddProjectFragment">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.AddProjectActivity">
@@ -29,7 +28,7 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
-                        android:layout_marginBottom="30dp"
+                        android:layout_marginBottom="20dp"
                         android:background="@color/white" />
 
                     <ImageView
@@ -37,15 +36,16 @@
                         android:layout_width="73dp"
                         android:layout_height="32dp"
 
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="10dp"
                         android:layout_marginBottom="6dp"
                         app:srcCompat="@drawable/back_arrow" />
+
                     <TextView
                         android:id="@+id/pageTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="65dp"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="13dp"
                         android:fontFamily="@font/roboto_medium"
                         android:text="@string/add_project"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large"
@@ -112,6 +112,8 @@
                         android:hint="@string/domain"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large"
                         android:textSize="16sp"
+                        android:focusable="false"
+                        android:allowClickWhenDisabled="true"
 
                         />
 
@@ -146,7 +148,9 @@
                         android:fontFamily="@font/roboto_regular"
                         android:hint="@string/client"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                        android:textSize="16sp" />
+                        android:textSize="16sp"
+                        android:focusable="false"
+                        android:allowClickWhenDisabled="true"/>
 
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -183,6 +187,8 @@
                         android:hint="@string/chef_projet"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large"
                         android:textSize="16sp"
+                        android:focusable="false"
+                        android:allowClickWhenDisabled="true"
                         />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -212,7 +218,10 @@
                         android:fontFamily="@font/roboto_regular"
                         android:hint="@string/date_debut"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                        android:textSize="16sp" />
+                        android:textSize="16sp"
+                        android:focusable="false"
+                        android:allowClickWhenDisabled="true"
+                        />
 
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -246,13 +255,17 @@
                         android:fontFamily="@font/roboto_regular"
                         android:hint="@string/date_fin"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                        android:textSize="16sp" />
+                        android:textSize="16sp"
+                        android:focusable="false"
+                        android:allowClickWhenDisabled="true"
+                        />
 
                 </com.google.android.material.textfield.TextInputLayout>
                 <View
                     android:layout_width="wrap_content"
                     android:layout_height="1dp"
                     android:background="#979797"/>
+
 
                 <EditText
                     android:id="@+id/revenue_input"
@@ -263,11 +276,14 @@
                     android:ems="10"
                     android:fontFamily="@font/roboto_regular"
                     android:hint="@string/revenue_hint"
-                    android:inputType="textPersonName"
+                    android:inputType="number"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     android:textSize="16sp"
                     android:elevation="8dp"
+
+
                     />
+
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
@@ -311,5 +327,6 @@
             </LinearLayout>
         </ScrollView>
     </RelativeLayout>
+
 
 </FrameLayout>

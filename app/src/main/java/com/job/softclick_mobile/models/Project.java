@@ -4,16 +4,17 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class Project implements Serializable {
-    private Integer idProject,imageProject;
+    private Integer idProject,imageProject , revenue;
     private String nameProject , descriptionProject , domain ;
     private Date dateDebut , dateFin;
     private Employee chefProject;
     private Etat projectEtat;
     private Priority projectPriority;
 
-    public Project(Integer idProject, Integer imageProject, String nameProject, String descriptionProject, String domain, Date dateDebut, Date dateFin, Employee chefProject, Etat projectEtat, Priority projectPriority) {
+    public Project(Integer idProject, Integer imageProject, Integer revenue, String nameProject, String descriptionProject, String domain, Date dateDebut, Date dateFin, Employee chefProject, Etat projectEtat, Priority projectPriority) {
         this.idProject = idProject;
         this.imageProject = imageProject;
+        this.revenue = revenue;
         this.nameProject = nameProject;
         this.descriptionProject = descriptionProject;
         this.domain = domain;
@@ -24,9 +25,13 @@ public class Project implements Serializable {
         this.projectPriority = projectPriority;
     }
 
-    public Project(String nameProject) {
+    public Project(String nameProject , String descriptionProject , Integer revenue) {
         this.nameProject = nameProject;
+        this.descriptionProject = descriptionProject;
+        this.revenue = revenue;
+
     }
+
 
     public Integer getIdProject() {
         return idProject;
@@ -35,6 +40,14 @@ public class Project implements Serializable {
 
     public Integer getImageProject() {
         return imageProject;
+    }
+
+    public Integer getRevenue() {
+        return revenue;
+    }
+
+    public void setRevenue(Integer revenue) {
+        this.revenue = revenue;
     }
 
     public void setImageProject(Integer imageProject) {

@@ -190,11 +190,11 @@ public class DetailProjectFragment extends Fragment {
         domain.setText("Intelligance Artificial & Big Data");
         date_debut.setText("18/12/2021");
         date_fin.setText("18/12/2022");
-        description.setText("C'est un systém intelligent qui detect les acts violents sur caméra de surveillance");
+        description.setText(project.getDescriptionProject());
         name_chef.setText("Mr Youssef Gahi");
         clients.setText("- oukacha prison \n - école sanabil \n - Army American");
         equips.setText("- équipe frontend N° 1 \n équipe fullstack N° 5");
-        revenue.setText("5000000 DH");
+        revenue.setText(project.getRevenue().toString()+" DH ");
         depense.setText("200000 DH");
         etat_avancement.setProgress(25);
     }

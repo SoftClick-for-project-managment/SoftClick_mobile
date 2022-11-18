@@ -14,7 +14,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
-        app:srcCompat="@drawable/user_photo" />
+        app:srcCompat="@drawable/logo" />
 
     <TextView
         android:id="@+id/title_project"
