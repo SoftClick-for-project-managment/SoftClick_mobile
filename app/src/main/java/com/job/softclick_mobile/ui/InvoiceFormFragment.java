@@ -10,10 +10,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.databinding.ActivityMenuBinding;
 import com.job.softclick_mobile.databinding.FragmentInvoiceFormBinding;
+import com.job.softclick_mobile.models.Invoice;
 
 import java.util.Calendar;
 
@@ -33,6 +36,9 @@ public class InvoiceFormFragment extends Fragment {
     private ActivityMenuBinding menuBinding;
     private EditText date;
     private EditText total;
+    private ImageView back;
+    private TextView pagetitle;
+    private TextView editbtn;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -81,6 +87,8 @@ public class InvoiceFormFragment extends Fragment {
         //return inflater.inflate(R.layout.fragment_employee_form, container, false);
         //return view;
         //
+        editbtn=binding.createBtn;
+        pagetitle=binding.pageTitle;
         date = binding.date;
         total = binding.total;
         date.setOnClickListener(new View.OnClickListener() {
@@ -117,11 +125,37 @@ public class InvoiceFormFragment extends Fragment {
                 datePickerDialog.show();
             }
         });
+
+        back = binding.imageView;
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-            date.setText(bundle.getString("date"));
-            total.setText(bundle.getString("total"));
+            Invoice invoice=(Invoice) getArguments().getSerializable("invoice");
+            editbtn.setText("Edit");
+            pagetitle.setText("Invoice Edition");
+            date.setText(invoice.getDate());
+            total.setText(invoice.getTotal());
+            back.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Bundle bundle = new Bundle();
+                   bundle.putSerializable("invoice",invoice);
 
+                    InvoiceDetailsFragment invoiceDetailsFragment = new InvoiceDetailsFragment();
+                    invoiceDetailsFragment.setArguments(bundle);
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContent, invoiceDetailsFragment).commit();
+                }
+            });
+
+        } else {
+            back.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    InvoiceListFragment invoiceListFragment = new InvoiceListFragment();
+                    FooterFragment footerFragment = new FooterFragment();
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fContentFooter, footerFragment).commit();
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContent, invoiceListFragment).commit();
+                }
+            });
         }
         return binding.getRoot();
 
