@@ -1,4 +1,4 @@
-package com.job.softclick_mobile.ui;
+package com.job.softclick_mobile.ui.invoices;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
@@ -17,6 +17,7 @@ import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.databinding.ActivityMenuBinding;
 import com.job.softclick_mobile.databinding.FragmentInvoiceFormBinding;
 import com.job.softclick_mobile.models.Invoice;
+import com.job.softclick_mobile.ui.FooterFragment;
 
 import java.util.Calendar;
 
