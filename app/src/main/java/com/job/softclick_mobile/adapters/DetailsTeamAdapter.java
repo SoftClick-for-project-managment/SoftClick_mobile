@@ -11,9 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.job.softclick_mobile.R;
-import com.job.softclick_mobile.contracts.RecyclerViewHandler;
-import com.job.softclick_mobile.models.Client;
 import com.job.softclick_mobile.models.TeamDatails;
+import com.job.softclick_mobile.ui.contracts.RecyclerViewHandler;
 
 import java.util.List;
 

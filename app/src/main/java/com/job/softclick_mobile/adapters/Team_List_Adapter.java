@@ -11,8 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.job.softclick_mobile.R;
-import com.job.softclick_mobile.contracts.RecyclerViewHandler;
 import com.job.softclick_mobile.models.Team;
+import com.job.softclick_mobile.ui.contracts.RecyclerViewHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +23,7 @@ public class Team_List_Adapter extends RecyclerView.Adapter<Team_List_Adapter.Vi
         ImageView Team_image;
         TextView Team_name;
 
-        public ViewHolder(View itemView,RecyclerViewHandler rvh){
+        public ViewHolder(View itemView, RecyclerViewHandler rvh){
             super(itemView);
                 Team_image=itemView.findViewById(R.id.imageteam);
                 Team_name=itemView.findViewById(R.id.teamname);
