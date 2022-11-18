@@ -1,4 +1,4 @@
-package com.job.softclick_mobile.ui;
+package com.job.softclick_mobile.ui.expense;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,8 +18,6 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.adapters.ExpenseListAdapter;
-import com.job.softclick_mobile.databinding.ExpensesListBinding;
-import com.job.softclick_mobile.models.Employee;
 import com.job.softclick_mobile.models.ExpenseModel;
 import com.job.softclick_mobile.models.FakeExpensesData;
 
@@ -95,7 +93,7 @@ public class ExpensesListFragment extends Fragment implements OnItemsClick {
         layoutManager = new LinearLayoutManager(this.getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(expenseListAdapter);
-        intent=new Intent(getActivity(),AddExpenseActivity.class);
+        intent=new Intent(getActivity(), AddExpenseActivity.class);
         for(ExpenseModel e:data){
             if (e.getType()=="income"){
                 income+=e.getAmount();
