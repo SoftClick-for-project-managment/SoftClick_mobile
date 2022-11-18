@@ -1,4 +1,4 @@
-package com.job.softclick_mobile.ui;
+package com.job.softclick_mobile.ui.employees;
 
 import android.os.Bundle;
 
@@ -9,10 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.job.softclick_mobile.R;
-import com.job.softclick_mobile.databinding.ActivityMenuBinding;
-import com.job.softclick_mobile.databinding.FragmentEmployeeDetailsBinding;
-import com.job.softclick_mobile.databinding.FragmentEmployeeFormBinding;
 import com.job.softclick_mobile.models.Employee;
+import com.job.softclick_mobile.ui.FooterFragment;
 
 public class EmployeeFormFragment extends Fragment {
 
