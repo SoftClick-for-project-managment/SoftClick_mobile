@@ -1,4 +1,4 @@
-package com.job.softclick_mobile.ui;
+package com.job.softclick_mobile.ui.expense;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -19,6 +19,7 @@ import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.databinding.ActivityAddExpenseBinding;
 import com.job.softclick_mobile.models.ExpenseModel;
 import com.job.softclick_mobile.models.FakeExpensesData;
+import com.job.softclick_mobile.ui.MenuActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -108,7 +109,7 @@ public class AddExpenseActivity extends AppCompatActivity {
                 updateExpense();
             }
             Toast.makeText(getApplicationContext(),"done",Toast.LENGTH_SHORT).show();
-            Intent intent= new Intent(this,MenuActivity.class);
+            Intent intent= new Intent(this, MenuActivity.class);
             startActivity(intent);
             return true;
         }

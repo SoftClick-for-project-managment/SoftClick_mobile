@@ -1,4 +1,4 @@
-package com.job.softclick_mobile.ui;
+package com.job.softclick_mobile.ui.auth;
 
 import androidx.appcompat.app.AppCompatActivity;
 
