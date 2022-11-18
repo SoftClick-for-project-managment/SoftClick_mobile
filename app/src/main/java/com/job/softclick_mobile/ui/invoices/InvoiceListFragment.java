@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.adapters.InvoiceListAdapter;
-import com.job.softclick_mobile.contracts.InvoiceListInterface;
+import com.job.softclick_mobile.ui.contracts.InvoiceListInterface;
 import com.job.softclick_mobile.models.Invoice;
 
 import java.util.ArrayList;

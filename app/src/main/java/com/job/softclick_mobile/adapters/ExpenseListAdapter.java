@@ -1,6 +1,5 @@
 package com.job.softclick_mobile.adapters;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,9 +10,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.models.ExpenseModel;
-import com.job.softclick_mobile.ui.OnItemsClick;
+import com.job.softclick_mobile.ui.expense.OnItemsClick;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ExpenseListAdapter extends RecyclerView.Adapter<ExpenseListAdapter.MyViewHolder>{

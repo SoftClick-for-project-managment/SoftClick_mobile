@@ -1,4 +1,4 @@
-package com.job.softclick_mobile.ui;
+package com.job.softclick_mobile.ui.projectFragments;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -23,8 +23,7 @@ import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClic
 import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.databinding.FragmentAddProjectBinding;
 import com.job.softclick_mobile.models.Project;
-
-import java.util.Calendar;
+import com.job.softclick_mobile.ui.FooterFragment;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -38,16 +37,15 @@ public class AddProjectFragment extends Fragment {
     private static final String ARG_PARAM1 = "project";
 
 
-
     private FragmentAddProjectBinding binding;
-    EditText name_project , description , revenue;
+    EditText name_project, description, revenue;
     EditText date_picker_debut;
     EditText date_picker_fin;
     private AutoCompleteTextView Combo_domain;
     private AutoCompleteTextView Combo_client;
     private AutoCompleteTextView Combo_chef;
-    ImageView flesh_back , chooseImage;
-    TextView add_btn,update_btn , title_page ;
+    ImageView flesh_back, chooseImage;
+    TextView add_btn, update_btn, title_page;
     String[] domains = new String[]{
             "Info",
             "indus",
@@ -72,7 +70,7 @@ public class AddProjectFragment extends Fragment {
     };
 
     // TODO: Rename and change types of parameters
-    private Project project= null;
+    private Project project = null;
 
 
     public AddProjectFragment() {
@@ -104,13 +102,13 @@ public class AddProjectFragment extends Fragment {
 
         binding = FragmentAddProjectBinding.inflate(inflater, container, false);
 
-        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fContentFooter,new Fragment()).commit() ;
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fContentFooter, new Fragment()).commit();
 
         title_page = binding.pageTitle;
         name_project = binding.nameProjectInput;
         description = binding.desciptionInput;
         revenue = binding.revenueInput;
-        date_picker_debut =  binding.dateDebut;
+        date_picker_debut = binding.dateDebut;
         date_picker_fin = binding.datePickerFin;
         Combo_domain = binding.domainCombo;
         Combo_client = binding.clientCombo;
@@ -120,12 +118,12 @@ public class AddProjectFragment extends Fragment {
         update_btn = binding.updatebtn;
         chooseImage = binding.chooseImage;
 
-        if(project == null){
+        if (project == null) {
             title_page.setText(R.string.add_project);
             update_btn.setVisibility(View.GONE);
             add_btn.setVisibility(View.VISIBLE);
             title_page.setText(R.string.addbtn);
-        }else{
+        } else {
             title_page.setText(R.string.updatebtn);
             add_btn.setVisibility(View.GONE);
             update_btn.setVisibility(View.VISIBLE);
@@ -137,15 +135,15 @@ public class AddProjectFragment extends Fragment {
         }
 
         ArrayAdapter<String> adapter_domain = new ArrayAdapter<>(getActivity(),
-                R.layout.dropdown_item,domains);
+                R.layout.dropdown_item, domains);
         Combo_domain.setAdapter(adapter_domain);
 
         ArrayAdapter<String> adapter_client = new ArrayAdapter<>(getActivity(),
-                R.layout.dropdown_item,clients);
+                R.layout.dropdown_item, clients);
         Combo_client.setAdapter(adapter_client);
 
-        ArrayAdapter<String> adapter_chef= new ArrayAdapter<>(getActivity(),
-                R.layout.dropdown_item,Chefs);
+        ArrayAdapter<String> adapter_chef = new ArrayAdapter<>(getActivity(),
+                R.layout.dropdown_item, Chefs);
         Combo_chef.setAdapter(adapter_chef);
 
         MaterialDatePicker.Builder builder = MaterialDatePicker.Builder.datePicker();
@@ -156,14 +154,14 @@ public class AddProjectFragment extends Fragment {
         date_picker_debut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                materialDatePicker_debut.show(getParentFragmentManager() ,"DATE_PICKER");
+                materialDatePicker_debut.show(getParentFragmentManager(), "DATE_PICKER");
             }
         });
 
         date_picker_fin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                materialDatePicker_fin.show(getParentFragmentManager() ,"DATE_PICKER");
+                materialDatePicker_fin.show(getParentFragmentManager(), "DATE_PICKER");
             }
         });
 
@@ -184,11 +182,11 @@ public class AddProjectFragment extends Fragment {
         flesh_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(getParentFragmentManager().getBackStackEntryCount() > 0){
+                if (getParentFragmentManager().getBackStackEntryCount() > 0) {
                     try {
                         getParentFragmentManager().beginTransaction().replace(R.id.fContentFooter, (Fragment) FooterFragment.class.newInstance()).commit();
                         getParentFragmentManager().popBackStackImmediate();
-                    }catch (Exception e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
@@ -214,7 +212,7 @@ public class AddProjectFragment extends Fragment {
                 Intent intent = new Intent();
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent,"title"),1);
+                startActivityForResult(Intent.createChooser(intent, "title"), 1);
             }
         });
 
@@ -226,44 +224,45 @@ public class AddProjectFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 1){
+        if (requestCode == 1) {
             Uri uri = data.getData();
             chooseImage.setImageURI(uri);
         }
     }
 
-    public Boolean validate(){
+    public Boolean validate() {
         Boolean isValidated = true;
         String name = name_project.getText().toString().trim();
         String client = Combo_client.getText().toString().trim();
         String domain = Combo_domain.getText().toString().trim();
-        if(name.equals("")){
+        if (name.equals("")) {
             name_project.setHint(" Project name is required ! ");
             name_project.setHintTextColor(getResources().getColor(R.color.design_default_color_error));
             isValidated = false;
 
         }
-        if(domain.equals("") ){
+        if (domain.equals("")) {
             Combo_domain.setHint(" Domain is required ! ");
             Combo_domain.setHintTextColor(getResources().getColor(R.color.design_default_color_error));
             isValidated = false;
         }
-        if(client.equals("") ){
+        if (client.equals("")) {
             Combo_client.setHint(" Client is required ! ");
             Combo_client.setHintTextColor(getResources().getColor(R.color.design_default_color_error));
             isValidated = false;
         }
 
-        if(date_picker_debut.getText().toString().trim().equals("")){
+        if (date_picker_debut.getText().toString().trim().equals("")) {
             date_picker_debut.setHint(" Date debut is required ! ");
             date_picker_debut.setHintTextColor(getResources().getColor(R.color.design_default_color_error));
             isValidated = false;
         }
-        return  isValidated;
+        return isValidated;
     }
-    public void update_project(){
+
+    public void update_project() {
         Boolean isValidated = validate();
-        if(isValidated){
+        if (isValidated) {
             try {
                 getParentFragmentManager().beginTransaction().replace(R.id.fContentFooter, (Fragment) FooterFragment.class.newInstance()).commit();
                 Fragment fragment = new ListProjectsFragment();
@@ -272,15 +271,16 @@ public class AddProjectFragment extends Fragment {
                 fragmentTransaction.replace(R.id.flContent, fragment);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
-            }catch (Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
         }
     }
-    public void add_project(){
-       Boolean isValidated = validate();
-        if(isValidated){
+
+    public void add_project() {
+        Boolean isValidated = validate();
+        if (isValidated) {
             try {
                 getParentFragmentManager().beginTransaction().replace(R.id.fContentFooter, (Fragment) FooterFragment.class.newInstance()).commit();
                 Fragment fragment = new ListProjectsFragment();
@@ -289,7 +289,7 @@ public class AddProjectFragment extends Fragment {
                 fragmentTransaction.replace(R.id.flContent, fragment);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
-            }catch (Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
