@@ -14,7 +14,7 @@ import android.widget.Toast;
 import com.google.android.material.navigation.NavigationView;
 import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.databinding.ActivityMenuBinding;
-import com.job.softclick_mobile.ui.employeeFragments.EmployeeListFragment;
+import com.job.softclick_mobile.ui.employee.EmployeeListFragment;
 
 public class MenuActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
