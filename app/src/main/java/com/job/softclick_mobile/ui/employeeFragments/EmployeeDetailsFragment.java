@@ -1,4 +1,4 @@
-package com.job.softclick_mobile.ui;
+package com.job.softclick_mobile.ui.employeeFragments;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -12,13 +12,13 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.databinding.FragmentEmployeeDetailsBinding;
 import com.job.softclick_mobile.models.Employee;
+import com.job.softclick_mobile.ui.FooterFragment;
 
 public class EmployeeDetailsFragment extends Fragment {
 

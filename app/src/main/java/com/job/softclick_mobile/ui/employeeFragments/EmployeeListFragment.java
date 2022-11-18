@@ -1,4 +1,4 @@
-package com.job.softclick_mobile.ui;
+package com.job.softclick_mobile.ui.employeeFragments;
 
 import android.os.Bundle;
 
@@ -18,7 +18,6 @@ import com.job.softclick_mobile.adapters.EmployeeListAdapter;
 import com.job.softclick_mobile.contracts.RecyclerViewHandler;
 import com.job.softclick_mobile.models.Employee;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 public class EmployeeListFragment extends Fragment implements RecyclerViewHandler {
