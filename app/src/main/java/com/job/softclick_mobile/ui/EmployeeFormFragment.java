@@ -10,45 +10,26 @@ import android.view.ViewGroup;
 
 import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.databinding.ActivityMenuBinding;
+import com.job.softclick_mobile.databinding.FragmentEmployeeDetailsBinding;
 import com.job.softclick_mobile.databinding.FragmentEmployeeFormBinding;
+import com.job.softclick_mobile.models.Employee;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link EmployeeFormFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class EmployeeFormFragment extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
     private FragmentEmployeeFormBinding binding;
     private ActivityMenuBinding menuBinding;
+    private Employee employee;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     public EmployeeFormFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment EmployeeFormFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static EmployeeFormFragment newInstance(String param1, String param2) {
         EmployeeFormFragment fragment = new EmployeeFormFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        //args.putString(ARG_PARAM1, param1);
+        //args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -57,23 +38,52 @@ public class EmployeeFormFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            employee = (Employee) getArguments().getSerializable("employee");
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         binding = FragmentEmployeeFormBinding.inflate(inflater, container, false);
-        //set variables in Binding
+        View view = binding.getRoot();
 
-        //View view = inflater.inflate(R.layout.fragment_employee_form, container, false);
+        if(employee != null) {
+            binding.firstName.setText(employee.getEmployeeFirstName());
+            binding.lastName.setText(employee.getEmployeeLastName());
+            binding.employeeEmail.setText(employee.getEmployeeEmail());
+            binding.employeePhone.setText(employee.getEmployeePhone());
+            binding.employeeFunction.setText(employee.getEmployeeFunction());
+
+            binding.pageTitle.setText("Employee Edition ");
+            binding.createEmployeeBtn.setText("Edit");
+
+            binding.back.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    EmployeeDetailsFragment employeeDetailsFragment = new EmployeeDetailsFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("employee", employee);
+                    employeeDetailsFragment.setArguments(bundle);
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContent,employeeDetailsFragment).commit();
+                }
+            });
+        }
+
+        else{
+            binding.back.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    EmployeeListFragment employeeListFragment=new EmployeeListFragment();
+                    FooterFragment footerFragment=new FooterFragment();
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fContentFooter, footerFragment).commit();
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContent,employeeListFragment).commit();
+                }
+            });}
+
 
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fContentFooter,new Fragment()).commit() ;
-        //return inflater.inflate(R.layout.fragment_employee_form, container, false);
-        //return view;
-        return binding.getRoot();
+
+        return view;
     }
 }

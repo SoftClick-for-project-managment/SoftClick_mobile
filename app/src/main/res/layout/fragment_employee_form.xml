@@ -31,7 +31,7 @@
                     >
 
                     <ImageView
-                        android:id="@+id/imageView"
+                        android:id="@+id/back"
                         android:layout_width="73dp"
                         android:layout_height="32dp"
 
@@ -240,7 +240,7 @@
                 android:background="#e0dcdc"/>
 
             <TextView
-                android:id="@+id/loginBtn"
+                android:id="@+id/createEmployeeBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/button_bg"
