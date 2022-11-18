@@ -96,6 +96,8 @@ public class ClientDetailsFragment extends Fragment  {
             });
         }
 
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fContentFooter, new Fragment()).commit();
+
         return view;
     }
 
