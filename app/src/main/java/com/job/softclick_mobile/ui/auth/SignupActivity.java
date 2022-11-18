@@ -1,13 +1,10 @@
-package com.job.softclick_mobile.ui;
+package com.job.softclick_mobile.ui.auth;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
-
-import com.job.softclick_mobile.databinding.ActivitySignupBinding;
 
 public class SignupActivity extends AppCompatActivity {
     private ActivitySignupBinding binding;
