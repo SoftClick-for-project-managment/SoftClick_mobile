@@ -8,8 +8,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 
-import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.databinding.ActivitySplashBinding;
+import com.job.softclick_mobile.ui.auth.LoginActivity;
 
 public class SplashActivity extends AppCompatActivity {
     private int currentApiVersion;

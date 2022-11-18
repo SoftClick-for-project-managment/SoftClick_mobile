@@ -17,11 +17,7 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <!-- Customize the icon  from footer -->
-        <item name="android:actionOverflowButtonStyle">@style/MyActionButtonOverflow</item>
 
     </style>
-    <style name="MyActionButtonOverflow" parent="android:style/Widget.Holo.Light.ActionButton.Overflow" >
-        <item name="android:src">@drawable/ic_baseline_filter_list_24</item>
 
-    </style>
 </resources>

@@ -12,17 +12,8 @@
         android:theme="@style/Theme.SoftClick_mobile">
 
         <activity
-            android:name=".ui.ClientDetailsFragment"
-            android:exported="false"
-            tools:ignore="Instantiatable">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".ui.MainActivity"
-            android:exported="true"
-            tools:ignore="Instantiatable">
+            android:name=".ui.clients.ClientDetailsFragment"
+            android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -48,35 +39,29 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".ui.VerificationActivity"
+            android:name=".ui.auth.VerificationActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".ui.SignupActivity"
+            android:name=".ui.auth.SignupActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+
+         <activity
+             android:name=".ui.auth.LoginActivity"
+             android:exported="false">
+             <meta-data
+             android:name="android.app.lib_name"
+             android:value="" />
+         </activity>
         <activity
-            android:name=".ui.AddProjectActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".ui.LoginActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".ui.AddExpenseActivity"
+            android:name=".ui.expense.AddExpenseActivity"
             android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"

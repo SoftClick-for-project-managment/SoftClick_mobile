@@ -3,23 +3,23 @@ package com.job.softclick_mobile.ui;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import android.app.ActionBar;
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 import com.job.softclick_mobile.R;
+
 import com.job.softclick_mobile.databinding.ActivityMenuBinding;
+import com.job.softclick_mobile.ui.employees.EmployeeListFragment;
+import com.job.softclick_mobile.ui.invoices.InvoiceListFragment;
+import com.job.softclick_mobile.ui.projectFragments.ListProjectsFragment;
+import com.job.softclick_mobile.ui.expense.ExpensesListFragment;
+import com.job.softclick_mobile.ui.clients.ClientListFragment;
 
 public class MenuActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -85,7 +85,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
 
                 Toast.makeText(MenuActivity.this, "tasks selected", Toast.LENGTH_SHORT).show();
 
-                fragmentClass = FirstFragment.class;
+                fragmentClass = TaskList.class;
 
                 break;
             }
@@ -93,12 +93,6 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
             {
                 Toast.makeText(this, "teams selected", Toast.LENGTH_SHORT).show();
                 fragmentClass = TeamListFragment.class;
-                break;
-            }
-            case R.id.projects_item:
-            {
-                Toast.makeText(this, "projects selected", Toast.LENGTH_SHORT).show();
-                fragmentClass = FirstFragment.class;
                 break;
             }
             case R.id.clients_item:
@@ -117,13 +111,19 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
             case R.id.expenses_item:
             {
                 Toast.makeText(this, "expenses selected", Toast.LENGTH_SHORT).show();
-                fragmentClass = FirstFragment.class;
+                fragmentClass = ExpensesListFragment.class;
                 break;
             }
             case R.id.invoices_item:
             {
                 Toast.makeText(this, "invoices selected", Toast.LENGTH_SHORT).show();
                 fragmentClass = InvoiceListFragment.class;
+                break;
+            }
+            case R.id.projects_item:
+            {
+                Toast.makeText(this, "projects selected", Toast.LENGTH_SHORT).show();
+                fragmentClass = ListProjectsFragment.class;
                 break;
             }
             case R.id.logout_item:
@@ -172,5 +172,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
     public void onPointerCaptureChanged(boolean hasCapture) {
         super.onPointerCaptureChanged(hasCapture);
     }
+
+
 
 }

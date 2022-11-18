@@ -32,10 +32,12 @@
             android:id="@+id/invoices_item"
             android:title="Invoices"
             android:icon="@drawable/invoices"/>
+
         <item
             android:id="@+id/logout_item"
             android:title="Logout"
             android:icon="@drawable/logout"/>
+
     </group>
 
 </menu>
