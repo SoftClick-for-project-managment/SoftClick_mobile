@@ -1,6 +1,8 @@
 package com.job.softclick_mobile.models;
 
-public class ExpenseModel {
+import java.io.Serializable;
+
+public class ExpenseModel implements Serializable {
     private String expenseId;
     private String description;
     private long amount;
@@ -8,6 +10,7 @@ public class ExpenseModel {
     private String type;
     private String category;
     private String project;
+
     public ExpenseModel(){
 
     }
@@ -41,7 +44,7 @@ public class ExpenseModel {
         this.amount=amount;
     }
     public String getExpenseId(){
-        return expenseId;
+        return this.expenseId;
     }
     public void setExpenseId(String expenseId){
         this.expenseId=expenseId;
@@ -57,5 +60,11 @@ public class ExpenseModel {
     }
     public void setType(String type){
         this.type=type;
+    }
+    public String getDescription(){
+        return description;
+    }
+    public void setDescription(String description){
+        this.description=description;
     }
 }
