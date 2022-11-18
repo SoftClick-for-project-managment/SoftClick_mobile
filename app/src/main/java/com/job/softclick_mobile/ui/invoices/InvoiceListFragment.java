@@ -1,4 +1,4 @@
-package com.job.softclick_mobile.ui;
+package com.job.softclick_mobile.ui.invoices;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
