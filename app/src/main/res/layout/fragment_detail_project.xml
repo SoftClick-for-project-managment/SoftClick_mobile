@@ -86,16 +86,29 @@
                             android:layout_height="match_parent"
                             android:orientation="vertical">
 
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="50dp"
+                            android:layout_marginTop="10dp"
+                            android:orientation="horizontal">
+                            <ImageView
+                                android:id="@+id/logp"
+                                android:layout_width="80dp"
+                                android:layout_height="80dp"
+                                android:src="@drawable/logo" />
+
                             <TextView
                                 android:id="@+id/project_name"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="20dp"
-                                android:layout_marginTop="10dp"
+                                android:layout_marginLeft="0dp"
+                                android:layout_marginTop="20dp"
                                 android:fontFamily="@font/roboto_medium"
                                 android:text="Project Name"
                                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                                android:textSize="16sp" />
+                                android:textSize="18sp" />
+                        </LinearLayout>
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
@@ -132,8 +145,9 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="200dp"
                                 android:layout_marginTop="5dp"
-                                android:fontFamily="@font/roboto_medium"
-                                android:text="Intelligence Artificial" />
+                                android:fontFamily="@font/roboto_bold"
+                                android:text="Intelligence Artificial"
+                                android:textSize="15sp" />
 
 
 
@@ -161,12 +175,15 @@
                                         android:layout_height="wrap_content"
                                         android:text="@string/dirige_par"
                                         />
+
                                     <TextView
                                         android:id="@+id/name_chef"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
+                                        android:layout_marginLeft="40dp"
                                         android:text="@string/chefname"
-                                        />
+                                        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                                        android:textSize="15sp" />
 
                                 </LinearLayout>
 
@@ -176,13 +193,14 @@
                                     android:text="@string/commande_par"
                                     android:layout_marginLeft="10dp"
                                     />
+
                                 <TextView
                                     android:id="@+id/clients_text"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text=" - mr lghali \n - mr faisal \n- mr hassan"
                                     android:layout_marginLeft="120dp"
-                                    />
+                                    android:text=" - mr lghali \n - mr faisal \n- mr hassan"
+                                    android:textSize="15sp" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -190,13 +208,14 @@
                                     android:text="@string/equipe_par"
                                     android:layout_marginLeft="10dp"
                                     />
+
                                 <TextView
                                     android:id="@+id/equipes_text"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text=" - Front end Num 1 \n - Front end Num 5 \n- Devops "
                                     android:layout_marginLeft="120dp"
-                                    />
+                                    android:text=" - Front end Num 1 \n - Front end Num 5 \n- Devops "
+                                    android:textSize="15sp" />
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -233,12 +252,13 @@
                                         android:layout_height="wrap_content"
                                         android:text="@string/revenue"
                                         />
+
                                     <TextView
                                         android:id="@+id/revenu_total"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="500000 DH"
-                                        />
+                                        android:textSize="15sp" />
 
                                 </LinearLayout>
                                 <LinearLayout
@@ -252,12 +272,13 @@
                                         android:layout_height="wrap_content"
                                         android:text="@string/depense"
                                         />
+
                                     <TextView
                                         android:id="@+id/depense_total"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="20000 DH"
-                                        />
+                                        android:textSize="15sp" />
 
                                 </LinearLayout>
 
