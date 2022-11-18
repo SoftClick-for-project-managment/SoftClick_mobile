@@ -15,6 +15,7 @@ import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import com.job.softclick_mobile.R;
+import com.job.softclick_mobile.databinding.FragmentClientDetailsBinding;
 import com.job.softclick_mobile.models.Client;
 import com.job.softclick_mobile.ui.FooterFragment;
 

@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.job.softclick_mobile.databinding.ActivitySignupBinding;
+
 public class SignupActivity extends AppCompatActivity {
     private ActivitySignupBinding binding;
 
