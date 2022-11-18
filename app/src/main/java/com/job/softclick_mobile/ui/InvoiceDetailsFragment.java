@@ -1,5 +1,7 @@
 package com.job.softclick_mobile.ui;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -16,6 +18,9 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.job.softclick_mobile.R;
+import com.job.softclick_mobile.databinding.FragmentClientDetailsBinding;
+import com.job.softclick_mobile.databinding.FragmentInvoiceDetailsBinding;
+import com.job.softclick_mobile.models.Invoice;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -35,6 +40,7 @@ public class InvoiceDetailsFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private FragmentInvoiceDetailsBinding binding;
 
     public InvoiceDetailsFragment() {
         // Required empty public constructor
@@ -67,8 +73,32 @@ public class InvoiceDetailsFragment extends Fragment {
         }
     }
 
+    private AlertDialog AskOption() {
+        AlertDialog myQuittingDialogBox = new AlertDialog.Builder(getContext())
+// set message, title, and icon
+                .setTitle("Delete")
+                .setMessage("Do you want to Delete")
+                .setIcon(R.drawable.delete)
 
+                .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
 
+                    public void onClick(DialogInterface dialog, int whichButton) {
+//your deleting code
+                        dialog.dismiss();
+                    }
+
+                })
+                .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        dialog.dismiss();
+
+                    }
+                })
+                .create();
+
+        return myQuittingDialogBox;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -76,10 +106,10 @@ public class InvoiceDetailsFragment extends Fragment {
 
 
         // Inflate the layout for this fragment
+        binding = FragmentInvoiceDetailsBinding.inflate(inflater, container, false);
+        View view = binding.getRoot();
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fContentFooter, new Fragment()).commit();
-        View view = inflater.inflate(R.layout.fragment_invoice_details, container, false);
-        //----------------------------------------------------------------------------------------------------//
-        more=view.findViewById(R.id.moreOptions);
+        more = binding.moreOptions;
         more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,16 +120,17 @@ public class InvoiceDetailsFragment extends Fragment {
                     public boolean onMenuItemClick(MenuItem menuItem) {
                         switch (menuItem.getItemId()) {
                             case R.id.edit:
-                                Bundle bundle=new Bundle();
-                                bundle.putString("date",date.getText().toString());
-                                bundle.putString("total",total.getText().toString());
-                                InvoiceFormFragment invoiceFormFragment=new InvoiceFormFragment();
+                                Bundle bundle = new Bundle();
+                                Invoice invoice = new Invoice(date.getText().toString(), total.getText().toString());
+                                bundle.putSerializable("invoice", invoice);
+                                InvoiceFormFragment invoiceFormFragment = new InvoiceFormFragment();
                                 invoiceFormFragment.setArguments(bundle);
                                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContent, invoiceFormFragment).commit();
                                 break;
 
                             case R.id.delete:
-                                Toast.makeText(getActivity(),"Under Construction ",Toast.LENGTH_LONG).show();
+                                AlertDialog diaBox = AskOption();
+                                diaBox.show();
                                 break;
 
                             default:
@@ -111,21 +142,21 @@ public class InvoiceDetailsFragment extends Fragment {
                 popupMenu.show();
             }
         });
-        date = view.findViewById(R.id.date);
-        total = view.findViewById(R.id.total);
-        Bundle bundle = this.getArguments();
-        String dataDate = bundle.getString("date");
+        date = binding.date;
+        total = binding.total;
+        Invoice invoice = (Invoice) getArguments().getSerializable("invoice");
+        String dataDate = invoice.getDate();
         date.setText(dataDate);
-        String dataTotal = bundle.getString("total");
+        String dataTotal = invoice.getTotal();
         total.setText(dataTotal);
-        back=view.findViewById(R.id.imageView);
+        back = binding.imageView;
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                InvoiceListFragment invoiceListFragment=new InvoiceListFragment();
-                FooterFragment footerFragment=new FooterFragment();
+                InvoiceListFragment invoiceListFragment = new InvoiceListFragment();
+                FooterFragment footerFragment = new FooterFragment();
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fContentFooter, footerFragment).commit();
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContent,invoiceListFragment).commit();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContent, invoiceListFragment).commit();
             }
         });
         return view;

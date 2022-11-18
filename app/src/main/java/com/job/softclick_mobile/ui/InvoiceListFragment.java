@@ -26,7 +26,7 @@ import java.util.List;
  * Use the {@link InvoiceListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class InvoiceListFragment extends Fragment implements  InvoiceListInterface {
+public class InvoiceListFragment extends Fragment implements InvoiceListInterface {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -90,13 +90,13 @@ public class InvoiceListFragment extends Fragment implements  InvoiceListInterfa
         invoices.add(new Invoice("1-8-2022", "8000.00"));
         invoices.add(new Invoice("15-11-2022", "300.00"));
         invoices.add(new Invoice("19-12-2021", "1000.00"));
-        recyclerView.setAdapter(new InvoiceListAdapter(invoices,this));
+        recyclerView.setAdapter(new InvoiceListAdapter(invoices, this));
         addButton = this.getActivity().findViewById(R.id.addButton);
-        if(addButton != null) {
+        if (addButton != null) {
             addButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     try {
-                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContent,(Fragment) InvoiceFormFragment.class.newInstance()).commit() ;
+                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContent, (Fragment) InvoiceFormFragment.class.newInstance()).commit();
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                     } catch (java.lang.InstantiationException e) {
@@ -111,12 +111,11 @@ public class InvoiceListFragment extends Fragment implements  InvoiceListInterfa
 
     @Override
     public void onItemClick(int position) {
-        Bundle bundle=new Bundle();
-        bundle.putString("date",invoices.get(position).getDate().toString());
-        bundle.putString("total",invoices.get(position).getTotal().toString());
-      InvoiceDetailsFragment invoiceDetailsFragment=new InvoiceDetailsFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("invoice", invoices.get(position));
+        InvoiceDetailsFragment invoiceDetailsFragment = new InvoiceDetailsFragment();
         invoiceDetailsFragment.setArguments(bundle);
-      getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContent,invoiceDetailsFragment).commit();
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContent, invoiceDetailsFragment).commit();
     }
 
     @NonNull
