@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.google.android.material.navigation.NavigationView;
 import com.job.softclick_mobile.R;
 
+import com.job.softclick_mobile.databinding.ActivityMenuBinding;
 import com.job.softclick_mobile.ui.employees.EmployeeListFragment;
 import com.job.softclick_mobile.ui.projectFragments.ListProjectsFragment;
 import com.job.softclick_mobile.ui.expense.ExpensesListFragment;

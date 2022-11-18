@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.job.softclick_mobile.databinding.ActivityLoginBinding;
 import com.job.softclick_mobile.ui.MenuActivity;
 
 public class LoginActivity extends AppCompatActivity {
