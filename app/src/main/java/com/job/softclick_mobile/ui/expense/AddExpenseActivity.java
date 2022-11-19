@@ -7,11 +7,9 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.Toast;
 
 
@@ -19,18 +17,9 @@ import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.databinding.ActivityAddExpenseBinding;
 import com.job.softclick_mobile.models.ExpenseModel;
 import com.job.softclick_mobile.models.FakeExpensesData;
-import com.job.softclick_mobile.ui.MenuActivity;
+import com.job.softclick_mobile.ui.layout.MenuActivity;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
 import java.util.UUID;
 
 public class AddExpenseActivity extends AppCompatActivity {

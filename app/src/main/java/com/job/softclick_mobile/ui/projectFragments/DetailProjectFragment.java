@@ -21,7 +21,7 @@ import com.google.android.material.progressindicator.LinearProgressIndicator;
 import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.databinding.FragmentDetailProjectBinding;
 import com.job.softclick_mobile.models.Project;
-import com.job.softclick_mobile.ui.FooterFragment;
+import com.job.softclick_mobile.ui.layout.FooterFragment;
 
 /**
  * A simple {@link Fragment} subclass.

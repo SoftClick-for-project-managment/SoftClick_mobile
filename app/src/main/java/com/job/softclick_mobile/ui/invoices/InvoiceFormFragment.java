@@ -17,7 +17,7 @@ import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.databinding.ActivityMenuBinding;
 import com.job.softclick_mobile.databinding.FragmentInvoiceFormBinding;
 import com.job.softclick_mobile.models.Invoice;
-import com.job.softclick_mobile.ui.FooterFragment;
+import com.job.softclick_mobile.ui.layout.FooterFragment;
 
 import java.util.Calendar;
 
