@@ -24,8 +24,6 @@ import java.util.List;
 
 public class ClientListFragment extends Fragment implements RecyclerViewHandler {
 
-    private String mParam1;
-    private String mParam2;
     private RecyclerView recyclerView;
     private List<Client> clients;
 
@@ -38,8 +36,7 @@ public class ClientListFragment extends Fragment implements RecyclerViewHandler 
         super.onCreate(savedInstanceState);
         Log.d("CLIENT_LIST_FRAGMENT", "onCreate got called");
         if (getArguments() != null) {
-            mParam1 = getArguments().getString("ARG_PARAM1");
-            mParam2 = getArguments().getString("ARG_PARAM2");
+//            mParam1 = getArguments().getString("ARG_PARAM1");
         }
     }
 
