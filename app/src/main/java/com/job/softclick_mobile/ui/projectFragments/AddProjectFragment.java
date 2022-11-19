@@ -23,7 +23,7 @@ import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClic
 import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.databinding.FragmentAddProjectBinding;
 import com.job.softclick_mobile.models.Project;
-import com.job.softclick_mobile.ui.FooterFragment;
+import com.job.softclick_mobile.ui.layout.FooterFragment;
 
 /**
  * A simple {@link Fragment} subclass.

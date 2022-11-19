@@ -16,7 +16,7 @@ import androidx.fragment.app.Fragment;
 import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.databinding.FragmentInvoiceDetailsBinding;
 import com.job.softclick_mobile.models.Invoice;
-import com.job.softclick_mobile.ui.FooterFragment;
+import com.job.softclick_mobile.ui.layout.FooterFragment;
 
 /**
  * A simple {@link Fragment} subclass.

@@ -1,4 +1,4 @@
-package com.job.softclick_mobile.ui;
+package com.job.softclick_mobile.ui.layout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -15,6 +15,8 @@ import com.google.android.material.navigation.NavigationView;
 import com.job.softclick_mobile.R;
 
 import com.job.softclick_mobile.databinding.ActivityMenuBinding;
+import com.job.softclick_mobile.ui.TaskList;
+import com.job.softclick_mobile.ui.TeamListFragment;
 import com.job.softclick_mobile.ui.employees.EmployeeListFragment;
 import com.job.softclick_mobile.ui.invoices.InvoiceListFragment;
 import com.job.softclick_mobile.ui.projectFragments.ListProjectsFragment;
@@ -126,14 +128,14 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
                 fragmentClass = ListProjectsFragment.class;
                 break;
             }
-            case R.id.logout_item:
+            /*case R.id.logout_item:
             {
                 Toast.makeText(this, "logout selected", Toast.LENGTH_SHORT).show();
                 fragmentClass = FirstFragment.class;
                 break;
-            }
+            }*/
             default:
-                fragmentClass = FirstFragment.class;
+                fragmentClass = EmployeeListFragment.class;
                 break;
         }
 
