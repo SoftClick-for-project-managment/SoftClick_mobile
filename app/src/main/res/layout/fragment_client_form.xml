@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    tools:context=".ui.MenuActivity">
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:scrollbars="vertical"
+        android:fillViewport="true"
+        android:isScrollContainer="false">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+            <RelativeLayout
+                android:id="@+id/subheader"
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:paddingVertical="20dp">
+                <ImageView
+                    android:id="@+id/backArrow"
+                    android:layout_width="45dp"
+                    android:layout_height="28dp"
+                    android:layout_marginHorizontal="30dp"
+                    app:srcCompat="@drawable/back_arrow"/>
+                <TextView
+                    android:id="@+id/subheaderTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/backArrow"
+                    android:text="Client Creation"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/roboto_medium"/>
+                <View android:layout_width="match_parent"
+                    android:layout_height="1dip"
+                    android:background="@color/gray"
+                    android:layout_alignParentBottom="true" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#e0dcdc"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:divider="?android:dividerHorizontal"
+                    android:showDividers="middle"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp">
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/firstName"
+                            android:layout_toRightOf="@+id/firstName_icon"
+                            android:background="@color/transparent"
+                            android:fontFamily="@font/roboto_regular"
+                            android:hint="First Name"
+                            android:inputType="textPersonName"
+                            android:maxLines="1"
+                            android:paddingLeft="17dp"
+                            android:paddingTop="15dp"
+                            android:paddingBottom="15dp"
+                            android:textCursorDrawable="@drawable/cursor_color"
+                            android:textSize="16sp"/>
+
+                        <ImageView
+                            android:id="@+id/firstName_icon"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="17dp"
+                            android:src="@drawable/user"/>
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/lastName"
+                            android:layout_toRightOf="@+id/lastName_icon"
+                            android:background="@color/transparent"
+                            android:fontFamily="@font/roboto_regular"
+                            android:hint="Last Name"
+                            android:inputType="textPersonName"
+                            android:maxLines="1"
+                            android:paddingLeft="17dp"
+                            android:paddingTop="15dp"
+                            android:paddingBottom="15dp"
+                            android:textCursorDrawable="@drawable/cursor_color"
+                            android:textSize="16sp"/>
+
+                        <ImageView
+                            android:id="@+id/lastName_icon"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="17dp"
+                            android:src="@drawable/user"/>
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/email"
+                            android:layout_toRightOf="@+id/email_icon"
+                            android:background="@color/transparent"
+                            android:fontFamily="@font/roboto_regular"
+                            android:hint="Email"
+                            android:inputType="textPersonName"
+                            android:maxLines="1"
+                            android:paddingLeft="17dp"
+                            android:paddingTop="15dp"
+                            android:paddingBottom="15dp"
+                            android:textCursorDrawable="@drawable/cursor_color"
+                            android:textSize="16sp"/>
+
+                        <ImageView
+                            android:id="@+id/email_icon"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="17dp"
+                            android:src="@drawable/mail"/>
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/phone"
+                            android:layout_toRightOf="@+id/phone_icon"
+                            android:background="@color/transparent"
+                            android:fontFamily="@font/roboto_regular"
+                            android:hint="Phone"
+                            android:inputType="textPersonName"
+                            android:maxLines="1"
+                            android:paddingLeft="17dp"
+                            android:paddingTop="15dp"
+                            android:paddingBottom="15dp"
+                            android:textCursorDrawable="@drawable/cursor_color"
+                            android:textSize="16sp"/>
+
+                        <ImageView
+                            android:id="@+id/phone_icon"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="17dp"
+                            android:src="@drawable/phone"/>
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/companyName"
+                            android:layout_toRightOf="@+id/company_icon"
+                            android:background="@color/transparent"
+                            android:fontFamily="@font/roboto_regular"
+                            android:hint="Company Name"
+                            android:inputType="textPersonName"
+                            android:maxLines="1"
+                            android:paddingLeft="17dp"
+                            android:paddingTop="15dp"
+                            android:paddingBottom="15dp"
+                            android:textCursorDrawable="@drawable/cursor_color"
+                            android:textSize="16sp"/>
+
+                        <ImageView
+                            android:id="@+id/company_icon"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="17dp"
+                            android:src="@drawable/organization"/>
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/country"
+                            android:layout_toRightOf="@+id/country_icon"
+                            android:background="@color/transparent"
+                            android:fontFamily="@font/roboto_regular"
+                            android:hint="Country"
+                            android:inputType="textPersonName"
+                            android:maxLines="1"
+                            android:paddingLeft="17dp"
+                            android:paddingTop="15dp"
+                            android:paddingBottom="15dp"
+                            android:textCursorDrawable="@drawable/cursor_color"
+                            android:textSize="16sp"/>
+
+                        <ImageView
+                            android:id="@+id/country_icon"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="17dp"
+                            android:src="@drawable/address"/>
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/city"
+                            android:layout_toRightOf="@+id/city_icon"
+                            android:background="@color/transparent"
+                            android:fontFamily="@font/roboto_regular"
+                            android:hint="City"
+                            android:inputType="textPersonName"
+                            android:maxLines="1"
+                            android:paddingLeft="17dp"
+                            android:paddingTop="15dp"
+                            android:paddingBottom="15dp"
+                            android:textCursorDrawable="@drawable/cursor_color"
+                            android:textSize="16sp"/>
+
+                        <ImageView
+                            android:id="@+id/city_icon"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="17dp"
+                            android:src="@drawable/address"/>
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#e0dcdc"/>
+
+                <TextView
+                    android:id="@+id/createClientBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/button_bg"
+                    android:fontFamily="@font/roboto_regular"
+                    android:gravity="center"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="50dp"
+                    android:text="Create"
+                    android:clickable="true"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:layout_marginBottom="20dp"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

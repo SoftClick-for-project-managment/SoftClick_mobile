@@ -12,7 +12,6 @@ public class Client implements Serializable {
     private String ville;
     private String pays;
 
-
     public Client() {
     }
 
