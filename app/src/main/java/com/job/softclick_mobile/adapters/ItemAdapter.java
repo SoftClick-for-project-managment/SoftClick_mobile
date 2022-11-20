@@ -13,9 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.job.softclick_mobile.R;
 
-import com.job.softclick_mobile.contracts.RecyclerViewHandler;
 import com.job.softclick_mobile.models.StatusTaskList;
 import com.job.softclick_mobile.models.Task;
+import com.job.softclick_mobile.ui.contracts.RecyclerViewHandler;
 
 import java.util.ArrayList;
 import java.util.HashMap;

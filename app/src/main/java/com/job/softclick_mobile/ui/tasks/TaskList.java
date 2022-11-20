@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.adapters.ItemAdapter;
-import com.job.softclick_mobile.contracts.RecyclerViewHandler;
+import com.job.softclick_mobile.ui.contracts.RecyclerViewHandler;
 import com.job.softclick_mobile.models.StatusTaskList;
 import com.job.softclick_mobile.models.Task;
 

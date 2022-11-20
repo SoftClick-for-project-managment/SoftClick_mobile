@@ -17,7 +17,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.databinding.FragmentDetailsTaskBinding;
 import com.job.softclick_mobile.models.Task;
-import com.job.softclick_mobile.ui.FooterFragment;
+import com.job.softclick_mobile.ui.layout.FooterFragment;
 
 /**
  * A simple {@link Fragment} subclass.

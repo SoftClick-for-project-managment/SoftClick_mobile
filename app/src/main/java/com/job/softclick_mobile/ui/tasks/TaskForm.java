@@ -17,7 +17,7 @@ import androidx.fragment.app.Fragment;
 import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.databinding.FragmentTaskFormBinding;
 import com.job.softclick_mobile.models.Task;
-import com.job.softclick_mobile.ui.FooterFragment;
+import com.job.softclick_mobile.ui.layout.FooterFragment;
 
 import java.util.ArrayList;
 import java.util.Arrays;
