@@ -1,4 +1,4 @@
-package com.job.softclick_mobile.ui.Tasks;
+package com.job.softclick_mobile.ui.tasks;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

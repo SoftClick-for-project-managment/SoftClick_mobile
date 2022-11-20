@@ -1,4 +1,4 @@
-package com.job.softclick_mobile.ui.Tasks;
+package com.job.softclick_mobile.ui.tasks;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -18,8 +18,6 @@ import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.databinding.FragmentDetailsTaskBinding;
 import com.job.softclick_mobile.models.Task;
 import com.job.softclick_mobile.ui.FooterFragment;
-import com.job.softclick_mobile.ui.Tasks.TaskForm;
-import com.job.softclick_mobile.ui.Tasks.TaskList;
 
 /**
  * A simple {@link Fragment} subclass.
