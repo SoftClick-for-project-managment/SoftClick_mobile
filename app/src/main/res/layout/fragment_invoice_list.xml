@@ -6,7 +6,7 @@
     android:layout_marginBottom="60dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.InvoiceListFragment">
+    tools:context=".ui.invoices.InvoiceListFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/invoiceListRecyclerView"
