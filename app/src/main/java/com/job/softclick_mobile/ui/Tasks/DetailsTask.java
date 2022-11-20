@@ -1,13 +1,8 @@
-package com.job.softclick_mobile.ui;
+package com.job.softclick_mobile.ui.Tasks;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,9 +10,16 @@ import android.view.ViewGroup;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.databinding.FragmentDetailsTaskBinding;
 import com.job.softclick_mobile.models.Task;
+import com.job.softclick_mobile.ui.FooterFragment;
+import com.job.softclick_mobile.ui.Tasks.TaskForm;
+import com.job.softclick_mobile.ui.Tasks.TaskList;
 
 /**
  * A simple {@link Fragment} subclass.
