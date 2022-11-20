@@ -1,31 +1,72 @@
 package com.job.softclick_mobile.models;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Task  {
-    private List<String> nestedList;
-    private String itemText;
-    private boolean isExpandable;
+public class Task implements Serializable {
+    private String taskname;
+    private String taskstatus;
+    private  String dateStart;
+    private String dateEnd ;
+    private String Description ;
 
-    public Task(List<String> itemList, String itemText) {
-        this.nestedList = itemList;
-        this.itemText = itemText;
-        isExpandable = false;
+    public void setTaskname(String taskname) {
+        this.taskname = taskname;
     }
 
-    public void setExpandable(boolean expandable) {
-        isExpandable = expandable;
+    public void setTaskstatus(String taskstatus) {
+        this.taskstatus = taskstatus;
     }
 
-    public List<String> getNestedList() {
-        return nestedList;
+    public void setDateStart(String dateStart) {
+        this.dateStart = dateStart;
     }
 
-    public String getItemText() {
-        return itemText;
+    public void setDateEnd(String dateEnd) {
+        this.dateEnd = dateEnd;
     }
 
-    public boolean isExpandable() {
-        return isExpandable;
+    public void setDescription(String description) {
+        Description = description;
     }
+
+    public String getTaskname() {
+        return taskname;
+    }
+
+    public String getTaskstatus() {
+        return taskstatus;
+    }
+
+    public String getDateStart() {
+        return dateStart;
+    }
+
+    public String getDateEnd() {
+        return dateEnd;
+    }
+
+    public String getDescription() {
+        return Description;
+    }
+
+    public Task(String taskname, String taskstatus, String dateStart, String dateEnd, String description) {
+        this.taskname = taskname;
+        this.taskstatus = taskstatus;
+        this.dateStart = dateStart;
+        this.dateEnd = dateEnd;
+        this.Description = description;
+    }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "taskname='" + taskname + '\'' +
+                ", taskstatus='" + taskstatus + '\'' +
+                ", dateStart='" + dateStart + '\'' +
+                ", dateEnd='" + dateEnd + '\'' +
+                ", Description='" + Description + '\'' +
+                '}';
+    }
+
 }

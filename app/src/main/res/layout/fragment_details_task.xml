@@ -68,14 +68,14 @@
                     android:layout_marginVertical="15dp"
                     >
                     <TextView
-                        android:id="@+id/firstNameLabel"
+                        android:id="@+id/TaskNameLabel"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="Name"
                         android:textSize="16sp"
                         />
                     <TextView
-                        android:id="@+id/firstNameValue"
+                        android:id="@+id/TaskNameValue"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="Task Name"
@@ -100,13 +100,13 @@
                     android:layout_marginVertical="15dp"
                     android:layout_height="wrap_content">
                     <TextView
-                        android:id="@+id/lastNameLabel"
+                        android:id="@+id/statusLabel"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="Status"
                         android:textSize="16sp"/>
                     <TextView
-                        android:id="@+id/lastNameValue"
+                        android:id="@+id/statusValue"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="Task status"
@@ -164,13 +164,13 @@
                     android:layout_height="wrap_content">
 
                     <TextView
-                        android:id="@+id/countryLabel"
+                        android:id="@+id/EnddateLabel"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="End date"
                         android:textSize="16sp"/>
                     <TextView
-                        android:id="@+id/countryValue"
+                        android:id="@+id/EnddateValue"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="Task End date"
@@ -196,13 +196,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
                     <TextView
-                        android:id="@+id/cityLabel"
+                        android:id="@+id/DescriptionLabel"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="Description"
                         android:textSize="16sp"/>
                     <TextView
-                        android:id="@+id/cityValue"
+                        android:id="@+id/DescriptionValue"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="task description"
