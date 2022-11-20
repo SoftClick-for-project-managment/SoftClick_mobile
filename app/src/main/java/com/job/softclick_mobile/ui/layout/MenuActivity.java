@@ -13,10 +13,8 @@ import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 import com.job.softclick_mobile.R;
-
 import com.job.softclick_mobile.databinding.ActivityMenuBinding;
-import com.job.softclick_mobile.ui.TaskList;
-import com.job.softclick_mobile.ui.TeamListFragment;
+import com.job.softclick_mobile.ui.tasks.TaskList;
 import com.job.softclick_mobile.ui.employees.EmployeeListFragment;
 import com.job.softclick_mobile.ui.invoices.InvoiceListFragment;
 import com.job.softclick_mobile.ui.projectFragments.ListProjectsFragment;
@@ -79,7 +77,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
 
         // Create a new fragment and specify the fragment to show based on nav item clicked
         Fragment fragment = null;
-        Class fragmentClass;
+        Class fragmentClass = null;
 
         switch (item.getItemId()) {
             case R.id.tasks_item:
@@ -94,7 +92,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
             case R.id.teams_item:
             {
                 Toast.makeText(this, "teams selected", Toast.LENGTH_SHORT).show();
-                fragmentClass = TeamListFragment.class;
+                //fragmentClass = FirstFragment.class;
                 break;
             }
             case R.id.clients_item:
@@ -128,24 +126,22 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
                 fragmentClass = ListProjectsFragment.class;
                 break;
             }
-            /*case R.id.logout_item:
+            case R.id.logout_item:
             {
                 Toast.makeText(this, "logout selected", Toast.LENGTH_SHORT).show();
-                fragmentClass = FirstFragment.class;
+                //fragmentClass = FirstFragment.class;
                 break;
-            }*/
+            }
             default:
-                fragmentClass = EmployeeListFragment.class;
+                //fragmentClass = FirstFragment.class;
                 break;
         }
 
         try {
             fragmentManager.beginTransaction().replace(R.id.fContentFooter, (Fragment) FooterFragment.class.newInstance()).commit();
-            fragment = (Fragment) fragmentClass.newInstance();
-//            Bundle bundle = new Bundle();
-//            bundle.putInt("newInt", 5);
-//            bundle.putString("newText", "Tasks Selected");
-//            fragment.setArguments(bundle);
+            if (fragmentClass != null) {
+                fragment = (Fragment) fragmentClass.newInstance();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
