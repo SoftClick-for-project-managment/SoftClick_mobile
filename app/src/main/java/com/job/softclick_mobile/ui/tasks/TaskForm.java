@@ -54,6 +54,8 @@ public class TaskForm extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fContentFooter,new Fragment()).commit() ;
         // Inflate the layout for this fragment
 
         binding = FragmentTaskFormBinding.inflate(inflater, container, false);
