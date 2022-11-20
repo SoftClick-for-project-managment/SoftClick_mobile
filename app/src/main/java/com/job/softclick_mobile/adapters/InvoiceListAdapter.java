@@ -9,15 +9,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.job.softclick_mobile.R;
-import com.job.softclick_mobile.ui.contracts.InvoiceListInterface;
 import com.job.softclick_mobile.models.Invoice;
+import com.job.softclick_mobile.ui.contracts.RecyclerViewHandler;
 
 import java.util.List;
 
 public class InvoiceListAdapter extends RecyclerView.Adapter<InvoiceListAdapter.InvoiceListViewHolder> {
     List<Invoice> invoices;
-    private final InvoiceListInterface invoiceListInterface;
-    public InvoiceListAdapter(List<Invoice> invoices, InvoiceListInterface invoiceListInterface) {
+    private final RecyclerViewHandler invoiceListInterface;
+    public InvoiceListAdapter(List<Invoice> invoices, RecyclerViewHandler invoiceListInterface) {
         this.invoices = invoices;
         this.invoiceListInterface=invoiceListInterface;
     }

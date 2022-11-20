@@ -14,8 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.adapters.InvoiceListAdapter;
-import com.job.softclick_mobile.ui.contracts.InvoiceListInterface;
 import com.job.softclick_mobile.models.Invoice;
+import com.job.softclick_mobile.ui.contracts.RecyclerViewHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +25,7 @@ import java.util.List;
  * Use the {@link InvoiceListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class InvoiceListFragment extends Fragment implements InvoiceListInterface {
+public class InvoiceListFragment extends Fragment implements RecyclerViewHandler {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
