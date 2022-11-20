@@ -1,70 +1,93 @@
 package com.job.softclick_mobile.adapters;
-
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.job.softclick_mobile.R;
-import com.job.softclick_mobile.models.ExpenseModel;
-import com.job.softclick_mobile.ui.expense.OnItemsClick;
+import com.job.softclick_mobile.models.Expense;
+import com.job.softclick_mobile.ui.contracts.RecyclerViewHandler;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+public class ExpenseListAdapter extends RecyclerView.Adapter<ExpenseListAdapter.ExpenseViewHolder>{
+    private ArrayList<Expense> mExpensesList;
+    private final RecyclerViewHandler recyclerViewHandler;
 
-import java.util.List;
 
-public class ExpenseListAdapter extends RecyclerView.Adapter<ExpenseListAdapter.MyViewHolder>{
-    private OnItemsClick onItemsClick;
+    public static class ExpenseViewHolder extends RecyclerView.ViewHolder {
+        public TextView amount;
+        public TextView description;
+        public TextView date;
+        public TextView category;
 
-    private List<ExpenseModel> expenseModelList;
-    public ExpenseListAdapter(List <ExpenseModel> expensesList, OnItemsClick onItemsClick){
-        expenseModelList=expensesList;
-        this.onItemsClick=onItemsClick;
+
+        public ExpenseViewHolder(@NonNull View itemView, RecyclerViewHandler recyclerViewHandler) {
+            super(itemView);
+            amount= itemView.findViewById(R.id.amount);
+            description = itemView.findViewById(R.id.description);
+            date = itemView.findViewById(R.id.date);
+            category = itemView.findViewById(R.id.category);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(recyclerViewHandler != null) {
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION) {
+                            recyclerViewHandler.onItemClick(position);
+                        }
+                    }
+                }
+            });
+        }
     }
-    public void add(ExpenseModel expenseModel){
-            expenseModelList.add(expenseModel);
-            notifyDataSetChanged();
+
+    public ExpenseListAdapter(ArrayList<Expense> expenseList, RecyclerViewHandler recyclerViewHandler) {
+        this.mExpensesList = expenseList;
+        this.recyclerViewHandler = recyclerViewHandler;
     }
-    public void clear(){
-        expenseModelList.clear();
-        notifyDataSetChanged();
-    }
+
     @NonNull
     @Override
-    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.expense_row,parent,false);
-        return new MyViewHolder(view);
+    public ExpenseListAdapter.ExpenseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.expense_row, parent, false);
+        ExpenseListAdapter.ExpenseViewHolder evh = new ExpenseListAdapter.ExpenseViewHolder(v, recyclerViewHandler);
+        return evh;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        ExpenseModel expenseModel=expenseModelList.get(position);
-        holder.project.setText(expenseModel.getProject());
-        holder.category.setText(expenseModel.getCategory());
-        holder.amount.setText(String.valueOf(expenseModel.getAmount()));
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onItemsClick.onClick(expenseModel);
-            }
-        });
+    public void onBindViewHolder(@NonNull ExpenseListAdapter.ExpenseViewHolder holder, int position) {
+        Expense currentExpense = mExpensesList.get(position);
+        Date date = new Date(currentExpense.getTime());
+        SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String dateFormatted = sdfDate.format(date);
+        holder.date.setText(dateFormatted);
+        if(currentExpense.getType()=="expense"){
+            holder.amount.setTextColor(Color.parseColor("#E91E3C"));
+        }else{
+            holder.amount.setTextColor(Color.parseColor("#018786"));
+        }
+        holder.amount.setText(String.valueOf(currentExpense.getAmount()));
+        holder.category.setText(currentExpense.getCategory());
     }
 
     @Override
     public int getItemCount() {
-
-        return expenseModelList.size();
+        return mExpensesList.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder{
-        private TextView project,category,amount,date;
-        public MyViewHolder(@NonNull View itemView){
-            super(itemView);
-            project=itemView.findViewById(R.id.project);
-            category=itemView.findViewById(R.id.category);
-            amount=itemView.findViewById(R.id.amount);
-            date=itemView.findViewById(R.id.date);
-        }
+
+    public void add(Expense expenseModel) {
+        mExpensesList.add(expenseModel);
+        notifyDataSetChanged();
     }
+
+    public void clear() {
+        mExpensesList.clear();
+        notifyDataSetChanged();
+    }
+
 }
