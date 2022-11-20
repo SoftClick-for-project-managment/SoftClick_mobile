@@ -7,8 +7,13 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-
+    <color name="gray2">#c0c0c0</color>
     <color name="primary">#FF8A69B5</color>
     <color name="secondary">#FF7D4CBB</color>
+    <color name="gray">#FFaeaeae</color>
+    <color name="link">#FF1DA1F2</color>
+    <color name="red">#E91E3C</color>
+
     <color name="transparent">#00FFFFFF</color>
+    <color name="between_cards">#F5F5F5</color>
 </resources>

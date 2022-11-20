@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/transparent"
+    android:elevation="10dp">
+
+    <ImageView
+        android:id="@+id/photo_project"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        app:srcCompat="@drawable/logo" />
+
+    <TextView
+        android:id="@+id/title_project"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="5dp"
+        android:layout_toRightOf="@id/photo_project"
+        android:background="@color/transparent"
+        android:padding="5dp"
+
+        android:text="Gestion de stock AI"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title_project"
+        android:layout_toRightOf="@id/photo_project"
+        android:fontFamily="@font/roboto_regular"
+
+        android:text="Mr faisal soft"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/genre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="5dp"
+         android:layout_marginRight="5dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/stat_elliptic_shape"
+        android:gravity="center"
+        android:padding="3dp"
+        android:text="En testing ..."
+        android:textSize="14sp" />
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="0.7dp"
+        android:layout_below="@+id/photo_project"
+
+        android:background="@color/gray" />
+
+
+
+
+</RelativeLayout>

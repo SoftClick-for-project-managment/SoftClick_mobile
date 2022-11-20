@@ -1,3 +1,51 @@
 <resources>
     <string name="app_name">SoftClick_mobile</string>
+    <string name="openNavDrawer">Navigation Drawer Open</string>
+    <string name="closeNavDrawer">Navigation Drawer Close</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="domain">Domain</string>
+    <string name="client">Client</string>
+    <string name="chef_projet">Chef Projet</string>
+    <string name="date_debut">Date debut</string>
+    <string name="date_fin">Date fin</string>
+    <string name="diriger_par">Dirigé par : </string>
+    <string name="dirige_par">Dirigé par : </string>
+    <string name="chefname">Mr Youssef Gahi</string>
+    <string name="commande_par">Commandé par : </string>
+    <string name="equipe_par">Les équipes : </string>
+    <string name="etat_avancement">État d\'avancement : </string>
+    <string name="revenue">Revenu Total en DH : </string>
+    <string name="depense">Depense Total en DH : </string>
+    <string name="project_name_hint">Project Name</string>
+    <string name="desciption_hint">Description</string>
+    <string name="revenue_hint">Revenue en DH</string>
+    <string name="amount">Amount</string>
+    <string name="project">Project\'s name</string>
+    <string name="description">Description</string>
+    <string name="category">Category</string>
+    <string name="done">done</string>
+
+    <string name="team1"> Development Team</string>
+    <string name="team2">IT Operations Team </string>
+    <string name="team3">DevOps Team</string>
+    <string name="team4">Scrum Team  </string>
+    <string name="team5">Security Team </string>
+    <string name="team6">Process Team </string>
+    <string name="team7">Testing Team </string>
+
+
+
+    <string name="member1"> Soukaina</string>
+    <string name="member2">Manal</string>
+    <string name="member3">Hajar</string>
+    <string name="member4">Wafae  </string>
+    <string name="member5">Hind </string>
+    <string name="member6">Youssef </string>
+    <string name="member7">Othmane </string>
+
+    <string name="addbtn">Add</string>
+    <string name="updatebtn">Update</string>
+    <string name="add_project">Add Project</string>
+    <string name="update_project">Update Project</string>
 </resources>
