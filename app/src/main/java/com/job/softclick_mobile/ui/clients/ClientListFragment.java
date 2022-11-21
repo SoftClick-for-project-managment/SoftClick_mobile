@@ -17,14 +17,13 @@ import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.adapters.ClientListAdapter;
 import com.job.softclick_mobile.ui.contracts.RecyclerViewHandler;
 import com.job.softclick_mobile.models.Client;
+import com.job.softclick_mobile.ui.employees.EmployeeFormFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ClientListFragment extends Fragment implements RecyclerViewHandler {
 
-    private String mParam1;
-    private String mParam2;
     private RecyclerView recyclerView;
     private List<Client> clients;
 
@@ -32,23 +31,12 @@ public class ClientListFragment extends Fragment implements RecyclerViewHandler 
         // Required empty public constructor
     }
 
-    public static ClientListFragment newInstance(String param1, String param2) {
-        Log.d("CLIENT_LIST_FRAGMENT", "newInstance got called");
-        ClientListFragment fragment = new ClientListFragment();
-        Bundle args = new Bundle();
-//        args.putString("ARG_PARAM1", param1);
-//        args.putString("ARG_PARAM2", param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d("CLIENT_LIST_FRAGMENT", "onCreate got called");
         if (getArguments() != null) {
-            mParam1 = getArguments().getString("ARG_PARAM1");
-            mParam2 = getArguments().getString("ARG_PARAM2");
+//            mParam1 = getArguments().getString("ARG_PARAM1");
         }
     }
 
@@ -73,6 +61,23 @@ public class ClientListFragment extends Fragment implements RecyclerViewHandler 
         clients.add(new Client("Joany","Gerhold  ","pamela.boehm@ward.com     ","240.523.7261     ", "Quitzon PLC","Shanahanview   ","CA"));
 
         recyclerView.setAdapter(new ClientListAdapter(clients, this));
+
+        View addButton = this.getActivity().findViewById(R.id.addButton);
+        if(addButton != null) {
+            addButton.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    try {
+                        getActivity()
+                                .getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.flContent,(Fragment) (new ClientFormFragment()))
+                                .commit() ;
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
 
         return view;
 
