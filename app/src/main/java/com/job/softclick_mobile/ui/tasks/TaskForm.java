@@ -224,9 +224,9 @@ public class TaskForm extends Fragment {
             binding.startdate.setText(task.getDateStart());
             binding.Enddate.setText(task.getDateEnd());
             binding.taskdescription.setText((task.getDescription()));
-            binding.pageTitle.setText("Task  Edition ");
+            binding.subheaderTitle.setText("Task  Edition ");
             binding.createtaskBtn.setText("Edit");
-            binding.backIcon.setOnClickListener(new View.OnClickListener() {
+            binding.backArrow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     DetailsTask employeeDetailsFragment = new DetailsTask();
@@ -238,7 +238,7 @@ public class TaskForm extends Fragment {
             });
         }
         else{
-            binding.backIcon.setOnClickListener(new View.OnClickListener() {
+            binding.backArrow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     TaskList taskList =new TaskList();
