@@ -73,6 +73,7 @@ public class DetailsTask extends Fragment {
         // Inflate the layout for this fragment
         binding = FragmentDetailsTaskBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fContentFooter,new Fragment()).commit() ;
 
         binding.TaskNameValue.setText(task.getTaskname());
         binding.statusValue.setText(task.getTaskstatus());

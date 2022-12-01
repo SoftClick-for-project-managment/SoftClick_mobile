@@ -13,31 +13,30 @@
         android:orientation="vertical">
 
         <RelativeLayout
+            android:id="@+id/subheader"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            >
-
+            android:layout_height="90dp"
+            android:paddingVertical="20dp">
             <ImageView
-                android:id="@+id/back_icon"
-                android:layout_width="26dp"
-                android:layout_height="30dp"
-                android:layout_centerVertical="true"
-                android:background="@drawable/back_arrow" />
-
+                android:id="@+id/backArrow"
+                android:layout_width="35dp"
+                android:layout_height="25dp"
+                android:layout_marginHorizontal="30dp"
+                app:srcCompat="@drawable/back_arrow"/>
             <TextView
-                android:id="@+id/pageTitle"
-                android:layout_width="339dp"
-                android:layout_height="50dp"
-                android:layout_marginLeft="10dp"
-                android:layout_toRightOf="@+id/back_icon"
-                android:fontFamily="@font/roboto_medium"
-                android:gravity="center_vertical"
+                android:id="@+id/subheaderTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/backArrow"
                 android:text="Task Creation"
-                android:textSize="20dp"
-                android:textColor="@color/black" />
-
+                android:textSize="18sp"
+                android:fontFamily="@font/roboto_medium"/>
+            <View android:layout_width="match_parent"
+                android:layout_height="1dip"
+                android:background="@color/gray"
+                android:layout_alignParentBottom="true" />
         </RelativeLayout>
+
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -45,7 +44,9 @@
             android:orientation="vertical"
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
-            android:background="@drawable/border_rounded_bg"
+            android:divider="?android:dividerHorizontal"
+            android:showDividers="middle"
+
             >
 
             <RelativeLayout
@@ -113,20 +114,23 @@
                 android:layout_marginTop="20dp">
 
                 <EditText
+                    android:id="@+id/startdate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/startdate"
                     android:layout_toRightOf="@+id/startdate_icon"
                     android:background="@color/transparent"
                     android:fontFamily="@font/roboto_regular"
-                    android:hint="Start date :DD/MM/YYYY"
-                    android:inputType="date"
+                    android:hint="Date"
+                    android:clickable="false"
+                    android:cursorVisible="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
                     android:maxLines="1"
                     android:paddingLeft="17dp"
-                    android:paddingTop="15dp"
-                    android:paddingBottom="15dp"
+                    android:paddingTop="6dp"
+                    android:paddingBottom="6dp"
                     android:textCursorDrawable="@drawable/cursor_color"
-                    android:textSize="16sp"/>
+                    android:textSize="16sp" />
 
                 <ImageView
                     android:id="@+id/startdate_icon"
@@ -143,22 +147,26 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
                 android:layout_marginTop="20dp">
-
                 <EditText
+                    android:id="@+id/Enddate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/Enddate"
                     android:layout_toRightOf="@+id/Enddate_icon"
                     android:background="@color/transparent"
                     android:fontFamily="@font/roboto_regular"
-                    android:hint="End date : DD/MM/YYYY "
-                    android:inputType="date"
+                    android:hint="Date"
+                    android:clickable="false"
+                    android:cursorVisible="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
                     android:maxLines="1"
                     android:paddingLeft="17dp"
-                    android:paddingTop="15dp"
-                    android:paddingBottom="15dp"
+                    android:paddingTop="6dp"
+                    android:paddingBottom="6dp"
                     android:textCursorDrawable="@drawable/cursor_color"
-                    android:textSize="16sp"/>
+                    android:textSize="16sp" />
+
+
 
                 <ImageView
                     android:id="@+id/Enddate_icon"

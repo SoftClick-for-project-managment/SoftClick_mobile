@@ -93,8 +93,6 @@
                             android:layout_height="1dp"
                             android:layout_above="@+id/date"
                             android:background="@color/gray" />
-
-
                         <EditText
                             android:id="@+id/date"
                             android:layout_width="match_parent"
