@@ -1,5 +1,7 @@
 package com.job.softclick_mobile.models;
 
+import java.util.ArrayList;
+
 public class TeamDatails {
     String Description;
     Member[] Members;

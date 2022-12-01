@@ -13,55 +13,44 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.job.softclick_mobile.R;
-
 import com.job.softclick_mobile.adapters.Team_List_Adapter;
-import com.job.softclick_mobile.ui.contracts.RecyclerViewHandler;
 import com.job.softclick_mobile.models.Team;
+import com.job.softclick_mobile.ui.clients.ClientDetailsFragment;
+import com.job.softclick_mobile.ui.contracts.RecyclerViewHandler;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
-public class TeamListFragment extends Fragment implements RecyclerViewHandler {
-    private FloatingActionButton addButton;
+public class TeamListFragment extends Fragment  implements RecyclerViewHandler {
     private RecyclerView recyclerView;
+    private Team_List_Adapter team_list_adapter;
     ArrayList<Team> TeamsArrayList;
     private int[] imageTeam;
     private String[] TeamName;
+    private List<Team> teams;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_team_list, container, false);
+        dataInitialize();
+        View view= inflater.inflate(R.layout.fragment_team_list, container, false);
 
+        recyclerView=view.findViewById(R.id.recyclerview);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setAdapter(new Team_List_Adapter(teams, this));
+        return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-
         super.onViewCreated(view, savedInstanceState);
-        dataInitialize();
-        recyclerView=view.findViewById(R.id.recyclerview);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(new Team_List_Adapter(TeamsArrayList, this));
 
 
-        addButton = this.getActivity().findViewById(R.id.addButton);
-        if(addButton != null) {
-            addButton.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    try {
-                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContent,(Fragment) AddteamFragment.class.newInstance()).commit() ;
-                    } catch (IllegalAccessException e) {
-                        e.printStackTrace();
-                    } catch (java.lang.InstantiationException e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-        } }
+    }
     private void dataInitialize() {
         TeamsArrayList=new ArrayList<>();
         TeamName = new String[]{
@@ -72,9 +61,6 @@ public class TeamListFragment extends Fragment implements RecyclerViewHandler {
                 getString(R.string.team5),
                 getString(R.string.team6),
                 getString(R.string.team7),
-                getString(R.string.team8),
-                getString(R.string.team9),
-                getString(R.string.team10)
 
         };
         imageTeam = new int[]{
@@ -85,27 +71,29 @@ public class TeamListFragment extends Fragment implements RecyclerViewHandler {
                 R.drawable.team,
                 R.drawable.team,
                 R.drawable.team,
-                R.drawable.team,
-                R.drawable.team,
-                R.drawable.team,
+
+
         };
+        teams =new ArrayList<>();
         for(int i=0;i<TeamName.length;i++){
-            Team teams=new Team(TeamName[i],imageTeam[i]);
-            TeamsArrayList.add(teams);
+            teams.add(new Team(TeamName[i],imageTeam[i],TeamName));
         }
     }
 
     @Override
-    public void onItemClick( int position) {
-      Team team = TeamsArrayList.get(position);
-        Fragment fragment = new DetailsFragment();
+    public void onItemClick(int position) {
+        Team team = teams.get(position);
+
+        Fragment fragment = new ClientDetailsFragment();
+
         Bundle bundle = new Bundle();
-        bundle.putSerializable("team",team);
+        bundle.putSerializable("team", (Serializable) team);
         fragment.setArguments(bundle);
 
-        FragmentManager fragmentManager=getActivity().getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.flContent,fragment);
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.flContent, fragment);
+        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
 }
