@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.job.softclick_mobile2">
+    package="com.job.softclick_mobile">
 
     <application
         android:allowBackup="true"
@@ -12,7 +12,7 @@
         android:theme="@style/Theme.SoftClick_mobile">
 
         <activity
-            android:name="com.job.softclick_mobile2.ui.layout.SplashActivity"
+            android:name="com.job.softclick_mobile.ui.layout.SplashActivity"
             android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"
@@ -20,14 +20,14 @@
 
         </activity>
         <activity
-            android:name="com.job.softclick_mobile2.ui.auth.VerificationActivity"
+            android:name="com.job.softclick_mobile.ui.auth.VerificationActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name="com.job.softclick_mobile2.ui.auth.SignupActivity"
+            android:name="com.job.softclick_mobile.ui.auth.SignupActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -35,14 +35,14 @@
         </activity>
 
          <activity
-             android:name="com.job.softclick_mobile2.ui.auth.LoginActivity"
+             android:name="com.job.softclick_mobile.ui.auth.LoginActivity"
              android:exported="false">
              <meta-data
              android:name="android.app.lib_name"
              android:value="" />
          </activity>
         <activity
-            android:name="com.job.softclick_mobile2.ui.layout.MenuActivity"
+            android:name="com.job.softclick_mobile.ui.layout.MenuActivity"
             android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"
