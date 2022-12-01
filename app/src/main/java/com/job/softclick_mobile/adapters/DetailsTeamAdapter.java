@@ -1,5 +1,7 @@
 package com.job.softclick_mobile.adapters;
 
+import static java.security.AccessController.getContext;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

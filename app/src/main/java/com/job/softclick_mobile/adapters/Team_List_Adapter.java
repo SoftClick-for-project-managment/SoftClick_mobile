@@ -1,5 +1,6 @@
 package com.job.softclick_mobile.adapters;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,61 +14,46 @@ import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.models.Team;
 import com.job.softclick_mobile.ui.contracts.RecyclerViewHandler;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class Team_List_Adapter extends RecyclerView.Adapter<Team_List_Adapter.TeamViewHolder>{
-
-    private List<Team> TeamList;
+public class Team_List_Adapter extends RecyclerView.Adapter<Team_List_Adapter.ViewHolder> {
     private final RecyclerViewHandler recyclerViewHandler;
+    public static class ViewHolder extends RecyclerView.ViewHolder{
+        ImageView Team_image;
+        TextView Team_name;
 
-
-    public static class TeamViewHolder extends RecyclerView.ViewHolder {
-        public ImageView imageteam;
-        public TextView nameteam;
-
-        public TeamViewHolder(@NonNull View itemView, RecyclerViewHandler recyclerViewHandler) {
+        public ViewHolder(View itemView, RecyclerViewHandler rvh){
             super(itemView);
-            imageteam = itemView.findViewById(R.id.imageteam);
-            nameteam= itemView.findViewById(R.id.teamname);
-
-
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if(recyclerViewHandler != null) {
-                        int position = getAdapterPosition();
-                        if(position != RecyclerView.NO_POSITION) {
-                            recyclerViewHandler.onItemClick(position);
-                        }
-                    }
-                }
-            });
+                Team_image=itemView.findViewById(R.id.imageteam);
+                Team_name=itemView.findViewById(R.id.teamname);
         }
     }
 
-    public Team_List_Adapter(List<Team> TeamList, RecyclerViewHandler recyclerViewHandler) {
-        this.TeamList = TeamList;
+    List<Team> TeamsArrayList;
+    public Team_List_Adapter(List<Team> TeamsArrayList, RecyclerViewHandler recyclerViewHandler ){
+        this.TeamsArrayList=TeamsArrayList;
         this.recyclerViewHandler = recyclerViewHandler;
     }
 
     @NonNull
     @Override
-    public TeamViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.team_item, parent, false);
-        TeamViewHolder evh = new TeamViewHolder(v, recyclerViewHandler);
-        return evh;
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View v=LayoutInflater.from(parent.getContext()).inflate(R.layout.team_item,parent,false);
+        return new ViewHolder(v,recyclerViewHandler);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull TeamViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    Team teams=TeamsArrayList.get(position);
+    holder.Team_name.setText(teams.TeamName);
+    holder.Team_image.setImageResource(teams.TeamImage);
 
 
-        holder.imageteam.setImageResource(TeamList.get(position).TeamImage);
-        holder.nameteam.setText(TeamList.get(position).TeamName);
     }
 
     @Override
     public int getItemCount() {
-        return TeamList.size();
+        return TeamsArrayList.size();
     }
 }
