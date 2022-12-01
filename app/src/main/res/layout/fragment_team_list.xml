@@ -5,17 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.TeamListFragment"
-    android:orientation="vertical"
-    android:layout_marginBottom="20dp">
+    android:orientation="vertical">
 
 
 
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview"
-            android:background="#F5F5F5"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="#F5F5F5"
             android:scrollbars="vertical"/>
 
 </FrameLayout>
