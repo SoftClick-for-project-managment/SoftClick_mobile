@@ -17,9 +17,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 
 import com.job.softclick_mobile.R;
-import com.job.softclick_mobile.databinding.FragmentAddProjectBinding;
 import com.job.softclick_mobile.databinding.FragmentAddteamBinding;
-import com.job.softclick_mobile.databinding.FragmentDetailsBinding;
 import com.job.softclick_mobile.models.Team;
 import com.job.softclick_mobile.ui.invoices.InvoiceListFragment;
 import com.job.softclick_mobile.ui.layout.FooterFragment;
