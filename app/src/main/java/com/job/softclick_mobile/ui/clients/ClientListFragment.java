@@ -17,7 +17,6 @@ import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.adapters.ClientListAdapter;
 import com.job.softclick_mobile.ui.contracts.RecyclerViewHandler;
 import com.job.softclick_mobile.models.Client;
-import com.job.softclick_mobile.ui.employees.EmployeeFormFragment;
 
 import java.util.ArrayList;
 import java.util.List;

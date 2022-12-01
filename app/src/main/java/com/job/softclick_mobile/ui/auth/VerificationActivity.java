@@ -2,7 +2,6 @@ package com.job.softclick_mobile.ui.auth;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 

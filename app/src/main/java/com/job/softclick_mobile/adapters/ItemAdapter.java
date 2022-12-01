@@ -18,7 +18,6 @@ import com.job.softclick_mobile.models.Task;
 import com.job.softclick_mobile.ui.contracts.RecyclerViewHandler;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder> {

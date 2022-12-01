@@ -18,15 +18,11 @@ import android.widget.Toast;
 import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.databinding.FragmentDetailExpenseBinding;
 import com.job.softclick_mobile.databinding.FragmentEmployeeDetailsBinding;
-import com.job.softclick_mobile.models.Employee;
 import com.job.softclick_mobile.models.Expense;
-import com.job.softclick_mobile.ui.employees.EmployeeFormFragment;
-import com.job.softclick_mobile.ui.employees.EmployeeListFragment;
 import com.job.softclick_mobile.ui.layout.FooterFragment;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
