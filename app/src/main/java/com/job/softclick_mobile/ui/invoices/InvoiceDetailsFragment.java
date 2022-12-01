@@ -12,11 +12,17 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.databinding.FragmentInvoiceDetailsBinding;
 import com.job.softclick_mobile.models.Invoice;
+import com.job.softclick_mobile.ui.clients.ClientDetailsFragment;
 import com.job.softclick_mobile.ui.layout.FooterFragment;
+import com.job.softclick_mobile.ui.projectFragments.DetailProjectFragment;
+
+import java.util.Date;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,6 +37,8 @@ public class InvoiceDetailsFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     private TextView date;
     private TextView total;
+    private TextView client;
+    private TextView project;
     private ImageView back;
     private ImageView more;
     // TODO: Rename and change types of parameters
@@ -104,6 +112,20 @@ public class InvoiceDetailsFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = FragmentInvoiceDetailsBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
+        date = binding.date;
+        total = binding.total;
+        client=binding.client;
+        project=binding.project;
+        Invoice invoice = (Invoice) getArguments().getSerializable("invoice");
+        String dataDate = invoice.getDate().toString();
+        date.setText(dataDate);
+        String dataTotal = invoice.getTotal();
+        total.setText(dataTotal);
+        String projectname=invoice.getProject().getNameProject().toString();
+        project.setText(projectname);
+        String clientname=invoice.getClient().getNom()+" "+invoice.getClient().getPrenom();
+        client.setText(clientname);
+        back = binding.imageView;
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fContentFooter, new Fragment()).commit();
         more = binding.moreOptions;
         more.setOnClickListener(new View.OnClickListener() {
@@ -117,7 +139,6 @@ public class InvoiceDetailsFragment extends Fragment {
                         switch (menuItem.getItemId()) {
                             case R.id.edit:
                                 Bundle bundle = new Bundle();
-                                Invoice invoice = new Invoice(date.getText().toString(), total.getText().toString());
                                 bundle.putSerializable("invoice", invoice);
                                 InvoiceFormFragment invoiceFormFragment = new InvoiceFormFragment();
                                 invoiceFormFragment.setArguments(bundle);
@@ -138,14 +159,38 @@ public class InvoiceDetailsFragment extends Fragment {
                 popupMenu.show();
             }
         });
-        date = binding.date;
-        total = binding.total;
-        Invoice invoice = (Invoice) getArguments().getSerializable("invoice");
-        String dataDate = invoice.getDate();
-        date.setText(dataDate);
-        String dataTotal = invoice.getTotal();
-        total.setText(dataTotal);
-        back = binding.imageView;
+        client.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = new ClientDetailsFragment();
+
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("client", invoice.getClient());
+                fragment.setArguments(bundle);
+
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.flContent, fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        });
+        project.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = new DetailProjectFragment();
+
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("project", invoice.getProject());
+                fragment.setArguments(bundle);
+
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.flContent, fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        });
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
