@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.databinding.FragmentDetailExpenseBinding;
+import com.job.softclick_mobile.databinding.FragmentEmployeeDetailsBinding;
 import com.job.softclick_mobile.models.Expense;
 import com.job.softclick_mobile.ui.layout.FooterFragment;
 

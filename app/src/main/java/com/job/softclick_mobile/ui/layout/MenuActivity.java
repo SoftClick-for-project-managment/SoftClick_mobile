@@ -15,7 +15,6 @@ import com.google.android.material.navigation.NavigationView;
 import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.databinding.ActivityMenuBinding;
 import com.job.softclick_mobile.ui.AddteamFragment;
-import com.job.softclick_mobile.ui.TeamListFragment;
 import com.job.softclick_mobile.ui.tasks.TaskList;
 import com.job.softclick_mobile.ui.employees.EmployeeListFragment;
 import com.job.softclick_mobile.ui.invoices.InvoiceListFragment;
@@ -94,7 +93,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
             case R.id.teams_item:
             {
                 Toast.makeText(this, "teams selected", Toast.LENGTH_SHORT).show();
-                fragmentClass = TeamListFragment.class;
+                fragmentClass = AddteamFragment.class;
                 break;
             }
             case R.id.clients_item:

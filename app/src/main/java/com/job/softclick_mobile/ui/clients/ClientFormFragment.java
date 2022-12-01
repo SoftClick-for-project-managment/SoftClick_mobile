@@ -12,6 +12,9 @@ import android.widget.Toast;
 import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.databinding.FragmentClientFormBinding;
 import com.job.softclick_mobile.models.Client;
+import com.job.softclick_mobile.ui.layout.FooterFragment;
+import com.job.softclick_mobile.ui.tasks.DetailsTask;
+import com.job.softclick_mobile.ui.tasks.TaskList;
 
 public class ClientFormFragment extends Fragment {
     private FragmentClientFormBinding binding;
@@ -48,7 +51,27 @@ public class ClientFormFragment extends Fragment {
             binding.companyName.setText(client.getNomEntreprise());
             binding.city.setText(client.getVille());
             binding.country.setText(client.getPays());
+            binding.backArrow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ClientDetailsFragment clientDetailsFragment = new ClientDetailsFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("client", client);
+                    clientDetailsFragment.setArguments(bundle);
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContent,clientDetailsFragment).commit();
+                }
+            });
         }
+        else{
+            binding.backArrow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ClientListFragment ClientList =new ClientListFragment();
+                    FooterFragment footerFragment=new FooterFragment();
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fContentFooter, footerFragment).commit();
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContent,ClientList).commit();
+                }
+            });}
 
         binding.createClientBtn.setOnClickListener(new View.OnClickListener() {
             @Override
