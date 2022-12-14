@@ -4,10 +4,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,6 +20,8 @@ import com.job.softclick_mobile.adapters.ItemAdapter;
 import com.job.softclick_mobile.ui.contracts.RecyclerViewHandler;
 import com.job.softclick_mobile.models.StatusTaskList;
 import com.job.softclick_mobile.models.Task;
+import com.job.softclick_mobile.viewmodels.task.ITaskViewModel;
+import com.job.softclick_mobile.viewmodels.task.TaskViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +31,8 @@ public class TaskList extends Fragment implements RecyclerViewHandler<Task> {
     private FloatingActionButton addButton;
     private List<StatusTaskList> mList;// StatusTaskList == String
     private ItemAdapter adapter;
+    private ITaskViewModel taskViewModel;
+
     public TaskList() {
         // Required empty public constructor
     }
@@ -51,9 +58,20 @@ public class TaskList extends Fragment implements RecyclerViewHandler<Task> {
 
         // Inflate the layout for this fragment
         View taskListview =  inflater.inflate(R.layout.fragment_task_list, container, false);
-        recyclerView =taskListview.findViewById(R.id.main_recyclervie);
+        recyclerView = taskListview.findViewById(R.id.main_recyclervie);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        // ViewModel
+        taskViewModel = new ViewModelProvider(this).get(TaskViewModel.class);
+
+        taskViewModel.getAll().observe(getViewLifecycleOwner(), new Observer<List<Task>>() {
+            @Override
+            public void onChanged(List<Task> tasks) {
+                Toast.makeText(getActivity().getApplicationContext(), tasks.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
         mList = new ArrayList<>();
 
         List<Task> todoTaskList = new ArrayList<>();

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 public class Task implements Serializable {
+
     private String taskname;
     private String taskstatus;
     private  String dateStart;
