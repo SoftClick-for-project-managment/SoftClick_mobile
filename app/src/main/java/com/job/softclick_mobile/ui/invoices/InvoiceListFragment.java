@@ -14,10 +14,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.adapters.InvoiceListAdapter;
-import com.job.softclick_mobile.ui.contracts.InvoiceListInterface;
+import com.job.softclick_mobile.models.Client;
 import com.job.softclick_mobile.models.Invoice;
+import com.job.softclick_mobile.models.Project;
+import com.job.softclick_mobile.ui.contracts.RecyclerViewHandler;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -25,7 +30,7 @@ import java.util.List;
  * Use the {@link InvoiceListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class InvoiceListFragment extends Fragment implements InvoiceListInterface {
+public class InvoiceListFragment extends Fragment implements RecyclerViewHandler {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -78,17 +83,20 @@ public class InvoiceListFragment extends Fragment implements InvoiceListInterfac
         View view = inflater.inflate(R.layout.fragment_invoice_list, container, false);
         recyclerView = view.findViewById(R.id.invoiceListRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
+        Client client=new Client("Mable","Murphy","jayda.legros@rau.com      ","+1 (754) 958-2911", "Zulauf, Tillman and Beer","Spinkamouth","KY");
+        Project project=new Project("Violance", "projet detection de violance based A I", 500000);
+        Project project2=new Project("gestion de dossier", "stocker les dossier legaliseés et les chercher par une simple scan intelligent", 600000);
         invoices = new ArrayList<>();
-        invoices.add(new Invoice("12-12-2019", "10000"));
-        invoices.add(new Invoice("12-23-2020", "500000"));
-        invoices.add(new Invoice("1-12-2021", "100760"));
-        invoices.add(new Invoice("11-12-2020", "1000.00"));
-        invoices.add(new Invoice("11-1-2022", "50.00"));
-        invoices.add(new Invoice("3-3-2019", "100.00"));
-        invoices.add(new Invoice("1-8-2022", "8000.00"));
-        invoices.add(new Invoice("15-11-2022", "300.00"));
-        invoices.add(new Invoice("19-12-2021", "1000.00"));
+        SimpleDateFormat formater = null;
+
+        Date aujourdhui = new Date();
+        formater = new SimpleDateFormat("dd-MM-yy");
+        invoices.add(new Invoice(formater.format(aujourdhui) , "10000",client,project));
+        invoices.add(new Invoice(formater.format(aujourdhui), "500000",client,project2));
+        invoices.add(new Invoice("12-5-2019", "7000",client,project));
+        invoices.add(new Invoice("12-12-2022", "500000",client,project2));
+        invoices.add(new Invoice("12-3-2023" , "200",client,project));
+        invoices.add(new Invoice("1-1-2018", "50",client,project2));
         recyclerView.setAdapter(new InvoiceListAdapter(invoices, this));
         addButton = this.getActivity().findViewById(R.id.addButton);
         if (addButton != null) {

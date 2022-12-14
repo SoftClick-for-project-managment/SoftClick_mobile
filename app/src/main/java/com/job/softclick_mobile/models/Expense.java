@@ -2,7 +2,7 @@ package com.job.softclick_mobile.models;
 
 import java.io.Serializable;
 
-public class ExpenseModel implements Serializable {
+public class Expense implements Serializable {
     private String expenseId;
     private String description;
     private long amount;
@@ -11,10 +11,10 @@ public class ExpenseModel implements Serializable {
     private String category;
     private String project;
 
-    public ExpenseModel(){
+    public Expense(){
 
     }
-    public ExpenseModel(String expenseId, String description,long amount, long time,  String type, String category,String project){
+    public Expense(String expenseId, String description, long amount, long time, String type, String category, String project){
         this.expenseId=expenseId;
         this.description=description;
         this.amount=amount;

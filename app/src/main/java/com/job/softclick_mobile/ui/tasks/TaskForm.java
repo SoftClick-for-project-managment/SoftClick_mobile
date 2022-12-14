@@ -54,6 +54,8 @@ public class TaskForm extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fContentFooter,new Fragment()).commit() ;
         // Inflate the layout for this fragment
 
         binding = FragmentTaskFormBinding.inflate(inflater, container, false);
@@ -222,9 +224,9 @@ public class TaskForm extends Fragment {
             binding.startdate.setText(task.getDateStart());
             binding.Enddate.setText(task.getDateEnd());
             binding.taskdescription.setText((task.getDescription()));
-            binding.pageTitle.setText("Task  Edition ");
+            binding.subheaderTitle.setText("Task  Edition ");
             binding.createtaskBtn.setText("Edit");
-            binding.backIcon.setOnClickListener(new View.OnClickListener() {
+            binding.backArrow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     DetailsTask employeeDetailsFragment = new DetailsTask();
@@ -236,7 +238,7 @@ public class TaskForm extends Fragment {
             });
         }
         else{
-            binding.backIcon.setOnClickListener(new View.OnClickListener() {
+            binding.backArrow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     TaskList taskList =new TaskList();

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:contentPadding="10dp"
     android:layout_margin="5dp">
@@ -44,14 +44,12 @@
                 android:textStyle="bold"
                 android:textSize="18sp"
                 android:text="100"
-                android:textColor="@color/teal_700"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <TextView
                 android:textStyle="bold"
                 android:textSize="18sp"
                 android:text=" DH"
-                android:textColor="@color/teal_700"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
