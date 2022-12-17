@@ -24,7 +24,7 @@ import com.job.softclick_mobile.ui.layout.FooterFragment;
 public class ClientDetailsFragment extends Fragment  {
     private FragmentClientDetailsBinding binding;
     private Client client;
-
+////////client///////////////////
     public ClientDetailsFragment() {
 
     }
