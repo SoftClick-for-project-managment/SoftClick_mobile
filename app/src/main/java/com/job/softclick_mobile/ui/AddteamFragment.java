@@ -73,10 +73,10 @@ private FragmentAddteamBinding binding;
             binding.back.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    InvoiceListFragment invoiceListFragment = new InvoiceListFragment();
+                    TeamListFragment teamListFragment = new TeamListFragment();
                     FooterFragment footerFragment = new FooterFragment();
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fContentFooter, footerFragment).commit();
-                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContent, invoiceListFragment).commit();
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContent, teamListFragment).commit();
                 }
             });
         }
