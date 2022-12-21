@@ -34,6 +34,7 @@ public class TaskRepository implements ITaskRepository, com.job.softclick_mobile
                 if (response.code() != 200) {
                     Log.d("CONSOLE LOG", "status code is " + response.code());
                 } else {
+                    Log.d("CONSOLE LOG", response.body().toString());
                     List<Task> tl = response.body();
                     Log.d("CONSOLE LOG", tl.toString());
                     tMutableLiveDataList.setValue(tl);

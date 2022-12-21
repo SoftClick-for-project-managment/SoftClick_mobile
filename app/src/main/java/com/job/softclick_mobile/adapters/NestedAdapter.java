@@ -32,7 +32,7 @@ public class NestedAdapter extends RecyclerView.Adapter<NestedAdapter.NestedView
 
     @Override
     public void onBindViewHolder(@NonNull NestedViewHolder holder, int position) {
-        holder.mTv.setText(mList.get(position).getTaskname());
+        holder.mTv.setText(mList.get(position).getName());
     }
 
     @Override

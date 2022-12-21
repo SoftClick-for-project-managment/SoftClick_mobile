@@ -8,10 +8,10 @@ public class Project implements Serializable {
     private String nameProject , descriptionProject , domain ;
     private Date dateDebut , dateFin;
     private Employee chefProject;
-    private Etat projectEtat;
+    private Status projectStatus;
     private Priority projectPriority;
 
-    public Project(Integer idProject, Integer imageProject, Integer revenue, String nameProject, String descriptionProject, String domain, Date dateDebut, Date dateFin, Employee chefProject, Etat projectEtat, Priority projectPriority) {
+    public Project(Integer idProject, Integer imageProject, Integer revenue, String nameProject, String descriptionProject, String domain, Date dateDebut, Date dateFin, Employee chefProject, Status projectStatus, Priority projectPriority) {
         this.idProject = idProject;
         this.imageProject = imageProject;
         this.revenue = revenue;
@@ -21,7 +21,7 @@ public class Project implements Serializable {
         this.dateDebut = dateDebut;
         this.dateFin = dateFin;
         this.chefProject = chefProject;
-        this.projectEtat = projectEtat;
+        this.projectStatus = projectStatus;
         this.projectPriority = projectPriority;
     }
 
@@ -102,12 +102,12 @@ public class Project implements Serializable {
         this.chefProject = chefProject;
     }
 
-    public Etat getProjectEtat() {
-        return projectEtat;
+    public Status getProjectEtat() {
+        return projectStatus;
     }
 
-    public void setProjectEtat(Etat projectEtat) {
-        this.projectEtat = projectEtat;
+    public void setProjectEtat(Status projectStatus) {
+        this.projectStatus = projectStatus;
     }
 
     public Priority getProjectPriority() {

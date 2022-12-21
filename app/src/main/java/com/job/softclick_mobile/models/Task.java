@@ -1,73 +1,136 @@
 package com.job.softclick_mobile.models;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 
 public class Task implements Serializable {
 
-    private String taskname;
-    private String taskstatus;
-    private  String dateStart;
-    private String dateEnd ;
-    private String Description ;
+    private Long id;
 
-    public void setTaskname(String taskname) {
-        this.taskname = taskname;
+    private String name;
+
+    private String startDate;
+
+    private String endDate;
+
+    private String description;
+
+    private Status status;
+
+    private Long projectId;
+
+    private Employee employee;
+
+    private Priority priority;
+
+    private Collection<Expense> expenses;
+
+    public Long getId() {
+        return id;
     }
 
-    public void setTaskstatus(String taskstatus) {
-        this.taskstatus = taskstatus;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public void setDateStart(String dateStart) {
-        this.dateStart = dateStart;
+    public String getName() {
+        return name;
     }
 
-    public void setDateEnd(String dateEnd) {
-        this.dateEnd = dateEnd;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setDescription(String description) {
-        Description = description;
+    public String getStartDate() {
+        return startDate;
     }
 
-    public String getTaskname() {
-        return taskname;
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
     }
 
-    public String getTaskstatus() {
-        return taskstatus;
+    public String getEndDate() {
+        return endDate;
     }
 
-    public String getDateStart() {
-        return dateStart;
-    }
-
-    public String getDateEnd() {
-        return dateEnd;
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
     }
 
     public String getDescription() {
-        return Description;
+        return description;
     }
 
-    public Task(String taskname, String taskstatus, String dateStart, String dateEnd, String description) {
-        this.taskname = taskname;
-        this.taskstatus = taskstatus;
-        this.dateStart = dateStart;
-        this.dateEnd = dateEnd;
-        this.Description = description;
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public Long getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(Long projectId) {
+        this.projectId = projectId;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    public Priority getPriority() {
+        return priority;
+    }
+
+    public void setPriority(Priority priority) {
+        this.priority = priority;
+    }
+
+    public Collection<Expense> getExpenses() {
+        return expenses;
+    }
+
+    public void setExpenses(Collection<Expense> expenses) {
+        this.expenses = expenses;
+    }
+
+    public Task(String name, String startDate, String endDate, String description, Status status, Long projectId, Employee employee, Priority priority, Collection<Expense> expenses) {
+        this.name = name;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.description = description;
+        this.status = status;
+        this.projectId = projectId;
+        this.employee = employee;
+        this.priority = priority;
+        this.expenses = expenses;
     }
 
     @Override
     public String toString() {
         return "Task{" +
-                "taskname='" + taskname + '\'' +
-                ", taskstatus='" + taskstatus + '\'' +
-                ", dateStart='" + dateStart + '\'' +
-                ", dateEnd='" + dateEnd + '\'' +
-                ", Description='" + Description + '\'' +
+                "name='" + name + '\'' +
+                ", startDate='" + startDate + '\'' +
+                ", endDate='" + endDate + '\'' +
+                ", description='" + description + '\'' +
+                ", status='" + status + '\'' +
+                ", projectId=" + projectId +
+                ", employee=" + employee +
+                ", priority=" + priority +
                 '}';
     }
-
 }
