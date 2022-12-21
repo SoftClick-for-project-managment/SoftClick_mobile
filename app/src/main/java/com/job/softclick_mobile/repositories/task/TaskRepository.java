@@ -1,10 +1,7 @@
 package com.job.softclick_mobile.repositories.task;
 
-import android.util.Log;
-
-import androidx.lifecycle.LiveData;
-
 import com.job.softclick_mobile.models.Task;
+import com.job.softclick_mobile.repositories.IBaseRepository;
 import com.job.softclick_mobile.services.http.HttpClient;
 import com.job.softclick_mobile.services.http.TaskApi;
 import com.job.softclick_mobile.utils.LiveResponse;
@@ -17,10 +14,11 @@ import retrofit2.HttpException;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class TaskRepository implements ITaskRepository, com.job.softclick_mobile.repositories.IBaseRepository<Task, Long> {
+public class TaskRepository implements ITaskRepository, IBaseRepository<Task, Long> {
 
     private TaskApi service;
-    LiveResponse<List<Task>, Throwable> liveResponse = new LiveResponse<>();
+    LiveResponse<List<Task>, Throwable> taskListLiveResponse = new LiveResponse<>();
+    LiveResponse<Task, Throwable> taskLiveResponse = new LiveResponse<>();
 
     public TaskRepository() {
         Retrofit httpClient = HttpClient.getInstance();
@@ -33,25 +31,42 @@ public class TaskRepository implements ITaskRepository, com.job.softclick_mobile
             @Override
             public void onResponse(Call<List<Task>> call, Response<List<Task>> response) {
                 if (response.code() != 200) {
-                    liveResponse.geteMutableLiveData().setValue(new HttpException(response));
+                    taskListLiveResponse.geteMutableLiveData().setValue(new HttpException(response));
                 } else {
                     List<Task> tl = response.body();
-                    liveResponse.gettMutableLiveData().setValue(tl);
+                    taskListLiveResponse.gettMutableLiveData().setValue(tl);
                 }
             }
 
             @Override
             public void onFailure(Call<List<Task>> call, Throwable t) {
-                liveResponse.geteMutableLiveData().setValue(t);
+                taskListLiveResponse.geteMutableLiveData().setValue(t);
             }
         });
 
-        return liveResponse;
+        return taskListLiveResponse;
     }
 
     @Override
-    public LiveResponse getSingle(Long aLong) {
-        return new LiveResponse();
+    public LiveResponse getSingle(Long key) {
+        service.getSingle(key).enqueue(new Callback<Task>() {
+            @Override
+            public void onResponse(Call<Task> call, Response<Task> response) {
+                if (response.code() != 200) {
+                    taskLiveResponse.geteMutableLiveData().setValue(new HttpException(response));
+                } else {
+                    Task t = response.body();
+                    taskLiveResponse.gettMutableLiveData().setValue(t);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Task> call, Throwable t) {
+                taskLiveResponse.geteMutableLiveData().setValue(t);
+            }
+        });
+
+        return taskLiveResponse;
     }
 
     @Override

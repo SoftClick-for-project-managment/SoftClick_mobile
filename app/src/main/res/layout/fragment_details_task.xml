@@ -4,12 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.DetailsTask">
+    tools:context=".ui.tasks.DetailsTask">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         >
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:indeterminateDrawable="@drawable/ind_progress_bar"
+            android:indeterminateDuration="500"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerInParent="true"
+            tools:progress="@integer/material_motion_duration_medium_1"
+            />
+
         <RelativeLayout
             android:id="@+id/subheader"
             android:layout_width="match_parent"
@@ -44,6 +54,7 @@
         </RelativeLayout>
 
         <GridLayout
+            android:id="@+id/detailsBody"
             android:layout_below="@+id/subheader"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
