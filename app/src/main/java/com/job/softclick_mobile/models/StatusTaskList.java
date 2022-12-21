@@ -17,6 +17,14 @@ public class StatusTaskList implements Serializable {
         this.isExpandable = false;
     }
 
+    public void setNestedList(List<Task> nestedList) {
+        this.nestedList = nestedList;
+    }
+
+    public void setItemText(String itemText) {
+        this.itemText = itemText;
+    }
+
     public void setExpandable(boolean expandable) {
         isExpandable = expandable;
     }

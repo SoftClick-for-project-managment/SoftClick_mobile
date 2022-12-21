@@ -26,22 +26,22 @@ public class BaseViewModel<T, Key> extends AndroidViewModel implements IBaseView
 
     @Override
     public LiveData<T> getSingle(Key key) {
-        return null;
+        return repository.getSingle(key);
     }
 
     @Override
     public void create(T item){
-
+        repository.create(item);
     }
 
     @Override
     public void update(Key key, T item){
-
+        repository.update(key, item);
     }
 
     @Override
     public void delete(Key key) {
-
+        repository.delete(key);
     }
 
 

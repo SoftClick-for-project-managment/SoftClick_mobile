@@ -75,10 +75,10 @@ public class DetailsTask extends Fragment {
         View view = binding.getRoot();
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fContentFooter,new Fragment()).commit() ;
 
-        binding.TaskNameValue.setText(task.getTaskname());
-        binding.statusValue.setText(task.getTaskstatus());
-        binding.Startdatevalue.setText(task.getDateStart());
-        binding.EnddateValue.setText(task.getDateEnd());
+        binding.TaskNameValue.setText(task.getName());
+        binding.statusValue.setText(task.getStatus().getNameEtat());
+        binding.Startdatevalue.setText(task.getStartDate());
+        binding.EnddateValue.setText(task.getEndDate());
         binding.DescriptionValue.setText(task.getDescription());
 
         Toast.makeText( getActivity().getApplicationContext(), task.toString(), Toast.LENGTH_SHORT);

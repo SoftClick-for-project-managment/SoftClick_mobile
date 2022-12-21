@@ -218,11 +218,11 @@ public class TaskForm extends Fragment {
         spinner.setAdapter(spinnerArrayAdapter);
 
         if(task != null) {
-            binding.statustask.setSelection(((ArrayAdapter<String>)binding.statustask.getAdapter()).getPosition(task.getTaskstatus()));
+            binding.statustask.setSelection(((ArrayAdapter<String>)binding.statustask.getAdapter()).getPosition(task.getStatus().getNameEtat()));
 
-            binding.taskname.setText(task.getTaskname());
-            binding.startdate.setText(task.getDateStart());
-            binding.Enddate.setText(task.getDateEnd());
+            binding.taskname.setText(task.getName());
+            binding.startdate.setText(task.getStartDate());
+            binding.Enddate.setText(task.getEndDate());
             binding.taskdescription.setText((task.getDescription()));
             binding.subheaderTitle.setText("Task  Edition ");
             binding.createtaskBtn.setText("Edit");
