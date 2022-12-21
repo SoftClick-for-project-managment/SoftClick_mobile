@@ -10,8 +10,11 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.job.softclick_mobile.R;
 
 /**
@@ -21,6 +24,8 @@ import com.job.softclick_mobile.R;
  */
 public class FooterFragment extends Fragment {
     private BottomAppBar mBottomAppBar;
+    private LinearLayout mBottomSheet;
+    private BottomSheetBehavior mbBottomSheetBehavior;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -78,6 +83,10 @@ public class FooterFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_footer, container, false);
         mBottomAppBar= view.findViewById(R.id.bottomAppBar);
+
+        mBottomSheet = view.findViewById(R.id.standard_bottom_sheet);
+        mbBottomSheetBehavior = BottomSheetBehavior.from(mBottomSheet);
+
         ((AppCompatActivity)getActivity()).setSupportActionBar(mBottomAppBar);
         mBottomAppBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_CENTER);
 
@@ -87,7 +96,12 @@ public class FooterFragment extends Fragment {
 
             }
         });
-
+mBottomAppBar.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        mbBottomSheetBehavior.setState(mbBottomSheetBehavior.STATE_EXPANDED);
+    }
+});
         setHasOptionsMenu(true);
 
 
