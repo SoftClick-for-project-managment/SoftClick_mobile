@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.job.softclick_mobile.repositories.IBaseRepository;
+import com.job.softclick_mobile.utils.LiveResponse;
 
 import java.util.List;
 
@@ -20,28 +21,28 @@ public class BaseViewModel<T, Key> extends AndroidViewModel implements IBaseView
     }
 
     @Override
-    public LiveData<List<T>> getAll() {
+    public LiveResponse getAll() {
         return repository.getAll();
     }
 
     @Override
-    public LiveData<T> getSingle(Key key) {
+    public LiveResponse getSingle(Key key) {
         return repository.getSingle(key);
     }
 
     @Override
-    public void create(T item){
-        repository.create(item);
+    public LiveResponse create(T item){
+        return repository.create(item);
     }
 
     @Override
-    public void update(Key key, T item){
-        repository.update(key, item);
+    public LiveResponse update(Key key, T item){
+        return repository.update(key, item);
     }
 
     @Override
-    public void delete(Key key) {
-        repository.delete(key);
+    public LiveResponse delete(Key key) {
+        return repository.delete(key);
     }
 
 
