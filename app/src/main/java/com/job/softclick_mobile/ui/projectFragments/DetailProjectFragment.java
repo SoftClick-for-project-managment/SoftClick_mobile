@@ -189,7 +189,7 @@ public class DetailProjectFragment extends Fragment {
         name_chef.setText("Mr Youssef Gahi");
         clients.setText("- oukacha prison \n - école sanabil \n - Army American");
         equips.setText("- équipe frontend N° 1 \n équipe fullstack N° 5");
-        revenue.setText(project.getRevenue().toString() + " DH ");
+        revenue.setText(project.getRevenueProject().toString() + " DH ");
         depense.setText("200000 DH");
         etat_avancement.setProgress(25);
     }

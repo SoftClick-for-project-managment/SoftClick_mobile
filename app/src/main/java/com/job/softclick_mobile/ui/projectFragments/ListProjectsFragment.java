@@ -108,22 +108,22 @@ public class ListProjectsFragment extends Fragment implements RvItemClickListene
     private void initData() {
         String priority_1 = "hight priority";
         List<Project> section_priority_1 = new ArrayList<>();
-        section_priority_1.add(new Project("Violance", "projet detection de violance based A I", 500000));
-        section_priority_1.add(new Project("gestion de dossier", "stocker les dossier legaliseés et les chercher par une simple scan intelligent", 600000));
+        section_priority_1.add(new Project("Violance", "projet detection de violance based A I", 500000d));
+        section_priority_1.add(new Project("gestion de dossier", "stocker les dossier legaliseés et les chercher par une simple scan intelligent", 600000d));
 
         String priority_2 = "meduim priority";
         List<Project> section_priority_2 = new ArrayList<>();
-        section_priority_2.add(new Project("mat3am jami3i", "mat3am jami3i , payment reservation , validation de repas ...", 300000));
+        section_priority_2.add(new Project("mat3am jami3i", "mat3am jami3i , payment reservation , validation de repas ...", 300000d));
 
         String priority_3 = "normal priority";
         List<Project> section_priority_3 = new ArrayList<>();
-        section_priority_3.add(new Project("ecommerce site web", "t-shirt plateform qui automatise les adds on fb et google", 800000));
-        section_priority_3.add(new Project("mobile app reservation", "application mobile de reservation de rendez vous", 200000));
+        section_priority_3.add(new Project("ecommerce site web", "t-shirt plateform qui automatise les adds on fb et google", 800000d));
+        section_priority_3.add(new Project("mobile app reservation", "application mobile de reservation de rendez vous", 200000d));
 
         String priority_4 = "not important";
         List<Project> section_priority_4 = new ArrayList<>();
-        section_priority_4.add(new Project("maintenance stock", "maintenir un site web avec nouvelle technologies", 15000));
-        section_priority_4.add(new Project("maintenance inventair", "maintenir un site web qui suite inventaires dans les entreprises", 350000));
+        section_priority_4.add(new Project("maintenance stock", "maintenir un site web avec nouvelle technologies", 15000d));
+        section_priority_4.add(new Project("maintenance inventair", "maintenir un site web qui suite inventaires dans les entreprises", 350000d));
 
 
         sections.add(new Project_section(priority_1, section_priority_1));

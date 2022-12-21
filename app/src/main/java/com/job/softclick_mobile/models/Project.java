@@ -3,55 +3,61 @@ package com.job.softclick_mobile.models;
 import java.io.Serializable;
 import java.util.Date;
 
+
 public class Project implements Serializable {
-    private Integer idProject,imageProject , revenue;
-    private String nameProject , descriptionProject , domain ;
-    private Date dateDebut , dateFin;
+    private Integer idProject;
+    private String nameProject;
+
+
+    private String descriptionProject;
+
+    private Double revenueProject;
+
+
+    private Domain domainProjet;
+
+
+    private Date dateDebut;
+
+
+    private Date dateFin;
+
+
     private Employee chefProject;
-    private Etat projectEtat;
+
+
+    private Status projectStatus;
+
+
     private Priority projectPriority;
 
-    public Project(Integer idProject, Integer imageProject, Integer revenue, String nameProject, String descriptionProject, String domain, Date dateDebut, Date dateFin, Employee chefProject, Etat projectEtat, Priority projectPriority) {
+
+    public Project(Integer idProject, String nameProject, String descriptionProject, Double revenueProject, Domain domainProjet, Date dateDebut, Date dateFin, Employee chefProject, Status projectStatus, Priority projectPriority) {
         this.idProject = idProject;
-        this.imageProject = imageProject;
-        this.revenue = revenue;
         this.nameProject = nameProject;
         this.descriptionProject = descriptionProject;
-        this.domain = domain;
+        this.revenueProject = revenueProject;
+        this.domainProjet = domainProjet;
         this.dateDebut = dateDebut;
         this.dateFin = dateFin;
         this.chefProject = chefProject;
-        this.projectEtat = projectEtat;
+        this.projectStatus = projectStatus;
         this.projectPriority = projectPriority;
     }
 
-    public Project(String nameProject , String descriptionProject , Integer revenue) {
+    public Project(String nameProject , String descriptionProject , Double revenueProject) {
         this.nameProject = nameProject;
         this.descriptionProject = descriptionProject;
-        this.revenue = revenue;
+        this.revenueProject = revenueProject;
 
     }
-
 
     public Integer getIdProject() {
         return idProject;
     }
 
-
-    public Integer getImageProject() {
-        return imageProject;
-    }
-
-    public Integer getRevenue() {
-        return revenue;
-    }
-
-    public void setRevenue(Integer revenue) {
-        this.revenue = revenue;
-    }
-
-    public void setImageProject(Integer imageProject) {
-        this.imageProject = imageProject;
+    public void setIdProject(Integer idProject) {
+        this.idProject = idProject;
     }
 
     public String getNameProject() {
@@ -70,12 +76,20 @@ public class Project implements Serializable {
         this.descriptionProject = descriptionProject;
     }
 
-    public String getDomain() {
-        return domain;
+    public Double getRevenueProject() {
+        return revenueProject;
     }
 
-    public void setDomain(String domain) {
-        this.domain = domain;
+    public void setRevenueProject(Double revenueProject) {
+        this.revenueProject = revenueProject;
+    }
+
+    public Domain getDomainProjet() {
+        return domainProjet;
+    }
+
+    public void setDomainProjet(Domain domainProjet) {
+        this.domainProjet = domainProjet;
     }
 
     public Date getDateDebut() {
@@ -102,12 +116,12 @@ public class Project implements Serializable {
         this.chefProject = chefProject;
     }
 
-    public Etat getProjectEtat() {
-        return projectEtat;
+    public Status getProjectStatus() {
+        return projectStatus;
     }
 
-    public void setProjectEtat(Etat projectEtat) {
-        this.projectEtat = projectEtat;
+    public void setProjectStatus(Status projectStatus) {
+        this.projectStatus = projectStatus;
     }
 
     public Priority getProjectPriority() {
