@@ -22,8 +22,6 @@ public class Status implements Serializable {
         return idEtat;
     }
 
-
-
     public String getNameEtat() {
         return nameEtat;
     }
