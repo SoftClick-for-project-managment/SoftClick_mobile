@@ -1,10 +1,11 @@
 package com.job.softclick_mobile.ui.tasks;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+import android.widget.ProgressBar;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -28,15 +29,17 @@ import com.job.softclick_mobile.viewmodels.task.TaskViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class TaskList extends Fragment implements RecyclerViewHandler<Task> {
     private RecyclerView recyclerView;
     private FloatingActionButton addButton;
-    private List<StatusTaskList> mList;
-    private List<Status> statusList;
+    private List<StatusTaskList> mList = new ArrayList<>();
+    private List<Status> statusList = new ArrayList<>();
     private ItemAdapter adapter;
     private ITaskViewModel taskViewModel;
     private IStatusViewModel statusViewModel;
+    private ProgressBar progressBar;
 
     public TaskList() {
         // Required empty public constructor
@@ -66,37 +69,58 @@ public class TaskList extends Fragment implements RecyclerViewHandler<Task> {
         recyclerView = taskListview.findViewById(R.id.main_recyclervie);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        progressBar = taskListview.findViewById(R.id.progressBar);
 
         // ViewModels
         statusViewModel = new ViewModelProvider(this).get(StatusViewModel.class);
         taskViewModel = new ViewModelProvider(this).get(TaskViewModel.class);
 
-        statusViewModel.getAll().observe(getViewLifecycleOwner(), new Observer<List<Status>>() {
+
+        statusViewModel.getAll().gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Status>>() {
             @Override
             public void onChanged(List<Status> sList) {
                 statusList = sList;
             }
         });
 
-        taskViewModel.getAll().observe(getViewLifecycleOwner(), new Observer<List<Task>>() {
+        statusViewModel.getAll().geteMutableLiveData().observe(getViewLifecycleOwner(), new Observer() {
+            @Override
+            public void onChanged(Object o) {
+                Throwable error = (Throwable) o;
+                Log.d("ERR", error.getMessage());
+            }
+        });
+
+        taskViewModel.getAll().gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Task>>() {
             @Override
             public void onChanged(List<Task> tasks) {
                 mList = new ArrayList<>();
-                StatusTaskList statusTaskList = new StatusTaskList();
-                ArrayList<Task> sTaskList = new ArrayList<>();
+                AtomicReference<StatusTaskList> statusTaskList = new AtomicReference<>(new StatusTaskList());
+                AtomicReference<ArrayList<Task>> sTaskList = new AtomicReference<>(new ArrayList<>());
                 statusList.forEach(s -> {
-                    statusTaskList.setItemText(s.getNameEtat());
+                    statusTaskList.set(new StatusTaskList());
+                    sTaskList.set(new ArrayList<>());
+                    statusTaskList.get().setItemText(s.getNameEtat());
                     tasks.forEach(t -> {
                         if (t.getStatus().getIdEtat() == s.getIdEtat()){
-                            sTaskList.add(t);
+                            sTaskList.get().add(t);
                         }
                     });
-                    statusTaskList.setNestedList(sTaskList);
-                    mList.add(statusTaskList);
-                    sTaskList.clear();
+                    statusTaskList.get().setNestedList(sTaskList.get());
+                    mList.add(statusTaskList.get());
                 });
 
+                progressBar.setVisibility(View.INVISIBLE);
                 refreshUi();
+            }
+        });
+
+        taskViewModel.getAll().geteMutableLiveData().observe(getViewLifecycleOwner(), new Observer() {
+            @Override
+            public void onChanged(Object o) {
+                progressBar.setVisibility(View.INVISIBLE);
+                Throwable error = (Throwable) o;
+                Log.d("ERR", error.getMessage());
             }
         });
 
