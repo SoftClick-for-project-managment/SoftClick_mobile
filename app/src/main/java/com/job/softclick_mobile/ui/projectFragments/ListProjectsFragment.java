@@ -5,6 +5,8 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
@@ -19,6 +21,10 @@ import com.job.softclick_mobile.adapters.RvItemClickListener;
 import com.job.softclick_mobile.databinding.FragmentListProjectsBinding;
 import com.job.softclick_mobile.models.Project;
 import com.job.softclick_mobile.models.Project_section;
+import com.job.softclick_mobile.models.Task;
+import com.job.softclick_mobile.viewmodels.project.IProjectViewModel;
+import com.job.softclick_mobile.viewmodels.project.ProjectViewModel;
+import com.job.softclick_mobile.viewmodels.task.ITaskViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +48,7 @@ public class ListProjectsFragment extends Fragment implements RvItemClickListene
     private String mParam1;
     private String mParam2;
 
+    private IProjectViewModel projectViewModel;
     List<Project_section> sections = new ArrayList<>();
     RecyclerView mainRecyclerView;
     private FloatingActionButton addButton;
@@ -82,10 +89,23 @@ public class ListProjectsFragment extends Fragment implements RvItemClickListene
                              Bundle savedInstanceState) {
 
         binding = FragmentListProjectsBinding.inflate(inflater, container, false);
-        initData();
+    //    initData();
         mainRecyclerView = binding.mainRecycleView;
+        projectViewModel = new ViewModelProvider(this).get(ProjectViewModel.class);
         MainRecyclerAdapter mainRecyclerAdapter = new MainRecyclerAdapter(sections, this);
         mainRecyclerView.setAdapter(mainRecyclerAdapter);
+        projectViewModel.getAll().observe(getViewLifecycleOwner(), new Observer<List<Project>>() {
+            @Override
+            public void onChanged(List<Project> projects) {
+                Toast.makeText(getActivity().getApplicationContext(), projects.toString(), Toast.LENGTH_SHORT).show();
+                Project_section project_section = new Project_section(projects.get(0).getProjectPriority().getNamePriority(),projects);
+                sections = new ArrayList<>();
+                sections.add(project_section);
+                mainRecyclerAdapter.setProject_sectionList(sections);
+
+            }
+        });
+
 
         addButton = this.getActivity().findViewById(R.id.addButton);
         if (addButton != null) {

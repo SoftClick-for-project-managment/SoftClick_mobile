@@ -129,7 +129,7 @@ public class AddProjectFragment extends Fragment {
             update_btn.setVisibility(View.VISIBLE);
             name_project.setText(project.getNameProject());
             description.setText(project.getDescriptionProject());
-            revenue.setText(project.g().toString());
+            revenue.setText(project.getRevenueProject().toString());
             //and complete all fields ... TODO
 
         }

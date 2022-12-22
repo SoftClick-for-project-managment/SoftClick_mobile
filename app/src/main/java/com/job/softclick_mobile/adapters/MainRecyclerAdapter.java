@@ -78,4 +78,9 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
 
         }
     }
+
+    public void setProject_sectionList(List<Project_section> project_sectionList) {
+        this.project_sectionList = project_sectionList;
+        notifyDataSetChanged();
+    }
 }

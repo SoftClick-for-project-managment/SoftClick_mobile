@@ -34,7 +34,7 @@ public class ProjectRepository implements  IProjectRepository , IBaseRepository<
                     Log.d("CONSOLE LOG", "status code is " + response.code());
                 } else {
                     List<Project> tl = response.body();
-                    Log.d("CONSOLE LOG", tl.toString());
+                    Log.d("CONSOLE LOG", "response code is : "+response.code()+tl.toString());
                     tMutableLiveDataList.setValue(tl);
                 }
             }
