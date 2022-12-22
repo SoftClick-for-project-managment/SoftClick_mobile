@@ -19,6 +19,7 @@ public class TaskRepository implements ITaskRepository, IBaseRepository<Task, Lo
     private TaskApi service;
     LiveResponse<List<Task>, Throwable> taskListLiveResponse = new LiveResponse<>();
     LiveResponse<Task, Throwable> taskLiveResponse = new LiveResponse<>();
+    LiveResponse<Boolean, Throwable> createLiveResponse = new LiveResponse<>();
 
     public TaskRepository() {
         Retrofit httpClient = HttpClient.getInstance();
@@ -71,7 +72,23 @@ public class TaskRepository implements ITaskRepository, IBaseRepository<Task, Lo
 
     @Override
     public LiveResponse create(Task task) {
-        return new LiveResponse();
+        service.create(task).enqueue(new Callback() {
+            @Override
+            public void onResponse(Call call, Response response) {
+                if (response.code() != 200 || response.code() != 201) {
+                    createLiveResponse.geteMutableLiveData().setValue(new HttpException(response));
+                } else {
+                    createLiveResponse.gettMutableLiveData().setValue(true);
+                }
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                createLiveResponse.geteMutableLiveData().setValue(t);
+            }
+        });
+
+        return createLiveResponse;
     }
 
     @Override
