@@ -8,6 +8,7 @@ import retrofit2.Response;
 import retrofit2.http.*;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ProjectApi {
     @GET("projects")
@@ -23,7 +24,7 @@ public interface ProjectApi {
     Call<ResponseBody> update(@Path("id") Long projectId, @Body Project project);
 
     @PATCH("projects/{id}")
-    Call<ResponseBody> patch(@Path("id") Long projectId, @Body Project project);
+    Call<ResponseBody> patch(@Path("id") Long projectId, @Body Map<Object,Object> fields);
 
     @DELETE("projects/{id}")
     Call<ResponseBody>  delete(@Path("id") Long projectId);

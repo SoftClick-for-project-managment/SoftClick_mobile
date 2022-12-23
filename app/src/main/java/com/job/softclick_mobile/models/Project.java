@@ -1,6 +1,7 @@
 package com.job.softclick_mobile.models;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
 
 
@@ -17,10 +18,10 @@ public class Project implements Serializable {
     private Domain domainProjet;
 
 
-    private Date dateDebut;
+    private Timestamp dateDebut;
 
 
-    private Date dateFin;
+    private Timestamp dateFin;
 
 
     private Employee chefProject;
@@ -32,7 +33,7 @@ public class Project implements Serializable {
     private Priority projectPriority;
 
 
-    public Project( String nameProject, String descriptionProject, Double revenueProject, Domain domainProjet, Date dateDebut, Date dateFin, Employee chefProject, Status projectStatus, Priority projectPriority) {
+    public Project( String nameProject, String descriptionProject, Double revenueProject, Domain domainProjet, Timestamp dateDebut, Timestamp dateFin, Employee chefProject, Status projectStatus, Priority projectPriority) {
 
         this.nameProject = nameProject;
         this.descriptionProject = descriptionProject;
@@ -92,19 +93,19 @@ public class Project implements Serializable {
         this.domainProjet = domainProjet;
     }
 
-    public Date getDateDebut() {
+    public Timestamp getDateDebut() {
         return dateDebut;
     }
 
-    public void setDateDebut(Date dateDebut) {
+    public void setDateDebut(Timestamp dateDebut) {
         this.dateDebut = dateDebut;
     }
 
-    public Date getDateFin() {
+    public Timestamp getDateFin() {
         return dateFin;
     }
 
-    public void setDateFin(Date dateFin) {
+    public void setDateFin(Timestamp dateFin) {
         this.dateFin = dateFin;
     }
 

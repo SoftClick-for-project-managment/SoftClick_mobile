@@ -34,8 +34,12 @@ import com.job.softclick_mobile.ui.layout.FooterFragment;
 import com.job.softclick_mobile.viewmodels.project.IProjectViewModel;
 import com.job.softclick_mobile.viewmodels.project.ProjectViewModel;
 
+import java.lang.reflect.Field;
+import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.TimeZone;
 
 /**
@@ -308,16 +312,27 @@ public class AddProjectFragment extends Fragment {
             date_picker_debut.setHintTextColor(getResources().getColor(R.color.design_default_color_error));
             return null;
         }
-        added_project = new Project(name,description_text,revenue_text,domain1,null,null,chef,status,priority);
+        added_project = new Project(name,description_text,revenue_text,domain1,new Timestamp(date_debut.getTime()),new Timestamp(date_fin.getTime()),chef,status,priority);
 
         return added_project;
     }
 
     public void update_project() {
         Project validated_project = validate();
+        validated_project.setChefProject(null);
+        validated_project.setProjectPriority(null);
+        validated_project.setDomainProjet(null);
+        validated_project.setProjectStatus(null);
+        validated_project.setIdProject(project.getIdProject());
+        Map<Object,Object> fields = new HashMap<>();
+        for (Field field : validated_project.getClass().getDeclaredFields()) {
+            field.setAccessible(true);
+            try { if(field.get(validated_project) != null ) {fields.put(field.getName(), field.get(validated_project));} } catch (Exception e) { }
+        }
         if (validated_project != null) {
             try {
-                projectViewModel.create(validated_project);
+                Log.d("CONSOLE LOG", "patch is " + fields.toString());
+                projectViewModel.patch(project.getIdProject(),fields);
                 getParentFragmentManager().beginTransaction().replace(R.id.fContentFooter, (Fragment) FooterFragment.class.newInstance()).commit();
                 Fragment fragment = new ListProjectsFragment();
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();

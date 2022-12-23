@@ -31,7 +31,7 @@ public class HttpClient {
 //            OkHttpClient client = builder.build();
 
             Gson gson = new GsonBuilder()
-                    .setDateFormat("yyyy-MM-dd hh:mm:ss")
+                    .setDateFormat("yyyy-MM-dd'T'hh:mm:ss")
                     .create();
 
             instance = new Retrofit.Builder()

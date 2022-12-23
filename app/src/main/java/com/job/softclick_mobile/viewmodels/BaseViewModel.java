@@ -39,6 +39,7 @@ public class BaseViewModel<T, Key> extends AndroidViewModel implements IBaseView
 
     }
 
+
     @Override
     public void delete(Key key) {
         repository.delete(key);

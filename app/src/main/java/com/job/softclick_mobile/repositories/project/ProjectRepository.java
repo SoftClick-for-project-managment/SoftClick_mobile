@@ -16,6 +16,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 import java.util.List;
+import java.util.Map;
 
 public class ProjectRepository implements  IProjectRepository , IBaseRepository<Project,Long> {
 
@@ -108,6 +109,30 @@ public class ProjectRepository implements  IProjectRepository , IBaseRepository<
                 Log.d("CONSOLE LOG", "Check your internet connection");
             }
 
+
+
+        });
+    }
+
+    public void patch(Long id,Map<Object,Object> fields){
+        service.patch(id,fields).enqueue(new Callback<ResponseBody>() {
+
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.code() != 200) {
+                    Log.d("CONSOLE LOG", "status code is " + response.code());
+                } else {
+                    ResponseBody tl = response.body();
+                    Log.d("CONSOLE LOG", "response code is : "+response.code()+tl.toString());
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.d("DEBUG", t.getMessage());
+                Log.d("CONSOLE LOG", "Check your internet connection");
+            }
 
 
         });
