@@ -2,12 +2,12 @@ package com.job.softclick_mobile.repositories;
 
 import androidx.lifecycle.LiveData;
 
-import java.util.List;
+import com.job.softclick_mobile.utils.LiveResponse;
 
 public interface IBaseRepository<T, Key> {
-    LiveData<List<T>> getAll();
-    LiveData<T> getSingle(Key key);
-    void create(T t);
-    void update(Key key, T t);
-    void delete(Key key);
+    LiveResponse getAll();
+    LiveResponse getSingle(Key key);
+    LiveResponse create(T t);
+    LiveResponse update(Key key, T t);
+    LiveResponse delete(Key key);
 }

@@ -1,25 +1,24 @@
 package com.job.softclick_mobile.repositories.task;
 
-import android.util.Log;
-
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-
 import com.job.softclick_mobile.models.Task;
+import com.job.softclick_mobile.repositories.IBaseRepository;
 import com.job.softclick_mobile.services.http.HttpClient;
 import com.job.softclick_mobile.services.http.TaskApi;
+import com.job.softclick_mobile.utils.LiveResponse;
 
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.HttpException;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class TaskRepository implements ITaskRepository, com.job.softclick_mobile.repositories.IBaseRepository<Task, Long> {
+public class TaskRepository implements ITaskRepository, IBaseRepository<Task, Long> {
 
     private TaskApi service;
-    private MutableLiveData<List<Task>> tMutableLiveDataList = new MutableLiveData<>();
+    LiveResponse<List<Task>, Throwable> taskListLiveResponse = new LiveResponse<>();
+    LiveResponse<Task, Throwable> taskLiveResponse = new LiveResponse<>();
 
     public TaskRepository() {
         Retrofit httpClient = HttpClient.getInstance();
@@ -27,45 +26,61 @@ public class TaskRepository implements ITaskRepository, com.job.softclick_mobile
     }
 
     @Override
-    public LiveData<List<Task>> getAll() {
+    public LiveResponse getAll() {
         service.getAll().enqueue(new Callback<List<Task>>() {
             @Override
             public void onResponse(Call<List<Task>> call, Response<List<Task>> response) {
                 if (response.code() != 200) {
-                    Log.d("CONSOLE LOG", "status code is " + response.code());
+                    taskListLiveResponse.geteMutableLiveData().setValue(new HttpException(response));
                 } else {
                     List<Task> tl = response.body();
-                    Log.d("CONSOLE LOG", tl.toString());
-                    tMutableLiveDataList.setValue(tl);
+                    taskListLiveResponse.gettMutableLiveData().setValue(tl);
                 }
             }
 
             @Override
             public void onFailure(Call<List<Task>> call, Throwable t) {
-                Log.d("DEBUG", t.getMessage());
-                Log.d("CONSOLE LOG", "Check your internet connection");
+                taskListLiveResponse.geteMutableLiveData().setValue(t);
             }
         });
-        return tMutableLiveDataList;
+
+        return taskListLiveResponse;
     }
 
     @Override
-    public LiveData<Task> getSingle(Long key) {
-        return null;
+    public LiveResponse getSingle(Long key) {
+        service.getSingle(key).enqueue(new Callback<Task>() {
+            @Override
+            public void onResponse(Call<Task> call, Response<Task> response) {
+                if (response.code() != 200) {
+                    taskLiveResponse.geteMutableLiveData().setValue(new HttpException(response));
+                } else {
+                    Task t = response.body();
+                    taskLiveResponse.gettMutableLiveData().setValue(t);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Task> call, Throwable t) {
+                taskLiveResponse.geteMutableLiveData().setValue(t);
+            }
+        });
+
+        return taskLiveResponse;
     }
 
     @Override
-    public void create(Task t) {
-
+    public LiveResponse create(Task task) {
+        return new LiveResponse();
     }
 
     @Override
-    public void update(Long key, Task t) {
-
+    public LiveResponse update(Long aLong, Task task) {
+        return new LiveResponse();
     }
 
     @Override
-    public void delete(Long key) {
-
+    public LiveResponse delete(Long aLong) {
+        return new LiveResponse();
     }
 }
