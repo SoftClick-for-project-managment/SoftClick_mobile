@@ -7,6 +7,7 @@ import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -22,6 +23,8 @@ import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.databinding.FragmentDetailProjectBinding;
 import com.job.softclick_mobile.models.Project;
 import com.job.softclick_mobile.ui.layout.FooterFragment;
+import com.job.softclick_mobile.viewmodels.project.IProjectViewModel;
+import com.job.softclick_mobile.viewmodels.project.ProjectViewModel;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -36,6 +39,7 @@ public class DetailProjectFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     private FragmentDetailProjectBinding binding;
+    private IProjectViewModel projectViewModel;
     TextView project_name, domain, date_debut, date_fin, description, name_chef, clients, equips, revenue, depense;
     LinearProgressIndicator etat_avancement;
     ImageView flesh_back, moreOptions;
@@ -81,7 +85,7 @@ public class DetailProjectFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentDetailProjectBinding.inflate(inflater, container, false);
-
+        projectViewModel = new ViewModelProvider(this).get(ProjectViewModel.class);
         project_name = binding.projectName;
         domain = binding.domainProject;
         date_debut = binding.dateDebut;
@@ -168,7 +172,7 @@ public class DetailProjectFragment extends Fragment {
         builder.setPositiveButton("Yes I'm Sure", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                //to do delete project
+                projectViewModel.delete(project.getIdProject());
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -182,11 +186,11 @@ public class DetailProjectFragment extends Fragment {
 
     public void fetchDate() {
         project_name.setText(project.getNameProject());
-        domain.setText("Intelligance Artificial & Big Data");
-        date_debut.setText("18/12/2021");
-        date_fin.setText("18/12/2022");
+        domain.setText(project.getDomainProjet().getNameDomain());
+        date_debut.setText((project.getDateDebut().getDay()+1)+"/"+(project.getDateDebut().getMonth()+1)+"/"+(project.getDateDebut().getYear()+1900));
+        date_fin.setText((project.getDateFin().getDay()+1)+"/"+(project.getDateFin().getMonth()+1)+"/"+(project.getDateFin().getYear()+1900));
         description.setText(project.getDescriptionProject());
-        name_chef.setText("Mr Youssef Gahi");
+        name_chef.setText(project.getChefProject().getEmployeeLastName());
         clients.setText("- oukacha prison \n - école sanabil \n - Army American");
         equips.setText("- équipe frontend N° 1 \n équipe fullstack N° 5");
         revenue.setText(project.getRevenueProject().toString() + " DH ");

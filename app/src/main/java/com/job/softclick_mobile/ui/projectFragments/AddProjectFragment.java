@@ -8,7 +8,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,9 +23,20 @@ import android.widget.TextView;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.job.softclick_mobile.R;
+import com.job.softclick_mobile.adapters.MainRecyclerAdapter;
 import com.job.softclick_mobile.databinding.FragmentAddProjectBinding;
+import com.job.softclick_mobile.models.Domain;
+import com.job.softclick_mobile.models.Employee;
+import com.job.softclick_mobile.models.Priority;
 import com.job.softclick_mobile.models.Project;
+import com.job.softclick_mobile.models.Status;
 import com.job.softclick_mobile.ui.layout.FooterFragment;
+import com.job.softclick_mobile.viewmodels.project.IProjectViewModel;
+import com.job.softclick_mobile.viewmodels.project.ProjectViewModel;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -46,6 +59,8 @@ public class AddProjectFragment extends Fragment {
     private AutoCompleteTextView Combo_chef;
     ImageView flesh_back, chooseImage;
     TextView add_btn, update_btn, title_page;
+    Date date_debut=null;
+    Date date_fin = null;
     String[] domains = new String[]{
             "Info",
             "indus",
@@ -71,6 +86,7 @@ public class AddProjectFragment extends Fragment {
 
     // TODO: Rename and change types of parameters
     private Project project = null;
+    private IProjectViewModel projectViewModel;
 
 
     public AddProjectFragment() {
@@ -103,6 +119,8 @@ public class AddProjectFragment extends Fragment {
         binding = FragmentAddProjectBinding.inflate(inflater, container, false);
 
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fContentFooter, new Fragment()).commit();
+
+        projectViewModel = new ViewModelProvider(this).get(ProjectViewModel.class);
 
         title_page = binding.pageTitle;
         name_project = binding.nameProjectInput;
@@ -149,12 +167,30 @@ public class AddProjectFragment extends Fragment {
         MaterialDatePicker.Builder builder = MaterialDatePicker.Builder.datePicker();
         builder.setTitleText("Select a Date");
         final MaterialDatePicker materialDatePicker_debut = builder.build();
+        materialDatePicker_debut.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener<Long>() {
+            @Override public void onPositiveButtonClick(Long selection) {
+                // Do something...
+                Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+                calendar.setTimeInMillis(selection);
+                date_debut = calendar.getTime();
+
+            }});
+
         final MaterialDatePicker materialDatePicker_fin = builder.build();
+        materialDatePicker_debut.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener<Long>() {
+            @Override public void onPositiveButtonClick(Long selection) {
+                // Do something...
+                Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+                calendar.setTimeInMillis(selection);
+                date_fin= calendar.getTime();
+
+            }});
 
         date_picker_debut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 materialDatePicker_debut.show(getParentFragmentManager(), "DATE_PICKER");
+
             }
         });
 
@@ -230,40 +266,58 @@ public class AddProjectFragment extends Fragment {
         }
     }
 
-    public Boolean validate() {
-        Boolean isValidated = true;
+    public Project validate() {
+        Project added_project = null;
+
         String name = name_project.getText().toString().trim();
+        String description_text = description.getText().toString().trim();
+        Double revenue_text = Double.parseDouble(revenue.getText().toString().trim());
         String client = Combo_client.getText().toString().trim();
+
         String domain = Combo_domain.getText().toString().trim();
+        Domain domain1 = new Domain(2l,domain);
+        Employee chef = new Employee(1,"youssef","zahi","ingeneer","wassima.china@gmail.com","0624587895");
+        chef.setId(5);
+        Status status = new Status(1l,"");
+        Priority priority = new Priority(1,5f,"");
+
+
+
+
+
         if (name.equals("")) {
             name_project.setHint(" Project name is required ! ");
             name_project.setHintTextColor(getResources().getColor(R.color.design_default_color_error));
-            isValidated = false;
+
+            return null;
 
         }
         if (domain.equals("")) {
             Combo_domain.setHint(" Domain is required ! ");
             Combo_domain.setHintTextColor(getResources().getColor(R.color.design_default_color_error));
-            isValidated = false;
+            return null;
         }
         if (client.equals("")) {
             Combo_client.setHint(" Client is required ! ");
             Combo_client.setHintTextColor(getResources().getColor(R.color.design_default_color_error));
-            isValidated = false;
+            return null;
         }
 
         if (date_picker_debut.getText().toString().trim().equals("")) {
             date_picker_debut.setHint(" Date debut is required ! ");
             date_picker_debut.setHintTextColor(getResources().getColor(R.color.design_default_color_error));
-            isValidated = false;
+            return null;
         }
-        return isValidated;
+        added_project = new Project(name,description_text,revenue_text,domain1,null,null,chef,status,priority);
+
+        return added_project;
     }
 
     public void update_project() {
-        Boolean isValidated = validate();
-        if (isValidated) {
+        Project validated_project = validate();
+        if (validated_project != null) {
             try {
+                projectViewModel.create(validated_project);
                 getParentFragmentManager().beginTransaction().replace(R.id.fContentFooter, (Fragment) FooterFragment.class.newInstance()).commit();
                 Fragment fragment = new ListProjectsFragment();
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
@@ -279,9 +333,13 @@ public class AddProjectFragment extends Fragment {
     }
 
     public void add_project() {
-        Boolean isValidated = validate();
-        if (isValidated) {
+        Project validated_project = validate();
+        if (validated_project != null) {
             try {
+
+   //             Log.d("CONSOLE LOG", "project is  : "+validated_project.toString());
+                projectViewModel.create(validated_project);
+
                 getParentFragmentManager().beginTransaction().replace(R.id.fContentFooter, (Fragment) FooterFragment.class.newInstance()).commit();
                 Fragment fragment = new ListProjectsFragment();
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();

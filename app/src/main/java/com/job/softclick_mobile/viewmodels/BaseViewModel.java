@@ -31,7 +31,7 @@ public class BaseViewModel<T, Key> extends AndroidViewModel implements IBaseView
 
     @Override
     public void create(T item){
-
+        repository.create(item);
     }
 
     @Override
@@ -41,7 +41,7 @@ public class BaseViewModel<T, Key> extends AndroidViewModel implements IBaseView
 
     @Override
     public void delete(Key key) {
-
+        repository.delete(key);
     }
 
 

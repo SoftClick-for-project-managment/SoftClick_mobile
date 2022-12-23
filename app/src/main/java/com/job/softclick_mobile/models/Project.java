@@ -5,7 +5,7 @@ import java.util.Date;
 
 
 public class Project implements Serializable {
-    private Integer idProject;
+    private Long idProject;
     private String nameProject;
 
 
@@ -32,8 +32,8 @@ public class Project implements Serializable {
     private Priority projectPriority;
 
 
-    public Project(Integer idProject, String nameProject, String descriptionProject, Double revenueProject, Domain domainProjet, Date dateDebut, Date dateFin, Employee chefProject, Status projectStatus, Priority projectPriority) {
-        this.idProject = idProject;
+    public Project( String nameProject, String descriptionProject, Double revenueProject, Domain domainProjet, Date dateDebut, Date dateFin, Employee chefProject, Status projectStatus, Priority projectPriority) {
+
         this.nameProject = nameProject;
         this.descriptionProject = descriptionProject;
         this.revenueProject = revenueProject;
@@ -52,11 +52,11 @@ public class Project implements Serializable {
 
     }
 
-    public Integer getIdProject() {
+    public Long getIdProject() {
         return idProject;
     }
 
-    public void setIdProject(Integer idProject) {
+    public void setIdProject(Long idProject) {
         this.idProject = idProject;
     }
 
@@ -130,5 +130,20 @@ public class Project implements Serializable {
 
     public void setProjectPriority(Priority projectPriority) {
         this.projectPriority = projectPriority;
+    }
+
+    @Override
+    public String toString() {
+        return "Project{" +
+                "nameProject='" + nameProject + '\'' +
+                ", descriptionProject='" + descriptionProject + '\'' +
+                ", revenueProject=" + revenueProject +
+                ", domainProjet=" + domainProjet +
+                ", dateDebut=" + dateDebut.toString() +
+                ", dateFin=" + dateFin +
+                ", chefProject=" + chefProject.getEmployeeFirstName() +
+                ", projectStatus=" + projectStatus +
+                ", projectPriority=" + projectPriority +
+                '}';
     }
 }
