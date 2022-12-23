@@ -1,31 +1,46 @@
 package com.job.softclick_mobile.ui.tasks;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.adapters.ItemAdapter;
+import com.job.softclick_mobile.models.Status;
 import com.job.softclick_mobile.ui.contracts.RecyclerViewHandler;
 import com.job.softclick_mobile.models.StatusTaskList;
 import com.job.softclick_mobile.models.Task;
+import com.job.softclick_mobile.viewmodels.status.IStatusViewModel;
+import com.job.softclick_mobile.viewmodels.status.StatusViewModel;
+import com.job.softclick_mobile.viewmodels.task.ITaskViewModel;
+import com.job.softclick_mobile.viewmodels.task.TaskViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class TaskList extends Fragment implements RecyclerViewHandler<Task> {
     private RecyclerView recyclerView;
     private FloatingActionButton addButton;
-    private List<StatusTaskList> mList;// StatusTaskList == String
+    private List<StatusTaskList> mList = new ArrayList<>();
+    private List<Status> statusList = new ArrayList<>();
     private ItemAdapter adapter;
+    private ITaskViewModel taskViewModel;
+    private IStatusViewModel statusViewModel;
+    private ProgressBar progressBar;
+
     public TaskList() {
         // Required empty public constructor
     }
@@ -51,68 +66,63 @@ public class TaskList extends Fragment implements RecyclerViewHandler<Task> {
 
         // Inflate the layout for this fragment
         View taskListview =  inflater.inflate(R.layout.fragment_task_list, container, false);
-        recyclerView =taskListview.findViewById(R.id.main_recyclervie);
+        recyclerView = taskListview.findViewById(R.id.main_recyclervie);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mList = new ArrayList<>();
+        progressBar = taskListview.findViewById(R.id.progressBar);
 
-        List<Task> todoTaskList = new ArrayList<>();
-
-        todoTaskList.add(new Task("Pickles and Chutneys","To do","hhhh","gggggg","cnccccnc"));
-        todoTaskList.add(new Task("Readymade Meals","To do","hhhh","gggggg","cnccccnc"));
-        todoTaskList.add(new Task("Chyawanprash and Health Foods","To do","hhhh","gggggg","cnccccnc"));
-        todoTaskList.add(new Task("Pasta and Soups","To do","hhhhh","gggggg","cnccccnc"));
-        todoTaskList.add(new Task("Sauces and Ketchup","To do","TO do","gggggg","cnccccnc"));
-        todoTaskList.add(new Task("Namkeen and Snacks","To do","TO do","gggggg","cnccccnc"));
-        todoTaskList.add(new Task("Honey and Spreads","To do","TO do","gggggg","cnccccnc"));
-
-        StatusTaskList todoTaskListWrapper = new StatusTaskList(todoTaskList, "Todo");
-
-        List<Task> onprogressTaskList= new ArrayList<>();
-        onprogressTaskList.add(new Task("Book","On progress","hhhh","gggggg","cnccccnc"));
-        onprogressTaskList.add(new Task("Pen","On progress","hhhh","gggggg","cnccccnc"));
-        onprogressTaskList.add(new Task("Office Chair","On progress","hhhh","gggggg","cnccccnc"));
-        onprogressTaskList.add(new Task("Pencil","On progress","hhhh","gggggg","cnccccnc"));
-        onprogressTaskList.add(new Task("Eraser","On progress","hhhh","gggggg","cnccccnc"));
-        onprogressTaskList.add(new Task("Map","On progress","hhhh","gggggg","cnccccnc"));
-        onprogressTaskList.add(new Task("Office Table","On progress","hhhh","gggggg","cnccccnc"));
-
-        StatusTaskList onprogressTaskListWrapper = new StatusTaskList(onprogressTaskList, "Onprogress");
-
-        List<Task> doneTaskList = new ArrayList<>();
-        doneTaskList.add(new Task("Decorates","done","hhhh","gggggg","cnccccnc"));
-        doneTaskList.add(new Task("Tea Table","done","hhhh","gggggg","cnccccnc"));
-        doneTaskList.add(new Task("Office Chair","done","hhhh","gggggg","cnccccnc"));
-        doneTaskList.add(new Task("Pencil","done","hhhh","gggggg","cnccccnc"));
-        doneTaskList.add(new Task("Eraser","done","hhhh","gggggg","cnccccnc"));
-        doneTaskList.add(new Task("Map","done","hhhh","gggggg","cnccccnc"));
-        doneTaskList.add(new Task("Office Table","done","hhhh","gggggg","cnccccnc"));
-
-        StatusTaskList doneTaskListWrapper = new StatusTaskList(doneTaskList, "done");
+        // ViewModels
+        statusViewModel = new ViewModelProvider(this).get(StatusViewModel.class);
+        taskViewModel = new ViewModelProvider(this).get(TaskViewModel.class);
 
 
-        List<Task> overdueTaskList = new ArrayList<>();
-        overdueTaskList.add(new Task("Decorates","Overdue","hhhh","gggggg","cnccccnc"));
-        overdueTaskList.add(new Task("Tea Table","Overdue","hhhh","gggggg","cnccccnc"));
-        overdueTaskList.add(new Task("Office Chair","Overdue","hhhh","gggggg","cnccccnc"));
-        overdueTaskList.add(new Task("Pencil","Overdue","hhhh","gggggg","cnccccnc"));
-        overdueTaskList.add(new Task("Eraser","Overdue","hhhh","gggggg","cnccccnc"));
-        overdueTaskList.add(new Task("Map","Overdue","hhhh","gggggg","cnccccnc"));
-        overdueTaskList.add(new Task("Office Table","Overdue","hhhh","gggggg","cnccccnc"));
+        statusViewModel.getAll().gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Status>>() {
+            @Override
+            public void onChanged(List<Status> sList) {
+                statusList = sList;
+            }
+        });
 
-        StatusTaskList overdueTaskListWrapper = new StatusTaskList(overdueTaskList, "done");
+        statusViewModel.getAll().geteMutableLiveData().observe(getViewLifecycleOwner(), new Observer() {
+            @Override
+            public void onChanged(Object o) {
+                Throwable error = (Throwable) o;
+                Log.d("ERR", error.getMessage());
+            }
+        });
 
+        taskViewModel.getAll().gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Task>>() {
+            @Override
+            public void onChanged(List<Task> tasks) {
+                mList = new ArrayList<>();
+                AtomicReference<StatusTaskList> statusTaskList = new AtomicReference<>(new StatusTaskList());
+                AtomicReference<ArrayList<Task>> sTaskList = new AtomicReference<>(new ArrayList<>());
+                statusList.forEach(s -> {
+                    statusTaskList.set(new StatusTaskList());
+                    sTaskList.set(new ArrayList<>());
+                    statusTaskList.get().setItemText(s.getNameEtat());
+                    tasks.forEach(t -> {
+                        if (t.getStatus().getIdEtat() == s.getIdEtat()){
+                            sTaskList.get().add(t);
+                        }
+                    });
+                    statusTaskList.get().setNestedList(sTaskList.get());
+                    mList.add(statusTaskList.get());
+                });
 
+                progressBar.setVisibility(View.INVISIBLE);
+                refreshUi();
+            }
+        });
 
-        mList.add( todoTaskListWrapper);
-        mList.add(overdueTaskListWrapper);
-        mList.add(doneTaskListWrapper);
-        mList.add(onprogressTaskListWrapper);
-
-
-        adapter = new ItemAdapter(mList, this);
-        recyclerView.setAdapter(adapter);
-
+        taskViewModel.getAll().geteMutableLiveData().observe(getViewLifecycleOwner(), new Observer() {
+            @Override
+            public void onChanged(Object o) {
+                progressBar.setVisibility(View.INVISIBLE);
+                Throwable error = (Throwable) o;
+                Log.d("ERR", error.getMessage());
+            }
+        });
 
         addButton = this.getActivity().findViewById(R.id.addButton);
         if(addButton != null) {
@@ -130,6 +140,12 @@ public class TaskList extends Fragment implements RecyclerViewHandler<Task> {
         return taskListview;
 
     }
+
+    private void refreshUi(){
+        adapter = new ItemAdapter(mList, this);
+        recyclerView.setAdapter(adapter);
+    }
+
 
     @Override
     public void onItemClick(List<Task> taskList, int position) {

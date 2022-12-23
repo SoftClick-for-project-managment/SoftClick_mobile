@@ -3,6 +3,8 @@ package com.job.softclick_mobile.ui.clients;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -22,7 +24,7 @@ import com.job.softclick_mobile.ui.layout.FooterFragment;
 public class ClientDetailsFragment extends Fragment  {
     private FragmentClientDetailsBinding binding;
     private Client client;
-
+////////client///////////////////
     public ClientDetailsFragment() {
 
     }
@@ -55,17 +57,17 @@ public class ClientDetailsFragment extends Fragment  {
                             switch (menuItem.getItemId()) {
                                 case R.id.edit:
 
-//                                    Fragment fragment = new EmployeeFormFragment();
-//
-//                                    Bundle bundle = new Bundle();
-//                                    bundle.putSerializable("employee", employee);
-//                                    fragment.setArguments(bundle);
-//
-//                                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-//                                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//                                    fragmentTransaction.replace(R.id.flContent, fragment);
-//                                    fragmentTransaction.addToBackStack(null);
-//                                    fragmentTransaction.commit();
+                                    Fragment fragment = new ClientFormFragment();
+
+                                    Bundle bundle = new Bundle();
+                                    bundle.putSerializable("client", client);
+                                    fragment.setArguments(bundle);
+
+                                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                                    fragmentTransaction.replace(R.id.flContent, fragment);
+                                    fragmentTransaction.addToBackStack(null);
+                                    fragmentTransaction.commit();
                                     break;
 
                                 case R.id.delete:

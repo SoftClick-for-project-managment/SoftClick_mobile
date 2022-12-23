@@ -1,11 +1,18 @@
 package com.job.softclick_mobile.models;
 
-public class Etat {
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
+
+public class Status implements Serializable {
+    @SerializedName("idStatus")
     private Integer idEtat;
+    @SerializedName("nameStatus")
     private String nameEtat;
     private Integer nbrJourRetard;
 
-    public Etat(Integer idEtat, String nameEtat, Integer nbrJourRetard) {
+    public Status(Integer idEtat, String nameEtat, Integer nbrJourRetard) {
         this.idEtat = idEtat;
         this.nameEtat = nameEtat;
         this.nbrJourRetard = nbrJourRetard;
@@ -14,8 +21,6 @@ public class Etat {
     public Integer getIdEtat() {
         return idEtat;
     }
-
-
 
     public String getNameEtat() {
         return nameEtat;

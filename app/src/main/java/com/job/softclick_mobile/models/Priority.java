@@ -1,6 +1,8 @@
 package com.job.softclick_mobile.models;
 
-public class Priority {
+import java.io.Serializable;
+
+public class Priority implements Serializable {
     private Integer idPriority;
     private float dugreePriority;
     private String namePriority;
