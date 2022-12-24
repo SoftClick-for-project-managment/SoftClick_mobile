@@ -83,7 +83,7 @@ public class TaskForm extends Fragment {
                 // on below line we are creating a variable for date picker dialog.
                 DatePickerDialog datePickerDialog = new DatePickerDialog(
                         // on below line we are passing context.
-                        getActivity(),
+                        getActivity(),R.style.datepicker2,
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year,
@@ -100,7 +100,7 @@ public class TaskForm extends Fragment {
                 // display our date picker dialog.
 
                 TimePickerDialog timePickerDialog = new TimePickerDialog(
-                        getActivity(),
+                        getActivity(),R.style.timepicker2,
                         new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
@@ -138,7 +138,7 @@ public class TaskForm extends Fragment {
                 // on below line we are creating a variable for date picker dialog.
                 DatePickerDialog datePickerDialog = new DatePickerDialog(
                         // on below line we are passing context.
-                        getActivity(),
+                        getActivity(),R.style.datepicker1,
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year,
@@ -155,7 +155,7 @@ public class TaskForm extends Fragment {
                 // display our date picker dialog.
 
                 TimePickerDialog timePickerDialog = new TimePickerDialog(
-                        getActivity(),
+                        getActivity(),R.style.datepicker1,
                         new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
