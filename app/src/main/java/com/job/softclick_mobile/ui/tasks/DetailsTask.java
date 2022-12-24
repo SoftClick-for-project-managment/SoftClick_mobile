@@ -3,21 +3,32 @@ package com.job.softclick_mobile.ui.tasks;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupMenu;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.databinding.FragmentDetailsTaskBinding;
+import com.job.softclick_mobile.models.Status;
 import com.job.softclick_mobile.models.Task;
 import com.job.softclick_mobile.ui.layout.FooterFragment;
+import com.job.softclick_mobile.viewmodels.task.TaskViewModel;
+
+import java.io.IOException;
+import java.util.List;
+
+import retrofit2.HttpException;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,36 +36,17 @@ import com.job.softclick_mobile.ui.layout.FooterFragment;
  * create an instance of this fragment.
  */
 public class DetailsTask extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
     private FragmentDetailsTaskBinding binding;
     private Task task;
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private TaskViewModel taskViewModel;
 
     public DetailsTask() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment DetailsTask.
-     */
-    // TODO: Rename and change types and number of parameters
     public static DetailsTask newInstance(String param1, String param2) {
         DetailsTask fragment = new DetailsTask();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -75,13 +67,32 @@ public class DetailsTask extends Fragment {
         View view = binding.getRoot();
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fContentFooter,new Fragment()).commit() ;
 
-        binding.TaskNameValue.setText(task.getName());
-        binding.statusValue.setText(task.getStatus().getNameEtat());
-        binding.Startdatevalue.setText(task.getStartDate());
-        binding.EnddateValue.setText(task.getEndDate());
-        binding.DescriptionValue.setText(task.getDescription());
+        binding.detailsBody.setVisibility(View.INVISIBLE);
+        binding.progressBar.setVisibility(View.VISIBLE);
 
-        Toast.makeText( getActivity().getApplicationContext(), task.toString(), Toast.LENGTH_SHORT);
+        taskViewModel = new ViewModelProvider(this).get(TaskViewModel.class);
+
+        taskViewModel.getSingle(task.getId()).geteMutableLiveData().observe(getViewLifecycleOwner(), new Observer<Object>() {
+            @Override
+            public void onChanged(Object o) {
+                Throwable error = (Throwable) o;
+                if (error instanceof HttpException) {
+                    binding.backArrow.callOnClick();
+                    Toast.makeText(getContext(), "This screen is under maintenance", Toast.LENGTH_SHORT).show();
+                } else if (error instanceof IOException) {
+
+                }
+                Log.d("ERR", error.getMessage());
+            }
+        });
+
+        taskViewModel.getSingle(task.getId()).gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer<Task>() {
+            @Override
+            public void onChanged(Task t) {
+                task = t;
+                refreshUi();
+            }
+        });
 
         if (binding.moreOptions != null) {
             binding.moreOptions.setOnClickListener(new View.OnClickListener() {
@@ -143,6 +154,16 @@ public class DetailsTask extends Fragment {
         }
 
         return view;
+    }
+
+    private void refreshUi(){
+        binding.progressBar.setVisibility(View.INVISIBLE);
+        binding.detailsBody.setVisibility(View.VISIBLE);
+        binding.TaskNameValue.setText(task.getName());
+        binding.statusValue.setText(task.getStatus().getNameEtat());
+        binding.Startdatevalue.setText(task.getStartDate());
+        binding.EnddateValue.setText(task.getEndDate());
+        binding.DescriptionValue.setText(task.getDescription());
     }
 
     private AlertDialog AskOption() {
