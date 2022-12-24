@@ -9,7 +9,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -37,7 +37,6 @@
                 android:layout_alignParentBottom="true" />
         </RelativeLayout>
 
-
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -46,7 +45,6 @@
             android:layout_marginRight="50dp"
             android:divider="?android:dividerHorizontal"
             android:showDividers="middle"
-
             >
 
             <RelativeLayout
@@ -81,8 +79,8 @@
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:layout_marginTop="20dp">
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp">
 
                 <Spinner
                     android:layout_width="match_parent"
@@ -92,9 +90,6 @@
                     android:background="@color/transparent"
                     android:fontFamily="@font/roboto_regular"
                     android:paddingLeft="17dp"
-                    android:paddingTop="15dp"
-                    android:paddingBottom="15dp"
-
                     />
 
                 <ImageView
@@ -115,12 +110,31 @@
 
                 <EditText
                     android:id="@+id/startdate"
-                    android:layout_width="match_parent"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@+id/startdate_icon"
                     android:background="@color/transparent"
                     android:fontFamily="@font/roboto_regular"
                     android:hint="Date"
+                    android:clickable="false"
+                    android:cursorVisible="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:maxLines="1"
+                    android:paddingLeft="17dp"
+                    android:paddingTop="6dp"
+                    android:paddingBottom="6dp"
+                    android:textCursorDrawable="@drawable/cursor_color"
+                    android:textSize="16sp" />
+
+                <EditText
+                    android:id="@+id/timeStart"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/startdate"
+                    android:background="@color/transparent"
+                    android:fontFamily="@font/roboto_regular"
+                    android:hint="time"
                     android:clickable="false"
                     android:cursorVisible="false"
                     android:focusable="false"
@@ -149,7 +163,7 @@
                 android:layout_marginTop="20dp">
                 <EditText
                     android:id="@+id/Enddate"
-                    android:layout_width="match_parent"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@+id/Enddate_icon"
                     android:background="@color/transparent"
@@ -167,6 +181,24 @@
                     android:textSize="16sp" />
 
 
+                <EditText
+                    android:id="@+id/timeEnd"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/Enddate"
+                    android:background="@color/transparent"
+                    android:fontFamily="@font/roboto_regular"
+                    android:hint="time"
+                    android:clickable="false"
+                    android:cursorVisible="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:maxLines="1"
+                    android:paddingLeft="17dp"
+                    android:paddingTop="6dp"
+                    android:paddingBottom="6dp"
+                    android:textCursorDrawable="@drawable/cursor_color"
+                    android:textSize="16sp" />
 
                 <ImageView
                     android:id="@+id/Enddate_icon"
@@ -176,7 +208,10 @@
                     android:layout_marginLeft="17dp"
                     android:src="@drawable/calendar"/>
 
+
+
             </RelativeLayout>
+
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -232,8 +267,5 @@
         </RelativeLayout>
 
     </LinearLayout>
-
-
-
 
 </RelativeLayout>

@@ -3,7 +3,8 @@ import com.job.softclick_mobile.models.Expense;
 import com.job.softclick_mobile.repositories.IBaseRepository;
 import com.job.softclick_mobile.services.http.ExpenseApi;
 import com.job.softclick_mobile.services.http.HttpClient;
-import com.job.softclick_mobile.ui.employees.utils.LiveResponse;
+import com.job.softclick_mobile.utils.LiveResponse;
+
 import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
