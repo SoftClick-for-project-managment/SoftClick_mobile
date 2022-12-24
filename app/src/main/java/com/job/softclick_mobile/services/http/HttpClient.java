@@ -39,7 +39,7 @@ public class HttpClient {
 
             // Create Converter
             Gson gson = new GsonBuilder()
-                    .setDateFormat("yyyy-MM-dd'T'hh:mm:ss")
+                    .setDateFormat("yyyy-MM-dd hh:mm:ss")
                     .create();
 
             instance = new Retrofit.Builder()

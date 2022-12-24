@@ -181,7 +181,7 @@ public class AddProjectFragment extends Fragment {
             }});
 
         final MaterialDatePicker materialDatePicker_fin = builder.build();
-        materialDatePicker_debut.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener<Long>() {
+        materialDatePicker_fin.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener<Long>() {
             @Override public void onPositiveButtonClick(Long selection) {
                 // Do something...
                 Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
@@ -323,11 +323,11 @@ public class AddProjectFragment extends Fragment {
         validated_project.setProjectPriority(null);
         validated_project.setDomainProjet(null);
         validated_project.setProjectStatus(null);
-        validated_project.setIdProject(project.getIdProject());
+        validated_project.setIdProject(null);
         Map<Object,Object> fields = new HashMap<>();
         for (Field field : validated_project.getClass().getDeclaredFields()) {
             field.setAccessible(true);
-            try { if(field.get(validated_project) != null ) {fields.put(field.getName().toString(), field.get(validated_project));} } catch (Exception e) { }
+            try { if(field.get(validated_project) != null ) {fields.put(field.getName(), field.get(validated_project));} } catch (Exception e) { }
         }
         if (validated_project != null) {
             try {
