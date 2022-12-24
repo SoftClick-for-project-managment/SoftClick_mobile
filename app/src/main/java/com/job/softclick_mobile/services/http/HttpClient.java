@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -16,20 +17,27 @@ public class HttpClient {
 
     public static Retrofit getInstance() {
         if (instance == null) {
-//            // Define the interceptor, add authentication headers
-//            Interceptor interceptor = new Interceptor() {
-//                @Override
-//                public okhttp3.Response intercept(Chain chain) throws IOException {
-//                    Request newRequest = chain.request().newBuilder().addHeader("User-Agent", "Retrofit-Sample-App").build();
-//                    return chain.proceed(newRequest);
-//                }
-//            };
-//
-//            // Add the interceptor to OkHttpClient
-//            OkHttpClient.Builder builder = new OkHttpClient.Builder();
-//            builder.interceptors().add(interceptor);
-//            OkHttpClient client = builder.build();
+            // Define the interceptor, add authentication headers
+            Interceptor interceptor = new Interceptor() {
+                @Override
+                public okhttp3.Response intercept(Chain chain) throws IOException {
+                    Request newRequest = chain
+                            .request()
+                            .newBuilder()
+                            .addHeader("User-Agent", "SoftClick-Android-App")
+                            .build();
+                    return chain.proceed(newRequest);
+                }
+            };
 
+            // build OkHttpClient instance
+            OkHttpClient client = new OkHttpClient.Builder()
+                    .addInterceptor(interceptor)
+                    .connectTimeout(3, TimeUnit.MINUTES)
+                    .readTimeout(3, TimeUnit.MINUTES)
+                    .build();
+
+            // Create Converter
             Gson gson = new GsonBuilder()
                     .setDateFormat("yyyy-MM-dd'T'hh:mm:ss")
                     .create();
@@ -37,7 +45,7 @@ public class HttpClient {
             instance = new Retrofit.Builder()
                     .baseUrl("http://192.168.43.176:8080/api/v1/")
                     .addConverterFactory(GsonConverterFactory.create(gson))
-//                    .client(client)
+                    .client(client)
                     .build();
         }
         return instance;

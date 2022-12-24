@@ -25,7 +25,10 @@ import com.job.softclick_mobile.models.Task;
 import com.job.softclick_mobile.ui.layout.FooterFragment;
 import com.job.softclick_mobile.viewmodels.task.TaskViewModel;
 
+import java.io.IOException;
 import java.util.List;
+
+import retrofit2.HttpException;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -73,6 +76,12 @@ public class DetailsTask extends Fragment {
             @Override
             public void onChanged(Object o) {
                 Throwable error = (Throwable) o;
+                if (error instanceof HttpException) {
+                    binding.backArrow.callOnClick();
+                    Toast.makeText(getContext(), "This screen is under maintenance", Toast.LENGTH_SHORT).show();
+                } else if (error instanceof IOException) {
+
+                }
                 Log.d("ERR", error.getMessage());
             }
         });
