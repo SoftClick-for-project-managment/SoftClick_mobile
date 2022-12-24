@@ -43,7 +43,7 @@ public class HttpClient {
                     .create();
 
             instance = new Retrofit.Builder()
-                    .baseUrl("http://192.168.43.176:8080/api/v1/")
+                    .baseUrl("http://192.168.1.109:8080/api/v1/")
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .client(client)
                     .build();

@@ -8,10 +8,12 @@ import com.job.softclick_mobile.models.Task;
 import com.job.softclick_mobile.repositories.IBaseRepository;
 import com.job.softclick_mobile.services.http.HttpClient;
 import com.job.softclick_mobile.services.http.ProjectApi;
+import com.job.softclick_mobile.utils.LiveResponse;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.HttpException;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
@@ -21,7 +23,9 @@ import java.util.Map;
 public class ProjectRepository implements  IProjectRepository , IBaseRepository<Project,Long> {
 
     private ProjectApi service;
-    private MutableLiveData<List<Project>> tMutableLiveDataList = new MutableLiveData<>();
+    private  LiveResponse<List<Project>, Throwable>  tMutableLiveDataList = new LiveResponse<>();
+    LiveResponse<Boolean, Throwable> createLiveResponse = new LiveResponse<>();
+    LiveResponse<Boolean, Throwable> deleteLiveResponse = new LiveResponse<>();
 
     public ProjectRepository() {
         Retrofit httpClient = HttpClient.getInstance();
@@ -29,16 +33,18 @@ public class ProjectRepository implements  IProjectRepository , IBaseRepository<
     }
 
     @Override
-    public LiveData<List<Project>> getAll() {
+    public LiveResponse getAll() {
         service.getAll().enqueue(new Callback<List<Project>>() {
             @Override
             public void onResponse(Call<List<Project>> call, Response<List<Project>> response) {
                 if (response.code() != 200) {
+                    tMutableLiveDataList.geteMutableLiveData().setValue(new HttpException(response));
                     Log.d("CONSOLE LOG", "status code is " + response.code());
                 } else {
                     List<Project> tl = response.body();
+                    tMutableLiveDataList.gettMutableLiveData().setValue(tl);
                     Log.d("CONSOLE LOG", "response code is : "+response.code()+tl.toString());
-                    tMutableLiveDataList.setValue(tl);
+
                 }
             }
 
@@ -52,20 +58,22 @@ public class ProjectRepository implements  IProjectRepository , IBaseRepository<
     }
 
     @Override
-    public LiveData<Project> getSingle(Long aLong) {
+    public LiveResponse getSingle(Long aLong) {
         return null;
     }
 
     @Override
-    public void create(Project project) {
+    public LiveResponse create(Project project) {
         service.create(project).enqueue(new Callback<ResponseBody>() {
 
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.code() != 201) {
+                    createLiveResponse.geteMutableLiveData().setValue(new HttpException(response));
                     Log.d("CONSOLE LOG", "created : status code is " + response.code());
 
                 } else {
+                    createLiveResponse.gettMutableLiveData().setValue(true);
                     Log.d("CONSOLE LOG", "response code is : "+response.code());
 
                 }
@@ -73,31 +81,34 @@ public class ProjectRepository implements  IProjectRepository , IBaseRepository<
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
+                createLiveResponse.geteMutableLiveData().setValue(t);
                 Log.d("DEBUG", t.getMessage());
                 Log.d("CONSOLE LOG", "Check your internet connection");
             }
         });
-
+        return createLiveResponse;
 
     }
 
 
 
     @Override
-    public void update(Long aLong, Project project) {
-
+    public LiveResponse update(Long aLong, Project project) {
+        return  new LiveResponse<>();
     }
 
     @Override
-    public void delete(Long aLong) {
+    public LiveResponse delete(Long aLong) {
         service.delete(aLong).enqueue(new Callback<ResponseBody>() {
 
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.code() != 200) {
+                    deleteLiveResponse.geteMutableLiveData().setValue(new HttpException(response));
                     Log.d("CONSOLE LOG", "status code is " + response.code());
                 } else {
                     ResponseBody tl = response.body();
+                    deleteLiveResponse.gettMutableLiveData().setValue( true);
                     Log.d("CONSOLE LOG", "response code is : "+response.code()+tl.toString());
 
                 }
@@ -105,6 +116,7 @@ public class ProjectRepository implements  IProjectRepository , IBaseRepository<
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
+                deleteLiveResponse.geteMutableLiveData().setValue(t);
                 Log.d("DEBUG", t.getMessage());
                 Log.d("CONSOLE LOG", "Check your internet connection");
             }
@@ -112,6 +124,7 @@ public class ProjectRepository implements  IProjectRepository , IBaseRepository<
 
 
         });
+        return deleteLiveResponse;
     }
 
     public void patch(Long id,Map<Object,Object> fields){

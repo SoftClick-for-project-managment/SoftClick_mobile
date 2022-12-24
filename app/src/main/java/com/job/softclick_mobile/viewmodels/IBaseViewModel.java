@@ -1,10 +1,6 @@
 package com.job.softclick_mobile.viewmodels;
 
-import androidx.lifecycle.LiveData;
-
 import com.job.softclick_mobile.utils.LiveResponse;
-
-import java.util.List;
 
 public interface IBaseViewModel<T, Key> {
     LiveResponse getAll();

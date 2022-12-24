@@ -100,9 +100,9 @@ public class TaskList extends Fragment implements RecyclerViewHandler<Task> {
                 statusList.forEach(s -> {
                     statusTaskList.set(new StatusTaskList());
                     sTaskList.set(new ArrayList<>());
-                    statusTaskList.get().setItemText(s.getNameEtat());
+                    statusTaskList.get().setItemText(s.getNameStatus());
                     tasks.forEach(t -> {
-                        if (t.getStatus().getIdEtat() == s.getIdEtat()){
+                        if (t.getStatus().getIdStatus() == s.getIdStatus()){
                             sTaskList.get().add(t);
                         }
                     });

@@ -160,7 +160,7 @@ public class DetailsTask extends Fragment {
         binding.progressBar.setVisibility(View.INVISIBLE);
         binding.detailsBody.setVisibility(View.VISIBLE);
         binding.TaskNameValue.setText(task.getName());
-        binding.statusValue.setText(task.getStatus().getNameEtat());
+        binding.statusValue.setText(task.getStatus().getNameStatus());
         binding.Startdatevalue.setText(task.getStartDate());
         binding.EnddateValue.setText(task.getEndDate());
         binding.DescriptionValue.setText(task.getDescription());

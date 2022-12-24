@@ -264,7 +264,7 @@ public class TaskForm extends Fragment {
         spinner.setAdapter(spinnerArrayAdapter);
 
         if(task != null) {
-            binding.statustask.setSelection(((ArrayAdapter<String>)binding.statustask.getAdapter()).getPosition(task.getStatus().getNameEtat()));
+            binding.statustask.setSelection(((ArrayAdapter<String>)binding.statustask.getAdapter()).getPosition(task.getStatus().getNameStatus()));
 
             binding.taskname.setText(task.getName());
             binding.startdate.setText(task.getStartDate());
