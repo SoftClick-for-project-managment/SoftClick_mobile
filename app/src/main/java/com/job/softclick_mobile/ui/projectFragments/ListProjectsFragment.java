@@ -94,7 +94,7 @@ public class ListProjectsFragment extends Fragment implements RvItemClickListene
         projectViewModel = new ViewModelProvider(this).get(ProjectViewModel.class);
         MainRecyclerAdapter mainRecyclerAdapter = new MainRecyclerAdapter(sections, this);
         mainRecyclerView.setAdapter(mainRecyclerAdapter);
-        projectViewModel.getAll().geteMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Project>>() {
+        projectViewModel.getAll().gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Project>>() {
             @Override
             public void onChanged(List<Project> projects) {
                Toast.makeText(getActivity().getApplicationContext(), projects.toString(), Toast.LENGTH_SHORT).show();

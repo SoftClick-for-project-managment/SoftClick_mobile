@@ -136,7 +136,7 @@ public class ProjectRepository implements  IProjectRepository , IBaseRepository<
                     Log.d("CONSOLE LOG", "status code is " + response.code());
                 } else {
                     ResponseBody tl = response.body();
-                    Log.d("CONSOLE LOG", "response code is : "+response.code()+tl.toString());
+                    Log.d("CONSOLE LOG", "response code is : "+response.code()+fields.toString());
 
                 }
             }

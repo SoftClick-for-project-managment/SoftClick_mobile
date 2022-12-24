@@ -327,7 +327,7 @@ public class AddProjectFragment extends Fragment {
         Map<Object,Object> fields = new HashMap<>();
         for (Field field : validated_project.getClass().getDeclaredFields()) {
             field.setAccessible(true);
-            try { if(field.get(validated_project) != null ) {fields.put(field.getName(), field.get(validated_project));} } catch (Exception e) { }
+            try { if(field.get(validated_project) != null ) {fields.put(field.getName().toString(), field.get(validated_project));} } catch (Exception e) { }
         }
         if (validated_project != null) {
             try {
