@@ -57,7 +57,8 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     implementation 'com.google.android.material:material:1.2.0'
     implementation 'androidx.coordinatorlayout:coordinatorlayout:1.1.0'
-
+    // OkHTTP
+    implementation 'com.squareup.okhttp3:okhttp:3.14.9'
 }
 
 dependencies {
