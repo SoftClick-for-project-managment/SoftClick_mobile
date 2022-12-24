@@ -26,6 +26,8 @@ import com.job.softclick_mobile.ui.layout.FooterFragment;
 import com.job.softclick_mobile.viewmodels.project.IProjectViewModel;
 import com.job.softclick_mobile.viewmodels.project.ProjectViewModel;
 
+import java.text.SimpleDateFormat;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link DetailProjectFragment#newInstance} factory method to
@@ -185,10 +187,12 @@ public class DetailProjectFragment extends Fragment {
     }
 
     public void fetchDate() {
+        SimpleDateFormat formatter=new SimpleDateFormat("dd/MM/yyyy");
+
         project_name.setText(project.getNameProject());
         domain.setText(project.getDomainProjet().getNameDomain());
-        date_debut.setText((project.getDateDebut().getDay()+1)+"/"+(project.getDateDebut().getMonth()+1)+"/"+(project.getDateDebut().getYear()+1900));
-        date_fin.setText((project.getDateFin().getDay()+1)+"/"+(project.getDateFin().getMonth()+1)+"/"+(project.getDateFin().getYear()+1900));
+        date_debut.setText(formatter.format(project.getDateDebut()));
+        date_fin.setText(formatter.format(project.getDateFin()));
         description.setText(project.getDescriptionProject());
         name_chef.setText(project.getChefProject().getEmployeeLastName());
         clients.setText("- oukacha prison \n - école sanabil \n - Army American");
