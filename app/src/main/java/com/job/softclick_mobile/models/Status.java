@@ -7,8 +7,10 @@ import java.io.Serializable;
 
 public class Status implements Serializable {
     @SerializedName("idStatus")
+    @Expose
     private Integer idEtat;
     @SerializedName("nameStatus")
+    @Expose
     private String nameEtat;
     private Integer nbrJourRetard;
 
@@ -16,6 +18,10 @@ public class Status implements Serializable {
         this.idEtat = idEtat;
         this.nameEtat = nameEtat;
         this.nbrJourRetard = nbrJourRetard;
+    }
+
+    public Status(String nameEtat) {
+        this.nameEtat = nameEtat;
     }
 
     public Integer getIdEtat() {

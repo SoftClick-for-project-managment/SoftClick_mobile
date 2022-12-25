@@ -1,5 +1,6 @@
 package com.job.softclick_mobile.models;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -20,6 +21,8 @@ public class Task implements Serializable {
 
     private Status status;
 
+    @SerializedName("project")
+    @Expose(serialize = false)
     private Long projectId;
 
     private Employee employee;

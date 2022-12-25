@@ -20,12 +20,12 @@ public interface TaskApi {
     Call<Task> getSingle(@Path("id") Long taskId);
 
     @POST("tasks")
-    Call create(@Body Task task);
+    Call<Object> create(@Body Task task);
 
     @PUT("tasks/{id}")
-    Call update(@Path("id") Long taskId, @Body Task task);
+    Call<Object> update(@Path("id") Long taskId, @Body Task task);
 
     @DELETE("tasks/{id}")
-    Call delete(@Path("id") Long taskId);
+    Call<Object> delete(@Path("id") Long taskId);
 
 }
