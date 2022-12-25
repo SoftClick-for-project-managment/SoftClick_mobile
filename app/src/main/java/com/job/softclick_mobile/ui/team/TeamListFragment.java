@@ -1,4 +1,4 @@
-package com.job.softclick_mobile.ui;
+package com.job.softclick_mobile.ui.team;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -19,6 +19,8 @@ import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.adapters.Team_List_Adapter;
 import com.job.softclick_mobile.ui.contracts.RecyclerViewHandler;
 import com.job.softclick_mobile.models.Team;
+import com.job.softclick_mobile.ui.team.AddteamFragment;
+import com.job.softclick_mobile.ui.team.DetailsFragment;
 
 import java.util.ArrayList;
 
