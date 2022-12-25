@@ -20,20 +20,8 @@
 
     </style>
 
-    <style name = "datepicker2" parent = "Theme.AppCompat.Light.Dialog">
-        <item name = "colorAccent">@color/purple_700</item>
-    </style>
-
-    <style name = "datepicker1" parent = "Theme.AppCompat.Light.Dialog">
-        <item name = "colorAccent">@color/purple_700</item>
-    </style>
-
-    <style name = "timepicker2" parent = "Theme.AppCompat.Light.Dialog">
-        <item name = "colorAccent">@color/purple_700</item>
-    </style>
-
-    <style name = "timepicker1" parent = "Theme.AppCompat.Light.Dialog">
-        <item name = "colorAccent">@color/purple_700</item>
+    <style name = "datetimepicker" parent = "Theme.AppCompat.Light.Dialog">
+        <item name = "colorAccent">@color/primary</item>
     </style>
 
 
