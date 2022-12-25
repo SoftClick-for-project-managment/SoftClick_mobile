@@ -1,5 +1,7 @@
 package com.job.softclick_mobile.repositories.clients;
 
+import android.util.Log;
+
 import com.job.softclick_mobile.models.Client;
 import com.job.softclick_mobile.repositories.IBaseRepository;
 import com.job.softclick_mobile.services.http.ClientApi;
@@ -14,11 +16,12 @@ import retrofit2.HttpException;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class ClientRepository implements IBaseRepository<Client, Long> {
+public class ClientRepository implements IClientRepository, IBaseRepository<Client, Long> {
 
     private ClientApi service;
     LiveResponse<List<Client>, Throwable> clientListLiveResponse = new LiveResponse<>();
     LiveResponse<Client, Throwable> clientLiveResponse = new LiveResponse<>();
+    LiveResponse<Boolean, Throwable> createLiveResponse = new LiveResponse<>();
 
     public ClientRepository() {
         Retrofit httpClient = HttpClient.getInstance();
@@ -72,7 +75,24 @@ public class ClientRepository implements IBaseRepository<Client, Long> {
 
     @Override
     public LiveResponse create(Client client) {
-        return null;
+        service.create(client).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                Log.d("DEBUG", response.code() + "");
+                if (response.code() != 201) {
+                    createLiveResponse.geteMutableLiveData().setValue(new HttpException(response));
+                } else {
+                    createLiveResponse.gettMutableLiveData().setValue(true);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                createLiveResponse.geteMutableLiveData().setValue(t);
+            }
+        });
+
+        return createLiveResponse;
     }
 
     @Override

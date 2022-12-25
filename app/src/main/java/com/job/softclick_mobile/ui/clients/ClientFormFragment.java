@@ -3,7 +3,10 @@ package com.job.softclick_mobile.ui.clients;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,14 +17,33 @@ import com.job.softclick_mobile.databinding.FragmentClientFormBinding;
 import com.job.softclick_mobile.models.Client;
 import com.job.softclick_mobile.ui.layout.FooterFragment;
 import com.job.softclick_mobile.ui.tasks.DetailsTask;
+import com.job.softclick_mobile.ui.tasks.TaskForm;
 import com.job.softclick_mobile.ui.tasks.TaskList;
+import com.job.softclick_mobile.utils.LiveResponse;
+import com.job.softclick_mobile.viewmodels.clients.ClientViewModel;
+import com.job.softclick_mobile.viewmodels.clients.IClientViewModel;
+import com.job.softclick_mobile.viewmodels.task.TaskViewModel;
+
+import java.io.IOException;
+
+import retrofit2.HttpException;
 
 public class ClientFormFragment extends Fragment {
     private FragmentClientFormBinding binding;
     private Client client;
 
+    IClientViewModel clientViewModel;
+
     public ClientFormFragment() {
         // Required empty public constructor
+    }
+
+    public static ClientFormFragment newInstance(String param1, String param2) {
+        ClientFormFragment fragment = new ClientFormFragment();
+        Bundle args = new Bundle();
+
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
@@ -29,17 +51,19 @@ public class ClientFormFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             client = (Client) getArguments().getSerializable("client");
-        } else {
-            client = null;
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fContentFooter,new Fragment()).commit() ;
+
         // Inflate the layout for this fragment
         binding = FragmentClientFormBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
+        clientViewModel = new ViewModelProvider(this).get(ClientViewModel.class);
+
 
         if (client != null) {
             binding.subheaderTitle.setText("Client Edition");
@@ -76,71 +100,55 @@ public class ClientFormFragment extends Fragment {
         binding.createClientBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (client != null) {
-                    updateClient(view);
-                } else {
-                    createClient(view);
+               createClient();
+            }
+        });
+        return view;
+    }
+
+
+    public void createClient(){
+        binding.progressBar.setVisibility(View.VISIBLE);
+        binding.formBody.setVisibility(View.GONE);
+        Client client = new Client(
+                binding.firstName.getText().toString(),
+                binding.lastName.getText().toString(),
+                binding.email.getText().toString(),
+                binding.phone.getText().toString(),
+                binding.companyName.getText().toString(),
+                binding.city.getText().toString(),
+                binding.country.getText().toString()
+        );
+
+        LiveResponse createLiveResponse =  clientViewModel.create(client);
+        createLiveResponse.gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer() {
+            @Override
+            public void onChanged(Object o) {
+                if((Boolean) o == true ){
+                    Toast.makeText(getContext(), "Client created successfully", Toast.LENGTH_SHORT).show();
+                    binding.progressBar.setVisibility(View.GONE);
+                    binding.backArrow.callOnClick();
                 }
             }
         });
 
-        getActivity()
-                .getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.fContentFooter, new Fragment())
-                .commit();
 
-        return view;
-    }
+        createLiveResponse.geteMutableLiveData().observe(getViewLifecycleOwner(), new Observer() {
+            @Override
+            public void onChanged(Object o) {
+                Throwable error = (Throwable) o;
+                if (error instanceof HttpException) {
+                    Log.d("DEBUG", error.getMessage());
+                    Toast.makeText(getContext(), "This screen is under maintenance", Toast.LENGTH_SHORT).show();
+                } else if (error instanceof IOException) {
+                    Toast.makeText(getContext(), "Please check your internet connection", Toast.LENGTH_SHORT).show();
+                }
+                binding.formBody.setVisibility(View.VISIBLE);
+                binding.progressBar.setVisibility(View.GONE);
+                error.printStackTrace();
+                Log.d("ERR", error.getMessage());
+            }
+        });
 
-    public void createClient(View view){
-        Client client = new Client(
-                binding.firstName.getText().toString(),
-                binding.lastName.getText().toString(),
-                binding.email.getText().toString(),
-                binding.phone.getText().toString(),
-                binding.companyName.getText().toString(),
-                binding.city.getText().toString(),
-                binding.country.getText().toString()
-        );
-
-        if (isValid(client)) {
-            Toast.makeText(getActivity().getApplicationContext(), "Client is valid", Toast.LENGTH_SHORT).show();
-            // code to create client
-        } else {
-            Toast.makeText(getActivity().getApplicationContext(), "Some field are not valid", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    public void updateClient(View view){
-        Client client = new Client(
-                binding.firstName.getText().toString(),
-                binding.lastName.getText().toString(),
-                binding.email.getText().toString(),
-                binding.phone.getText().toString(),
-                binding.companyName.getText().toString(),
-                binding.city.getText().toString(),
-                binding.country.getText().toString()
-        );
-
-        if (isValid(client)) {
-            Toast.makeText(getActivity().getApplicationContext(), "Client is valid", Toast.LENGTH_SHORT).show();
-            // code to update client
-        } else {
-            Toast.makeText(getActivity().getApplicationContext(), "Some field are not valid", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private boolean isValid(Client client){
-        if ( client.getNom().equals("")
-                || client.getPrenom().equals("")
-                || client.getEmail().equals("")
-                || client.getTele().equals("")
-                || client.getVille().equals("")
-                || client.getPays().equals("") ) {
-            return false;
-        } else {
-            return true;
-        }
     }
 }

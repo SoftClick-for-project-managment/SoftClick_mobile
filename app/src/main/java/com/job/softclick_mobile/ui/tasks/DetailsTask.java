@@ -30,11 +30,6 @@ import java.util.List;
 
 import retrofit2.HttpException;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link DetailsTask#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class DetailsTask extends Fragment {
     private FragmentDetailsTaskBinding binding;
     private Task task;

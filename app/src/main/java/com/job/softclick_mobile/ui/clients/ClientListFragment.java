@@ -12,19 +12,29 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.adapters.ClientListAdapter;
+import com.job.softclick_mobile.adapters.ItemAdapter;
 import com.job.softclick_mobile.ui.contracts.RecyclerViewHandler;
 import com.job.softclick_mobile.models.Client;
+import com.job.softclick_mobile.viewmodels.clients.IClientViewModel;
+import com.job.softclick_mobile.viewmodels.task.ITaskViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClientListFragment extends Fragment implements RecyclerViewHandler {
+public class ClientListFragment extends Fragment implements RecyclerViewHandler<Client> {
 
     private RecyclerView recyclerView;
     private List<Client> clients;
+    private FloatingActionButton addButton;
+    private ItemAdapter adapter;
+    private IClientViewModel clientViewModel;
+    private ProgressBar progressBar;
+
 
     public ClientListFragment() {
         // Required empty public constructor

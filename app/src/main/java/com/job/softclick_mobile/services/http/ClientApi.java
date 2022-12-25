@@ -20,11 +20,11 @@ public interface ClientApi {
     Call<Client> getSingle(@Path("id") Long clientId);
 
     @POST("clients")
-    Call create(@Body Client client);
+    Call<Void> create(@Body Client client);
 
     @PUT("clients/{id}")
-    Call update(@Path("id") Long clientId, @Body Client client);
+    Call<Void> update(@Path("id") Long clientId, @Body Client client);
 
     @DELETE("clients/{id}")
-    Call delete(@Path("id") Long clientId);
+    Call<Void> delete(@Path("id") Long clientId);
 }
