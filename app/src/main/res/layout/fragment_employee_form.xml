@@ -7,6 +7,17 @@
     tools:context=".ui.layout.MenuActivity"
     >
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:visibility="gone"
+        android:indeterminateDrawable="@drawable/ind_progress_bar"
+        android:indeterminateDuration="500"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerInParent="true"
+        tools:progress="@integer/material_motion_duration_medium_1"
+        />
+
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -14,7 +25,12 @@
         android:fillViewport="true"
         android:isScrollContainer="false">
 
-        <LinearLayout
+        <RelativeLayout
+            android:id="@+id/formBody"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
@@ -258,6 +274,8 @@
                 android:layout_marginBottom="20dp"/>
 
         </LinearLayout>
+
+        </RelativeLayout>
 
     </ScrollView>
 
