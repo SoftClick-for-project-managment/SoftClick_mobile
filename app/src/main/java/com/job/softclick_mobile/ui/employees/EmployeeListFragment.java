@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -36,6 +37,7 @@ public class EmployeeListFragment extends Fragment implements RecyclerViewHandle
     private List<Employee> employeeList = new ArrayList<>();
     private ArrayList<Employee> employeeArrayList;
     private IEmployeeViewModel employeeViewModel;
+    private ProgressBar progressBar;
 
     public EmployeeListFragment() {
         // Required empty public constructor
@@ -62,6 +64,8 @@ public class EmployeeListFragment extends Fragment implements RecyclerViewHandle
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_employee_list, container, false);
         recyclerView = view.findViewById(R.id.employeeListRecyclerView) ;
+        progressBar = view.findViewById(R.id.progressBar);
+
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this.getContext());
         recyclerView.setLayoutManager(layoutManager);
@@ -71,6 +75,7 @@ public class EmployeeListFragment extends Fragment implements RecyclerViewHandle
         employeeViewModel.getAll().geteMutableLiveData().observe(getViewLifecycleOwner(), new Observer() {
             @Override
             public void onChanged(Object o) {
+                progressBar.setVisibility(View.INVISIBLE);
                 Throwable error = (Throwable) o;
                 Log.d("ERR", error.getMessage());
             }
@@ -82,12 +87,13 @@ public class EmployeeListFragment extends Fragment implements RecyclerViewHandle
             public void onChanged(List<Employee> employees) {
                 //employeeList = employees;
                 employeeArrayList = new ArrayList<>();
-                AtomicReference<ArrayList<Employee>> sEmployeeList = new AtomicReference<>(new ArrayList<>());
+                //AtomicReference<ArrayList<Employee>> sEmployeeList = new AtomicReference<>(new ArrayList<>());
 
                 employees.forEach(employee -> {
                         employeeArrayList.add(employee);
                 });
 
+                progressBar.setVisibility(View.INVISIBLE);
                 refreshUi();
             }
         });
@@ -111,8 +117,6 @@ public class EmployeeListFragment extends Fragment implements RecyclerViewHandle
     }
 
     private void refreshUi(){
-        Toast.makeText(getActivity(), "refresh uui : " , Toast.LENGTH_SHORT).show();
-
         adapter = new EmployeeListAdapter(employeeArrayList, this);
         recyclerView.setAdapter(adapter);
     }
