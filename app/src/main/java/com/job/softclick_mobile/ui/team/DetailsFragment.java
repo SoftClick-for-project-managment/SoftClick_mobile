@@ -1,4 +1,4 @@
-package com.job.softclick_mobile.ui;
+package com.job.softclick_mobile.ui.team;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
