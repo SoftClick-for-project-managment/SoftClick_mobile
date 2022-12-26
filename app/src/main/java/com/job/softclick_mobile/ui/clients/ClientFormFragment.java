@@ -191,7 +191,6 @@ public class ClientFormFragment extends Fragment {
 
         this.client = client;
 
-       /// System.out.println("Employee ::: " + employee.getEmployeeEmail());
 
         createLiveResponse.gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer() {
             @Override
