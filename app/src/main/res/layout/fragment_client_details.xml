@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         >
+
         <RelativeLayout
             android:id="@+id/subheader"
             android:layout_width="match_parent"
@@ -44,6 +45,7 @@
         </RelativeLayout>
 
         <GridLayout
+            android:id="@+id/detailsBody"
             android:layout_below="@+id/subheader"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

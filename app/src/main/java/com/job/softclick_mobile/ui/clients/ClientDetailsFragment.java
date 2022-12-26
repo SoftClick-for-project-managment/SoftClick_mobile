@@ -5,10 +5,13 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,14 +22,41 @@ import android.widget.Toast;
 import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.databinding.FragmentClientDetailsBinding;
 import com.job.softclick_mobile.models.Client;
+import com.job.softclick_mobile.models.Task;
 import com.job.softclick_mobile.ui.layout.FooterFragment;
+import com.job.softclick_mobile.ui.tasks.DetailsTask;
+import com.job.softclick_mobile.utils.LiveResponse;
+import com.job.softclick_mobile.viewmodels.clients.ClientViewModel;
+import com.job.softclick_mobile.viewmodels.task.TaskViewModel;
+
+import java.io.IOException;
+
+import retrofit2.HttpException;
 
 public class ClientDetailsFragment extends Fragment  {
     private FragmentClientDetailsBinding binding;
     private Client client;
+
+    private ClientViewModel clientViewModel ;
 ////////client///////////////////
     public ClientDetailsFragment() {
 
+    }
+
+    public static ClientDetailsFragment newInstance(String param1, String param2) {
+        ClientDetailsFragment fragment = new ClientDetailsFragment();
+        Bundle args = new Bundle();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            client = (Client) getArguments().getSerializable("client");
+        }
     }
 
     @Nullable
@@ -34,14 +64,34 @@ public class ClientDetailsFragment extends Fragment  {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentClientDetailsBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fContentFooter,new Fragment()).commit() ;
 
-        binding.firstNameValue.setText(client.getPrenom());
-        binding.lastNameValue.setText(client.getNom());
-        binding.emailValue.setText(client.getEmail());
-        binding.phoneValue.setText(client.getTele());
-        binding.companyNameValue.setText(client.getNomEntreprise());
-        binding.cityValue.setText(client.getVille());
-        binding.countryValue.setText(client.getPays());
+
+
+
+        clientViewModel = new ViewModelProvider(this).get(ClientViewModel.class);
+
+        clientViewModel.getSingle(client.getId()).geteMutableLiveData().observe(getViewLifecycleOwner(), new Observer<Object>() {
+                    @Override
+                    public void onChanged(Object o) {
+                        Throwable error = (Throwable) o;
+                        if (error instanceof HttpException) {
+                            binding.backArrow.callOnClick();
+                            Toast.makeText(getContext(), "This screen is under maintenance", Toast.LENGTH_SHORT).show();
+                        } else if (error instanceof IOException) {
+
+                        }
+                        Log.d("ERR", error.getMessage());
+                    }
+                });
+
+        clientViewModel.getSingle(client.getId()).gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer<Client>() {
+            @Override
+            public void onChanged(Client c) {
+                client = c;
+                refreshUi();
+            }
+        });
 
         if (binding.moreOptions != null) {
             binding.moreOptions.setOnClickListener(new View.OnClickListener() {
@@ -103,18 +153,24 @@ public class ClientDetailsFragment extends Fragment  {
         return view;
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            client = (Client) getArguments().getSerializable("client");
-        }
-    }
+
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    private void refreshUi() {
+
+        binding.detailsBody.setVisibility(View.VISIBLE);
+        binding.firstNameValue.setText(client.getPrenom());
+        binding.lastNameValue.setText(client.getNom());
+        binding.emailValue.setText(client.getEmail());
+        binding.phoneValue.setText(client.getTele());
+        binding.companyNameValue.setText(client.getNomEntreprise());
+        binding.cityValue.setText(client.getVille());
+        binding.countryValue.setText(client.getPays());
     }
 
     private AlertDialog AskOption() {
@@ -125,9 +181,9 @@ public class ClientDetailsFragment extends Fragment  {
                 .setIcon(R.drawable.delete)
 
                 .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-
                     public void onClick(DialogInterface dialog, int whichButton) {
                         //your deleting code
+                        deleteClient();
                         dialog.dismiss();
                     }
 
@@ -142,6 +198,44 @@ public class ClientDetailsFragment extends Fragment  {
                 .create();
 
         return myQuittingDialogBox;
+    }
+
+    public void deleteClient(){
+       // binding.progressBar.setVisibility(View.VISIBLE);
+        //binding.formBody.setVisibility(View.GONE);
+
+
+
+
+        LiveResponse createLiveResponse =  clientViewModel.delete((long) this.client.getId());
+        createLiveResponse.gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer() {
+            @Override
+            public void onChanged(Object o) {
+                if((Boolean) o == true ){
+                    //binding.progressBar.setVisibility(View.GONE);
+                    binding.backArrow.callOnClick();
+                }
+            }
+        });
+
+        createLiveResponse.geteMutableLiveData().observe(getViewLifecycleOwner(), new Observer() {
+            @Override
+            public void onChanged(Object o) {
+                Throwable error = (Throwable) o;
+                if (error instanceof HttpException) {
+                    Log.d("DEBUG", error.getMessage());
+                    error.printStackTrace();
+                    Toast.makeText(getContext(), "This screen is under maintenance", Toast.LENGTH_SHORT).show();
+                } else if (error instanceof IOException) {
+
+                }
+                //binding.formBody.setVisibility(View.VISIBLE);
+                //binding.progressBar.setVisibility(View.GONE);
+                Log.d("ERR", error.getMessage());
+            }
+        });
+
+
     }
 
 }
