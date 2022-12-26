@@ -21,12 +21,12 @@ public interface EmployeeApi {
     Call<Employee> getSingle(@Path("id") Long employeeId);
 
     @POST("employees")
-    Call create(@Body Employee employee);
+    Call<Void> create(@Body Employee employee);
 
     @PUT("employees/{id}")
-    Call update(@Path("id") Long employeeId, @Body Employee employee);
+    Call<Void> update(@Path("id") Long employeeId, @Body Employee employee);
 
     @DELETE("employees/{id}")
-    Call delete(@Path("id") Long employeeId);
+    Call<Void> delete(@Path("id") Long employeeId);
 
 }

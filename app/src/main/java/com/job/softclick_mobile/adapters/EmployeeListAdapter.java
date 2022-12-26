@@ -67,7 +67,7 @@ public class EmployeeListAdapter extends RecyclerView.Adapter<EmployeeListAdapte
     public void onBindViewHolder(@NonNull EmployeeViewHolder holder, int position) {
         Employee currentEmployee = mEmployeeList.get(position);
 
-        holder.imageView.setImageResource(currentEmployee.getEmployeeImage());
+        holder.imageView.setImageResource(R.drawable.user_photo);
         holder.fullNameView.setText(currentEmployee.getEmployeeFirstName()+" "+currentEmployee.getEmployeeLastName());
         holder.functionView.setText(currentEmployee.getEmployeeFunction());
         holder.emailView.setText(currentEmployee.getEmployeeEmail());
