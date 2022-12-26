@@ -25,6 +25,7 @@ import com.job.softclick_mobile.models.Client;
 import com.job.softclick_mobile.models.Task;
 import com.job.softclick_mobile.ui.layout.FooterFragment;
 import com.job.softclick_mobile.ui.tasks.DetailsTask;
+import com.job.softclick_mobile.utils.LiveResponse;
 import com.job.softclick_mobile.viewmodels.clients.ClientViewModel;
 import com.job.softclick_mobile.viewmodels.task.TaskViewModel;
 
@@ -51,7 +52,7 @@ public class ClientDetailsFragment extends Fragment  {
 
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             client = (Client) getArguments().getSerializable("client");
@@ -66,8 +67,7 @@ public class ClientDetailsFragment extends Fragment  {
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fContentFooter,new Fragment()).commit() ;
 
 
-        binding.detailsBody.setVisibility(View.INVISIBLE);
-        binding.progressBar.setVisibility(View.VISIBLE);
+
 
         clientViewModel = new ViewModelProvider(this).get(ClientViewModel.class);
 
@@ -162,7 +162,7 @@ public class ClientDetailsFragment extends Fragment  {
     }
 
     private void refreshUi() {
-        binding.progressBar.setVisibility(View.INVISIBLE);
+
         binding.detailsBody.setVisibility(View.VISIBLE);
         binding.firstNameValue.setText(client.getPrenom());
         binding.lastNameValue.setText(client.getNom());
@@ -181,9 +181,9 @@ public class ClientDetailsFragment extends Fragment  {
                 .setIcon(R.drawable.delete)
 
                 .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-
                     public void onClick(DialogInterface dialog, int whichButton) {
                         //your deleting code
+                        deleteClient();
                         dialog.dismiss();
                     }
 
@@ -198,6 +198,44 @@ public class ClientDetailsFragment extends Fragment  {
                 .create();
 
         return myQuittingDialogBox;
+    }
+
+    public void deleteClient(){
+       // binding.progressBar.setVisibility(View.VISIBLE);
+        //binding.formBody.setVisibility(View.GONE);
+
+
+
+
+        LiveResponse createLiveResponse =  clientViewModel.delete((long) this.client.getId());
+        createLiveResponse.gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer() {
+            @Override
+            public void onChanged(Object o) {
+                if((Boolean) o == true ){
+                    //binding.progressBar.setVisibility(View.GONE);
+                    binding.backArrow.callOnClick();
+                }
+            }
+        });
+
+        createLiveResponse.geteMutableLiveData().observe(getViewLifecycleOwner(), new Observer() {
+            @Override
+            public void onChanged(Object o) {
+                Throwable error = (Throwable) o;
+                if (error instanceof HttpException) {
+                    Log.d("DEBUG", error.getMessage());
+                    error.printStackTrace();
+                    Toast.makeText(getContext(), "This screen is under maintenance", Toast.LENGTH_SHORT).show();
+                } else if (error instanceof IOException) {
+
+                }
+                //binding.formBody.setVisibility(View.VISIBLE);
+                //binding.progressBar.setVisibility(View.GONE);
+                Log.d("ERR", error.getMessage());
+            }
+        });
+
+
     }
 
 }

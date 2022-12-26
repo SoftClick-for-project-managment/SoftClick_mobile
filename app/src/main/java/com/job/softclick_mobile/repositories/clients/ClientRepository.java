@@ -97,11 +97,45 @@ public class ClientRepository implements IClientRepository, IBaseRepository<Clie
 
     @Override
     public LiveResponse update(Long aLong, Client client) {
-        return null;
+        service.update(aLong, client).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                Log.d("DEBUG", response.code() + "");
+                if (response.code() != 200) {
+                    createLiveResponse.geteMutableLiveData().setValue(new HttpException(response));
+                } else {
+                    createLiveResponse.gettMutableLiveData().setValue(true);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                createLiveResponse.geteMutableLiveData().setValue(t);
+            }
+        });
+
+        return createLiveResponse;
     }
 
     @Override
     public LiveResponse delete(Long aLong) {
-        return null;
+        service.delete(aLong).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                Log.d("DEBUG", response.code() + "");
+                if (response.code() != 200) {
+                    createLiveResponse.geteMutableLiveData().setValue(new HttpException(response));
+                } else {
+                    createLiveResponse.gettMutableLiveData().setValue(true);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                createLiveResponse.geteMutableLiveData().setValue(t);
+            }
+        });
+
+        return createLiveResponse;
     }
 }

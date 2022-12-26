@@ -65,9 +65,9 @@ public class ClientFormFragment extends Fragment {
         clientViewModel = new ViewModelProvider(this).get(ClientViewModel.class);
 
 
-        if (client != null) {
+        if(client != null) {
             binding.subheaderTitle.setText("Client Edition");
-            binding.createClientBtn.setText("Update");
+            binding.createClientBtn.setText("Edit");
             binding.firstName.setText(client.getNom());
             binding.lastName.setText(client.getPrenom());
             binding.email.setText(client.getEmail());
@@ -75,16 +75,25 @@ public class ClientFormFragment extends Fragment {
             binding.companyName.setText(client.getNomEntreprise());
             binding.city.setText(client.getVille());
             binding.country.setText(client.getPays());
+
             binding.backArrow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ClientDetailsFragment clientDetailsFragment = new ClientDetailsFragment();
+                    ClientDetailsFragment employeeDetailsFragment = new ClientDetailsFragment();
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("client", client);
-                    clientDetailsFragment.setArguments(bundle);
-                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContent,clientDetailsFragment).commit();
+                    employeeDetailsFragment.setArguments(bundle);
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContent,employeeDetailsFragment).commit();
                 }
             });
+
+            binding.createClientBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    updateClient((long) client.getId());
+                }
+            });
+
         }
         else{
             binding.backArrow.setOnClickListener(new View.OnClickListener() {
@@ -95,15 +104,25 @@ public class ClientFormFragment extends Fragment {
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fContentFooter, footerFragment).commit();
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContent,ClientList).commit();
                 }
-            });}
+            });
 
-        binding.createClientBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-               createClient();
-            }
-        });
+            binding.createClientBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    createClient();
+                }
+            });
+
+        }
+
+
+
+
+
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fContentFooter,new Fragment()).commit() ;
+
         return view;
+
     }
 
 
@@ -149,6 +168,62 @@ public class ClientFormFragment extends Fragment {
                 Log.d("ERR", error.getMessage());
             }
         });
+
+    }
+
+    public void updateClient(Long key){
+        binding.progressBar.setVisibility(View.VISIBLE);
+        binding.formBody.setVisibility(View.GONE);
+
+        Client client = new Client(
+                binding.firstName.getText().toString(),
+                binding.lastName.getText().toString(),
+                binding.email.getText().toString(),
+                binding.phone.getText().toString(),
+                binding.companyName.getText().toString(),
+                binding.city.getText().toString(),
+                binding.country.getText().toString()
+        );
+
+
+
+        LiveResponse createLiveResponse =  clientViewModel.update(key, client);
+
+        this.client = client;
+
+       /// System.out.println("Employee ::: " + employee.getEmployeeEmail());
+
+        createLiveResponse.gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer() {
+            @Override
+            public void onChanged(Object o) {
+                System.out.println("changed");
+                if((Boolean) o == true ){
+                    Toast.makeText(getContext(), "Client updated successfully", Toast.LENGTH_SHORT).show();
+
+                    binding.progressBar.setVisibility(View.GONE);
+                    binding.backArrow.callOnClick();
+                    System.out.println("back called");
+                }
+            }
+        });
+
+        createLiveResponse.geteMutableLiveData().observe(getViewLifecycleOwner(), new Observer() {
+            @Override
+            public void onChanged(Object o) {
+                Throwable error = (Throwable) o;
+                if (error instanceof HttpException) {
+                    Log.d("DEBUG", error.getMessage());
+                    error.printStackTrace();
+                    Toast.makeText(getContext(), "This screen is under maintenance", Toast.LENGTH_SHORT).show();
+                } else if (error instanceof IOException) {
+
+                }
+                binding.formBody.setVisibility(View.VISIBLE);
+                binding.progressBar.setVisibility(View.GONE);
+                Log.d("ERR", error.getMessage());
+            }
+        });
+
 
     }
 }
