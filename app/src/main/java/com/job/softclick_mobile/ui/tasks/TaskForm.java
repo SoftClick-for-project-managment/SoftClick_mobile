@@ -23,6 +23,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.databinding.FragmentTaskFormBinding;
+import com.job.softclick_mobile.models.Client;
 import com.job.softclick_mobile.models.Status;
 import com.job.softclick_mobile.models.Task;
 import com.job.softclick_mobile.ui.layout.FooterFragment;
@@ -297,6 +298,13 @@ public class TaskForm extends Fragment {
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContent,employeeDetailsFragment).commit();
                 }
             });
+
+            binding.createtaskBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    updateTask((long) task.getId());
+                }
+            });
         }
         else{
             binding.backArrow.setOnClickListener(new View.OnClickListener() {
@@ -365,4 +373,58 @@ public class TaskForm extends Fragment {
 
 
     }
-}
+    public void updateTask(Long key) {
+        binding.progressBar.setVisibility(View.VISIBLE);
+        binding.formBody.setVisibility(View.GONE);
+
+        Task task = new Task(
+                binding.taskname.getText().toString(),
+                binding.startdate.getText().toString()+" "+binding.timeStart.getText().toString(),
+                binding.Enddate.getText().toString()+" "+binding.timeEnd.getText().toString(),
+                binding.taskdescription.getText().toString(),
+                new Status((String)binding.statustask.getSelectedItem()),
+                null,
+                null,
+                null,
+                null
+        );
+
+
+        LiveResponse createLiveResponse = taskViewModel.update(key, task);
+
+        this.task = task;
+
+
+        createLiveResponse.gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer() {
+            @Override
+            public void onChanged(Object o) {
+                System.out.println("changed");
+                if ((Boolean) o == true) {
+                    Toast.makeText(getContext(), "task updated successfully", Toast.LENGTH_SHORT).show();
+
+                    binding.progressBar.setVisibility(View.GONE);
+                    binding.backArrow.callOnClick();
+                    System.out.println("back called");
+                }
+            }
+        });
+
+        createLiveResponse.geteMutableLiveData().observe(getViewLifecycleOwner(), new Observer() {
+            @Override
+            public void onChanged(Object o) {
+                Throwable error = (Throwable) o;
+                if (error instanceof HttpException) {
+                    Log.d("DEBUG", error.getMessage());
+                    error.printStackTrace();
+                    Toast.makeText(getContext(), "This screen is under maintenance", Toast.LENGTH_SHORT).show();
+                } else if (error instanceof IOException) {
+
+                }
+                binding.formBody.setVisibility(View.VISIBLE);
+                binding.progressBar.setVisibility(View.GONE);
+                Log.d("ERR", error.getMessage());
+            }
+        });
+
+    }
+    }
