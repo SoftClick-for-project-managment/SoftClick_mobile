@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -16,6 +17,8 @@ import android.widget.LinearLayout;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.job.softclick_mobile.R;
+import com.job.softclick_mobile.ui.employees.EmployeeListFragment;
+import com.job.softclick_mobile.ui.projectFragments.ListProjectsFragment;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,8 +27,9 @@ import com.job.softclick_mobile.R;
  */
 public class FooterFragment extends Fragment {
     private BottomAppBar mBottomAppBar;
-    private LinearLayout mBottomSheet;
+    private FrameLayout mBottomSheet;
     private BottomSheetBehavior mbBottomSheetBehavior;
+    private Class fragmentClass;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -39,7 +43,10 @@ public class FooterFragment extends Fragment {
     public FooterFragment() {
         // Required empty public constructor
     }
-
+    public FooterFragment(Class fragmentClass) {
+        // Required empty public constructor
+        this.fragmentClass=fragmentClass;
+    }
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -58,7 +65,9 @@ public class FooterFragment extends Fragment {
         return fragment;
     }
 
-    @Override
+
+
+        @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
@@ -83,8 +92,21 @@ public class FooterFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_footer, container, false);
         mBottomAppBar= view.findViewById(R.id.bottomAppBar);
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        if(fragmentClass == ListProjectsFragment.class){
+            // do something with f
 
-        mBottomSheet = view.findViewById(R.id.standard_bottom_sheet);
+            fragmentManager.beginTransaction().replace(R.id.bottom_search_lContent,new ProjectSearchFragment()  ).commit();
+
+         }else if(fragmentClass == EmployeeListFragment.class){
+            ;
+            fragmentManager.beginTransaction().replace(R.id.bottom_search_lContent, new EmployeSearchFragment()).commit();
+        }else{
+            fragmentManager.beginTransaction().replace(R.id.bottom_search_lContent,new ProjectSearchFragment()  ).commit();
+        }
+        mBottomSheet = view.findViewById(R.id.bottom_search_lContent);
+
+
         mbBottomSheetBehavior = BottomSheetBehavior.from(mBottomSheet);
 
         ((AppCompatActivity)getActivity()).setSupportActionBar(mBottomAppBar);

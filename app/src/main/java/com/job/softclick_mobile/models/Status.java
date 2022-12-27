@@ -17,6 +17,10 @@ public class Status {
         return idStatus;
     }
 
+    public Status(String nameStatus) {
+        this.nameStatus = nameStatus;
+    }
+
     public void setIdStatus(Long idStatus) {
         this.idStatus = idStatus;
     }

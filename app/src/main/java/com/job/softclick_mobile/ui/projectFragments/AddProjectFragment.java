@@ -280,7 +280,7 @@ public class AddProjectFragment extends Fragment {
 
         String domain = Combo_domain.getText().toString().trim();
         Domain domain1 = new Domain(2l,domain);
-        Employee chef = new Employee(1,"youssef","zahi","ingeneer","wassima.china@gmail.com","0624587895");
+        Employee chef = new Employee("1","youssef","zahi","ingeneer","wassima.china@gmail.com","0624587895");
         chef.setId(5);
         Status status = new Status(1l,"");
         Priority priority = new Priority(1,5f,"");

@@ -139,8 +139,9 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         }
 
         try {
-            fragmentManager.beginTransaction().replace(R.id.fContentFooter, (Fragment) FooterFragment.class.newInstance()).commit();
+
             if (fragmentClass != null) {
+                fragmentManager.beginTransaction().replace(R.id.fContentFooter, (Fragment) new FooterFragment(fragmentClass)).commit();
                 fragment = (Fragment) fragmentClass.newInstance();
             }
         } catch (Exception e) {
