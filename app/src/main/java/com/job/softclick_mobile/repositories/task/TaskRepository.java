@@ -1,5 +1,7 @@
 package com.job.softclick_mobile.repositories.task;
 
+import android.util.Log;
+
 import com.job.softclick_mobile.models.Task;
 import com.job.softclick_mobile.repositories.IBaseRepository;
 import com.job.softclick_mobile.services.http.HttpClient;
@@ -93,11 +95,46 @@ public class TaskRepository implements ITaskRepository, IBaseRepository<Task, Lo
 
     @Override
     public LiveResponse update(Long aLong, Task task) {
-        return new LiveResponse();
+
+        service.update(aLong,task ).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                Log.d("DEBUG", response.code() + "");
+                if (response.code() != 200) {
+                    createLiveResponse.geteMutableLiveData().setValue(new HttpException(response));
+                } else {
+                    createLiveResponse.gettMutableLiveData().setValue(true);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                createLiveResponse.geteMutableLiveData().setValue(t);
+            }
+        });
+
+        return createLiveResponse;
     }
 
     @Override
     public LiveResponse delete(Long aLong) {
-        return new LiveResponse();
+        service.delete(aLong).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                Log.d("DEBUG", response.code() + "");
+                if (response.code() != 200) {
+                    createLiveResponse.geteMutableLiveData().setValue(new HttpException(response));
+                } else {
+                    createLiveResponse.gettMutableLiveData().setValue(true);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                createLiveResponse.geteMutableLiveData().setValue(t);
+            }
+        });
+
+        return createLiveResponse;
     }
 }

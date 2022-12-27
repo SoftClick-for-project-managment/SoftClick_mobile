@@ -203,10 +203,6 @@ public class ClientDetailsFragment extends Fragment  {
     public void deleteClient(){
        // binding.progressBar.setVisibility(View.VISIBLE);
         //binding.formBody.setVisibility(View.GONE);
-
-
-
-
         LiveResponse createLiveResponse =  clientViewModel.delete((long) this.client.getId());
         createLiveResponse.gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer() {
             @Override

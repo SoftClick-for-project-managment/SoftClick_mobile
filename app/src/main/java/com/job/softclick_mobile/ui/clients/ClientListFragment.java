@@ -76,6 +76,7 @@ public class ClientListFragment extends Fragment implements RecyclerViewHandler<
         View view = inflater.inflate(R.layout.fragment_client_list, container, false);
         recyclerView = view.findViewById(R.id.clientListRecyclerView);
         recyclerView.setHasFixedSize(true);
+
        // recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -87,6 +88,8 @@ public class ClientListFragment extends Fragment implements RecyclerViewHandler<
             @Override
             public void onChanged(Object o) {
                 progressBar.setVisibility(View.INVISIBLE);
+                recyclerView.setVisibility(View.VISIBLE);
+
                 Throwable error = (Throwable) o;
                 Log.d("ERR", error.getMessage());
             }
@@ -103,6 +106,7 @@ public class ClientListFragment extends Fragment implements RecyclerViewHandler<
                     clientArrayList.add(client);
                 });
                 progressBar.setVisibility(View.INVISIBLE);
+                recyclerView.setVisibility(View.VISIBLE);
                 refreshUi();
             }
         });
