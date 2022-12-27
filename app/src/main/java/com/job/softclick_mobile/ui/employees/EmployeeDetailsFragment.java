@@ -7,7 +7,10 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,11 +22,20 @@ import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.databinding.FragmentEmployeeDetailsBinding;
 import com.job.softclick_mobile.models.Employee;
 import com.job.softclick_mobile.ui.layout.FooterFragment;
+import com.job.softclick_mobile.utils.LiveResponse;
+import com.job.softclick_mobile.viewmodels.employees.EmployeeViewModel;
+import com.job.softclick_mobile.viewmodels.employees.IEmployeeViewModel;
+
+import java.io.IOException;
+
+import retrofit2.HttpException;
 
 public class EmployeeDetailsFragment extends Fragment {
 
     private FragmentEmployeeDetailsBinding binding;
     private Employee employee;
+    IEmployeeViewModel employeeViewModel;
+
 
     public EmployeeDetailsFragment() {
         // Required empty public constructor
@@ -50,6 +62,8 @@ public class EmployeeDetailsFragment extends Fragment {
 
         binding = FragmentEmployeeDetailsBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
+        employeeViewModel = new ViewModelProvider(this).get(EmployeeViewModel.class);
+
 
         binding.employeeFirstName.setText(employee.getEmployeeFirstName());
         binding.employeeLastName.setText(employee.getEmployeeLastName());
@@ -87,7 +101,9 @@ public class EmployeeDetailsFragment extends Fragment {
                                 case R.id.delete:
                                     Toast.makeText(getActivity(), "Under Construction ", Toast.LENGTH_LONG).show();
                                     AlertDialog diaBox = AskOption();
+
                                     diaBox.show();
+
                                     break;
 
                                 default:
@@ -129,6 +145,7 @@ public class EmployeeDetailsFragment extends Fragment {
 
                     public void onClick(DialogInterface dialog, int whichButton) {
                         //your deleting code
+                        deleteEmployee();
                         dialog.dismiss();
                     }
 
@@ -143,5 +160,43 @@ public class EmployeeDetailsFragment extends Fragment {
                 .create();
 
         return myQuittingDialogBox;
+    }
+
+    public void deleteEmployee(){
+        binding.progressBar.setVisibility(View.VISIBLE);
+        //binding.formBody.setVisibility(View.GONE);
+
+
+        System.out.println("Employee ::: " + this.employee.getEmployeeEmail());
+
+        LiveResponse createLiveResponse =  employeeViewModel.delete((long) this.employee.getId());
+        createLiveResponse.gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer() {
+            @Override
+            public void onChanged(Object o) {
+                if((Boolean) o == true ){
+                    binding.progressBar.setVisibility(View.GONE);
+                    binding.back.callOnClick();
+                }
+            }
+        });
+
+        createLiveResponse.geteMutableLiveData().observe(getViewLifecycleOwner(), new Observer() {
+            @Override
+            public void onChanged(Object o) {
+                Throwable error = (Throwable) o;
+                if (error instanceof HttpException) {
+                    Log.d("DEBUG", error.getMessage());
+                    error.printStackTrace();
+                    Toast.makeText(getContext(), "This screen is under maintenance", Toast.LENGTH_SHORT).show();
+                } else if (error instanceof IOException) {
+
+                }
+                //binding.formBody.setVisibility(View.VISIBLE);
+                binding.progressBar.setVisibility(View.GONE);
+                Log.d("ERR", error.getMessage());
+            }
+        });
+
+
     }
 }

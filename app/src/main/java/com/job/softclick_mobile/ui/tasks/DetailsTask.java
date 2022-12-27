@@ -23,6 +23,7 @@ import com.job.softclick_mobile.databinding.FragmentDetailsTaskBinding;
 import com.job.softclick_mobile.models.Status;
 import com.job.softclick_mobile.models.Task;
 import com.job.softclick_mobile.ui.layout.FooterFragment;
+import com.job.softclick_mobile.utils.LiveResponse;
 import com.job.softclick_mobile.viewmodels.task.TaskViewModel;
 
 import java.io.IOException;
@@ -30,11 +31,6 @@ import java.util.List;
 
 import retrofit2.HttpException;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link DetailsTask#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class DetailsTask extends Fragment {
     private FragmentDetailsTaskBinding binding;
     private Task task;
@@ -177,6 +173,7 @@ public class DetailsTask extends Fragment {
 
                     public void onClick(DialogInterface dialog, int whichButton) {
                         //your deleting code
+                        deleteTask();
                         dialog.dismiss();
                     }
 
@@ -192,4 +189,38 @@ public class DetailsTask extends Fragment {
 
         return myQuittingDialogBox;
     }
+    public void deleteTask(){
+        // binding.progressBar.setVisibility(View.VISIBLE);
+        //binding.formBody.setVisibility(View.GONE);
+        LiveResponse createLiveResponse =  taskViewModel.delete((long) this.task.getId());
+        createLiveResponse.gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer() {
+            @Override
+            public void onChanged(Object o) {
+                if((Boolean) o == true ){
+                    //binding.progressBar.setVisibility(View.GONE);
+                    binding.backArrow.callOnClick();
+                }
+            }
+        });
+
+        createLiveResponse.geteMutableLiveData().observe(getViewLifecycleOwner(), new Observer() {
+            @Override
+            public void onChanged(Object o) {
+                Throwable error = (Throwable) o;
+                if (error instanceof HttpException) {
+                    Log.d("DEBUG", error.getMessage());
+                    error.printStackTrace();
+                    Toast.makeText(getContext(), "This screen is under maintenance", Toast.LENGTH_SHORT).show();
+                } else if (error instanceof IOException) {
+
+                }
+                //binding.formBody.setVisibility(View.VISIBLE);
+                //binding.progressBar.setVisibility(View.GONE);
+                Log.d("ERR", error.getMessage());
+            }
+        });
+
+
+    }
+
 }

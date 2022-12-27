@@ -4,10 +4,11 @@ import java.io.Serializable;
 
 public class Employee implements Serializable {
 
-    private int id, employeeImage;
+    private int id;
+    private String employeeImage;
     private String employeeFirstName, employeeLastName, employeeFunction, employeeEmail, employeePhone;
 
-    public Employee(int employeeImage, String employeeFirstName, String employeeLastName, String employeeFunction, String employeeEmail, String employeePhone) {
+    public Employee(String employeeImage, String employeeFirstName, String employeeLastName, String employeeFunction, String employeeEmail, String employeePhone) {
         this.employeeImage = employeeImage;
         this.employeeFirstName = employeeFirstName;
         this.employeeLastName = employeeLastName;
@@ -16,22 +17,15 @@ public class Employee implements Serializable {
         this.employeePhone = employeePhone;
     }
 
-    public Employee() {
-    }
-
     public int getId() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getEmployeeImage() {
+    public String getEmployeeImage() {
         return employeeImage;
     }
 
-    public void setEmployeeImage(int employeeImage) {
+    public void setEmployeeImage(String employeeImage) {
         this.employeeImage = employeeImage;
     }
 

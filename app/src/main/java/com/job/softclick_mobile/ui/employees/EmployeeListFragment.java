@@ -5,28 +5,39 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.adapters.EmployeeListAdapter;
 import com.job.softclick_mobile.ui.contracts.RecyclerViewHandler;
 import com.job.softclick_mobile.models.Employee;
+import com.job.softclick_mobile.viewmodels.employees.EmployeeViewModel;
+import com.job.softclick_mobile.viewmodels.employees.IEmployeeViewModel;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
-public class EmployeeListFragment extends Fragment implements RecyclerViewHandler {
-
+public class EmployeeListFragment extends Fragment implements RecyclerViewHandler<Employee>{
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter adapter;
+    private EmployeeListAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
     private FloatingActionButton addButton;
+    private List<Employee> employeeList = new ArrayList<>();
     private ArrayList<Employee> employeeArrayList;
+    private IEmployeeViewModel employeeViewModel;
+    private ProgressBar progressBar;
 
     public EmployeeListFragment() {
         // Required empty public constructor
@@ -53,17 +64,39 @@ public class EmployeeListFragment extends Fragment implements RecyclerViewHandle
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_employee_list, container, false);
         recyclerView = view.findViewById(R.id.employeeListRecyclerView) ;
-
-        employeeArrayList= new ArrayList<>();
-        employeeArrayList.add(new Employee(R.drawable.user_photo, "Tiger", "Nixon", "Talent Acquisition Specialist", "tigernixon@gmail.com", "+2120065354675"));
-        employeeArrayList.add(new Employee(R.drawable.user_photo, "Garrett", "Winters", "FullStack Developer", "garrettwinters@gmail.com", "+2120065354675"));
-        employeeArrayList.add(new Employee(R.drawable.user_photo, "Brielle", "Williamson", "Front-End Developer", "briellewilliamson@gmail.com", "+2120065354675"));
+        progressBar = view.findViewById(R.id.progressBar);
 
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this.getContext());
-        adapter = new EmployeeListAdapter(employeeArrayList, this);
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
+
+        employeeViewModel = new ViewModelProvider(this).get(EmployeeViewModel.class);
+
+        employeeViewModel.getAll().geteMutableLiveData().observe(getViewLifecycleOwner(), new Observer() {
+            @Override
+            public void onChanged(Object o) {
+                progressBar.setVisibility(View.INVISIBLE);
+                Throwable error = (Throwable) o;
+                Log.d("ERR", error.getMessage());
+            }
+        });
+
+        employeeViewModel.getAll().gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Employee>>() {
+            
+            @Override
+            public void onChanged(List<Employee> employees) {
+                //employeeList = employees;
+                employeeArrayList = new ArrayList<>();
+                //AtomicReference<ArrayList<Employee>> sEmployeeList = new AtomicReference<>(new ArrayList<>());
+
+                employees.forEach(employee -> {
+                        employeeArrayList.add(employee);
+                });
+
+                progressBar.setVisibility(View.INVISIBLE);
+                refreshUi();
+            }
+        });
 
         addButton = this.getActivity().findViewById(R.id.addButton);
         if(addButton != null) {
@@ -80,8 +113,12 @@ public class EmployeeListFragment extends Fragment implements RecyclerViewHandle
             });
         }
 
-
         return view;
+    }
+
+    private void refreshUi(){
+        adapter = new EmployeeListAdapter(employeeArrayList, this);
+        recyclerView.setAdapter(adapter);
     }
 
     @Override
