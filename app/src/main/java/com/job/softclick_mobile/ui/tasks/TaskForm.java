@@ -81,50 +81,49 @@ public class TaskForm extends Fragment {
             @Override
             public void onChanged(List<Status> sList) {
                 setupStatusSpinner(sList);
+
+                if(task != null) {
+                    binding.statustask.setSelection(((ArrayAdapter<String>)binding.statustask.getAdapter()).getPosition(task.getStatus().getNameEtat()));
+
+                    binding.taskname.setText(task.getName());
+                    binding.startdate.setText(task.getStartDate().split(" ")[0]);
+                    binding.Enddate.setText(task.getEndDate().split(" ")[0]);
+                    binding.timeStart.setText(task.getStartDate().split(" ")[1]);
+                    binding.timeEnd.setText(task.getEndDate().split(" ")[1]);
+                    binding.taskdescription.setText((task.getDescription()));
+                    binding.subheaderTitle.setText("Task Edition ");
+                    binding.createtaskBtn.setText("Edit");
+                    binding.backArrow.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            DetailsTask employeeDetailsFragment = new DetailsTask();
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable("task", task);
+                            employeeDetailsFragment.setArguments(bundle);
+                            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContent,employeeDetailsFragment).commit();
+                        }
+                    });
+
+                    binding.createtaskBtn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            updateTask((long) task.getId());
+                        }
+                    });
+                } else {
+                    binding.backArrow.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            TaskList taskList =new TaskList();
+                            FooterFragment footerFragment=new FooterFragment();
+                            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fContentFooter, footerFragment).commit();
+                            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContent,taskList).commit();
+                        }
+                    });
+                }
             }
         });
 
-        setupStatusSpinner(null);
-
-        if(task != null) {
-            binding.statustask.setSelection(((ArrayAdapter<String>)binding.statustask.getAdapter()).getPosition(task.getStatus().getNameEtat()));
-
-            binding.taskname.setText(task.getName());
-            binding.startdate.setText(task.getStartDate().split("")[0]);
-            binding.Enddate.setText(task.getEndDate().split("")[0]);
-            binding.timeStart.setText(task.getStartDate().split("")[1]);
-            binding.timeEnd.setText(task.getEndDate().split("")[1]);
-            binding.taskdescription.setText((task.getDescription()));
-            binding.subheaderTitle.setText("Task Edition ");
-            binding.createtaskBtn.setText("Edit");
-            binding.backArrow.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    DetailsTask employeeDetailsFragment = new DetailsTask();
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("task", task);
-                    employeeDetailsFragment.setArguments(bundle);
-                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContent,employeeDetailsFragment).commit();
-                }
-            });
-
-            binding.createtaskBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    updateTask((long) task.getId());
-                }
-            });
-        } else {
-            binding.backArrow.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    TaskList taskList =new TaskList();
-                    FooterFragment footerFragment=new FooterFragment();
-                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fContentFooter, footerFragment).commit();
-                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContent,taskList).commit();
-                }
-            });
-        }
         binding.Enddate.setOnClickListener(new View.OnClickListener() {
             final Calendar c = Calendar.getInstance();
             int year = c.get(Calendar.YEAR);
@@ -224,16 +223,17 @@ public class TaskForm extends Fragment {
         Spinner spinner = binding.statustask;
 
         // Initializing a String List
-        List<String> statusList = new ArrayList<>(Arrays.asList(new String[]{
-                "Select Task status",
-                "OPEN",
-                "IN PROGRESS",
-                "DONE"
-        }));
-//        statusList.add("Select Task status");
-//        statuses.forEach(s -> {
-//            statusList.add(s.getNameEtat());
-//        });
+//        List<String> statusList = new ArrayList<>(Arrays.asList(new String[]{
+//                "Select Task status",
+//                "OPEN",
+//                "IN PROGRESS",
+//                "DONE"
+//        }));
+        List<String> statusList = new ArrayList<>();
+        statusList.add("Select Task status");
+        statuses.forEach(s -> {
+            statusList.add(s.getNameEtat());
+        });
 
         // Initializing an ArrayAdapter
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(
@@ -243,15 +243,12 @@ public class TaskForm extends Fragment {
         ){
             @Override
             public boolean isEnabled(int position){
-                // Disable the first item from Spinner
-                // First item will be use for hint
                 return position != 0;
             }
             @Override
             public View getDropDownView(
                     int position, View convertView,
                     @NonNull ViewGroup parent) {
-
                 // Get the item view
                 View view = super.getDropDownView(
                         position, convertView, parent);
