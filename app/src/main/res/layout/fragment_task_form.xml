@@ -125,7 +125,7 @@
 
                     <EditText
                         android:id="@+id/startdate"
-                        android:layout_width="100dp"
+                        android:layout_width="150dp"
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@+id/startdate_icon"
                         android:background="@color/transparent"
@@ -178,7 +178,7 @@
                     android:layout_marginTop="20dp">
                     <EditText
                         android:id="@+id/Enddate"
-                        android:layout_width="100dp"
+                        android:layout_width="150dp"
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@+id/Enddate_icon"
                         android:background="@color/transparent"
