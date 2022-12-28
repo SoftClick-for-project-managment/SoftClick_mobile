@@ -55,14 +55,11 @@ public class TaskList extends Fragment implements RecyclerViewHandler<Task> {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-        }
+        if (getArguments() != null) {}
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
         View taskListview =  inflater.inflate(R.layout.fragment_task_list, container, false);
@@ -74,7 +71,6 @@ public class TaskList extends Fragment implements RecyclerViewHandler<Task> {
         // ViewModels
         statusViewModel = new ViewModelProvider(this).get(StatusViewModel.class);
         taskViewModel = new ViewModelProvider(this).get(TaskViewModel.class);
-
 
         statusViewModel.getAll().gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Status>>() {
             @Override
@@ -125,6 +121,7 @@ public class TaskList extends Fragment implements RecyclerViewHandler<Task> {
         });
 
         addButton = this.getActivity().findViewById(R.id.addButton);
+
         if(addButton != null) {
             addButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
@@ -145,7 +142,6 @@ public class TaskList extends Fragment implements RecyclerViewHandler<Task> {
         adapter = new ItemAdapter(mList, this);
         recyclerView.setAdapter(adapter);
     }
-
 
     @Override
     public void onItemClick(List<Task> taskList, int position) {

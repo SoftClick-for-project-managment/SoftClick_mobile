@@ -22,6 +22,8 @@ public class TaskRepository implements ITaskRepository, IBaseRepository<Task, Lo
     LiveResponse<List<Task>, Throwable> taskListLiveResponse = new LiveResponse<>();
     LiveResponse<Task, Throwable> taskLiveResponse = new LiveResponse<>();
     LiveResponse<Boolean, Throwable> createLiveResponse = new LiveResponse<>();
+    LiveResponse<Boolean, Throwable> updateLiveResponse = new LiveResponse<>();
+    LiveResponse<Boolean, Throwable> deleteLiveResponse = new LiveResponse<>();
 
     public TaskRepository() {
         Retrofit httpClient = HttpClient.getInstance();
@@ -101,19 +103,19 @@ public class TaskRepository implements ITaskRepository, IBaseRepository<Task, Lo
             public void onResponse(Call<Void> call, Response<Void> response) {
                 Log.d("DEBUG", response.code() + "");
                 if (response.code() != 200) {
-                    createLiveResponse.geteMutableLiveData().setValue(new HttpException(response));
+                    updateLiveResponse.geteMutableLiveData().setValue(new HttpException(response));
                 } else {
-                    createLiveResponse.gettMutableLiveData().setValue(true);
+                    updateLiveResponse.gettMutableLiveData().setValue(true);
                 }
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                createLiveResponse.geteMutableLiveData().setValue(t);
+                updateLiveResponse.geteMutableLiveData().setValue(t);
             }
         });
 
-        return createLiveResponse;
+        return updateLiveResponse;
     }
 
     @Override
@@ -123,18 +125,18 @@ public class TaskRepository implements ITaskRepository, IBaseRepository<Task, Lo
             public void onResponse(Call<Void> call, Response<Void> response) {
                 Log.d("DEBUG", response.code() + "");
                 if (response.code() != 200) {
-                    createLiveResponse.geteMutableLiveData().setValue(new HttpException(response));
+                    deleteLiveResponse.geteMutableLiveData().setValue(new HttpException(response));
                 } else {
-                    createLiveResponse.gettMutableLiveData().setValue(true);
+                    deleteLiveResponse.gettMutableLiveData().setValue(true);
                 }
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                createLiveResponse.geteMutableLiveData().setValue(t);
+                deleteLiveResponse.geteMutableLiveData().setValue(t);
             }
         });
 
-        return createLiveResponse;
+        return deleteLiveResponse;
     }
 }
