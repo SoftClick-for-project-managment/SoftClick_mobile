@@ -79,7 +79,7 @@ public class TaskRepository implements ITaskRepository, IBaseRepository<Task, Lo
         service.create(task).enqueue(new Callback() {
             @Override
             public void onResponse(Call call, Response response) {
-                if (response.code() != 200 || response.code() != 201) {
+                if (response.code() != 201) {
                     createLiveResponse.geteMutableLiveData().setValue(new HttpException(response));
                 } else {
                     createLiveResponse.gettMutableLiveData().setValue(true);
