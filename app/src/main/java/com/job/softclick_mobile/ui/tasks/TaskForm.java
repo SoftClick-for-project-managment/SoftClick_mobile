@@ -93,6 +93,7 @@ public class TaskForm extends Fragment {
                     binding.taskdescription.setText((task.getDescription()));
                     binding.subheaderTitle.setText("Task Edition ");
                     binding.createtaskBtn.setText("Edit");
+                    
                     binding.backArrow.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {

@@ -27,6 +27,7 @@ import com.job.softclick_mobile.ui.layout.FooterFragment;
 import com.job.softclick_mobile.ui.tasks.DetailsTask;
 import com.job.softclick_mobile.utils.LiveResponse;
 import com.job.softclick_mobile.viewmodels.clients.ClientViewModel;
+import com.job.softclick_mobile.viewmodels.clients.IClientViewModel;
 import com.job.softclick_mobile.viewmodels.task.TaskViewModel;
 
 import java.io.IOException;
@@ -37,7 +38,7 @@ public class ClientDetailsFragment extends Fragment  {
     private FragmentClientDetailsBinding binding;
     private Client client;
 
-    private ClientViewModel clientViewModel ;
+    private IClientViewModel clientViewModel ;
 ////////client///////////////////
     public ClientDetailsFragment() {
 
@@ -70,6 +71,15 @@ public class ClientDetailsFragment extends Fragment  {
 
 
         clientViewModel = new ViewModelProvider(this).get(ClientViewModel.class);
+        binding.firstNameValue.setText(client.getNom());
+        binding.lastNameValue.setText(client.getPrenom());
+        binding.emailValue.setText(client.getEmail());
+        binding.phoneValue.setText(client.getTele());
+        binding.companyNameValue.setText(client.getNomEntreprise());
+        binding.cityValue.setText(client.getVille());
+        binding.countryValue.setText(client.getPays());
+
+
 
         clientViewModel.getSingle(client.getId()).geteMutableLiveData().observe(getViewLifecycleOwner(), new Observer<Object>() {
                     @Override
@@ -201,7 +211,7 @@ public class ClientDetailsFragment extends Fragment  {
     }
 
     public void deleteClient(){
-       // binding.progressBar.setVisibility(View.VISIBLE);
+       //binding.progressBar.setVisibility(View.VISIBLE);
         //binding.formBody.setVisibility(View.GONE);
         LiveResponse createLiveResponse =  clientViewModel.delete((long) this.client.getId());
         createLiveResponse.gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer() {
