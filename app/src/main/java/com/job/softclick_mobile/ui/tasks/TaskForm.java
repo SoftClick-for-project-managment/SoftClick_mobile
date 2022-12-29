@@ -76,6 +76,9 @@ public class TaskForm extends Fragment {
         View taskView = binding.getRoot();
         taskViewModel = new ViewModelProvider(this).get(TaskViewModel.class);
         statusViewModel = new ViewModelProvider(this).get(StatusViewModel.class);
+        // show progress bar and hide the form body initially
+        binding.progressBar.setVisibility(View.VISIBLE);
+        binding.formBody.setVisibility(View.INVISIBLE);
 
         statusViewModel.getAll().gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Status>>() {
             @Override
@@ -93,6 +96,7 @@ public class TaskForm extends Fragment {
                     binding.taskdescription.setText((task.getDescription()));
                     binding.subheaderTitle.setText("Task Edition ");
                     binding.createtaskBtn.setText("Edit");
+
                     
                     binding.backArrow.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -122,6 +126,8 @@ public class TaskForm extends Fragment {
                         }
                     });
                 }
+                binding.progressBar.setVisibility(View.GONE);
+                binding.formBody.setVisibility(View.VISIBLE);
             }
         });
 

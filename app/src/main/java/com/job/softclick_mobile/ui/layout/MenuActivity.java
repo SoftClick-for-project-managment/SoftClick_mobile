@@ -74,62 +74,112 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
 
 
     @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item){
 
         // Create a new fragment and specify the fragment to show based on nav item clicked
         Fragment fragment = null;
         Class fragmentClass = null;
 
+
         switch (item.getItemId()) {
             case R.id.tasks_item:
             {
+                try{
+                    fragmentClass = TaskList.class;
+                    fragment = (Fragment) fragmentClass.newInstance();
+                    fragmentManager.beginTransaction().replace(R.id.fContentFooter, (Fragment) FooterFragment.class.newInstance()).commit();
 
-                Toast.makeText(MenuActivity.this, "tasks selected", Toast.LENGTH_SHORT).show();
 
-                fragmentClass = TaskList.class;
+                }
+                catch (Exception e ){
+                }
 
                 break;
             }
             case R.id.teams_item:
             {
-                Toast.makeText(this, "teams selected", Toast.LENGTH_SHORT).show();
-                fragmentClass = TeamListFragment.class;
+                try{
+                    fragmentClass = TeamListFragment.class;
+                    fragmentManager.beginTransaction().replace(R.id.fContentFooter, (Fragment) FooterFragment.class.newInstance()).commit();
+                    fragment = (Fragment) fragmentClass.newInstance();
+
+
+
+
+                }
+                catch (Exception e ){
+                }
+
                 break;
             }
             case R.id.clients_item:
             {
-                Toast.makeText(this, "clients selected", Toast.LENGTH_SHORT).show();
-                fragmentClass = ClientListFragment.class;
+                try{
+                    fragmentClass = ClientListFragment.class;
+                    fragmentManager.beginTransaction().replace(R.id.fContentFooter, (Fragment) FooterFragment.class.newInstance()).commit();
+                    fragment = (Fragment) fragmentClass.newInstance();
+
+                }
+                catch (Exception e ){
+                }
+
                 break;
             }
             case R.id.employees_item:
             {
-                Toast.makeText(this, "employees selected", Toast.LENGTH_SHORT).show();
-                fragmentClass = EmployeeListFragment.class;
+                try{
+                    fragmentClass = EmployeeListFragment.class;
+
+                    fragmentManager.beginTransaction().replace(R.id.fContentFooter, (Fragment) FooterFragment.class.newInstance()).commit();
+                    fragment = (Fragment) fragmentClass.newInstance();
+
+                }
+                catch (Exception e ){
+                }
                 //findViewById(R.id.addButton).setOnClickListener(EmployeeListFragment.add());
                 break;
             }
             case R.id.expenses_item:
             {
-                Toast.makeText(this, "expenses selected", Toast.LENGTH_SHORT).show();
-                fragmentClass = ExpensesListFragment.class;
+                try{
+                    fragmentClass = ExpensesListFragment.class;
+                    fragmentManager.beginTransaction().replace(R.id.fContentFooter, (Fragment) FooterFragment.class.newInstance()).commit();
+                    fragment = (Fragment) fragmentClass.newInstance();
+
+                }
+                catch (Exception e ){
+                }
                 break;
             }
             case R.id.invoices_item:
             {
-                Toast.makeText(this, "invoices selected", Toast.LENGTH_SHORT).show();
-                fragmentClass = InvoiceListFragment.class;
+                try{
+                    fragmentClass = InvoiceListFragment.class;
+
+                    fragmentManager.beginTransaction().replace(R.id.fContentFooter, (Fragment) FooterFragment.class.newInstance()).commit();
+                    fragment = (Fragment) fragmentClass.newInstance();
+
+
+                }
+                catch (Exception e ){
+                }
                 break;
             }
             case R.id.projects_item:
             {
-                Toast.makeText(this, "projects selected", Toast.LENGTH_SHORT).show();
-                fragmentClass = ListProjectsFragment.class;
+                try{
+                    fragmentClass = ListProjectsFragment.class;
+
+                    fragmentManager.beginTransaction().replace(R.id.fContentFooter, (Fragment) FooterFragment.class.newInstance()).commit();
+                    fragment = (Fragment) fragmentClass.newInstance();
+
+                }
+                catch (Exception e ){
+                }
                 break;
             }
             case R.id.logout_item:
             {
-                Toast.makeText(this, "logout selected", Toast.LENGTH_SHORT).show();
                 //fragmentClass = FirstFragment.class;
                 break;
             }
@@ -138,23 +188,9 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
                 break;
         }
 
-        try {
-            fragmentManager.beginTransaction().replace(R.id.fContentFooter, (Fragment) FooterFragment.class.newInstance()).commit();
-            if (fragmentClass != null) {
-                fragment = (Fragment) fragmentClass.newInstance();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
-
         // Insert the fragment by replacing any existing fragment
         //FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
-
-
-
         // Highlight the selected item has been done by NavigationView
         item.setChecked(true);
 
@@ -166,12 +202,8 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
 
         return true;
     }
-
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
         super.onPointerCaptureChanged(hasCapture);
     }
-
-
-
 }
