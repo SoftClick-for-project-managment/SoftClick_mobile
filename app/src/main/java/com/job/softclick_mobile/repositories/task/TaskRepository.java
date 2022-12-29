@@ -19,6 +19,7 @@ import retrofit2.Retrofit;
 public class TaskRepository implements ITaskRepository, IBaseRepository<Task, Long> {
 
     private TaskApi service;
+    LiveResponse <List<Task>,Throwable> taskListByProjectLiveResponse = new LiveResponse<>();
     LiveResponse<List<Task>, Throwable> taskListLiveResponse = new LiveResponse<>();
     LiveResponse<Task, Throwable> taskLiveResponse = new LiveResponse<>();
     LiveResponse<Boolean, Throwable> createLiveResponse = new LiveResponse<>();
@@ -138,5 +139,27 @@ public class TaskRepository implements ITaskRepository, IBaseRepository<Task, Lo
         });
 
         return deleteLiveResponse;
+    }
+
+    @Override
+    public LiveResponse<List<Task>,Throwable> getAllByProject(Long id) {
+        service.getAllByProject(id).enqueue(new Callback<List<Task>>() {
+            @Override
+            public void onResponse(Call<List<Task>> call, Response<List<Task>> response) {
+                if (response.code() != 200) {
+                    taskListByProjectLiveResponse.geteMutableLiveData().setValue(new HttpException(response));
+                } else {
+                    List<Task> tl = response.body();
+                    taskListByProjectLiveResponse.gettMutableLiveData().setValue(tl);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Task>> call, Throwable t) {
+                taskListByProjectLiveResponse.geteMutableLiveData().setValue(t);
+            }
+        });
+
+        return taskListByProjectLiveResponse;
     }
 }

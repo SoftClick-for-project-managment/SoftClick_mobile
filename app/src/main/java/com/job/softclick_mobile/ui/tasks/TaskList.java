@@ -10,6 +10,7 @@ import android.widget.ProgressBar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,6 +23,7 @@ import com.job.softclick_mobile.models.Status;
 import com.job.softclick_mobile.ui.contracts.RecyclerViewHandler;
 import com.job.softclick_mobile.models.StatusTaskList;
 import com.job.softclick_mobile.models.Task;
+import com.job.softclick_mobile.utils.LiveResponse;
 import com.job.softclick_mobile.viewmodels.status.IStatusViewModel;
 import com.job.softclick_mobile.viewmodels.status.StatusViewModel;
 import com.job.softclick_mobile.viewmodels.task.ITaskViewModel;
@@ -40,22 +42,28 @@ public class TaskList extends Fragment implements RecyclerViewHandler<Task> {
     private ITaskViewModel taskViewModel;
     private IStatusViewModel statusViewModel;
     private ProgressBar progressBar;
+    private Long projectId;
 
     public TaskList() {
         // Required empty public constructor
     }
 
-    public static TaskList newInstance(String param1, String param2) {
+    public static TaskList newInstance(Long projectId) {
         TaskList fragment = new TaskList();
         Bundle args = new Bundle();
+        args.putLong("projectId",projectId);
+
         fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {}
+        if (getArguments() != null) {
+            projectId = getArguments().getLong("projectId");
+        }
     }
 
     @Override
@@ -71,54 +79,96 @@ public class TaskList extends Fragment implements RecyclerViewHandler<Task> {
         // ViewModels
         statusViewModel = new ViewModelProvider(this).get(StatusViewModel.class);
         taskViewModel = new ViewModelProvider(this).get(TaskViewModel.class);
+        LiveResponse statusGetAllLiveResponse =  statusViewModel.getAll();
 
-        statusViewModel.getAll().gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Status>>() {
+        statusGetAllLiveResponse.gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Status>>() {
             @Override
             public void onChanged(List<Status> sList) {
                 statusList = sList;
             }
         });
 
-        statusViewModel.getAll().geteMutableLiveData().observe(getViewLifecycleOwner(), new Observer() {
+        statusGetAllLiveResponse.geteMutableLiveData().observe(getViewLifecycleOwner(), new Observer() {
             @Override
             public void onChanged(Object o) {
                 Throwable error = (Throwable) o;
                 Log.d("ERR", error.getMessage());
             }
         });
+        if(projectId == null){
+            LiveResponse taskGetAllLiveResponse =  taskViewModel.getAll();
 
-        taskViewModel.getAll().gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Task>>() {
-            @Override
-            public void onChanged(List<Task> tasks) {
-                mList = new ArrayList<>();
-                AtomicReference<StatusTaskList> statusTaskList = new AtomicReference<>(new StatusTaskList());
-                AtomicReference<ArrayList<Task>> sTaskList = new AtomicReference<>(new ArrayList<>());
-                statusList.forEach(s -> {
-                    statusTaskList.set(new StatusTaskList());
-                    sTaskList.set(new ArrayList<>());
-                    statusTaskList.get().setItemText(s.getNameEtat());
-                    tasks.forEach(t -> {
-                        if (t.getStatus().getIdEtat() == s.getIdEtat()){
-                            sTaskList.get().add(t);
-                        }
+
+            taskGetAllLiveResponse.gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Task>>() {
+                @Override
+                public void onChanged(List<Task> tasks) {
+                    mList = new ArrayList<>();
+                    AtomicReference<StatusTaskList> statusTaskList = new AtomicReference<>(new StatusTaskList());
+                    AtomicReference<ArrayList<Task>> sTaskList = new AtomicReference<>(new ArrayList<>());
+                    statusList.forEach(s -> {
+                        statusTaskList.set(new StatusTaskList());
+                        sTaskList.set(new ArrayList<>());
+                        statusTaskList.get().setItemText(s.getNameEtat());
+                        tasks.forEach(t -> {
+                            if (t.getStatus().getIdEtat() == s.getIdEtat()){
+                                sTaskList.get().add(t);
+                            }
+                        });
+                        statusTaskList.get().setNestedList(sTaskList.get());
+                        mList.add(statusTaskList.get());
                     });
-                    statusTaskList.get().setNestedList(sTaskList.get());
-                    mList.add(statusTaskList.get());
-                });
 
-                progressBar.setVisibility(View.INVISIBLE);
-                refreshUi();
-            }
-        });
+                    progressBar.setVisibility(View.INVISIBLE);
+                    refreshUi();
+                }
+            });
+            taskGetAllLiveResponse.geteMutableLiveData().observe(getViewLifecycleOwner(), new Observer() {
+                @Override
+                public void onChanged(Object o) {
+                    progressBar.setVisibility(View.INVISIBLE);
+                    Throwable error = (Throwable) o;
+                    Log.d("ERR", error.getMessage());
+                }
+            });
 
-        taskViewModel.getAll().geteMutableLiveData().observe(getViewLifecycleOwner(), new Observer() {
-            @Override
-            public void onChanged(Object o) {
-                progressBar.setVisibility(View.INVISIBLE);
-                Throwable error = (Throwable) o;
-                Log.d("ERR", error.getMessage());
-            }
-        });
+        } else {
+            //get all project tasks
+           LiveResponse getAllByProjectLiveResponse = taskViewModel.getAllByProject(projectId);
+            getAllByProjectLiveResponse.gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer() {
+                @Override
+                public void onChanged(Object o) {
+                    List<Task> tasks = (List<Task>) o;
+                    mList = new ArrayList<>();
+                    AtomicReference<StatusTaskList> statusTaskList = new AtomicReference<>(new StatusTaskList());
+                    AtomicReference<ArrayList<Task>> sTaskList = new AtomicReference<>(new ArrayList<>());
+                    statusList.forEach(s -> {
+                        statusTaskList.set(new StatusTaskList());
+                        sTaskList.set(new ArrayList<>());
+                        statusTaskList.get().setItemText(s.getNameEtat());
+                        tasks.forEach(t -> {
+                            if (t.getStatus().getIdEtat() == s.getIdEtat()){
+                                sTaskList.get().add(t);
+                            }
+                        });
+                        statusTaskList.get().setNestedList(sTaskList.get());
+                        mList.add(statusTaskList.get());
+                    });
+
+                    progressBar.setVisibility(View.INVISIBLE);
+                    refreshUi();
+
+                }
+            });
+            getAllByProjectLiveResponse.geteMutableLiveData().observe(getViewLifecycleOwner(), new Observer() {
+                @Override
+                public void onChanged(Object o) {
+                    progressBar.setVisibility(View.INVISIBLE);
+                    Throwable error = (Throwable) o;
+                    Log.d("ERR", error.getMessage());
+                }
+            });
+
+        }
 
         addButton = this.getActivity().findViewById(R.id.addButton);
 
