@@ -23,6 +23,10 @@
     <style name = "datetimepicker" parent = "Theme.AppCompat.Light.Dialog">
         <item name = "colorAccent">@color/primary</item>
     </style>
+    <style name="CustomButtonStyle" parent="Widget.AppCompat.Button">
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:background">#0000FF</item>
+    </style>
 
 
 </resources>

@@ -93,6 +93,7 @@ public class TaskForm extends Fragment {
                     binding.taskdescription.setText((task.getDescription()));
                     binding.subheaderTitle.setText("Task Edition ");
                     binding.createtaskBtn.setText("Edit");
+                    
                     binding.backArrow.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -142,7 +143,13 @@ public class TaskForm extends Fragment {
                         },
                         year, month, day
                 );
+
                 datePickerDialog.show();
+                datePickerDialog.getButton(DatePickerDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
+                datePickerDialog.getButton(DatePickerDialog.BUTTON_NEGATIVE).setTextColor(Color.BLACK);
+
+
+
             }
         });
         binding.timeEnd.setOnClickListener(new View.OnClickListener() {
@@ -158,11 +165,13 @@ public class TaskForm extends Fragment {
                             @Override
                             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                                 binding.timeEnd.setText(String.format("%d:%d", hourOfDay, minute));
+
                             }
                         },
                         hour, minute, false
                 );
                 timePickerDialog.show();
+
             }
         });
         binding.startdate.setOnClickListener(new View.OnClickListener() {
@@ -187,6 +196,8 @@ public class TaskForm extends Fragment {
                         year, month, day
                 );
                 datePickerDialog.show();
+                datePickerDialog.getButton(DatePickerDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
+                datePickerDialog.getButton(DatePickerDialog.BUTTON_NEGATIVE).setTextColor(Color.BLACK);
             }
         });
         binding.timeStart.setOnClickListener(new View.OnClickListener() {
