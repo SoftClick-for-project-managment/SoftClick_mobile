@@ -127,7 +127,7 @@ public class EmployeeFormFragment extends Fragment {
         binding.formBody.setVisibility(View.GONE);
 
         Employee employee = new Employee(
-                "employee4.png",
+                null,
                 binding.firstName.getText().toString(),
                 binding.lastName.getText().toString(),
                 binding.employeeFunction.getText().toString(),

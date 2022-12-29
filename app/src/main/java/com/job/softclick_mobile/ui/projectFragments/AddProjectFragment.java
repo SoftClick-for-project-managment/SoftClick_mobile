@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.util.Log;
@@ -19,6 +20,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
@@ -31,14 +33,22 @@ import com.job.softclick_mobile.models.Priority;
 import com.job.softclick_mobile.models.Project;
 import com.job.softclick_mobile.models.Status;
 import com.job.softclick_mobile.ui.layout.FooterFragment;
+import com.job.softclick_mobile.viewmodels.domains.DomainViewModel;
+import com.job.softclick_mobile.viewmodels.domains.IDomainViewModel;
+import com.job.softclick_mobile.viewmodels.employees.EmployeeViewModel;
+import com.job.softclick_mobile.viewmodels.employees.IEmployeeViewModel;
 import com.job.softclick_mobile.viewmodels.project.IProjectViewModel;
 import com.job.softclick_mobile.viewmodels.project.ProjectViewModel;
+import com.job.softclick_mobile.viewmodels.status.IStatusViewModel;
+import com.job.softclick_mobile.viewmodels.task.TaskViewModel;
 
 import java.lang.reflect.Field;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
@@ -65,13 +75,10 @@ public class AddProjectFragment extends Fragment {
     TextView add_btn, update_btn, title_page;
     Date date_debut=null;
     Date date_fin = null;
-    String[] domains = new String[]{
-            "Info",
-            "indus",
-            "Electrique",
-            "Architect",
-            "Civil"
-    };
+    private IDomainViewModel domainViewModel;
+    HashMap<String,Long> domains_pairs = new HashMap<>();
+    HashMap<String,Long> employe_pairs = new HashMap<>();
+
     String[] clients = new String[]{
             "Faisal",
             "Lc Waikiki",
@@ -91,6 +98,7 @@ public class AddProjectFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private Project project = null;
     private IProjectViewModel projectViewModel;
+    private IEmployeeViewModel employeeViewModel;
 
 
     public AddProjectFragment() {
@@ -125,6 +133,10 @@ public class AddProjectFragment extends Fragment {
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fContentFooter, new Fragment()).commit();
 
         projectViewModel = new ViewModelProvider(this).get(ProjectViewModel.class);
+        domainViewModel = new ViewModelProvider(this).get(DomainViewModel.class);
+        employeeViewModel = new ViewModelProvider(this).get(EmployeeViewModel.class);
+
+
 
         title_page = binding.pageTitle;
         name_project = binding.nameProjectInput;
@@ -139,6 +151,43 @@ public class AddProjectFragment extends Fragment {
         add_btn = binding.addbtn;
         update_btn = binding.updatebtn;
         chooseImage = binding.chooseImage;
+
+        domainViewModel.getAll().gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Domain>>() {
+
+            @Override
+            public void onChanged(List<Domain> domains) {
+
+                try {
+                    domains.forEach(domain -> {
+                        domains_pairs.put(domain.getNameDomain(), domain.getIdDomain());
+                    });
+                    List<String> domain_names = new ArrayList<>(domains_pairs.keySet());
+                    ArrayAdapter<String> adapter_domain = new ArrayAdapter<String>(getActivity(), R.layout.dropdown_item, domain_names);
+                    Combo_domain.setAdapter(adapter_domain);
+                } catch (Exception e) {
+                    Log.e("Error", e.getMessage());
+                }
+            }
+
+        });
+
+        employeeViewModel.getAll().gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Employee>>() {
+
+            @Override
+            public void onChanged(List<Employee> employees) {
+
+                try {
+                    employees.forEach(employee -> {
+                        employe_pairs.put(employee.getEmployeeLastName()+" "+employee.getEmployeeFirstName(), (long) employee.getId());
+                    });
+                    List<String> employe_names = new ArrayList<>(employe_pairs.keySet());
+                    ArrayAdapter<String> adapter_employe = new ArrayAdapter<String>(getActivity(), R.layout.dropdown_item, employe_names);
+                    Combo_chef.setAdapter(adapter_employe);
+                } catch (Exception e) {
+                    Log.e("Error", e.getMessage());
+                }
+            }
+        });
 
         if (project == null) {
             title_page.setText(R.string.add_project);
@@ -156,9 +205,8 @@ public class AddProjectFragment extends Fragment {
 
         }
 
-        ArrayAdapter<String> adapter_domain = new ArrayAdapter<>(getActivity(),
-                R.layout.dropdown_item, domains);
-        Combo_domain.setAdapter(adapter_domain);
+
+
 
         ArrayAdapter<String> adapter_client = new ArrayAdapter<>(getActivity(),
                 R.layout.dropdown_item, clients);
@@ -278,10 +326,16 @@ public class AddProjectFragment extends Fragment {
         Double revenue_text = Double.parseDouble(revenue.getText().toString().trim());
         String client = Combo_client.getText().toString().trim();
 
-        String domain = Combo_domain.getText().toString().trim();
-        Domain domain1 = new Domain(2l,domain);
-        Employee chef = new Employee("1","youssef","zahi","ingeneer","wassima.china@gmail.com","0624587895");
-        chef.setId(5);
+        Long domain_id = domains_pairs.get(Combo_domain.getText().toString());
+        Log.d("domain_id",domain_id.toString());
+        Domain domain = new Domain();
+        domain.setIdDomain(domain_id);
+
+        Long chef_id = employe_pairs.get(Combo_chef.getText().toString());
+        Log.d("id_chef",chef_id.toString());
+        Employee chef = new Employee();
+        chef.setId(chef_id);
+
         Status status = new Status(1l,"");
         Priority priority = new Priority(1,5f,"");
 
@@ -312,7 +366,7 @@ public class AddProjectFragment extends Fragment {
             date_picker_debut.setHintTextColor(getResources().getColor(R.color.design_default_color_error));
             return null;
         }
-        added_project = new Project(name,description_text,revenue_text,domain1,new Timestamp(date_debut.getTime()),new Timestamp(date_fin.getTime()),chef,status,priority);
+        added_project = new Project(name,description_text,revenue_text,domain,new Timestamp(date_debut.getTime()),new Timestamp(date_fin.getTime()),chef,status,priority);
 
         return added_project;
     }
@@ -352,7 +406,7 @@ public class AddProjectFragment extends Fragment {
         if (validated_project != null) {
             try {
 
-   //             Log.d("CONSOLE LOG", "project is  : "+validated_project.toString());
+               Log.d("CONSOLE LOG", "project is  : "+validated_project.toString());
                 projectViewModel.create(validated_project);
 
                 getParentFragmentManager().beginTransaction().replace(R.id.fContentFooter, (Fragment) FooterFragment.class.newInstance()).commit();

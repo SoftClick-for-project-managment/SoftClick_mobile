@@ -39,11 +39,11 @@ public class HttpClient {
 
             // Create Converter
             Gson gson = new GsonBuilder()
-                    .setDateFormat("yyyy-MM-dd hh:mm:ss")
+                    .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX")
                     .create();
 
             instance = new Retrofit.Builder()
-                    .baseUrl("http://192.168.1.109:8080/api/v1/")
+                    .baseUrl("http://192.168.43.176:8080/api/v1/")
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .client(client)
                     .build();

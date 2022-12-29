@@ -23,7 +23,7 @@ public class BaseViewModel<T, Key> extends AndroidViewModel implements IBaseView
 
     @Override
     public LiveResponse getSingle(Key key) {
-        return null;
+        return repository.getSingle(key);
     }
 
     @Override

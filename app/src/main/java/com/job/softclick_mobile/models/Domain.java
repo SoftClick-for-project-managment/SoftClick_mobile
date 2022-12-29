@@ -12,6 +12,7 @@ public class Domain {
         this.nameDomain = nameDomain;
     }
 
+
     public Long getIdDomain() {
         return idDomain;
     }
@@ -26,5 +27,13 @@ public class Domain {
 
     public void setNameDomain(String nameDomain) {
         this.nameDomain = nameDomain;
+    }
+
+    @Override
+    public String toString() {
+        return "Domain{" +
+                "idDomain=" + idDomain +
+                ", nameDomain='" + nameDomain + '\'' +
+                '}';
     }
 }
