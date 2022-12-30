@@ -97,9 +97,9 @@ public class TaskRepository implements ITaskRepository, IBaseRepository<Task, Lo
     }
 
     @Override
-    public LiveResponse update(Long aLong, Task task) {
+    public LiveResponse update(Long key, Task task) {
 
-        service.update(aLong,task ).enqueue(new Callback<Void>() {
+        service.update(key, task).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 Log.d("DEBUG", response.code() + "");

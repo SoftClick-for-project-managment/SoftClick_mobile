@@ -125,7 +125,7 @@
 
                     <EditText
                         android:id="@+id/startdate"
-                        android:layout_width="150dp"
+                        android:layout_width="120dp"
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@+id/startdate_icon"
                         android:background="@color/transparent"
@@ -137,8 +137,7 @@
                         android:focusableInTouchMode="false"
                         android:maxLines="1"
                         android:paddingLeft="17dp"
-                        android:paddingTop="6dp"
-                        android:paddingBottom="6dp"
+                        android:layout_centerVertical="true"
                         android:textCursorDrawable="@drawable/cursor_color"
                         android:textSize="16sp" />
 
@@ -156,8 +155,7 @@
                         android:focusableInTouchMode="false"
                         android:maxLines="1"
                         android:paddingLeft="17dp"
-                        android:paddingTop="6dp"
-                        android:paddingBottom="6dp"
+                        android:layout_centerVertical="true"
                         android:textCursorDrawable="@drawable/cursor_color"
                         android:textSize="16sp" />
 
@@ -178,7 +176,7 @@
                     android:layout_marginTop="20dp">
                     <EditText
                         android:id="@+id/Enddate"
-                        android:layout_width="150dp"
+                        android:layout_width="120dp"
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@+id/Enddate_icon"
                         android:background="@color/transparent"
@@ -190,8 +188,7 @@
                         android:focusableInTouchMode="false"
                         android:maxLines="1"
                         android:paddingLeft="17dp"
-                        android:paddingTop="6dp"
-                        android:paddingBottom="6dp"
+                        android:layout_centerVertical="true"
                         android:textCursorDrawable="@drawable/cursor_color"
                         android:textSize="16sp" />
 
@@ -210,8 +207,7 @@
                         android:focusableInTouchMode="false"
                         android:maxLines="1"
                         android:paddingLeft="17dp"
-                        android:paddingTop="6dp"
-                        android:paddingBottom="6dp"
+                        android:layout_centerVertical="true"
                         android:textCursorDrawable="@drawable/cursor_color"
                         android:textSize="16sp" />
 
@@ -222,8 +218,6 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="17dp"
                         android:src="@drawable/calendar"/>
-
-
 
                 </RelativeLayout>
 
@@ -242,8 +236,7 @@
                         android:inputType="textLongMessage"
                         android:maxLines="3"
                         android:paddingLeft="17dp"
-                        android:paddingTop="15dp"
-                        android:paddingBottom="15dp"
+                        android:layout_centerVertical="true"
                         android:textCursorDrawable="@drawable/cursor_color"
                         android:textSize="16sp"/>
 
@@ -269,7 +262,6 @@
                     android:id="@+id/createtaskBtn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="100dp"
                     android:background="@drawable/button_bg"
                     android:clickable="true"
                     android:fontFamily="@font/roboto_regular"

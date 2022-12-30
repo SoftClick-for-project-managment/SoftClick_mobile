@@ -34,9 +34,11 @@ import com.job.softclick_mobile.viewmodels.task.ITaskViewModel;
 import com.job.softclick_mobile.viewmodels.task.TaskViewModel;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -44,9 +46,10 @@ import retrofit2.HttpException;
 
 public class TaskForm extends Fragment {
     private FragmentTaskFormBinding binding;
-    private Task task ;
+    private Task task;
     private ITaskViewModel taskViewModel;
     private IStatusViewModel statusViewModel;
+    private Status status;
 
     public TaskForm() {
         // Required empty public constructor
@@ -112,7 +115,8 @@ public class TaskForm extends Fragment {
                     binding.createtaskBtn.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            updateTask((long) task.getId());
+                            Log.d("DEBUG", task.getId().toString());
+                            updateTask(task.getId());
                         }
                     });
                 } else {
@@ -144,7 +148,11 @@ public class TaskForm extends Fragment {
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                                binding.Enddate.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+                                c.set(Calendar.YEAR, year);
+                                c.set(Calendar.MONTH, monthOfYear);
+                                c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                                SimpleDateFormat sdf = new SimpleDateFormat("dd/M/yyyy");
+                                binding.Enddate.setText(sdf.format(c.getTime()));
                             }
                         },
                         year, month, day
@@ -153,9 +161,6 @@ public class TaskForm extends Fragment {
                 datePickerDialog.show();
                 datePickerDialog.getButton(DatePickerDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
                 datePickerDialog.getButton(DatePickerDialog.BUTTON_NEGATIVE).setTextColor(Color.BLACK);
-
-
-
             }
         });
         binding.timeEnd.setOnClickListener(new View.OnClickListener() {
@@ -170,8 +175,10 @@ public class TaskForm extends Fragment {
                         new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                                binding.timeEnd.setText(String.format("%d:%d", hourOfDay, minute));
-
+                                c.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                                c.set(Calendar.MINUTE, minute);
+                                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+                                binding.timeEnd.setText(sdf.format(c.getTime()));
                             }
                         },
                         hour, minute, false
@@ -194,9 +201,11 @@ public class TaskForm extends Fragment {
                             @Override
                             public void onDateSet(DatePicker view, int year,
                                                   int monthOfYear, int dayOfMonth) {
-                                // on below line we are setting date to our edit text.
-                                binding.startdate.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
-
+                                c.set(Calendar.YEAR, year);
+                                c.set(Calendar.MONTH, monthOfYear);
+                                c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                                SimpleDateFormat sdf = new SimpleDateFormat("dd/M/yyyy");
+                                binding.startdate.setText(sdf.format(c.getTime()));
                             }
                         },
                         year, month, day
@@ -218,7 +227,10 @@ public class TaskForm extends Fragment {
                         new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                                binding.timeStart.setText(String.format("%d:%d", hourOfDay, minute));
+                                c.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                                c.set(Calendar.MINUTE, minute);
+                                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+                                binding.timeStart.setText(sdf.format(c.getTime()));
                             }
                         },
                         hour, minute, false
@@ -237,8 +249,12 @@ public class TaskForm extends Fragment {
     }
 
     private void setupStatusSpinner(List<Status> statuses) {
+        statuses.forEach(s -> {
+            if (s.getNameEtat() == binding.statustask.getSelectedItem()){
+                status = s;
+            }
+        });
         Spinner spinner = binding.statustask;
-
         // Initializing a String List
 //        List<String> statusList = new ArrayList<>(Arrays.asList(new String[]{
 //                "Select Task status",
@@ -285,8 +301,7 @@ public class TaskForm extends Fragment {
         );
 
         // Spinner on item selected listener
-        spinner.setOnItemSelectedListener(
-                new AdapterView.OnItemSelectedListener() {
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
                     @Override
                     public void onItemSelected(
@@ -294,19 +309,10 @@ public class TaskForm extends Fragment {
                             int position, long id) {
 
                         // Get the spinner selected item text
-                        String selectedItemText = (String) parent
-                                .getItemAtPosition(position);
-
-                        // If user change the default selection
-                        // First item is disable and
-                        // it is used for hint
-                        if(position > 0){
-                            // Notify the selected item text
-                            Toast.makeText(
-                                    getActivity().getApplicationContext(),
-                                    "Selected : "
-                                            + selectedItemText,
-                                    Toast.LENGTH_SHORT).show();
+//                        String selectedItemText = (String) parent
+//                                .getItemAtPosition(position);
+                        if (position > 0){
+                            status = statuses.get(position-1);
                         }
                     }
 
@@ -329,7 +335,7 @@ public class TaskForm extends Fragment {
             binding.startdate.getText().toString()+" "+binding.timeStart.getText().toString(),
             binding.Enddate.getText().toString()+" "+binding.timeEnd.getText().toString(),
             binding.taskdescription.getText().toString(),
-            new Status((String)binding.statustask.getSelectedItem()),
+            status,
             null,
             null,
             null,
@@ -373,13 +379,13 @@ public class TaskForm extends Fragment {
                 binding.startdate.getText().toString()+" "+binding.timeStart.getText().toString(),
                 binding.Enddate.getText().toString()+" "+binding.timeEnd.getText().toString(),
                 binding.taskdescription.getText().toString(),
-                new Status((String)binding.statustask.getSelectedItem()),
+                status,
                 null,
                 null,
                 null,
                 null
         );
-
+        Log.d("DEBUG", key.toString());
         LiveResponse createLiveResponse = taskViewModel.update(key, task);
 //        this.task = task;
         createLiveResponse.gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer() {
