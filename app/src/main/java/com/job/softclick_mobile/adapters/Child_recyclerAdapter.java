@@ -47,6 +47,8 @@ public class Child_recyclerAdapter extends RecyclerView.Adapter<Child_recyclerAd
         Project title_project = projects.get(position);
 
         holder.title_project.setText(title_project.getNameProject());
+        holder.chef_projet.setText(title_project.getChefProject().getEmployeeLastName()+" "+title_project.getChefProject().getEmployeeFirstName());
+        holder.status_project.setText("En "+title_project.getProjectStatus().getNameStatus());
 
     }
 
@@ -58,11 +60,14 @@ public class Child_recyclerAdapter extends RecyclerView.Adapter<Child_recyclerAd
 
     public class Child_viewHolder extends  RecyclerView.ViewHolder{
 
-        TextView title_project;
+        TextView title_project , chef_projet , status_project;
+
 
         public Child_viewHolder(@NonNull View itemView) {
             super(itemView);
             title_project = itemView.findViewById(R.id.title_project);
+            chef_projet = itemView.findViewById(R.id.chef_projet);
+            status_project = itemView.findViewById(R.id.status_project);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

@@ -52,4 +52,6 @@
     <string name="update_project">Update Project</string>
     <string name="status">Status</string>
     <string name="searchbtn">Search</string>
+    <string name="priority">Priority</string>
+    <string name="prioritydeprojet">"Priority de projet : "</string>
 </resources>

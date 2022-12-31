@@ -186,6 +186,28 @@
                                         android:textSize="15sp" />
 
                                 </LinearLayout>
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:layout_marginLeft="10dp"
+                                    >
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/prioritydeprojet"
+                                        />
+
+                                    <TextView
+                                        android:id="@+id/prioritydeprojet"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="40dp"
+                                        android:text="Urgent"
+                                        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                                        android:textSize="15sp" />
+
+                                </LinearLayout>
 
                                 <TextView
                                     android:layout_width="wrap_content"

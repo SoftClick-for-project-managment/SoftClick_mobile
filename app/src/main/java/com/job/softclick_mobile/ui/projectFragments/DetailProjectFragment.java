@@ -42,7 +42,7 @@ public class DetailProjectFragment extends Fragment {
 
     private FragmentDetailProjectBinding binding;
     private IProjectViewModel projectViewModel;
-    TextView project_name, domain, date_debut, date_fin, description, name_chef, clients, equips, revenue, depense;
+    TextView project_name, domain, date_debut, date_fin, description, name_chef, clients, equips, revenue, depense,priority_name;
     LinearProgressIndicator etat_avancement;
     ImageView flesh_back, moreOptions;
 
@@ -101,6 +101,7 @@ public class DetailProjectFragment extends Fragment {
         etat_avancement = binding.etatAvancement;
         flesh_back = binding.fleshBack;
         moreOptions = binding.moreOptions;
+        priority_name = binding.prioritydeprojet;
 
         fetchDate();
 
@@ -195,6 +196,7 @@ public class DetailProjectFragment extends Fragment {
         date_fin.setText(formatter.format(project.getDateFin()));
         description.setText(project.getDescriptionProject());
         name_chef.setText(project.getChefProject().getEmployeeLastName());
+        priority_name.setText(project.getProjectPriority().getNamePriority());
         clients.setText("- oukacha prison \n - école sanabil \n - Army American");
         equips.setText("- équipe frontend N° 1 \n équipe fullstack N° 5");
         revenue.setText(project.getRevenueProject().toString() + " DH ");

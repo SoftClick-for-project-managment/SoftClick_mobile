@@ -69,9 +69,9 @@ public class AddProjectFragment extends Fragment {
     EditText date_picker_debut;
     EditText date_picker_fin;
     private AutoCompleteTextView Combo_domain;
-    private AutoCompleteTextView Combo_client;
+    private AutoCompleteTextView Combo_priority;
     private AutoCompleteTextView Combo_chef;
-    ImageView flesh_back, chooseImage;
+    ImageView flesh_back;
     TextView add_btn, update_btn, title_page;
     Date date_debut=null;
     Date date_fin = null;
@@ -145,12 +145,12 @@ public class AddProjectFragment extends Fragment {
         date_picker_debut = binding.dateDebut;
         date_picker_fin = binding.datePickerFin;
         Combo_domain = binding.domainCombo;
-        Combo_client = binding.clientCombo;
+        Combo_priority = binding.priorityCombo;
         Combo_chef = binding.chefCombo;
         flesh_back = binding.fleshBack;
         add_btn = binding.addbtn;
         update_btn = binding.updatebtn;
-        chooseImage = binding.chooseImage;
+
 
         domainViewModel.getAll().gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Domain>>() {
 
@@ -208,9 +208,9 @@ public class AddProjectFragment extends Fragment {
 
 
 
-        ArrayAdapter<String> adapter_client = new ArrayAdapter<>(getActivity(),
+        ArrayAdapter<String> adapter_priority= new ArrayAdapter<>(getActivity(),
                 R.layout.dropdown_item, clients);
-        Combo_client.setAdapter(adapter_client);
+        Combo_priority.setAdapter(adapter_priority);
 
         ArrayAdapter<String> adapter_chef = new ArrayAdapter<>(getActivity(),
                 R.layout.dropdown_item, Chefs);
@@ -294,29 +294,10 @@ public class AddProjectFragment extends Fragment {
             }
         });
 
-        chooseImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "title"), 1);
-            }
-        });
-
-
         return binding.getRoot();
     }
 
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1) {
-            Uri uri = data.getData();
-            chooseImage.setImageURI(uri);
-        }
-    }
 
     public Project validate() {
         Project added_project = null;
@@ -324,7 +305,7 @@ public class AddProjectFragment extends Fragment {
         String name = name_project.getText().toString().trim();
         String description_text = description.getText().toString().trim();
         Double revenue_text = Double.parseDouble(revenue.getText().toString().trim());
-        String client = Combo_client.getText().toString().trim();
+        String priority_name = Combo_priority.getText().toString().trim();
 
         Long domain_id = domains_pairs.get(Combo_domain.getText().toString());
         Log.d("domain_id",domain_id.toString());
@@ -355,9 +336,9 @@ public class AddProjectFragment extends Fragment {
             Combo_domain.setHintTextColor(getResources().getColor(R.color.design_default_color_error));
             return null;
         }
-        if (client.equals("")) {
-            Combo_client.setHint(" Client is required ! ");
-            Combo_client.setHintTextColor(getResources().getColor(R.color.design_default_color_error));
+        if (priority_name.equals("")) {
+            Combo_priority.setHint(" priority is required ! ");
+            Combo_priority.setHintTextColor(getResources().getColor(R.color.design_default_color_error));
             return null;
         }
 
@@ -373,7 +354,7 @@ public class AddProjectFragment extends Fragment {
 
     public void update_project() {
         Project validated_project = validate();
-        validated_project.setChefProject(null);
+       /* validated_project.setChefProject(null);
         validated_project.setProjectPriority(null);
         validated_project.setDomainProjet(null);
         validated_project.setProjectStatus(null);
@@ -382,11 +363,11 @@ public class AddProjectFragment extends Fragment {
         for (Field field : validated_project.getClass().getDeclaredFields()) {
             field.setAccessible(true);
             try { if(field.get(validated_project) != null ) {fields.put(field.getName(), field.get(validated_project));} } catch (Exception e) { }
-        }
+        }*/
         if (validated_project != null) {
             try {
-                Log.d("CONSOLE LOG", "patch is " + fields.toString());
-                projectViewModel.patch(project.getIdProject(),fields);
+                //Log.d("CONSOLE LOG", "patch is " + fields.toString());
+                projectViewModel.update(project.getIdProject(),validated_project);
                 getParentFragmentManager().beginTransaction().replace(R.id.fContentFooter, (Fragment) FooterFragment.class.newInstance()).commit();
                 Fragment fragment = new ListProjectsFragment();
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();

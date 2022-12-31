@@ -26,6 +26,7 @@ public class ProjectRepository implements  IProjectRepository , IBaseRepository<
     private  LiveResponse<List<Project>, Throwable>  tMutableLiveDataList = new LiveResponse<>();
     LiveResponse<Boolean, Throwable> createLiveResponse = new LiveResponse<>();
     LiveResponse<Boolean, Throwable> deleteLiveResponse = new LiveResponse<>();
+    LiveResponse<Boolean, Throwable> updateLiveResponse = new LiveResponse<>();
 
     public ProjectRepository() {
         Retrofit httpClient = HttpClient.getInstance();
@@ -94,7 +95,25 @@ public class ProjectRepository implements  IProjectRepository , IBaseRepository<
 
     @Override
     public LiveResponse update(Long aLong, Project project) {
-        return  new LiveResponse<>();
+
+        service.update(aLong,project ).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Log.d("DEBUG", response.code() + "");
+                if (response.code() != 200) {
+                    updateLiveResponse.geteMutableLiveData().setValue(new HttpException(response));
+                } else {
+                    updateLiveResponse.gettMutableLiveData().setValue(true);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                updateLiveResponse.geteMutableLiveData().setValue(t);
+            }
+        });
+
+        return updateLiveResponse;
     }
 
     @Override

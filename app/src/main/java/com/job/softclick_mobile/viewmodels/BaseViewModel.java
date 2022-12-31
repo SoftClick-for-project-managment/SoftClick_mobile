@@ -33,7 +33,7 @@ public class BaseViewModel<T, Key> extends AndroidViewModel implements IBaseView
 
     @Override
     public LiveResponse update(Key key, T item){
-        return new LiveResponse<>();
+        return repository.update(key,item);
     }
 
 
