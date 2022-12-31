@@ -36,7 +36,7 @@ public class TaskRepository implements ITaskRepository, IBaseRepository<Task, Lo
         service.getAll().enqueue(new Callback<List<Task>>() {
             @Override
             public void onResponse(Call<List<Task>> call, Response<List<Task>> response) {
-                if (response.code() != 200) {
+                if (response.isSuccessful()) {
                     taskListLiveResponse.geteMutableLiveData().setValue(new HttpException(response));
                 } else {
                     List<Task> tl = response.body();
@@ -58,7 +58,7 @@ public class TaskRepository implements ITaskRepository, IBaseRepository<Task, Lo
         service.getSingle(key).enqueue(new Callback<Task>() {
             @Override
             public void onResponse(Call<Task> call, Response<Task> response) {
-                if (response.code() != 200) {
+                if (response.isSuccessful()) {
                     taskLiveResponse.geteMutableLiveData().setValue(new HttpException(response));
                 } else {
                     Task t = response.body();
@@ -80,7 +80,7 @@ public class TaskRepository implements ITaskRepository, IBaseRepository<Task, Lo
         service.create(task).enqueue(new Callback() {
             @Override
             public void onResponse(Call call, Response response) {
-                if (response.code() != 201) {
+                if (response.isSuccessful()) {
                     createLiveResponse.geteMutableLiveData().setValue(new HttpException(response));
                 } else {
                     createLiveResponse.gettMutableLiveData().setValue(true);
@@ -103,7 +103,7 @@ public class TaskRepository implements ITaskRepository, IBaseRepository<Task, Lo
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 Log.d("DEBUG", response.code() + "");
-                if (response.code() != 200) {
+                if (response.isSuccessful()) {
                     updateLiveResponse.geteMutableLiveData().setValue(new HttpException(response));
                 } else {
                     updateLiveResponse.gettMutableLiveData().setValue(true);
@@ -124,8 +124,7 @@ public class TaskRepository implements ITaskRepository, IBaseRepository<Task, Lo
         service.delete(aLong).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
-                Log.d("DEBUG", response.code() + "");
-                if (response.code() != 200) {
+                if (response.isSuccessful()) {
                     deleteLiveResponse.geteMutableLiveData().setValue(new HttpException(response));
                 } else {
                     deleteLiveResponse.gettMutableLiveData().setValue(true);
@@ -146,7 +145,7 @@ public class TaskRepository implements ITaskRepository, IBaseRepository<Task, Lo
         service.getAllByProject(id).enqueue(new Callback<List<Task>>() {
             @Override
             public void onResponse(Call<List<Task>> call, Response<List<Task>> response) {
-                if (response.code() != 200) {
+                if (response.isSuccessful()) {
                     taskListByProjectLiveResponse.geteMutableLiveData().setValue(new HttpException(response));
                 } else {
                     List<Task> tl = response.body();

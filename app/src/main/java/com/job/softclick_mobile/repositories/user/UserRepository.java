@@ -16,6 +16,8 @@ import retrofit2.Retrofit;
 public class UserRepository implements IUserRepository {
     private UserApi apiService;
     LiveResponse<TokenPeer, Throwable> loginLiveResponse = new LiveResponse<>();
+    LiveResponse<Boolean, Throwable> signupLiveResponse = new LiveResponse<>();
+    LiveResponse<User, Throwable> authenticatedUserLiveResponse = new LiveResponse<>();
 
     public UserRepository() {
         Retrofit httpClient = HttpClient.getInstance();
@@ -23,8 +25,10 @@ public class UserRepository implements IUserRepository {
     }
 
     public LiveResponse login(String username, String password) {
-
-        apiService.login(username, password).enqueue(new Callback<TokenPeer>() {
+        User user = new User();
+        user.setUsername(username);
+        user.setPassword(password);
+        apiService.login(user).enqueue(new Callback<TokenPeer>() {
             @Override
             public void onResponse(Call<TokenPeer> call, Response<TokenPeer> response) {
                 if (response.isSuccessful()) {
@@ -56,7 +60,23 @@ public class UserRepository implements IUserRepository {
 
     @Override
     public LiveResponse create(User user) {
-        return null;
+        apiService.create(user).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    signupLiveResponse.gettMutableLiveData().setValue(true);
+                } else {
+                    signupLiveResponse.geteMutableLiveData().setValue(new HttpException(response));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                signupLiveResponse.geteMutableLiveData().setValue(t);
+            }
+        });
+
+        return signupLiveResponse;
     }
 
     @Override
@@ -70,8 +90,24 @@ public class UserRepository implements IUserRepository {
     }
 
     @Override
-    public LiveResponse getSingleByUsername(String username) {
-        return null;
+    public LiveResponse getAuthenticated() {
+        apiService.getAuthenticated().enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if (response.isSuccessful()) {
+                    authenticatedUserLiveResponse.gettMutableLiveData().setValue(response.body());
+                } else {
+                    authenticatedUserLiveResponse.geteMutableLiveData().setValue(new HttpException(response));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                authenticatedUserLiveResponse.geteMutableLiveData().setValue(t);
+            }
+        });
+
+        return authenticatedUserLiveResponse;
     }
 
     @Override

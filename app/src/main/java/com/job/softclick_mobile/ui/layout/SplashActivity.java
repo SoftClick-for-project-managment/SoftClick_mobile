@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.view.View;
 
 import com.job.softclick_mobile.databinding.ActivitySplashBinding;
+import com.job.softclick_mobile.services.storage.StoredUser;
 import com.job.softclick_mobile.ui.auth.LoginActivity;
 
 public class SplashActivity extends AppCompatActivity {
@@ -26,6 +27,8 @@ public class SplashActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+                StoredUser.clear(getApplicationContext());
+
                 Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
                 startActivity(intent);
                 SplashActivity.this.finish();

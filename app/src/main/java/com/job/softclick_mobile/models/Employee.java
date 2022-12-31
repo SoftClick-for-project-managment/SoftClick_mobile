@@ -17,6 +17,9 @@ public class Employee implements Serializable {
         this.employeePhone = employeePhone;
     }
 
+    public Employee() {
+    }
+
     public int getId() {
         return id;
     }
