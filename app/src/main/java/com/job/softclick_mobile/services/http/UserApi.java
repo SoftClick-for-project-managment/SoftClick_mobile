@@ -8,20 +8,21 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface UserApi {
     @POST("/login")
-    Call<TokenPeer> login(@Body String username, @Body String password);
+    Call<TokenPeer> login(@Body User user);
 
-    @GET("/users/{id}")
+    @GET("users/{id}")
     Call<User> getSingleById(@Path("id") Long id);
 
-    @GET("/users/{username}")
-    Call<User> getSingleByUsername(@Path("username") String username);
+    @GET("users/details")
+    Call<User> getAuthenticated();
 
-    @POST("/users/create")
-    Call create(@Body User user);
+    @POST("users")
+    Call<Void> create(@Body User user);
 
-    @GET("/users/verify")
-    Call verify(@Body String code);
+    @GET("users/verify")
+    Call<Void> verify(@Body String code);
 }

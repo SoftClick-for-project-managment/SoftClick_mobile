@@ -22,7 +22,7 @@ public interface TaskApi {
     @POST("tasks")
     Call<Void> create(@Body Task task);
 
-    @GET("tasks/{projectId}")
+    @GET("tasks/project/{projectId}")
     Call<List<Task>> getAllByProject(@Path("projectId") Long projectId);
 
     @PUT("tasks/{id}")

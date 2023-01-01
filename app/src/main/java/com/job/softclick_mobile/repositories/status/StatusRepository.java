@@ -1,10 +1,5 @@
 package com.job.softclick_mobile.repositories.status;
 
-import android.util.Log;
-
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-
 import com.job.softclick_mobile.models.Status;
 import com.job.softclick_mobile.services.http.HttpClient;
 import com.job.softclick_mobile.services.http.StatusApi;

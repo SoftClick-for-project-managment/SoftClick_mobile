@@ -24,16 +24,27 @@ public class StoredUser {
 
     public static TokenPeer load(Context context){
         SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        TokenPeer tokenPeer = new TokenPeer();
-        tokenPeer.setUsername(sharedPreferences.getString(USERNAME,""));
-        tokenPeer.setAccessToken(sharedPreferences.getString(ACCESS_TOKEN,""));
-        tokenPeer.setRefreshToken(sharedPreferences.getString(REFRESH_TOKEN,""));
+        TokenPeer tokenPeer;
+        String username = sharedPreferences.getString(USERNAME,"");
+        String accessToken = sharedPreferences.getString(ACCESS_TOKEN,"");
+        String refreshToken = sharedPreferences.getString(REFRESH_TOKEN,"");
+        if (username == "" && accessToken == "" && refreshToken == ""){
+            tokenPeer = null;
+        } else {
+            tokenPeer = new TokenPeer();
+            tokenPeer.setUsername(username);
+            tokenPeer.setAccessToken(accessToken);
+            tokenPeer.setRefreshToken(refreshToken);
+        }
         return tokenPeer;
     }
 
     public static void clear(Context context){
         SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
-        sharedPreferences.edit().clear().commit();
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove(USERNAME);
+        editor.remove(ACCESS_TOKEN);
+        editor.remove(REFRESH_TOKEN);
+        editor.apply();
     }
 }

@@ -6,7 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".ui.auth.VerificationActivity">
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:visibility="invisible"
+        android:indeterminateDrawable="@drawable/ind_progress_bar"
+        android:indeterminateDuration="500"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerInParent="true"
+        tools:progress="@integer/material_motion_duration_medium_1"
+        />
+
     <LinearLayout
+        android:id="@+id/verificationBody"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">

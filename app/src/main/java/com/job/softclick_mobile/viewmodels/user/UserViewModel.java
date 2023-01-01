@@ -26,12 +26,17 @@ public class UserViewModel extends BaseViewModel<User, Long> implements IUserVie
     }
 
     @Override
-    public LiveResponse getSingleByUsername(String username) {
-        return userRepository.getSingleByUsername(username);
+    public LiveResponse<User, Throwable> getAuthenticated() {
+        return userRepository.getAuthenticated();
     }
 
     @Override
-    public LiveResponse verify(String code) {
+    public LiveResponse<Boolean, Throwable> sendVerificationCode(String username) {
+        return null;
+    }
+
+    @Override
+    public LiveResponse<Boolean, Throwable> verify(String code) {
         return userRepository.verify(code);
     }
 }
