@@ -2,13 +2,13 @@ package com.job.softclick_mobile.services.http;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.job.softclick_mobile.App;
+import com.job.softclick_mobile.services.http.interceptors.AuthInterceptor;
 
-import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -17,22 +17,11 @@ public class HttpClient {
 
     public static Retrofit getInstance() {
         if (instance == null) {
-            // Define the interceptor, add authentication headers
-            Interceptor interceptor = new Interceptor() {
-                @Override
-                public okhttp3.Response intercept(Chain chain) throws IOException {
-                    Request newRequest = chain
-                            .request()
-                            .newBuilder()
-                            .addHeader("User-Agent", "SoftClick-Android-App")
-                            .build();
-                    return chain.proceed(newRequest);
-                }
-            };
+            Interceptor authInterceptor = new AuthInterceptor(App.getInstance().getApplicationContext());
 
             // build OkHttpClient instance
             OkHttpClient client = new OkHttpClient.Builder()
-                    .addInterceptor(interceptor)
+                    .addInterceptor(authInterceptor)
                     .connectTimeout(3, TimeUnit.MINUTES)
                     .readTimeout(3, TimeUnit.MINUTES)
                     .build();
