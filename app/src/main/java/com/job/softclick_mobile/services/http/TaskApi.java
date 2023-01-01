@@ -22,10 +22,14 @@ public interface TaskApi {
     @POST("tasks")
     Call<Void> create(@Body Task task);
 
+    @GET("tasks/project/{projectId}")
+    Call<List<Task>> getAllByProject(@Path("projectId") Long projectId);
+
     @PUT("tasks/{id}")
     Call<Void> update(@Path("id") Long taskId, @Body Task task);
 
     @DELETE("tasks/{id}")
     Call<Void> delete(@Path("id") Long taskId);
+
 
 }

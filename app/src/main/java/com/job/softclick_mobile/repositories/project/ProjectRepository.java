@@ -1,6 +1,8 @@
 package com.job.softclick_mobile.repositories.project;
 
 import android.util.Log;
+import android.widget.Toast;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import com.job.softclick_mobile.models.Project;
@@ -24,6 +26,7 @@ public class ProjectRepository implements  IProjectRepository , IBaseRepository<
 
     private ProjectApi service;
     private  LiveResponse<List<Project>, Throwable>  tMutableLiveDataList = new LiveResponse<>();
+    private  LiveResponse<List<Project>, Throwable>  searchLiveDataList = new LiveResponse<>();
     LiveResponse<Boolean, Throwable> createLiveResponse = new LiveResponse<>();
     LiveResponse<Boolean, Throwable> deleteLiveResponse = new LiveResponse<>();
     LiveResponse<Boolean, Throwable> updateLiveResponse = new LiveResponse<>();
@@ -38,6 +41,7 @@ public class ProjectRepository implements  IProjectRepository , IBaseRepository<
         service.getAll().enqueue(new Callback<List<Project>>() {
             @Override
             public void onResponse(Call<List<Project>> call, Response<List<Project>> response) {
+
                 if (response.code() != 200) {
                     tMutableLiveDataList.geteMutableLiveData().setValue(new HttpException(response));
                     Log.d("CONSOLE LOG", "status code is " + response.code());
@@ -169,4 +173,32 @@ public class ProjectRepository implements  IProjectRepository , IBaseRepository<
 
         });
     }
+
+
+    public LiveResponse seach(Project project) {
+        service.search(project).enqueue(new Callback<List<Project>>() {
+            @Override
+            public void onResponse(Call<List<Project>> call, Response<List<Project>> response) {
+                Log.d("DEBUG", response.body().toString());
+                if (response.code() != 200) {
+                    Log.d("DEBUG", response.body().toString());
+                    searchLiveDataList.geteMutableLiveData().setValue(new HttpException(response));
+                } else {
+                    List<Project> t = response.body();
+                    searchLiveDataList.gettMutableLiveData().setValue(t);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Project>> call, Throwable t) {
+                Log.d("DEBUG", t.getMessage());
+                Log.d("CONSOLE LOG", "Check your internet connection");
+                searchLiveDataList.geteMutableLiveData().setValue(t);
+            }
+        });
+
+        return tMutableLiveDataList;
+    }
+
+
 }

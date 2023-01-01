@@ -5,8 +5,12 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -14,6 +18,9 @@ import android.widget.Toast;
 import com.google.android.material.navigation.NavigationView;
 import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.databinding.ActivityMenuBinding;
+import com.job.softclick_mobile.models.User;
+import com.job.softclick_mobile.services.storage.StoredUser;
+import com.job.softclick_mobile.ui.auth.LoginActivity;
 import com.job.softclick_mobile.ui.team.TeamListFragment;
 import com.job.softclick_mobile.ui.tasks.TaskList;
 import com.job.softclick_mobile.ui.employees.EmployeeListFragment;
@@ -21,11 +28,20 @@ import com.job.softclick_mobile.ui.invoices.InvoiceListFragment;
 import com.job.softclick_mobile.ui.projectFragments.ListProjectsFragment;
 import com.job.softclick_mobile.ui.expense.ExpensesListFragment;
 import com.job.softclick_mobile.ui.clients.ClientListFragment;
+import com.job.softclick_mobile.utils.LiveResponse;
+import com.job.softclick_mobile.viewmodels.user.IUserViewModel;
+import com.job.softclick_mobile.viewmodels.user.UserViewModel;
+
+import java.io.IOException;
+
+import retrofit2.HttpException;
 
 public class MenuActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private ActivityMenuBinding binding;
     private  FragmentManager fragmentManager = getSupportFragmentManager();
+    private IUserViewModel userViewModel;
+    private User authUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +50,25 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         binding = ActivityMenuBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
+
+        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+
+        LiveResponse<User, Throwable> authUserLiveResp = userViewModel.getAuthenticated();
+        authUserLiveResp.gettMutableLiveData().observe(this, new Observer<User>() {
+            @Override
+            public void onChanged(User user) {
+                authUser = user;
+            }
+        });
+        authUserLiveResp.geteMutableLiveData().observe(this, new Observer<Throwable>() {
+            @Override
+            public void onChanged(Throwable th) {
+                if (th instanceof IOException) {
+                    Toast.makeText(MenuActivity.this, "Check internet connection and try again", Toast.LENGTH_SHORT).show();
+                }
+                Log.d("ERR", th.getMessage());
+            }
+        });
 
         setSupportActionBar(binding.menuHeader.menuToolbar);
         binding.menuHeader.menuToolbar.showOverflowMenu();
@@ -62,100 +97,114 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
-    /*@Override
-    public boolean onCreateOptionsMenu(Menu menu1) {
-        super.onCreateOptionsMenu(menu1);
-        getMenuInflater().inflate(R.menu.header_menu, menu1);
-        return true;
-    }*/
-
-
     @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item){
 
         // Create a new fragment and specify the fragment to show based on nav item clicked
         Fragment fragment = null;
         Class fragmentClass = null;
 
+
         switch (item.getItemId()) {
             case R.id.tasks_item:
             {
-
-                Toast.makeText(MenuActivity.this, "tasks selected", Toast.LENGTH_SHORT).show();
-
-                fragmentClass = TaskList.class;
+                try{
+                    fragmentClass = TaskList.class;
+                    fragment = (Fragment) fragmentClass.newInstance();
+                    fragmentManager.beginTransaction().replace(R.id.fContentFooter, (Fragment) FooterFragment.class.newInstance()).commit();
+                }
+                catch (Exception e ){
+                }
 
                 break;
             }
             case R.id.teams_item:
             {
-                Toast.makeText(this, "teams selected", Toast.LENGTH_SHORT).show();
-                fragmentClass = TeamListFragment.class;
+                try{
+                    fragmentClass = TeamListFragment.class;
+                    fragmentManager.beginTransaction().replace(R.id.fContentFooter, (Fragment) FooterFragment.class.newInstance()).commit();
+                    fragment = (Fragment) fragmentClass.newInstance();
+                }
+                catch (Exception e ){
+                }
+
                 break;
             }
             case R.id.clients_item:
             {
-                Toast.makeText(this, "clients selected", Toast.LENGTH_SHORT).show();
-                fragmentClass = ClientListFragment.class;
+                try{
+                    fragmentClass = ClientListFragment.class;
+                    fragmentManager.beginTransaction().replace(R.id.fContentFooter, (Fragment) FooterFragment.class.newInstance()).commit();
+                    fragment = (Fragment) fragmentClass.newInstance();
+                }
+                catch (Exception e ){
+                }
+
                 break;
             }
             case R.id.employees_item:
             {
-                Toast.makeText(this, "employees selected", Toast.LENGTH_SHORT).show();
-                fragmentClass = EmployeeListFragment.class;
+                try{
+                    fragmentClass = EmployeeListFragment.class;
+                    fragmentManager.beginTransaction().replace(R.id.fContentFooter, (Fragment) FooterFragment.class.newInstance()).commit();
+                    fragment = (Fragment) fragmentClass.newInstance();
+                }
+                catch (Exception e ){
+                }
                 //findViewById(R.id.addButton).setOnClickListener(EmployeeListFragment.add());
                 break;
             }
             case R.id.expenses_item:
             {
-                Toast.makeText(this, "expenses selected", Toast.LENGTH_SHORT).show();
-                fragmentClass = ExpensesListFragment.class;
+                try{
+                    fragmentClass = ExpensesListFragment.class;
+                    fragmentManager.beginTransaction().replace(R.id.fContentFooter, (Fragment) FooterFragment.class.newInstance()).commit();
+                    fragment = (Fragment) fragmentClass.newInstance();
+                }
+                catch (Exception e ){
+                }
                 break;
             }
             case R.id.invoices_item:
             {
-                Toast.makeText(this, "invoices selected", Toast.LENGTH_SHORT).show();
-                fragmentClass = InvoiceListFragment.class;
+                try{
+                    fragmentClass = InvoiceListFragment.class;
+                    fragmentManager.beginTransaction().replace(R.id.fContentFooter, (Fragment) FooterFragment.class.newInstance()).commit();
+                    fragment = (Fragment) fragmentClass.newInstance();
+                }
+                catch (Exception e ){
+                }
                 break;
             }
             case R.id.projects_item:
             {
-                Toast.makeText(this, "projects selected", Toast.LENGTH_SHORT).show();
-                fragmentClass = ListProjectsFragment.class;
+                try{
+                    fragmentClass = ListProjectsFragment.class;
+                    fragmentManager.beginTransaction().replace(R.id.fContentFooter, (Fragment) FooterFragment.class.newInstance()).commit();
+                    fragment = (Fragment) fragmentClass.newInstance();
+                }
+                catch (Exception e ){
+                }
                 break;
             }
             case R.id.logout_item:
             {
-                Toast.makeText(this, "logout selected", Toast.LENGTH_SHORT).show();
-                //fragmentClass = FirstFragment.class;
-                break;
+                StoredUser.clear(getApplicationContext());
+                Intent intent = new Intent(MenuActivity.this, LoginActivity.class);
+                startActivity(intent);
+                MenuActivity.this.finish();
+                return true;
             }
             default:
                 //fragmentClass = FirstFragment.class;
                 break;
         }
 
-        try {
-
-            if (fragmentClass != null) {
-                fragmentManager.beginTransaction().replace(R.id.fContentFooter, (Fragment) new FooterFragment(fragmentClass)).commit();
-                fragment = (Fragment) fragmentClass.newInstance();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
-
         // Insert the fragment by replacing any existing fragment
         //FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
-
-
-
         // Highlight the selected item has been done by NavigationView
         item.setChecked(true);
 
@@ -167,12 +216,8 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
 
         return true;
     }
-
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
         super.onPointerCaptureChanged(hasCapture);
     }
-
-
-
 }

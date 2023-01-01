@@ -53,6 +53,15 @@ public class Project implements Serializable {
 
     }
 
+
+    public Project(String nameProject, Domain domainProjet, Employee chefProject, Status projectStatus, Priority projectPriority) {
+        this.nameProject = nameProject;
+        this.domainProjet = domainProjet;
+        this.chefProject = chefProject;
+        this.projectStatus = projectStatus;
+        this.projectPriority = projectPriority;
+    }
+
     public Long getIdProject() {
         return idProject;
     }

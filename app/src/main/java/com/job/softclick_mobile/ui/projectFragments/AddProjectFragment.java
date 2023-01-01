@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -132,6 +133,7 @@ public class AddProjectFragment extends Fragment {
 
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fContentFooter, new Fragment()).commit();
 
+
         projectViewModel = new ViewModelProvider(this).get(ProjectViewModel.class);
         domainViewModel = new ViewModelProvider(this).get(DomainViewModel.class);
         employeeViewModel = new ViewModelProvider(this).get(EmployeeViewModel.class);
@@ -150,6 +152,7 @@ public class AddProjectFragment extends Fragment {
         flesh_back = binding.fleshBack;
         add_btn = binding.addbtn;
         update_btn = binding.updatebtn;
+
 
 
         domainViewModel.getAll().gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Domain>>() {
@@ -201,6 +204,10 @@ public class AddProjectFragment extends Fragment {
             name_project.setText(project.getNameProject());
             description.setText(project.getDescriptionProject());
             revenue.setText(project.getRevenueProject().toString());
+            Combo_domain.setText(project.getDomainProjet().getNameDomain());
+            Combo_priority.setText(project.getProjectPriority().getNamePriority());
+            Combo_chef.setText(project.getChefProject().getEmployeeLastName()+" "+project.getChefProject().getEmployeeFirstName());
+
             //and complete all fields ... TODO
 
         }
@@ -225,6 +232,7 @@ public class AddProjectFragment extends Fragment {
                 Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
                 calendar.setTimeInMillis(selection);
                 date_debut = calendar.getTime();
+                date_picker_debut.setText(materialDatePicker_debut.getHeaderText());
 
             }});
 
@@ -235,6 +243,7 @@ public class AddProjectFragment extends Fragment {
                 Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
                 calendar.setTimeInMillis(selection);
                 date_fin= calendar.getTime();
+                date_picker_fin.setText(materialDatePicker_fin.getHeaderText());
 
             }});
 
@@ -253,19 +262,7 @@ public class AddProjectFragment extends Fragment {
             }
         });
 
-        materialDatePicker_debut.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener() {
-            @Override
-            public void onPositiveButtonClick(Object selection) {
-                date_picker_debut.setText(materialDatePicker_debut.getHeaderText());
-            }
-        });
 
-        materialDatePicker_fin.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener() {
-            @Override
-            public void onPositiveButtonClick(Object selection) {
-                date_picker_fin.setText(materialDatePicker_fin.getHeaderText());
-            }
-        });
 
         flesh_back.setOnClickListener(new View.OnClickListener() {
             @Override

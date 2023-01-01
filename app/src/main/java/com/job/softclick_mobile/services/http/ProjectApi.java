@@ -28,4 +28,7 @@ public interface ProjectApi {
 
     @DELETE("projects/{id}")
     Call<ResponseBody>  delete(@Path("id") Long projectId);
+
+    @POST("projects/search")
+    Call<List<Project>> search(@Body Project project);
 }

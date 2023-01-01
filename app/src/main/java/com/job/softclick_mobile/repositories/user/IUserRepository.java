@@ -5,6 +5,6 @@ import com.job.softclick_mobile.repositories.IBaseRepository;
 import com.job.softclick_mobile.utils.LiveResponse;
 
 public interface IUserRepository extends IBaseRepository<User, Long> {
-    LiveResponse getSingleByUsername(String username);
+    LiveResponse getAuthenticated();
     LiveResponse verify(String code);
 }

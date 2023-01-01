@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.view.View;
 
 import com.job.softclick_mobile.databinding.ActivitySplashBinding;
+import com.job.softclick_mobile.services.storage.StoredUser;
 import com.job.softclick_mobile.ui.auth.LoginActivity;
 
 public class SplashActivity extends AppCompatActivity {

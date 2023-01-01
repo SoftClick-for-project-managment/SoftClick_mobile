@@ -1,7 +1,6 @@
 package com.job.softclick_mobile.repositories.invoices;
 
 
-import com.job.softclick_mobile.models.Employee;
 import com.job.softclick_mobile.models.Invoice;
 import com.job.softclick_mobile.repositories.IBaseRepository;
 import com.job.softclick_mobile.services.http.HttpClient;

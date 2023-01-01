@@ -4,6 +4,7 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 
+import com.job.softclick_mobile.models.TokenPeer;
 import com.job.softclick_mobile.models.User;
 import com.job.softclick_mobile.repositories.IBaseRepository;
 import com.job.softclick_mobile.repositories.user.UserRepository;
@@ -20,17 +21,22 @@ public class UserViewModel extends BaseViewModel<User, Long> implements IUserVie
     }
 
     @Override
-    public LiveResponse login(String username, String password) {
+    public LiveResponse<TokenPeer, Throwable> login(String username, String password) {
         return userRepository.login(username, password);
     }
 
     @Override
-    public LiveResponse getSingleByUsername(String username) {
-        return userRepository.getSingleByUsername(username);
+    public LiveResponse<User, Throwable> getAuthenticated() {
+        return userRepository.getAuthenticated();
     }
 
     @Override
-    public LiveResponse verify(String code) {
+    public LiveResponse<Boolean, Throwable> sendVerificationCode(String username) {
+        return null;
+    }
+
+    @Override
+    public LiveResponse<Boolean, Throwable> verify(String code) {
         return userRepository.verify(code);
     }
 }

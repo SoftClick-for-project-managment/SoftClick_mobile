@@ -9,9 +9,12 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -19,8 +22,13 @@ import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.adapters.MainRecyclerAdapter;
 import com.job.softclick_mobile.adapters.RvItemClickListener;
 import com.job.softclick_mobile.databinding.FragmentListProjectsBinding;
+import com.job.softclick_mobile.databinding.FragmentProjectSearchBinding;
+import com.job.softclick_mobile.models.Domain;
+import com.job.softclick_mobile.models.Employee;
+import com.job.softclick_mobile.models.Priority;
 import com.job.softclick_mobile.models.Project;
 import com.job.softclick_mobile.models.Project_section;
+import com.job.softclick_mobile.models.Status;
 import com.job.softclick_mobile.models.Task;
 import com.job.softclick_mobile.viewmodels.project.IProjectViewModel;
 import com.job.softclick_mobile.viewmodels.project.ProjectViewModel;
@@ -42,6 +50,7 @@ public class ListProjectsFragment extends Fragment implements RvItemClickListene
     private static final String ARG_PARAM2 = "param2";
 
     private FragmentListProjectsBinding binding;
+    private FragmentProjectSearchBinding searchbind;
 
 
     // TODO: Rename and change types of parameters
@@ -52,6 +61,7 @@ public class ListProjectsFragment extends Fragment implements RvItemClickListene
     List<Project_section> sections = new ArrayList<>();
     RecyclerView mainRecyclerView;
     private FloatingActionButton addButton;
+    private TextView search;
 
     public ListProjectsFragment() {
         // Required empty public constructor
@@ -89,12 +99,13 @@ public class ListProjectsFragment extends Fragment implements RvItemClickListene
                              Bundle savedInstanceState) {
 
         binding = FragmentListProjectsBinding.inflate(inflater, container, false);
+        searchbind = FragmentProjectSearchBinding.inflate(inflater, container, false);
     //    initData();
         mainRecyclerView = binding.mainRecycleView;
         projectViewModel = new ViewModelProvider(this).get(ProjectViewModel.class);
         MainRecyclerAdapter mainRecyclerAdapter = new MainRecyclerAdapter(sections, this);
         mainRecyclerView.setAdapter(mainRecyclerAdapter);
-        projectViewModel.getAll().gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Project>>() {
+       /* projectViewModel.getAll().gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Project>>() {
             @Override
             public void onChanged(List<Project> projects) {
          //      Toast.makeText(getActivity().getApplicationContext(), projects.toString(), Toast.LENGTH_SHORT).show();
@@ -104,10 +115,27 @@ public class ListProjectsFragment extends Fragment implements RvItemClickListene
                 mainRecyclerAdapter.setProject_sectionList(sections);
 
             }
+        });*/
+        Domain domain = new Domain(2l, "info");
+        Status status = new Status(1l,"testing");
+        Priority priority=new Priority(1,5f,"uergent");
+        Employee chef = new Employee();chef.setId(5l);
+        Project project = new Project("o", domain,chef,status,priority);
+        projectViewModel.seach(project).gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Project>>() {
+            @Override
+            public void onChanged(List<Project> projects) {
+                Toast.makeText(getActivity().getApplicationContext(), projects.toString(), Toast.LENGTH_SHORT).show();
+                Project_section project_section = new Project_section(projects.get(0).getProjectPriority().getNamePriority(), projects);
+                sections = new ArrayList<>();
+                sections.add(project_section);
+                mainRecyclerAdapter.setProject_sectionList(sections);
+
+            }
         });
 
 
         addButton = this.getActivity().findViewById(R.id.addButton);
+
         if (addButton != null) {
             addButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
@@ -121,6 +149,34 @@ public class ListProjectsFragment extends Fragment implements RvItemClickListene
                 }
             });
         }
+        try {
+            search = searchbind.searchbtn;
+        }catch (Exception e){
+            Log.d("debuging",e.getMessage());
+        }
+
+            search.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Domain domain = new Domain(3l, "info");
+                    Status status = new Status(1l,"testing");
+                    Priority priority=new Priority(1,5f,"uergent");
+                    Employee chef = new Employee();chef.setId(6l);
+                    Project project = new Project("o", domain,chef,status,priority);
+                    projectViewModel.seach(project).gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Project>>() {
+                        @Override
+                        public void onChanged(List<Project> projects) {
+                            //      Toast.makeText(getActivity().getApplicationContext(), projects.toString(), Toast.LENGTH_SHORT).show();
+                            Project_section project_section = new Project_section(projects.get(0).getProjectPriority().getNamePriority(), projects);
+                            sections = new ArrayList<>();
+                            sections.add(project_section);
+                            mainRecyclerAdapter.setProject_sectionList(sections);
+
+                        }
+                    });
+                }
+            });
+
 
         return binding.getRoot();
     }
