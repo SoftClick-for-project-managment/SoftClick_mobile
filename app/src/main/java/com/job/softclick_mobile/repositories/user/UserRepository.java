@@ -3,7 +3,6 @@ package com.job.softclick_mobile.repositories.user;
 import com.job.softclick_mobile.models.TokenPeer;
 import com.job.softclick_mobile.models.User;
 import com.job.softclick_mobile.services.http.HttpClient;
-import com.job.softclick_mobile.services.http.TaskApi;
 import com.job.softclick_mobile.services.http.UserApi;
 import com.job.softclick_mobile.utils.LiveResponse;
 
@@ -28,6 +27,7 @@ public class UserRepository implements IUserRepository {
         User user = new User();
         user.setUsername(username);
         user.setPassword(password);
+
         apiService.login(user).enqueue(new Callback<TokenPeer>() {
             @Override
             public void onResponse(Call<TokenPeer> call, Response<TokenPeer> response) {

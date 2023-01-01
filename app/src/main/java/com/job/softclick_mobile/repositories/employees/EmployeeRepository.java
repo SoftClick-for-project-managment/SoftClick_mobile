@@ -3,7 +3,6 @@ package com.job.softclick_mobile.repositories.employees;
 import android.util.Log;
 
 import com.job.softclick_mobile.models.Employee;
-import com.job.softclick_mobile.models.Task;
 import com.job.softclick_mobile.repositories.IBaseRepository;
 import com.job.softclick_mobile.services.http.EmployeeApi;
 import com.job.softclick_mobile.services.http.HttpClient;
