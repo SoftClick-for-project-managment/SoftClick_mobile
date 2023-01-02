@@ -21,6 +21,7 @@ import com.job.softclick_mobile.databinding.ActivityMenuBinding;
 import com.job.softclick_mobile.models.User;
 import com.job.softclick_mobile.services.storage.StoredUser;
 import com.job.softclick_mobile.ui.auth.LoginActivity;
+import com.job.softclick_mobile.ui.auth.ProfileFragment;
 import com.job.softclick_mobile.ui.team.TeamListFragment;
 import com.job.softclick_mobile.ui.tasks.TaskList;
 import com.job.softclick_mobile.ui.employees.EmployeeListFragment;
@@ -34,12 +35,10 @@ import com.job.softclick_mobile.viewmodels.user.UserViewModel;
 
 import java.io.IOException;
 
-import retrofit2.HttpException;
-
 public class MenuActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private ActivityMenuBinding binding;
-    private  FragmentManager fragmentManager = getSupportFragmentManager();
+    private FragmentManager fragmentManager = getSupportFragmentManager();
     private IUserViewModel userViewModel;
     private User authUser;
 
@@ -184,6 +183,16 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
                 try{
                     fragmentClass = ListProjectsFragment.class;
                     fragmentManager.beginTransaction().replace(R.id.fContentFooter, (Fragment) FooterFragment.class.newInstance()).commit();
+                    fragment = (Fragment) fragmentClass.newInstance();
+                }
+                catch (Exception e ){
+                }
+                break;
+            }
+            case R.id.profile_item:
+            {
+                try{
+                    fragmentClass = ProfileFragment.class;
                     fragment = (Fragment) fragmentClass.newInstance();
                 }
                 catch (Exception e ){
