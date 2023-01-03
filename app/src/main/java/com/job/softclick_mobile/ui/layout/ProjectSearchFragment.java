@@ -3,8 +3,10 @@ package com.job.softclick_mobile.ui.layout;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,8 +17,13 @@ import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.databinding.FragmentEmployeSearchBinding;
 import com.job.softclick_mobile.databinding.FragmentListProjectsBinding;
 import com.job.softclick_mobile.databinding.FragmentProjectSearchBinding;
+import com.job.softclick_mobile.models.Domain;
+import com.job.softclick_mobile.models.Employee;
+import com.job.softclick_mobile.models.Priority;
 import com.job.softclick_mobile.models.Project;
 import com.job.softclick_mobile.models.Project_section;
+import com.job.softclick_mobile.models.Status;
+import com.job.softclick_mobile.viewmodels.ActivitySharedViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,8 +43,9 @@ public class ProjectSearchFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private TextView searchbtn;
+    private TextView searchbtn , nameProject;
     private  FragmentProjectSearchBinding binding;
+    private ActivitySharedViewModel activitySharedViewModel;
 
     public ProjectSearchFragment() {
         // Required empty public constructor
@@ -71,12 +79,32 @@ public class ProjectSearchFragment extends Fragment {
     }
 
     @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        activitySharedViewModel =  new ViewModelProvider(getActivity()).get(ActivitySharedViewModel.class);
+
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
          binding= FragmentProjectSearchBinding.inflate(inflater, container, false);
+        searchbtn = binding.searchbtn;
+        nameProject = binding.nameProjectInput;
 
+        searchbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Domain domain = new Domain(2l, "info");
+                Status status = new Status(1l,"testing");
+                Priority priority=new Priority(1,5f,"uergent");
+                Employee chef = new Employee();chef.setId(5l);
+                Project project = new Project(nameProject.getText().toString(), domain,chef,status,priority);
+                activitySharedViewModel.setSearchProject(project);
+            }
+        });
          return  binding.getRoot();
     }
 }
