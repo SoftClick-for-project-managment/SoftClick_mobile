@@ -108,6 +108,7 @@ public class FooterFragment extends Fragment {
 
 
         mbBottomSheetBehavior = BottomSheetBehavior.from(mBottomSheet);
+        mbBottomSheetBehavior.setState(mbBottomSheetBehavior.STATE_HIDDEN);
 
         ((AppCompatActivity)getActivity()).setSupportActionBar(mBottomAppBar);
         mBottomAppBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_CENTER);

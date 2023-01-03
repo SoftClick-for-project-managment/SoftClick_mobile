@@ -9,5 +9,4 @@ import java.util.Map;
 
 public interface IProjectViewModel extends IBaseViewModel<Project, Long> {
     public void patch(Long id , Map<Object,Object> fields);
-    public LiveResponse seach(Project proejct) ;
 }

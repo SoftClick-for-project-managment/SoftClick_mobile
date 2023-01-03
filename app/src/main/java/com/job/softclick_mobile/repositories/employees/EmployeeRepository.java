@@ -138,4 +138,9 @@ public class EmployeeRepository implements IEmployeeRepository, IBaseRepository<
 
         return createLiveResponse;
     }
+
+    @Override
+    public LiveResponse search(Employee employee) {
+        return null;
+    }
 }

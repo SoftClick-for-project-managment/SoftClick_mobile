@@ -80,4 +80,9 @@ public class ExpenseRepository implements IExpenseRepository, IBaseRepository<Ex
     public LiveResponse delete(Long aLong) {
         return new LiveResponse();
     }
+
+    @Override
+    public LiveResponse search(Expense expense) {
+        return null;
+    }
 }

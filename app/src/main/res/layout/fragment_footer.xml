@@ -6,9 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.layout.FooterFragment">
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+
 
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -24,8 +22,7 @@
             <FrameLayout
                 android:id="@+id/bottom_search_lContent"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/between_cards"
+                android:layout_height="wrap_content"
                 app:behavior_hideable="true"
                 app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"/>
 
@@ -51,7 +48,6 @@
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 
 </FrameLayout>

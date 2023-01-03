@@ -138,4 +138,9 @@ public class ClientRepository implements IClientRepository, IBaseRepository<Clie
 
         return createLiveResponse;
     }
+
+    @Override
+    public LiveResponse search(Client client) {
+        return null;
+    }
 }

@@ -62,4 +62,9 @@ public class StatusRepository implements IStatusRepository {
     public LiveResponse delete(Long aLong) {
         return new LiveResponse();
     }
+
+    @Override
+    public LiveResponse search(Status status) {
+        return null;
+    }
 }

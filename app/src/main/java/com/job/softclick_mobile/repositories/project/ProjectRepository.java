@@ -174,8 +174,8 @@ public class ProjectRepository implements  IProjectRepository , IBaseRepository<
         });
     }
 
-
-    public LiveResponse seach(Project project) {
+    @Override
+    public LiveResponse search(Project project) {
         service.search(project).enqueue(new Callback<List<Project>>() {
             @Override
             public void onResponse(Call<List<Project>> call, Response<List<Project>> response) {
@@ -197,7 +197,7 @@ public class ProjectRepository implements  IProjectRepository , IBaseRepository<
             }
         });
 
-        return tMutableLiveDataList;
+        return searchLiveDataList;
     }
 
 

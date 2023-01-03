@@ -23,10 +23,4 @@ public class ProjectViewModel extends BaseViewModel<Project, Long> implements IP
         ProjectRepository projectRepository = new ProjectRepository();
         projectRepository.patch(id , fields);
   }
-
-    @Override
-    public LiveResponse seach(Project proejct) {
-        ProjectRepository projectRepository = new ProjectRepository();
-        return projectRepository.seach(proejct);
-    }
 }

@@ -104,4 +104,9 @@ public class DomainRepository implements IDomainRepository, IBaseRepository<Doma
     public LiveResponse delete(Long aLong) {
         return null;
     }
+
+    @Override
+    public LiveResponse search(Domain domain) {
+        return null;
+    }
 }

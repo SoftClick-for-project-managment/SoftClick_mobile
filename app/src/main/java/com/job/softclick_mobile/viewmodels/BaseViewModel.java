@@ -42,5 +42,10 @@ public class BaseViewModel<T, Key> extends AndroidViewModel implements IBaseView
         return repository.delete(key);
     }
 
+    @Override
+    public LiveResponse search(T t) {
+        return repository.search(t);
+    }
+
 
 }

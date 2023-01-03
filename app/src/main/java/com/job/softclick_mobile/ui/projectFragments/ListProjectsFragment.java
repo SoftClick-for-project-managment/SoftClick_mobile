@@ -121,15 +121,15 @@ public class ListProjectsFragment extends Fragment implements RvItemClickListene
         Priority priority=new Priority(1,5f,"uergent");
         Employee chef = new Employee();chef.setId(5l);
         Project project = new Project("o", domain,chef,status,priority);
-        projectViewModel.seach(project).gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Project>>() {
+        projectViewModel.search(project).gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Project>>() {
             @Override
             public void onChanged(List<Project> projects) {
-                Toast.makeText(getActivity().getApplicationContext(), projects.toString(), Toast.LENGTH_SHORT).show();
+                Log.d("DEBUG", projects.toString());
                 Project_section project_section = new Project_section(projects.get(0).getProjectPriority().getNamePriority(), projects);
                 sections = new ArrayList<>();
                 sections.add(project_section);
                 mainRecyclerAdapter.setProject_sectionList(sections);
-
+                mainRecyclerAdapter.notifyDataSetChanged();
             }
         });
 
@@ -163,7 +163,7 @@ public class ListProjectsFragment extends Fragment implements RvItemClickListene
                     Priority priority=new Priority(1,5f,"uergent");
                     Employee chef = new Employee();chef.setId(6l);
                     Project project = new Project("o", domain,chef,status,priority);
-                    projectViewModel.seach(project).gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Project>>() {
+                    projectViewModel.search(project).gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Project>>() {
                         @Override
                         public void onChanged(List<Project> projects) {
                             //      Toast.makeText(getActivity().getApplicationContext(), projects.toString(), Toast.LENGTH_SHORT).show();
@@ -171,6 +171,7 @@ public class ListProjectsFragment extends Fragment implements RvItemClickListene
                             sections = new ArrayList<>();
                             sections.add(project_section);
                             mainRecyclerAdapter.setProject_sectionList(sections);
+                            //mainRecyclerAdapter.notifyDataSetChanged();
 
                         }
                     });
