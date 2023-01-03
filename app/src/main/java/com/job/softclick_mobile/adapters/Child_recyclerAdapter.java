@@ -54,7 +54,7 @@ public class Child_recyclerAdapter extends RecyclerView.Adapter<Child_recyclerAd
 
     @Override
     public int getItemCount() {
-        return projects.size();
+        return (projects != null) ? projects.size():0;
     }
 
 

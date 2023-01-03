@@ -214,7 +214,10 @@ public class ListProjectsFragment extends Fragment implements RvItemClickListene
             @Override
             public void onChanged(List<Project> projects) {
                 Log.d("DEBUG", projects.toString());
-                Project_section project_section = new Project_section(projects.get(0).getProjectPriority().getNamePriority(), projects);
+                Project_section project_section = new Project_section();
+                if(projects != null && projects.size()>0) {
+                    project_section = new Project_section(projects.get(0).getProjectPriority().getNamePriority(), projects);
+                }
                 sections = new ArrayList<>();
                 sections.add(project_section);
                 mainRecyclerAdapter.setProject_sectionList(sections);

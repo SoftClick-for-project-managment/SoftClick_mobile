@@ -68,7 +68,7 @@
                         android:background="#00000000"
                         android:focusable="false"
                         android:fontFamily="@font/roboto_regular"
-                        android:hint="Domain"
+                        android:hint="@string/chef_projet"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large"
                         android:textSize="16sp" />
 
@@ -100,7 +100,7 @@
                         android:background="#00000000"
                         android:focusable="false"
                         android:fontFamily="@font/roboto_regular"
-                        android:hint="Status"
+                        android:hint="@string/domain"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large"
                         android:textSize="16sp"
 
@@ -116,7 +116,7 @@
                     android:layout_margin="10dp"
                     android:background="@color/white"
                     android:elevation="5dp"
-                    android:hint="@string/client"
+                    android:hint="@string/priority"
                     android:textColorHint="#574D4D"
                     app:boxBackgroundMode="outline"
                     app:endIconMode="dropdown_menu"
@@ -134,7 +134,7 @@
                         android:background="#00000000"
                         android:focusable="false"
                         android:fontFamily="@font/roboto_regular"
-                        android:hint="Priority"
+                        android:hint="@string/priority"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large"
                         android:textSize="16sp"
 
@@ -159,7 +159,7 @@
                     app:hintTextAppearance="@style/TextAppearance.AppCompat.Large">
 
                     <AutoCompleteTextView
-                        android:id="@+id/status"
+                        android:id="@+id/status_combo"
                         style="@style/Widget.Material3.AutoCompleteTextView.OutlinedBox.Dense"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -168,7 +168,7 @@
                         android:background="#00000000"
                         android:focusable="false"
                         android:fontFamily="@font/roboto_regular"
-                        android:hint="@string/chef_projet"
+                        android:hint="@string/status"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large"
                         android:textSize="16sp"
 
