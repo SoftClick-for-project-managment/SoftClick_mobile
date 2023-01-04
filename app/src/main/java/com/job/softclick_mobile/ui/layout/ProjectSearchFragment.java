@@ -31,6 +31,8 @@ import com.job.softclick_mobile.viewmodels.domains.DomainViewModel;
 import com.job.softclick_mobile.viewmodels.domains.IDomainViewModel;
 import com.job.softclick_mobile.viewmodels.employees.EmployeeViewModel;
 import com.job.softclick_mobile.viewmodels.employees.IEmployeeViewModel;
+import com.job.softclick_mobile.viewmodels.priority.IPriorityViewModel;
+import com.job.softclick_mobile.viewmodels.priority.PriorityViewModel;
 import com.job.softclick_mobile.viewmodels.status.IStatusViewModel;
 import com.job.softclick_mobile.viewmodels.status.StatusViewModel;
 
@@ -54,16 +56,18 @@ public class ProjectSearchFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     private TextView searchbtn , nameProject;
-    private AutoCompleteTextView Combo_domain , Combo_chef , Combo_status;
+    private AutoCompleteTextView Combo_domain , Combo_chef , Combo_status , Combo_priority;
     private  FragmentProjectSearchBinding binding;
     private ActivitySharedViewModel activitySharedViewModel;
     HashMap<String,Long> domains_pairs = new HashMap<>();
     HashMap<String,Long> employe_pairs = new HashMap<>();
     HashMap<String,Long> status_pairs = new HashMap<>();
+    HashMap<String,Integer> priority_pairs = new HashMap<>();
 
     private IDomainViewModel domainViewModel;
     private IEmployeeViewModel employeeViewModel;
     private IStatusViewModel statusViewModel;
+    private IPriorityViewModel priorityViewModel;
 
     public ProjectSearchFragment() {
         // Required empty public constructor
@@ -112,12 +116,14 @@ public class ProjectSearchFragment extends Fragment {
         domainViewModel = new ViewModelProvider(this).get(DomainViewModel.class);
         employeeViewModel = new ViewModelProvider(this).get(EmployeeViewModel.class);
         statusViewModel = new ViewModelProvider(this).get(StatusViewModel.class);
+        priorityViewModel = new ViewModelProvider(this).get(PriorityViewModel.class);
 
         searchbtn = binding.searchbtn;
         nameProject = binding.nameProjectInput;
         Combo_domain = binding.domainCombo;
         Combo_chef = binding.chefCombo;
         Combo_status = binding.statusCombo;
+        Combo_priority = binding.priorityCombo;
 
 
         domainViewModel.getAll().gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Domain>>() {
@@ -129,6 +135,7 @@ public class ProjectSearchFragment extends Fragment {
                     domains.forEach(domain -> {
                         domains_pairs.put(domain.getNameDomain(), domain.getIdDomain());
                     });
+                    domains_pairs.put("All domains",null);
                     List<String> domain_names = new ArrayList<>(domains_pairs.keySet());
                     ArrayAdapter<String> adapter_domain = new ArrayAdapter<String>(getActivity(), R.layout.dropdown_item, domain_names);
                     Combo_domain.setAdapter(adapter_domain);
@@ -147,6 +154,7 @@ public class ProjectSearchFragment extends Fragment {
                     employees.forEach(employee -> {
                         employe_pairs.put(employee.getEmployeeLastName()+" "+employee.getEmployeeFirstName(), (long) employee.getId());
                     });
+                    employe_pairs.put("All employees",null);
                     List<String> employe_names = new ArrayList<>(employe_pairs.keySet());
                     ArrayAdapter<String> adapter_employe = new ArrayAdapter<String>(getActivity(), R.layout.dropdown_item, employe_names);
                     Combo_chef.setAdapter(adapter_employe);
@@ -165,9 +173,29 @@ public class ProjectSearchFragment extends Fragment {
                     statuses.forEach(status -> {
                         status_pairs.put(status.getNameStatus(), (long) status.getIdStatus());
                     });
+                    status_pairs.put("All status",null);
                     List<String> status_names = new ArrayList<>(status_pairs.keySet());
                     ArrayAdapter<String> adapter_status = new ArrayAdapter<String>(getActivity(), R.layout.dropdown_item, status_names);
                     Combo_status.setAdapter(adapter_status);
+                } catch (Exception e) {
+                    Log.e("Error", e.getMessage());
+                }
+            }
+        });
+
+        priorityViewModel.getAll().gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Priority>>() {
+
+            @Override
+            public void onChanged(List<Priority> priorities) {
+
+                try {
+                    priorities.forEach(priority -> {
+                        priority_pairs.put(priority.getNamePriority(),  priority.getIdPriority());
+                    });
+                    priority_pairs.put("All priorities",null);
+                    List<String> priority_names = new ArrayList<>(priority_pairs.keySet());
+                    ArrayAdapter<String> adapter_prioritiy = new ArrayAdapter<String>(getActivity(), R.layout.dropdown_item, priority_names);
+                    Combo_priority.setAdapter(adapter_prioritiy);
                 } catch (Exception e) {
                     Log.e("Error", e.getMessage());
                 }
@@ -181,9 +209,10 @@ public class ProjectSearchFragment extends Fragment {
                 Long idDomain = domains_pairs.get(Combo_domain.getText().toString());
                 Long idEmploye = employe_pairs.get(Combo_chef.getText().toString());
                 Long idStatus = status_pairs.get(Combo_status.getText().toString());
+                Integer idPriority = priority_pairs.get(Combo_priority.getText().toString());
                 Domain domain = new Domain(idDomain,"");
                 Status status = new Status(idStatus,"");
-                Priority priority=new Priority(1,5f,"uergent");
+                Priority priority=new Priority(idPriority,1f,"");
                 Employee chef = new Employee();chef.setId(idEmploye);
                 Project project = new Project(nameProject.getText().toString(), domain,chef,status,priority);
                 activitySharedViewModel.setSearchProject(project);

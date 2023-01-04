@@ -126,7 +126,7 @@ public class ListProjectsFragment extends Fragment implements RvItemClickListene
         projectViewModel.getAll().gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Project>>() {
             @Override
             public void onChanged(List<Project> projects) {
-         //      Toast.makeText(getActivity().getApplicationContext(), projects.toString(), Toast.LENGTH_SHORT).show();
+
                 Project_section project_section = new Project_section(projects.get(0).getProjectPriority().getNamePriority(),projects);
                 sections = new ArrayList<>();
                 sections.add(project_section);

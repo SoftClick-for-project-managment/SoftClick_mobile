@@ -38,6 +38,8 @@ import com.job.softclick_mobile.viewmodels.domains.DomainViewModel;
 import com.job.softclick_mobile.viewmodels.domains.IDomainViewModel;
 import com.job.softclick_mobile.viewmodels.employees.EmployeeViewModel;
 import com.job.softclick_mobile.viewmodels.employees.IEmployeeViewModel;
+import com.job.softclick_mobile.viewmodels.priority.IPriorityViewModel;
+import com.job.softclick_mobile.viewmodels.priority.PriorityViewModel;
 import com.job.softclick_mobile.viewmodels.project.IProjectViewModel;
 import com.job.softclick_mobile.viewmodels.project.ProjectViewModel;
 import com.job.softclick_mobile.viewmodels.status.IStatusViewModel;
@@ -79,6 +81,8 @@ public class AddProjectFragment extends Fragment {
     private IDomainViewModel domainViewModel;
     HashMap<String,Long> domains_pairs = new HashMap<>();
     HashMap<String,Long> employe_pairs = new HashMap<>();
+    HashMap<String,Integer> priority_pairs = new HashMap<>();
+
 
     String[] clients = new String[]{
             "Faisal",
@@ -100,6 +104,7 @@ public class AddProjectFragment extends Fragment {
     private Project project = null;
     private IProjectViewModel projectViewModel;
     private IEmployeeViewModel employeeViewModel;
+    private IPriorityViewModel priorityViewModel;
 
 
     public AddProjectFragment() {
@@ -137,7 +142,7 @@ public class AddProjectFragment extends Fragment {
         projectViewModel = new ViewModelProvider(this).get(ProjectViewModel.class);
         domainViewModel = new ViewModelProvider(this).get(DomainViewModel.class);
         employeeViewModel = new ViewModelProvider(this).get(EmployeeViewModel.class);
-
+        priorityViewModel = new ViewModelProvider(this).get(PriorityViewModel.class);
 
 
         title_page = binding.pageTitle;
@@ -164,6 +169,7 @@ public class AddProjectFragment extends Fragment {
                     domains.forEach(domain -> {
                         domains_pairs.put(domain.getNameDomain(), domain.getIdDomain());
                     });
+                    domains_pairs.put("",null);
                     List<String> domain_names = new ArrayList<>(domains_pairs.keySet());
                     ArrayAdapter<String> adapter_domain = new ArrayAdapter<String>(getActivity(), R.layout.dropdown_item, domain_names);
                     Combo_domain.setAdapter(adapter_domain);
@@ -183,9 +189,29 @@ public class AddProjectFragment extends Fragment {
                     employees.forEach(employee -> {
                         employe_pairs.put(employee.getEmployeeLastName()+" "+employee.getEmployeeFirstName(), (long) employee.getId());
                     });
+                    employe_pairs.put("",null);
                     List<String> employe_names = new ArrayList<>(employe_pairs.keySet());
                     ArrayAdapter<String> adapter_employe = new ArrayAdapter<String>(getActivity(), R.layout.dropdown_item, employe_names);
                     Combo_chef.setAdapter(adapter_employe);
+                } catch (Exception e) {
+                    Log.e("Error", e.getMessage());
+                }
+            }
+        });
+
+        priorityViewModel.getAll().gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Priority>>() {
+
+            @Override
+            public void onChanged(List<Priority> priorities) {
+
+                try {
+                    priorities.forEach(priority -> {
+                        priority_pairs.put(priority.getNamePriority(),  priority.getIdPriority());
+                    });
+                    priority_pairs.put("",null);
+                    List<String> priority_names = new ArrayList<>(priority_pairs.keySet());
+                    ArrayAdapter<String> adapter_prioritiy = new ArrayAdapter<String>(getActivity(), R.layout.dropdown_item, priority_names);
+                    Combo_priority.setAdapter(adapter_prioritiy);
                 } catch (Exception e) {
                     Log.e("Error", e.getMessage());
                 }
@@ -302,7 +328,7 @@ public class AddProjectFragment extends Fragment {
         String name = name_project.getText().toString().trim();
         String description_text = description.getText().toString().trim();
         Double revenue_text = Double.parseDouble(revenue.getText().toString().trim());
-        String priority_name = Combo_priority.getText().toString().trim();
+
 
         Long domain_id = domains_pairs.get(Combo_domain.getText().toString());
         Log.d("domain_id",domain_id.toString());
@@ -314,8 +340,12 @@ public class AddProjectFragment extends Fragment {
         Employee chef = new Employee();
         chef.setId(chef_id);
 
+        Integer priority_id = priority_pairs.get(Combo_priority.getText().toString());
+        Priority priority = new Priority(priority_id,1f,"");
+        String priority_name = Combo_priority.getText().toString().trim();
+
         Status status = new Status(1l,"");
-        Priority priority = new Priority(1,5f,"");
+
 
 
 
@@ -351,19 +381,8 @@ public class AddProjectFragment extends Fragment {
 
     public void update_project() {
         Project validated_project = validate();
-       /* validated_project.setChefProject(null);
-        validated_project.setProjectPriority(null);
-        validated_project.setDomainProjet(null);
-        validated_project.setProjectStatus(null);
-        validated_project.setIdProject(null);
-        Map<Object,Object> fields = new HashMap<>();
-        for (Field field : validated_project.getClass().getDeclaredFields()) {
-            field.setAccessible(true);
-            try { if(field.get(validated_project) != null ) {fields.put(field.getName(), field.get(validated_project));} } catch (Exception e) { }
-        }*/
         if (validated_project != null) {
             try {
-                //Log.d("CONSOLE LOG", "patch is " + fields.toString());
                 projectViewModel.update(project.getIdProject(),validated_project);
                 getParentFragmentManager().beginTransaction().replace(R.id.fContentFooter, (Fragment) FooterFragment.class.newInstance()).commit();
                 Fragment fragment = new ListProjectsFragment();

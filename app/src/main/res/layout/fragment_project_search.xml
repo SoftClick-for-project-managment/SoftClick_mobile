@@ -125,7 +125,7 @@
                     app:hintTextAppearance="@style/TextAppearance.AppCompat.Large">
 
                     <AutoCompleteTextView
-                        android:id="@+id/client_combo"
+                        android:id="@+id/priority_combo"
                         style="@style/Widget.Material3.AutoCompleteTextView.OutlinedBox.Dense"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
