@@ -306,6 +306,17 @@
 
                             </LinearLayout>
 
+                            <Button
+                                android:id="@+id/see_tasks_btn"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:fontFamily="@font/roboto_regular"
+                                android:text="@string/See_Tasks"
+                                android:textSize="10sp"
+                                android:background="@drawable/stat_elliptic_shape"
+                                android:layout_marginTop="20dp"
+                                />
                         </LinearLayout>
                     </ScrollView>
 

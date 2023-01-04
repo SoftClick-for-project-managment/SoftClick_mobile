@@ -9,10 +9,12 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,6 +25,7 @@ import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.databinding.FragmentDetailProjectBinding;
 import com.job.softclick_mobile.models.Project;
 import com.job.softclick_mobile.ui.layout.FooterFragment;
+import com.job.softclick_mobile.ui.tasks.TaskList;
 import com.job.softclick_mobile.viewmodels.project.IProjectViewModel;
 import com.job.softclick_mobile.viewmodels.project.ProjectViewModel;
 
@@ -43,8 +46,10 @@ public class DetailProjectFragment extends Fragment {
     private FragmentDetailProjectBinding binding;
     private IProjectViewModel projectViewModel;
     TextView project_name, domain, date_debut, date_fin, description, name_chef, clients, equips, revenue, depense,priority_name;
+    private Button see_tasks_btn;
     LinearProgressIndicator etat_avancement;
     ImageView flesh_back, moreOptions;
+    private Long id_project;
 
     // TODO: Rename and change types of parameters
     private Project project;
@@ -77,6 +82,7 @@ public class DetailProjectFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             project = (Project) getArguments().getSerializable(ARG_PARAM1);
+            id_project = project.getIdProject();
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
         setHasOptionsMenu(true);
@@ -102,6 +108,7 @@ public class DetailProjectFragment extends Fragment {
         flesh_back = binding.fleshBack;
         moreOptions = binding.moreOptions;
         priority_name = binding.prioritydeprojet;
+        see_tasks_btn = binding.seeTasksBtn;
 
         fetchDate();
 
@@ -118,6 +125,16 @@ public class DetailProjectFragment extends Fragment {
                         e.printStackTrace();
                     }
                 }
+            }
+        });
+
+        see_tasks_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.fContentFooter, new FooterFragment(TaskList.class)).commit();
+                Log.d("id project : ",id_project.toString());
+                fragmentManager.beginTransaction().replace(R.id.flContent, TaskList.newInstance(id_project)).commit();
             }
         });
 

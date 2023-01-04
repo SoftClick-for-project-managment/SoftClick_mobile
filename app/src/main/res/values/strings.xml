@@ -54,4 +54,8 @@
     <string name="searchbtn">Search</string>
     <string name="priority">Priority</string>
     <string name="prioritydeprojet">"Priority de projet : "</string>
+    <string name="See_Tasks">See Tasks</string>
+    <string name="client_name_hint">Last Name </string>
+    <string name="first_name_hint">First Name</string>
+    <string name="Organisation_name_hint">Organisation Name</string>
 </resources>

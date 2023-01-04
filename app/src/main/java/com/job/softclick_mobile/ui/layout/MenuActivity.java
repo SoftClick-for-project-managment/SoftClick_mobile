@@ -136,7 +136,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
             {
                 try{
                     fragmentClass = ClientListFragment.class;
-                    fragmentManager.beginTransaction().replace(R.id.fContentFooter, (Fragment) FooterFragment.class.newInstance()).commit();
+                    fragmentManager.beginTransaction().replace(R.id.fContentFooter, new FooterFragment((ClientListFragment.class))).commit();
                     fragment = (Fragment) fragmentClass.newInstance();
                 }
                 catch (Exception e ){

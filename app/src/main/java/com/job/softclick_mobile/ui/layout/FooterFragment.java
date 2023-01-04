@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.job.softclick_mobile.R;
+import com.job.softclick_mobile.ui.clients.ClientListFragment;
 import com.job.softclick_mobile.ui.employees.EmployeeListFragment;
 import com.job.softclick_mobile.ui.projectFragments.ListProjectsFragment;
 
@@ -99,9 +100,11 @@ public class FooterFragment extends Fragment {
             fragmentManager.beginTransaction().replace(R.id.bottom_search_lContent,new ProjectSearchFragment()  ).commit();
 
          }else if(fragmentClass == EmployeeListFragment.class){
-            ;
             fragmentManager.beginTransaction().replace(R.id.bottom_search_lContent, new EmployeSearchFragment()).commit();
-        }else{
+        }else if(fragmentClass == ClientListFragment.class){
+            fragmentManager.beginTransaction().replace(R.id.bottom_search_lContent, new ClientSearchFragment()).commit();
+        }
+        else{
             fragmentManager.beginTransaction().replace(R.id.bottom_search_lContent,new ProjectSearchFragment()  ).commit();
         }
         mBottomSheet = view.findViewById(R.id.bottom_search_lContent);

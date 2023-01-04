@@ -65,10 +65,11 @@
                     android:inputType="textPersonName"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     android:textSize="16sp" />
+
                 <View
                     android:layout_width="wrap_content"
                     android:layout_height="1dp"
-                    android:background="#979797"/>
+                    android:background="#B3ADAD" />
                 <EditText
                     android:id="@+id/desciption_input"
                     style="@style/Widget.Material3.AutoCompleteTextView.OutlinedBox"
@@ -82,10 +83,11 @@
                     android:inputType="textMultiLine"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     android:textSize="16sp" />
+
                 <View
                     android:layout_width="wrap_content"
                     android:layout_height="1dp"
-                    android:background="#979797"/>
+                    android:background="#B3ADAD" />
                 <com.google.android.material.textfield.TextInputLayout
 
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -154,10 +156,11 @@
 
 
                 </com.google.android.material.textfield.TextInputLayout>
+
                 <View
                     android:layout_width="wrap_content"
                     android:layout_height="1dp"
-                    android:background="#979797"/>
+                    android:background="#B3ADAD" />
 
                 <com.google.android.material.textfield.TextInputLayout
 
@@ -228,7 +231,7 @@
                 <View
                     android:layout_width="wrap_content"
                     android:layout_height="1dp"
-                    android:background="#979797"/>
+                    android:background="#B3ADAD"/>
 
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -264,7 +267,7 @@
                 <View
                     android:layout_width="wrap_content"
                     android:layout_height="1dp"
-                    android:background="#979797"/>
+                    android:background="#B3ADAD"/>
 
 
                 <EditText

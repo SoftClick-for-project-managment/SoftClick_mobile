@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.job.softclick_mobile.R;
@@ -55,7 +56,8 @@ public class ProjectSearchFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private TextView searchbtn , nameProject;
+    private TextView searchbtn ;
+    private EditText nameProject;
     private AutoCompleteTextView Combo_domain , Combo_chef , Combo_status , Combo_priority;
     private  FragmentProjectSearchBinding binding;
     private ActivitySharedViewModel activitySharedViewModel;
