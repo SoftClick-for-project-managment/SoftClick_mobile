@@ -119,7 +119,7 @@ public class DetailProjectFragment extends Fragment {
             public void onClick(View v) {
                 if (getParentFragmentManager().getBackStackEntryCount() > 0) {
                     try {
-                        getParentFragmentManager().beginTransaction().replace(R.id.fContentFooter, (Fragment) FooterFragment.class.newInstance()).commit();
+                        getParentFragmentManager().beginTransaction().replace(R.id.fContentFooter, new FooterFragment(ListProjectsFragment.class)).commit();
                         getParentFragmentManager().popBackStackImmediate();
                     } catch (Exception e) {
                         e.printStackTrace();

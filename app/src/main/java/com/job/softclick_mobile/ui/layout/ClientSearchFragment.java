@@ -36,7 +36,7 @@ public class ClientSearchFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     private FragmentClientSearchBinding binding;
-    private EditText nomClient , prenomClient , Organisation;
+    private EditText nomClient , prenomClient , Organisation , ville,pay;
     private ActivitySharedViewModel activitySharedViewModel;
     private TextView searchbtn;
 
@@ -91,6 +91,9 @@ public class ClientSearchFragment extends Fragment {
         prenomClient = binding.prenomClientInput;
         Organisation = binding.nameOrganisationInput;
         searchbtn = binding.searchbtn;
+        ville = binding.villeClientInput;
+        pay = binding.payClientInput;
+
 
         searchbtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,11 +101,15 @@ public class ClientSearchFragment extends Fragment {
                 String nom = nomClient.getText().toString();
                 String prenom = prenomClient.getText().toString();
                 String organisation_name = Organisation.getText().toString();
+                String ville_name = ville.getText().toString();
+                String pay_name = pay.getText().toString();
 
                 Client client = new Client();
                 client.setNom(nom);
                 client.setPrenom(prenom);
                 client.setNomEntreprise(organisation_name);
+                client.setVille(ville_name);
+                client.setPays(pay_name);
                 activitySharedViewModel.setSearchClient(client);
             }
         });

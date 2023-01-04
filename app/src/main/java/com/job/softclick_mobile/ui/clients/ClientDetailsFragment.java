@@ -151,7 +151,7 @@ public class ClientDetailsFragment extends Fragment  {
                 @Override
                 public void onClick(View v) {
                     Fragment clientListFragment = new ClientListFragment();
-                    FooterFragment footerFragment = new FooterFragment();
+                    FooterFragment footerFragment = new FooterFragment(ClientListFragment.class);
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fContentFooter, footerFragment).commit();
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContent, clientListFragment).commit();
                 }

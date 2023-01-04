@@ -58,4 +58,6 @@
     <string name="client_name_hint">Last Name </string>
     <string name="first_name_hint">First Name</string>
     <string name="Organisation_name_hint">Organisation Name</string>
+    <string name="client_ville_hint">Vile</string>
+    <string name="pay_name_hint">Pay</string>
 </resources>
