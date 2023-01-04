@@ -25,6 +25,9 @@ public class Client implements Serializable {
         this.pays = pays;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
     public Long getId() {
         return id;
     }

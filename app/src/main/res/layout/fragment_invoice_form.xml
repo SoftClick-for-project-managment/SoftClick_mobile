@@ -8,6 +8,16 @@
     tools:context=".ui.invoices.InvoiceFormFragment">
 
     <!-- TODO: Update blank fragment layout -->
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:visibility="gone"
+        android:indeterminateDrawable="@drawable/ind_progress_bar"
+        android:indeterminateDuration="500"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerInParent="true"
+        tools:progress="@integer/material_motion_duration_medium_1"
+        />
 
         <ScrollView
             android:layout_width="fill_parent"
@@ -27,6 +37,7 @@
                     android:layout_height="200dp">
 
                     <RelativeLayout
+                        android:id="@+id/formBody"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -68,7 +79,6 @@
                         android:src="@drawable/invoice" />
 
                 </FrameLayout>
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -81,46 +91,6 @@
                         android:layout_height="1dp"
                         android:layout_marginTop="40dp"
                         android:background="@color/gray2" />
-
-                    <RelativeLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_above="@+id/date"
-                            android:background="@color/gray" />
-                        <EditText
-                            android:id="@+id/date"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_toRightOf="@+id/date_icon"
-                            android:background="@color/transparent"
-                            android:fontFamily="@font/roboto_regular"
-                            android:hint="Date"
-                            android:clickable="false"
-                            android:cursorVisible="false"
-                            android:focusable="false"
-                            android:focusableInTouchMode="false"
-                            android:maxLines="1"
-                            android:paddingLeft="17dp"
-                            android:paddingTop="6dp"
-                            android:paddingBottom="6dp"
-                            android:textCursorDrawable="@drawable/cursor_color"
-                            android:textSize="16sp" />
-
-                        <ImageView
-                            android:id="@+id/date_icon"
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="17dp"
-                            android:src="@drawable/date" />
-
-                    </RelativeLayout>
-
                     <RelativeLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -214,9 +184,61 @@
                             android:allowClickWhenDisabled="true"
 
                             />
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="20dp"
+                            android:layout_marginTop="20dp">
+
+                            <EditText
+                                android:id="@+id/date"
+                                android:layout_width="200dp"
+                                android:layout_height="wrap_content"
+                                android:layout_toRightOf="@+id/startdate_icon"
+                                android:background="@color/transparent"
+                                android:fontFamily="@font/roboto_regular"
+                                android:hint="Date"
+                                android:clickable="false"
+                                android:cursorVisible="false"
+                                android:focusable="false"
+                                android:focusableInTouchMode="false"
+                                android:maxLines="1"
+                                android:paddingLeft="17dp"
+                                android:paddingTop="6dp"
+                                android:paddingBottom="6dp"
+                                android:textCursorDrawable="@drawable/cursor_color"
+                                android:textSize="16sp" />
+
+                            <EditText
+                                android:id="@+id/timedate"
+                                android:layout_width="100dp"
+                                android:layout_height="wrap_content"
+                                android:layout_toRightOf="@+id/date"
+                                android:background="@color/transparent"
+                                android:fontFamily="@font/roboto_regular"
+                                android:hint="time"
+                                android:clickable="false"
+                                android:cursorVisible="false"
+                                android:focusable="false"
+                                android:focusableInTouchMode="false"
+                                android:maxLines="1"
+                                android:paddingLeft="17dp"
+                                android:paddingTop="6dp"
+                                android:paddingBottom="6dp"
+                                android:textCursorDrawable="@drawable/cursor_color"
+                                android:textSize="16sp" />
+
+                            <ImageView
+                                android:id="@+id/startdate_icon"
+                                android:layout_width="26dp"
+                                android:layout_height="30dp"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="17dp"
+                                android:src="@drawable/calendar"/>
+
+                        </RelativeLayout>
 
                     </com.google.android.material.textfield.TextInputLayout>
-
 
                 </LinearLayout>
 

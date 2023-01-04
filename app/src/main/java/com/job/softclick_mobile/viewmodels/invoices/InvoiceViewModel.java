@@ -9,6 +9,7 @@ import com.job.softclick_mobile.repositories.invoices.InvoiceRepository;
 import com.job.softclick_mobile.viewmodels.BaseViewModel;
 
 public class InvoiceViewModel extends BaseViewModel<Invoice,Long> implements IInvoiceViewModel{
+
     public InvoiceViewModel(@NonNull Application application){
         super(application, new InvoiceRepository());
     }
