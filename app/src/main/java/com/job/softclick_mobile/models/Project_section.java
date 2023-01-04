@@ -29,5 +29,9 @@ public class Project_section {
     public void setProjects(List<Project> projects) {
         this.projects = projects;
     }
+
+    public void addProjectToSection(Project project){
+        this.projects.add(project);
+    }
 }
 

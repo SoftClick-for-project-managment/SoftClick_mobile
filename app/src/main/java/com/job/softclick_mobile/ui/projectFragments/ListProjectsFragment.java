@@ -37,6 +37,7 @@ import com.job.softclick_mobile.viewmodels.project.ProjectViewModel;
 import com.job.softclick_mobile.viewmodels.task.ITaskViewModel;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -127,19 +128,28 @@ public class ListProjectsFragment extends Fragment implements RvItemClickListene
             @Override
             public void onChanged(List<Project> projects) {
 
-                Project_section project_section = new Project_section(projects.get(0).getProjectPriority().getNamePriority(),projects);
-                sections = new ArrayList<>();
-                sections.add(project_section);
+                HashMap<String,Project_section> projects_pairs = new HashMap<>();
+
+                for (Project project:projects
+                     ) {
+                    String priorityName = project.getProjectPriority().getNamePriority();
+
+                    if(projects_pairs.containsKey(priorityName)){
+                        projects_pairs.get(priorityName).addProjectToSection(project);
+                    }else{
+                        Project_section new_project_section = new Project_section(priorityName,new ArrayList<>());
+                        new_project_section.addProjectToSection(project);
+                        projects_pairs.put(priorityName,new_project_section);
+                    }
+                }
+
+                List<Project_section> project_sectionList = new ArrayList<Project_section>(projects_pairs.values());
+                sections = project_sectionList;
                 mainRecyclerAdapter.setProject_sectionList(sections);
 
             }
         });
-        /*Domain domain = new Domain(2l, "info");
-        Status status = new Status(1l,"testing");
-        Priority priority=new Priority(1,5f,"uergent");
-        Employee chef = new Employee();chef.setId(5l);
-        Project project = new Project("o", domain,chef,status,priority);
-        searchProject(project,mainRecyclerAdapter);*/
+
 
         addButton = this.getActivity().findViewById(R.id.addButton);
 
@@ -162,32 +172,7 @@ public class ListProjectsFragment extends Fragment implements RvItemClickListene
         return binding.getRoot();
     }
 
-    private void initData() {
-        String priority_1 = "hight priority";
-        List<Project> section_priority_1 = new ArrayList<>();
-        section_priority_1.add(new Project("Violance", "projet detection de violance based A I", 500000d));
-        section_priority_1.add(new Project("gestion de dossier", "stocker les dossier legaliseés et les chercher par une simple scan intelligent", 600000d));
 
-        String priority_2 = "meduim priority";
-        List<Project> section_priority_2 = new ArrayList<>();
-        section_priority_2.add(new Project("mat3am jami3i", "mat3am jami3i , payment reservation , validation de repas ...", 300000d));
-
-        String priority_3 = "normal priority";
-        List<Project> section_priority_3 = new ArrayList<>();
-        section_priority_3.add(new Project("ecommerce site web", "t-shirt plateform qui automatise les adds on fb et google", 800000d));
-        section_priority_3.add(new Project("mobile app reservation", "application mobile de reservation de rendez vous", 200000d));
-
-        String priority_4 = "not important";
-        List<Project> section_priority_4 = new ArrayList<>();
-        section_priority_4.add(new Project("maintenance stock", "maintenir un site web avec nouvelle technologies", 15000d));
-        section_priority_4.add(new Project("maintenance inventair", "maintenir un site web qui suite inventaires dans les entreprises", 350000d));
-
-
-        sections.add(new Project_section(priority_1, section_priority_1));
-        sections.add(new Project_section(priority_2, section_priority_2));
-        sections.add(new Project_section(priority_3, section_priority_3));
-        sections.add(new Project_section(priority_4, section_priority_4));
-    }
 
 
     @Override
@@ -213,13 +198,23 @@ public class ListProjectsFragment extends Fragment implements RvItemClickListene
         projectViewModel.search(project).gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Project>>() {
             @Override
             public void onChanged(List<Project> projects) {
-                Log.d("DEBUG", projects.toString());
-                Project_section project_section = new Project_section();
-                if(projects != null && projects.size()>0) {
-                    project_section = new Project_section(projects.get(0).getProjectPriority().getNamePriority(), projects);
+                HashMap<String,Project_section> projects_pairs = new HashMap<>();
+
+                for (Project project:projects
+                ) {
+                    String priorityName = project.getProjectPriority().getNamePriority();
+
+                    if(projects_pairs.containsKey(priorityName)){
+                        projects_pairs.get(priorityName).addProjectToSection(project);
+                    }else{
+                        Project_section new_project_section = new Project_section(priorityName,new ArrayList<>());
+                        new_project_section.addProjectToSection(project);
+                        projects_pairs.put(priorityName,new_project_section);
+                    }
                 }
-                sections = new ArrayList<>();
-                sections.add(project_section);
+
+                List<Project_section> project_sectionList = new ArrayList<Project_section>(projects_pairs.values());
+                sections = project_sectionList;
                 mainRecyclerAdapter.setProject_sectionList(sections);
                 //mainRecyclerAdapter.notifyDataSetChanged();
             }
