@@ -67,22 +67,22 @@ public class DetailsTask extends Fragment {
         binding.progressBar.setVisibility(View.VISIBLE);
 
         taskViewModel = new ViewModelProvider(this).get(TaskViewModel.class);
+        LiveResponse<Task, Throwable> taskLiveResp = taskViewModel.getSingle(task.getId());
 
-        taskViewModel.getSingle(task.getId()).geteMutableLiveData().observe(getViewLifecycleOwner(), new Observer<Object>() {
+        taskLiveResp.geteMutableLiveData().observe(getViewLifecycleOwner(), new Observer<Throwable>() {
             @Override
-            public void onChanged(Object o) {
-                Throwable error = (Throwable) o;
-                if (error instanceof HttpException) {
+            public void onChanged(Throwable th) {
+                if (th instanceof HttpException) {
                     binding.backArrow.callOnClick();
                     Toast.makeText(getContext(), "This screen is under maintenance", Toast.LENGTH_SHORT).show();
-                } else if (error instanceof IOException) {
-
+                } else if (th instanceof IOException) {
+                    Toast.makeText(getContext(), "Check your internet connection and try again", Toast.LENGTH_SHORT).show();
                 }
-                Log.d("ERR", error.getMessage());
+                Log.d("ERR", th.getMessage());
             }
         });
 
-        taskViewModel.getSingle(task.getId()).gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer<Task>() {
+        taskLiveResp.gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer<Task>() {
             @Override
             public void onChanged(Task t) {
                 task = t;

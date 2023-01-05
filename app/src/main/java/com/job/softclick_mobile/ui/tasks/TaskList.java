@@ -79,7 +79,7 @@ public class TaskList extends Fragment implements RecyclerViewHandler<Task> {
         // ViewModels
         statusViewModel = new ViewModelProvider(this).get(StatusViewModel.class);
         taskViewModel = new ViewModelProvider(this).get(TaskViewModel.class);
-        LiveResponse statusGetAllLiveResponse =  statusViewModel.getAll();
+        LiveResponse statusGetAllLiveResponse = statusViewModel.getAll();
 
         statusGetAllLiveResponse.gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Status>>() {
             @Override
@@ -92,12 +92,12 @@ public class TaskList extends Fragment implements RecyclerViewHandler<Task> {
             @Override
             public void onChanged(Object o) {
                 Throwable error = (Throwable) o;
-                Log.d("ERR", error.getMessage());
+                Log.d("StatusViewModel ERR", error.getMessage());
             }
         });
-        if(projectId == null){
-            LiveResponse taskGetAllLiveResponse =  taskViewModel.getAll();
 
+        if(projectId == null) {
+            LiveResponse taskGetAllLiveResponse = taskViewModel.getAll();
 
             taskGetAllLiveResponse.gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Task>>() {
                 @Override
@@ -127,7 +127,7 @@ public class TaskList extends Fragment implements RecyclerViewHandler<Task> {
                 public void onChanged(Object o) {
                     progressBar.setVisibility(View.INVISIBLE);
                     Throwable error = (Throwable) o;
-                    Log.d("ERR", error.getMessage());
+                    Log.d("TaskViewModel ERR", error.getMessage());
                 }
             });
 
