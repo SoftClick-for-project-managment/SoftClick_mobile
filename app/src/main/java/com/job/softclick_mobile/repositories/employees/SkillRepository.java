@@ -141,4 +141,9 @@ public class SkillRepository implements ISkillRepository, IBaseRepository<Skill,
 
         return createLiveResponse;
     }
+
+    @Override
+    public LiveResponse search(Skill skill) {
+        return null;
+    }
 }
