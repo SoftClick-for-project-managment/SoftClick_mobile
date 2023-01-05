@@ -24,6 +24,7 @@ import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.material.progressindicator.BaseProgressIndicator;
 import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.adapters.EmployeeSelectItemAdapter;
 import com.job.softclick_mobile.databinding.FragmentTaskFormBinding;
@@ -302,7 +303,7 @@ public class TaskForm extends Fragment {
 
     private void setupEmployeeSpinner(List<Employee> employees) {
         employees.forEach(s -> {
-            if ((s.getEmployeeLastName() + " " + s.getEmployeeLastName()) == binding.statustask.getSelectedItem()){
+            if ((s.getEmployeeLastName() + " " + s.getEmployeeLastName()).equals(binding.taskEmployee.getSelectedItem())){
                 employee = s;
             }
         });
@@ -388,7 +389,6 @@ public class TaskForm extends Fragment {
                     public void onItemSelected(
                             AdapterView<?> parent, View view,
                             int position, long id) {
-
                         // Get the spinner selected item text
 //                        String selectedItemText = (String) parent
 //                                .getItemAtPosition(position);

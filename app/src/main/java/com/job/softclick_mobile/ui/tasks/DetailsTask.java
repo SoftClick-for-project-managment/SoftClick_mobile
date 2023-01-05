@@ -160,6 +160,7 @@ public class DetailsTask extends Fragment {
         binding.Startdatevalue.setText(task.getStartDate());
         binding.EnddateValue.setText(task.getEndDate());
         binding.DescriptionValue.setText(task.getDescription());
+        binding.employeeValue.setText(task.getEmployee().getEmployeeFirstName()+" "+task.getEmployee().getEmployeeLastName());
     }
 
     private AlertDialog AskOption() {

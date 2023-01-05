@@ -59,6 +59,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onChanged(User user) {
                 authUser = user;
+                checkUserRole();
                 Toast.makeText(MenuActivity.this, "Welcome "+authUser.getEmployee().getEmployeeFirstName(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -99,12 +100,6 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
-        // Check the user's role and hide the menu item if necessary
-        checkUserRole();
-
-
     }
 
     private void checkUserRole() {
@@ -152,18 +147,14 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
                 case Role.ROLE_ADMIN:
                     break;
             }
-
         }
-
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item){
-
         // Create a new fragment and specify the fragment to show based on nav item clicked
         Fragment fragment = null;
         Class fragmentClass = null;
-
 
         switch (item.getItemId()) {
             case R.id.tasks_item:
