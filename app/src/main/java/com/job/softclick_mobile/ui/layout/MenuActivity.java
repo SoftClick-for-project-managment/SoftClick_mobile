@@ -58,6 +58,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onChanged(User user) {
                 authUser = user;
+                Toast.makeText(MenuActivity.this, "Welcome "+authUser.getEmployee().getEmployeeFirstName(), Toast.LENGTH_SHORT).show();
             }
         });
         authUserLiveResp.geteMutableLiveData().observe(this, new Observer<Throwable>() {
