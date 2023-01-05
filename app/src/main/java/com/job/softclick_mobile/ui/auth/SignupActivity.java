@@ -66,6 +66,7 @@ public class SignupActivity extends AppCompatActivity {
             List<Role> roles = new ArrayList<>();
             Role role = new Role();
             role.setName(Role.ROLE_DIRECTOR);
+            role.setName(Role.ROLE_EMPLOYEE);
             roles.add(role);
 
             User user = new User();
