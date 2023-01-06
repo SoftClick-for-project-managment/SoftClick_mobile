@@ -23,6 +23,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
 import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.databinding.FragmentDetailProjectBinding;
+import com.job.softclick_mobile.models.Invoice;
 import com.job.softclick_mobile.models.Project;
 import com.job.softclick_mobile.ui.layout.FooterFragment;
 import com.job.softclick_mobile.ui.tasks.TaskList;
@@ -214,7 +215,14 @@ public class DetailProjectFragment extends Fragment {
         description.setText(project.getDescriptionProject());
         name_chef.setText(project.getChefProject().getEmployeeLastName());
         priority_name.setText(project.getProjectPriority().getNamePriority());
-        clients.setText("- oukacha prison \n - école sanabil \n - Army American");
+
+        String clients_names ="";
+        for (Invoice invoice:project.getInvoices()
+             ) {
+            clients_names += "- "+invoice.getClient().getNom()+" \n";
+
+        }
+        clients.setText(clients_names);
         equips.setText("- équipe frontend N° 1 \n équipe fullstack N° 5");
         revenue.setText(project.getRevenueProject().toString() + " DH ");
         depense.setText("200000 DH");

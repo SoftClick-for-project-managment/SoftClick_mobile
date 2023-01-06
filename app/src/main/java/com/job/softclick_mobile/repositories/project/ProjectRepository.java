@@ -43,6 +43,7 @@ public class ProjectRepository implements  IProjectRepository , IBaseRepository<
             public void onResponse(Call<List<Project>> call, Response<List<Project>> response) {
 
                 if (response.code() != 200) {
+                    Log.d("object",response.body().toString());
                     tMutableLiveDataList.geteMutableLiveData().setValue(new HttpException(response));
                     Log.d("CONSOLE LOG", "status code is " + response.code());
                 } else {
