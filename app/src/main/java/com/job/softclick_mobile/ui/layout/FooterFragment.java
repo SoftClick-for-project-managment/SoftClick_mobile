@@ -2,6 +2,7 @@ package com.job.softclick_mobile.ui.layout;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -9,6 +10,7 @@ import androidx.fragment.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -83,9 +85,19 @@ public class FooterFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu,inflater);
         inflater.inflate(R.menu.footer_menu, menu);
+
     }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+            if(mbBottomSheetBehavior.getState() ==mbBottomSheetBehavior.STATE_HIDDEN ) {
+                mbBottomSheetBehavior.setState(mbBottomSheetBehavior.STATE_EXPANDED);
+            }else if(mbBottomSheetBehavior.getState() ==mbBottomSheetBehavior.STATE_EXPANDED){
+                mbBottomSheetBehavior.setState(mbBottomSheetBehavior.STATE_HIDDEN);
+            }
 
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -122,12 +134,7 @@ public class FooterFragment extends Fragment {
 
             }
         });
-mBottomAppBar.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View v) {
-        mbBottomSheetBehavior.setState(mbBottomSheetBehavior.STATE_EXPANDED);
-    }
-});
+
         setHasOptionsMenu(true);
 
 

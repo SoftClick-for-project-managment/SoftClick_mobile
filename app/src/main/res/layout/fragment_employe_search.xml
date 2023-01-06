@@ -37,7 +37,46 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:columnCount="2">
+                <EditText
+                    android:id="@+id/firstNameEmploye_input"
+                    style="@style/Widget.Material3.AutoCompleteTextView.OutlinedBox.Dense"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@color/white"
+                    android:ems="10"
+                    android:fontFamily="@font/roboto_regular"
+                    android:hint="@string/firstNameEmploye_hint"
+                    android:inputType="textPersonName"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:textSize="16sp" />
+                <EditText
+                    android:id="@+id/lastNameEmploye_input"
+                    style="@style/Widget.Material3.AutoCompleteTextView.OutlinedBox.Dense"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@color/white"
+                    android:ems="10"
+                    android:fontFamily="@font/roboto_regular"
+                    android:hint="@string/lastNameEmploye_hint"
+                    android:inputType="textPersonName"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:textSize="16sp" />
 
+                <EditText
+                    android:id="@+id/FunctionEmploye_input"
+                    style="@style/Widget.Material3.AutoCompleteTextView.OutlinedBox.Dense"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@color/white"
+                    android:ems="10"
+                    android:fontFamily="@font/roboto_regular"
+                    android:hint="@string/FunctionEmploye_hint"
+                    android:inputType="textPersonName"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:textSize="16sp" />
                 <com.google.android.material.textfield.TextInputLayout
 
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -46,8 +85,6 @@
                     android:layout_margin="10dp"
                     android:background="@color/white"
                     android:elevation="5dp"
-                    android:hint="@string/chef_projet"
-
                     android:textColorHint="#574D4D"
                     app:boxBackgroundMode="outline"
                     app:endIconMode="dropdown_menu"
@@ -56,74 +93,7 @@
                     app:hintTextAppearance="@style/TextAppearance.AppCompat.Large">
 
                     <AutoCompleteTextView
-                        android:id="@+id/chef_combo"
-                        style="@style/Widget.Material3.AutoCompleteTextView.OutlinedBox.Dense"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-
-                        android:allowClickWhenDisabled="true"
-
-                        android:background="#00000000"
-                        android:focusable="false"
-                        android:fontFamily="@font/roboto_regular"
-                        android:hint="name employe"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                        android:textSize="16sp" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="180dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:background="@color/white"
-                    android:elevation="5dp"
-                    android:hint="@string/domain"
-                    android:textColorHint="#574D4D"
-                    app:boxBackgroundMode="outline"
-                    app:endIconMode="dropdown_menu"
-                    app:hintAnimationEnabled="false"
-                    app:hintEnabled="false"
-                    app:hintTextAppearance="@style/TextAppearance.AppCompat.Large">
-
-                    <AutoCompleteTextView
-                        android:id="@+id/domain_combo"
-                        style="@style/Widget.Material3.AutoCompleteTextView.OutlinedBox.Dense"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:allowClickWhenDisabled="true"
-
-                        android:background="#00000000"
-                        android:focusable="false"
-                        android:fontFamily="@font/roboto_regular"
-                        android:hint="email"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                        android:textSize="16sp"
-
-                        />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="180dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:background="@color/white"
-                    android:elevation="5dp"
-                    android:hint="@string/client"
-                    android:textColorHint="#574D4D"
-                    app:boxBackgroundMode="outline"
-                    app:endIconMode="dropdown_menu"
-                    app:hintAnimationEnabled="false"
-                    app:hintEnabled="false"
-                    app:hintTextAppearance="@style/TextAppearance.AppCompat.Large">
-
-                    <AutoCompleteTextView
-                        android:id="@+id/client_combo"
+                        android:id="@+id/skill_employe"
                         style="@style/Widget.Material3.AutoCompleteTextView.OutlinedBox.Dense"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -132,41 +102,7 @@
                         android:background="#00000000"
                         android:focusable="false"
                         android:fontFamily="@font/roboto_regular"
-                        android:hint="role"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                        android:textSize="16sp"
-
-                        />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="180dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:background="@color/white"
-                    android:elevation="5dp"
-                    android:hint="@string/status"
-                    android:textColorHint="#574D4D"
-                    app:boxBackgroundMode="outline"
-                    app:endIconMode="dropdown_menu"
-                    app:hintAnimationEnabled="false"
-                    app:hintEnabled="false"
-                    app:hintTextAppearance="@style/TextAppearance.AppCompat.Large">
-
-                    <AutoCompleteTextView
-                        android:id="@+id/status"
-                        style="@style/Widget.Material3.AutoCompleteTextView.OutlinedBox.Dense"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:allowClickWhenDisabled="true"
-
-                        android:background="#00000000"
-                        android:focusable="false"
-                        android:fontFamily="@font/roboto_regular"
-                        android:hint="team"
+                        android:hint="@string/skill_employe"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large"
                         android:textSize="16sp"
 
@@ -175,22 +111,10 @@
                 </com.google.android.material.textfield.TextInputLayout>
             </GridLayout>
 
-            <EditText
-                android:id="@+id/name_project_input"
-                style="@style/Widget.Material3.AutoCompleteTextView.OutlinedBox.Dense"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@color/white"
-                android:ems="10"
-                android:fontFamily="@font/roboto_regular"
-                android:hint="phone number"
-                android:inputType="textPersonName"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:textSize="16sp" />
+
 
             <TextView
-                android:id="@+id/addbtn"
+                android:id="@+id/searchbtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"

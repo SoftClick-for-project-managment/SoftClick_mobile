@@ -60,4 +60,8 @@
     <string name="Organisation_name_hint">Organisation Name</string>
     <string name="client_ville_hint">Vile</string>
     <string name="pay_name_hint">Pay</string>
+    <string name="firstNameEmploye_hint">First Name</string>
+    <string name="lastNameEmploye_hint">Last Name</string>
+    <string name="FunctionEmploye_hint">Function</string>
+    <string name="skill_employe">Skill</string>
 </resources>

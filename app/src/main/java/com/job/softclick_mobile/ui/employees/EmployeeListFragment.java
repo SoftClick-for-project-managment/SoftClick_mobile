@@ -2,6 +2,7 @@ package com.job.softclick_mobile.ui.employees;
 
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -20,8 +21,10 @@ import android.widget.Toast;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.adapters.EmployeeListAdapter;
+import com.job.softclick_mobile.models.Client;
 import com.job.softclick_mobile.ui.contracts.RecyclerViewHandler;
 import com.job.softclick_mobile.models.Employee;
+import com.job.softclick_mobile.viewmodels.ActivitySharedViewModel;
 import com.job.softclick_mobile.viewmodels.employees.EmployeeViewModel;
 import com.job.softclick_mobile.viewmodels.employees.IEmployeeViewModel;
 
@@ -36,6 +39,7 @@ public class EmployeeListFragment extends Fragment implements RecyclerViewHandle
     private FloatingActionButton addButton;
     private List<Employee> employeeList = new ArrayList<>();
     private ArrayList<Employee> employeeArrayList;
+    private ActivitySharedViewModel activitySharedViewModel;
     private IEmployeeViewModel employeeViewModel;
     private ProgressBar progressBar;
 
@@ -56,6 +60,20 @@ public class EmployeeListFragment extends Fragment implements RecyclerViewHandle
         if (getArguments() != null) {
 
         }
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        activitySharedViewModel =  new ViewModelProvider(getActivity()).get(ActivitySharedViewModel.class);
+        activitySharedViewModel.getSearchEmployee().observe(getViewLifecycleOwner(), new Observer<Employee>() {
+            @Override
+            public void onChanged(Employee employee) {
+
+                searchEmploye(employee);
+                Toast.makeText(getActivity().getApplicationContext(), employee.getEmployeeFirstName(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
@@ -137,5 +155,20 @@ public class EmployeeListFragment extends Fragment implements RecyclerViewHandle
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
 
+    }
+    public void searchEmploye(Employee employee){
+        employeeViewModel.search(employee).gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Employee>>() {
+            @Override
+            public void onChanged(List<Employee> employees) {
+                employeeArrayList = new ArrayList<>();
+                employees.forEach(employee -> {
+                    employeeArrayList.add(employee);
+                });
+                progressBar.setVisibility(View.INVISIBLE);
+                recyclerView.setVisibility(View.VISIBLE);
+                refreshUi();
+                //mainRecyclerAdapter.notifyDataSetChanged();
+            }
+        });
     }
 }

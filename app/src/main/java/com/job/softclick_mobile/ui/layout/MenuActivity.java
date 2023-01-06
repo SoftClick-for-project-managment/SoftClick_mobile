@@ -58,8 +58,11 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         authUserLiveResp.gettMutableLiveData().observe(this, new Observer<User>() {
             @Override
             public void onChanged(User user) {
-                authUser = user;
-                Toast.makeText(MenuActivity.this, "Welcome "+authUser.getEmployee().getEmployeeFirstName(), Toast.LENGTH_SHORT).show();
+                if(user != null) {
+                    authUser = user;
+                    checkUserRole();
+                }
+
             }
         });
         authUserLiveResp.geteMutableLiveData().observe(this, new Observer<Throwable>() {
@@ -101,8 +104,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         }
 
 
-        // Check the user's role and hide the menu item if necessary
-        checkUserRole();
+
 
 
     }
