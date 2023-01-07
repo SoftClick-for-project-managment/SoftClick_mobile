@@ -7,11 +7,14 @@ import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +25,11 @@ import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.databinding.FragmentDetailProjectBinding;
 import com.job.softclick_mobile.models.Project;
 import com.job.softclick_mobile.ui.layout.FooterFragment;
+import com.job.softclick_mobile.ui.tasks.TaskList;
+import com.job.softclick_mobile.viewmodels.project.IProjectViewModel;
+import com.job.softclick_mobile.viewmodels.project.ProjectViewModel;
+
+import java.text.SimpleDateFormat;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -36,9 +44,12 @@ public class DetailProjectFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     private FragmentDetailProjectBinding binding;
-    TextView project_name, domain, date_debut, date_fin, description, name_chef, clients, equips, revenue, depense;
+    private IProjectViewModel projectViewModel;
+    TextView project_name, domain, date_debut, date_fin, description, name_chef, clients, equips, revenue, depense,priority_name;
+    private Button see_tasks_btn;
     LinearProgressIndicator etat_avancement;
     ImageView flesh_back, moreOptions;
+    private Long id_project;
 
     // TODO: Rename and change types of parameters
     private Project project;
@@ -71,6 +82,7 @@ public class DetailProjectFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             project = (Project) getArguments().getSerializable(ARG_PARAM1);
+            id_project = project.getIdProject();
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
         setHasOptionsMenu(true);
@@ -81,7 +93,7 @@ public class DetailProjectFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentDetailProjectBinding.inflate(inflater, container, false);
-
+        projectViewModel = new ViewModelProvider(this).get(ProjectViewModel.class);
         project_name = binding.projectName;
         domain = binding.domainProject;
         date_debut = binding.dateDebut;
@@ -95,6 +107,8 @@ public class DetailProjectFragment extends Fragment {
         etat_avancement = binding.etatAvancement;
         flesh_back = binding.fleshBack;
         moreOptions = binding.moreOptions;
+        priority_name = binding.prioritydeprojet;
+        see_tasks_btn = binding.seeTasksBtn;
 
         fetchDate();
 
@@ -105,12 +119,22 @@ public class DetailProjectFragment extends Fragment {
             public void onClick(View v) {
                 if (getParentFragmentManager().getBackStackEntryCount() > 0) {
                     try {
-                        getParentFragmentManager().beginTransaction().replace(R.id.fContentFooter, (Fragment) FooterFragment.class.newInstance()).commit();
+                        getParentFragmentManager().beginTransaction().replace(R.id.fContentFooter, new FooterFragment(ListProjectsFragment.class)).commit();
                         getParentFragmentManager().popBackStackImmediate();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
+            }
+        });
+
+        see_tasks_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.fContentFooter, new FooterFragment(TaskList.class)).commit();
+                Log.d("id project : ",id_project.toString());
+                fragmentManager.beginTransaction().replace(R.id.flContent, TaskList.newInstance(id_project)).commit();
             }
         });
 
@@ -168,7 +192,7 @@ public class DetailProjectFragment extends Fragment {
         builder.setPositiveButton("Yes I'm Sure", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                //to do delete project
+                projectViewModel.delete(project.getIdProject());
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -181,15 +205,18 @@ public class DetailProjectFragment extends Fragment {
     }
 
     public void fetchDate() {
+        SimpleDateFormat formatter=new SimpleDateFormat("dd/MM/yyyy");
+
         project_name.setText(project.getNameProject());
-        domain.setText("Intelligance Artificial & Big Data");
-        date_debut.setText("18/12/2021");
-        date_fin.setText("18/12/2022");
+        domain.setText(project.getDomainProjet().getNameDomain());
+        date_debut.setText(formatter.format(project.getDateDebut()));
+        date_fin.setText(formatter.format(project.getDateFin()));
         description.setText(project.getDescriptionProject());
-        name_chef.setText("Mr Youssef Gahi");
+        name_chef.setText(project.getChefProject().getEmployeeLastName());
+        priority_name.setText(project.getProjectPriority().getNamePriority());
         clients.setText("- oukacha prison \n - école sanabil \n - Army American");
         equips.setText("- équipe frontend N° 1 \n équipe fullstack N° 5");
-        revenue.setText(project.getRevenue().toString() + " DH ");
+        revenue.setText(project.getRevenueProject().toString() + " DH ");
         depense.setText("200000 DH");
         etat_avancement.setProgress(25);
     }

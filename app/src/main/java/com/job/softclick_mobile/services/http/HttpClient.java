@@ -28,11 +28,11 @@ public class HttpClient {
 
             // Create Converter
             Gson gson = new GsonBuilder()
-                    .setDateFormat("dd/MM/yyyy HH:mm")
+                    .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX")
                     .create();
 
             instance = new Retrofit.Builder()
-                    .baseUrl("https://softclick-qa-api-app.azurewebsites.net/api/v1/")
+                    .baseUrl("http://192.168.43.176:8080/api/v1/")
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .client(client)
                     .build();

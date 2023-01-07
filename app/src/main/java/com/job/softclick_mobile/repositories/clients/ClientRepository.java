@@ -3,6 +3,7 @@ package com.job.softclick_mobile.repositories.clients;
 import android.util.Log;
 
 import com.job.softclick_mobile.models.Client;
+import com.job.softclick_mobile.models.Project;
 import com.job.softclick_mobile.repositories.IBaseRepository;
 import com.job.softclick_mobile.services.http.ClientApi;
 import com.job.softclick_mobile.services.http.HttpClient;
@@ -20,6 +21,7 @@ public class ClientRepository implements IClientRepository, IBaseRepository<Clie
 
     private ClientApi service;
     LiveResponse<List<Client>, Throwable> clientListLiveResponse = new LiveResponse<>();
+    LiveResponse<List<Client>, Throwable> searchLiveDataList = new LiveResponse<>();
     LiveResponse<Client, Throwable> clientLiveResponse = new LiveResponse<>();
     LiveResponse<Boolean, Throwable> createLiveResponse = new LiveResponse<>();
 
@@ -137,5 +139,31 @@ public class ClientRepository implements IClientRepository, IBaseRepository<Clie
         });
 
         return createLiveResponse;
+    }
+
+    @Override
+    public LiveResponse search(Client client) {
+        service.search(client).enqueue(new Callback<List<Client>>() {
+            @Override
+            public void onResponse(Call<List<Client>> call, Response<List<Client>> response) {
+                Log.d("DEBUG", response.body().toString());
+                if (response.code() != 200) {
+                    Log.d("DEBUG", response.body().toString());
+                    searchLiveDataList.geteMutableLiveData().setValue(new HttpException(response));
+                } else {
+                    List<Client> t = response.body();
+                    searchLiveDataList.gettMutableLiveData().setValue(t);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Client>> call, Throwable t) {
+                Log.d("DEBUG", t.getMessage());
+                Log.d("CONSOLE LOG", "Check your internet connection");
+                searchLiveDataList.geteMutableLiveData().setValue(t);
+            }
+        });
+
+        return searchLiveDataList;
     }
 }

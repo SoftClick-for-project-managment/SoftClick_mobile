@@ -84,8 +84,8 @@ public class InvoiceListFragment extends Fragment implements RecyclerViewHandler
         recyclerView = view.findViewById(R.id.invoiceListRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         Client client=new Client("Mable","Murphy","jayda.legros@rau.com      ","+1 (754) 958-2911", "Zulauf, Tillman and Beer","Spinkamouth","KY");
-        Project project=new Project("Violance", "projet detection de violance based A I", 500000);
-        Project project2=new Project("gestion de dossier", "stocker les dossier legaliseés et les chercher par une simple scan intelligent", 600000);
+        Project project=new Project("Violance", "projet detection de violance based A I", 500000d);
+        Project project2=new Project("gestion de dossier", "stocker les dossier legaliseés et les chercher par une simple scan intelligent", 600000d);
         invoices = new ArrayList<>();
         SimpleDateFormat formater = null;
 

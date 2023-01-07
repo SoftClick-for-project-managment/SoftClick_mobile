@@ -1,6 +1,7 @@
 package com.job.softclick_mobile.services.http;
 
 import com.job.softclick_mobile.models.Client;
+import com.job.softclick_mobile.models.Project;
 
 import java.util.List;
 
@@ -27,4 +28,7 @@ public interface ClientApi {
 
     @DELETE("clients/{id}")
     Call<Void> delete(@Path("id") Long clientId);
+
+    @POST("clients/search")
+    Call<List<Client>> search(@Body Client client);
 }

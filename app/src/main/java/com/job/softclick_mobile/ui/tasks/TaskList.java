@@ -1,5 +1,6 @@
 package com.job.softclick_mobile.ui.tasks;
 
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -51,7 +52,7 @@ public class TaskList extends Fragment implements RecyclerViewHandler<Task> {
     public static TaskList newInstance(Long projectId) {
         TaskList fragment = new TaskList();
         Bundle args = new Bundle();
-        args.putLong("projectId",projectId);
+        args.putLong("projectId", projectId);
 
         fragment.setArguments(args);
         return fragment;
@@ -70,7 +71,7 @@ public class TaskList extends Fragment implements RecyclerViewHandler<Task> {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        View taskListview =  inflater.inflate(R.layout.fragment_task_list, container, false);
+        View taskListview = inflater.inflate(R.layout.fragment_task_list, container, false);
         recyclerView = taskListview.findViewById(R.id.main_recyclervie);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -79,7 +80,7 @@ public class TaskList extends Fragment implements RecyclerViewHandler<Task> {
         // ViewModels
         statusViewModel = new ViewModelProvider(this).get(StatusViewModel.class);
         taskViewModel = new ViewModelProvider(this).get(TaskViewModel.class);
-        LiveResponse statusGetAllLiveResponse =  statusViewModel.getAll();
+        LiveResponse statusGetAllLiveResponse = statusViewModel.getAll();
 
         statusGetAllLiveResponse.gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Status>>() {
             @Override
@@ -95,8 +96,8 @@ public class TaskList extends Fragment implements RecyclerViewHandler<Task> {
                 Log.d("ERR", error.getMessage());
             }
         });
-        if(projectId == null){
-            LiveResponse taskGetAllLiveResponse =  taskViewModel.getAll();
+        if (projectId == null) {
+            LiveResponse taskGetAllLiveResponse = taskViewModel.getAll();
 
 
             taskGetAllLiveResponse.gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Task>>() {
@@ -108,9 +109,9 @@ public class TaskList extends Fragment implements RecyclerViewHandler<Task> {
                     statusList.forEach(s -> {
                         statusTaskList.set(new StatusTaskList());
                         sTaskList.set(new ArrayList<>());
-                        statusTaskList.get().setItemText(s.getNameEtat());
+                        statusTaskList.get().setItemText(s.getNameStatus());
                         tasks.forEach(t -> {
-                            if (t.getStatus().getIdEtat() == s.getIdEtat()){
+                            if (t.getStatus().getIdStatus() == s.getIdStatus()) {
                                 sTaskList.get().add(t);
                             }
                         });
@@ -133,7 +134,7 @@ public class TaskList extends Fragment implements RecyclerViewHandler<Task> {
 
         } else {
             //get all project tasks
-           LiveResponse getAllByProjectLiveResponse = taskViewModel.getAllByProject(projectId);
+            LiveResponse getAllByProjectLiveResponse = taskViewModel.getAllByProject(projectId);
             getAllByProjectLiveResponse.gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer() {
                 @Override
                 public void onChanged(Object o) {
@@ -144,9 +145,9 @@ public class TaskList extends Fragment implements RecyclerViewHandler<Task> {
                     statusList.forEach(s -> {
                         statusTaskList.set(new StatusTaskList());
                         sTaskList.set(new ArrayList<>());
-                        statusTaskList.get().setItemText(s.getNameEtat());
+                        statusTaskList.get().setItemText(s.getNameStatus());
                         tasks.forEach(t -> {
-                            if (t.getStatus().getIdEtat() == s.getIdEtat()){
+                            if (t.getStatus().getIdStatus() == s.getIdStatus()) {
                                 sTaskList.get().add(t);
                             }
                         });
@@ -172,11 +173,11 @@ public class TaskList extends Fragment implements RecyclerViewHandler<Task> {
 
         addButton = this.getActivity().findViewById(R.id.addButton);
 
-        if(addButton != null) {
+        if (addButton != null) {
             addButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     try {
-                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContent,(Fragment)TaskForm.class.newInstance()).commit() ;
+                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContent, (Fragment) TaskForm.class.newInstance()).commit();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -188,7 +189,7 @@ public class TaskList extends Fragment implements RecyclerViewHandler<Task> {
 
     }
 
-    private void refreshUi(){
+    private void refreshUi() {
         adapter = new ItemAdapter(mList, this);
         recyclerView.setAdapter(adapter);
     }
@@ -210,3 +211,4 @@ public class TaskList extends Fragment implements RecyclerViewHandler<Task> {
         fragmentTransaction.commit();
     }
 }
+

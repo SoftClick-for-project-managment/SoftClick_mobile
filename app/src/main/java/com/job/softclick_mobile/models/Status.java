@@ -1,46 +1,35 @@
 package com.job.softclick_mobile.models;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+public class Status {
+    private Long idStatus;
 
-import java.io.Serializable;
+    private String nameStatus;
 
-public class Status implements Serializable {
-    @SerializedName("idStatus")
-    @Expose
-    private Integer idEtat;
-    @SerializedName("nameStatus")
-    @Expose
-    private String nameEtat;
-    private Integer nbrJourRetard;
-
-    public Status(Integer idEtat, String nameEtat, Integer nbrJourRetard) {
-        this.idEtat = idEtat;
-        this.nameEtat = nameEtat;
-        this.nbrJourRetard = nbrJourRetard;
+    public Status() {
     }
 
-    public Status(String nameEtat) {
-        this.nameEtat = nameEtat;
+    public Status(Long idStatus, String nameStatus) {
+        this.idStatus = idStatus;
+        this.nameStatus = nameStatus;
     }
 
-    public Integer getIdEtat() {
-        return idEtat;
+    public Long getIdStatus() {
+        return idStatus;
     }
 
-    public String getNameEtat() {
-        return nameEtat;
+    public Status(String nameStatus) {
+        this.nameStatus = nameStatus;
     }
 
-    public void setNameEtat(String nameEtat) {
-        this.nameEtat = nameEtat;
+    public void setIdStatus(Long idStatus) {
+        this.idStatus = idStatus;
     }
 
-    public Integer getNbrJourRetard() {
-        return nbrJourRetard;
+    public String getNameStatus() {
+        return nameStatus;
     }
 
-    public void setNbrJourRetard(Integer nbrJourRetard) {
-        this.nbrJourRetard = nbrJourRetard;
+    public void setNameStatus(String nameStatus) {
+        this.nameStatus = nameStatus;
     }
 }

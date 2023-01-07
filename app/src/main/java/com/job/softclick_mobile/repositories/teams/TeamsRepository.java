@@ -103,4 +103,9 @@ public class TeamsRepository implements ITeamsRepository {
     public LiveResponse delete(Long aLong) {
         return new LiveResponse();
     }
+
+    @Override
+    public LiveResponse search(Team team) {
+        return null;
+    }
 }

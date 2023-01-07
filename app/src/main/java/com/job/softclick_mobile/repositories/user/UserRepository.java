@@ -106,6 +106,11 @@ public class UserRepository implements IUserRepository {
     }
 
     @Override
+    public LiveResponse search(User user) {
+        return null;
+    }
+
+    @Override
     public LiveResponse getAuthenticated() {
         apiService.getAuthenticated().enqueue(new Callback<User>() {
             @Override
