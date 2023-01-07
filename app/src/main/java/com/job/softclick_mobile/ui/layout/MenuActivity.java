@@ -11,8 +11,10 @@ import androidx.lifecycle.ViewModelProvider;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
@@ -34,8 +36,6 @@ import com.job.softclick_mobile.viewmodels.user.UserViewModel;
 
 import java.io.IOException;
 
-import retrofit2.HttpException;
-
 public class MenuActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private ActivityMenuBinding binding;
@@ -43,10 +43,10 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
     private IUserViewModel userViewModel;
     private User authUser;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         binding = ActivityMenuBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
@@ -94,18 +94,24 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         // Insert the fragment by replacing any existing fragment
         fragmentManager = getSupportFragmentManager();
         try {
+           Class fragmentClass = PrincipalFragment.class;
+            Fragment fragment = (Fragment) fragmentClass.newInstance();
             fragmentManager.beginTransaction().replace(R.id.fContentFooter, (Fragment) FooterFragment.class.newInstance()).commit();
+            fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
+
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item){
 
         // Create a new fragment and specify the fragment to show based on nav item clicked
-        Fragment fragment = null;
         Class fragmentClass = null;
+        Fragment fragment = null;
+
 
 
         switch (item.getItemId()) {

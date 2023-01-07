@@ -3,6 +3,7 @@ package com.job.softclick_mobile.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,7 +25,6 @@ public class Team_List_Adapter extends RecyclerView.Adapter<Team_List_Adapter.Te
     public static class TeamViewHolder extends RecyclerView.ViewHolder {
         public ImageView imageteam;
         public TextView nameteam;
-
         public TeamViewHolder(@NonNull View itemView, RecyclerViewHandler recyclerViewHandler) {
             super(itemView);
             imageteam = itemView.findViewById(R.id.imageteam);
@@ -50,6 +50,7 @@ public class Team_List_Adapter extends RecyclerView.Adapter<Team_List_Adapter.Te
         this.recyclerViewHandler = recyclerViewHandler;
     }
 
+
     @NonNull
     @Override
     public TeamViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -60,10 +61,7 @@ public class Team_List_Adapter extends RecyclerView.Adapter<Team_List_Adapter.Te
 
     @Override
     public void onBindViewHolder(@NonNull TeamViewHolder holder, int position) {
-
-
-        holder.imageteam.setImageResource(TeamList.get(position).TeamImage);
-        holder.nameteam.setText(TeamList.get(position).TeamName);
+        holder.nameteam.setText(TeamList.get(position).getTeam_Name());
     }
 
     @Override

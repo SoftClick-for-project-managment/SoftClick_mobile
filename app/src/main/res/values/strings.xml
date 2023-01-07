@@ -50,4 +50,12 @@
     <string name="updatebtn">Update</string>
     <string name="add_project">Add Project</string>
     <string name="update_project">Update Project</string>
+    <string name="record">Record</string>
+    <string name="more">more</string>
+    <string name="shot_views">Shot Views</string>
+    <string name="teams">Teams</string>
+    <string name="employees">Employees</string>
+    <string name="clients">Clients</string>
+    <string name="tasks">Tasks</string>
+    <string name="welcome">Welcome</string>
 </resources>
