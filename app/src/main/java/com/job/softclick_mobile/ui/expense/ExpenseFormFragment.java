@@ -42,6 +42,7 @@ import com.job.softclick_mobile.viewmodels.task.ITaskViewModel;
 import com.job.softclick_mobile.viewmodels.task.TaskViewModel;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -91,20 +92,17 @@ public class ExpenseFormFragment extends Fragment {
         expenseViewModel = new ViewModelProvider(this).get(ExpenseViewModel.class);
         expenseCategoryViewModel = new ViewModelProvider(this).get(ExpenseCategoryViewModel.class);
         taskViewModel = new ViewModelProvider(this).get(TaskViewModel.class);
-
+        expenseCategoryViewModel= new ViewModelProvider(this).get(ExpenseCategoryViewModel.class);
         // show progress bar and hide the form body initially
         binding.progressBar.setVisibility(View.VISIBLE);
         binding.formBody.setVisibility(View.INVISIBLE);
-
         taskViewModel.getAll().gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Task>>() {
             @Override
             public void onChanged(List<Task> sList) {
-
                 setupTaskSpinner(sList);
-
                 if(expense != null) {
-                    binding.category.setSelection(((ArrayAdapter<String>)binding.category.getAdapter()).getPosition(expense.getExpenseCategory().getCategory()));
                     binding.task.setSelection(((ArrayAdapter<String>)binding.task.getAdapter()).getPosition(expense.getTask().getName()));
+
                     type=expense.getTypeExpense();
                     binding.amount.setText(String.valueOf(expense.getAmount()));
                     binding.createExpenseBtn.setText("Edit");
@@ -161,7 +159,68 @@ public class ExpenseFormFragment extends Fragment {
                 binding.formBody.setVisibility(View.VISIBLE);
             }
         });
+        expenseCategoryViewModel.getAll().gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<ExpenseCategory>>() {
+            @Override
+            public void onChanged(List<ExpenseCategory> sList) {
+                setupExpenseCategorySpinner(sList);
+                if(expense != null) {
+                    binding.category.setSelection(((ArrayAdapter<String>)binding.category.getAdapter()).getPosition(expense.getExpenseCategory().getCategory()));
+                    type=expense.getTypeExpense();
+                    binding.amount.setText(String.valueOf(expense.getAmount()));
+                    binding.createExpenseBtn.setText("Edit");
 
+                    if(type.equals("income")){
+                        binding.incomeRadio.setChecked(true);
+                    }else{
+                        binding.expenseRadio.setChecked(true);
+                    }
+
+                    binding.backArrow.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            ExpenseDetailsFragment expenseDetailsFragment = new ExpenseDetailsFragment();
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable("expense", expense);
+                            expenseDetailsFragment.setArguments(bundle);
+                            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContent,expenseDetailsFragment).commit();
+                        }
+                    });
+
+                    binding.createExpenseBtn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Log.d("DEBUG", expense.getId().toString());
+                            updateExpense(expense.getId());
+                        }
+                    });
+                }
+                else {
+                    binding.backArrow.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            ExpensesListFragment expenseList =new ExpensesListFragment();
+                            FooterFragment footerFragment=new FooterFragment();
+                            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fContentFooter, footerFragment).commit();
+                            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContent,expenseList).commit();
+                        }
+                    });
+                    binding.incomeRadio.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            type="income";
+                        }
+                    });
+                    binding.expenseRadio.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            type="expense";
+                        }
+                    });
+                }
+                binding.progressBar.setVisibility(View.GONE);
+                binding.formBody.setVisibility(View.VISIBLE);
+            }
+        });
 
         binding.createExpenseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -243,20 +302,93 @@ public class ExpenseFormFragment extends Fragment {
         // Finally, data bind the spinner object with adapter
         spinner.setAdapter(spinnerArrayAdapter);
     }
+    private void setupExpenseCategorySpinner(List<ExpenseCategory> expenseCategories) {
+        expenseCategories.forEach(e -> {
+            if (e.getCategory()== binding.task.getSelectedItem()){
+                expenseCategory=e;
+            }
+        });
+        Spinner spinner = binding.category;
+
+        List<String> expenseCategoryList = new ArrayList<>();
+        expenseCategoryList.add("Select Expense Category");
+        expenseCategories.forEach(e -> {
+            expenseCategoryList.add(e.getCategory());
+        });
+
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(
+                getContext(),
+                android.R.layout.simple_dropdown_item_1line,
+                expenseCategoryList
+        ){
+            @Override
+            public boolean isEnabled(int position){
+                return position != 0;
+            }
+            @Override
+            public View getDropDownView(
+                    int position, View convertView,
+                    @NonNull ViewGroup parent) {
+                // Get the item view
+                View view = super.getDropDownView(
+                        position, convertView, parent);
+                TextView textView = (TextView) view;
+                if(position == 0){
+                    // Set the hint text color gray
+                    textView.setTextColor(Color.GRAY);
+                }
+                else { textView.setTextColor(Color.BLACK); }
+                return view;
+            }
+        };
+
+        // Set the drop down view resource
+        spinnerArrayAdapter.setDropDownViewResource(
+                android.R.layout.simple_dropdown_item_1line
+        );
+
+        // Spinner on item selected listener
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(
+                    AdapterView<?> parent, View view,
+                    int position, long id) {
+
+                // Get the spinner selected item text
+//                        String selectedItemText = (String) parent
+//                                .getItemAtPosition(position);
+                if (position > 0){
+                    expenseCategory = expenseCategories.get(position-1);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(
+                    AdapterView<?> parent) {
+            }
+        });
+
+        // Finally, data bind the spinner object with adapter
+        spinner.setAdapter(spinnerArrayAdapter);
+    }
 
     private void createExpense(){
         binding.progressBar.setVisibility(View.VISIBLE);
         binding.formBody.setVisibility(View.GONE);
         long millis = System.currentTimeMillis();
         Date date =new Date(millis);
-      //  ExpenseCategory expenseCategory=new ExpenseCategory(binding.category.getSelectedItem().toString());
-
+        Task newTask =new Task();
+        newTask.setId(task.getId());
+        // ExpenseCategory expenseCategory=new ExpenseCategory(binding.category.getSelectedItem().toString());
+        ExpenseCategory expenseCategoryNew =new ExpenseCategory();
+        expenseCategoryNew.setId(expenseCategory.getId());
         Expense expense = new Expense(
-                null,
-                null,
-                null,
-                null,
-                null
+                Long.parseLong(binding.amount.getText().toString()),
+                type,
+                date,
+                expenseCategoryNew,
+                newTask
         );
 
         LiveResponse createLiveResponse = expenseViewModel.create(expense);
@@ -293,14 +425,18 @@ public class ExpenseFormFragment extends Fragment {
 
         long millis = System.currentTimeMillis();
         Date date =new Date(millis);
-        ExpenseCategory expenseCategory=new ExpenseCategory(binding.category.getSelectedItem().toString());
+        Timestamp dateStamp =new Timestamp(date.getTime());
+        Task taskNew =new Task();
+        taskNew.setId(task.getId());
+        ExpenseCategory expenseCategoryNew =new ExpenseCategory();
+        expenseCategoryNew.setId(expenseCategory.getId());
 
         Expense expense = new Expense(
                 Long.parseLong(binding.amount.getText().toString()),
                 type,
-                date,
-                expenseCategory,
-                task
+                dateStamp,
+                expenseCategoryNew,
+                taskNew
         );
         Log.d("DEBUG", key.toString());
         LiveResponse createLiveResponse = expenseViewModel.update(key, expense);
