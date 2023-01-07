@@ -80,14 +80,12 @@ public class TaskList extends Fragment implements RecyclerViewHandler<Task> {
         statusViewModel = new ViewModelProvider(this).get(StatusViewModel.class);
         taskViewModel = new ViewModelProvider(this).get(TaskViewModel.class);
         LiveResponse statusGetAllLiveResponse =  statusViewModel.getAll();
-
         statusGetAllLiveResponse.gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Status>>() {
             @Override
             public void onChanged(List<Status> sList) {
                 statusList = sList;
             }
         });
-
         statusGetAllLiveResponse.geteMutableLiveData().observe(getViewLifecycleOwner(), new Observer() {
             @Override
             public void onChanged(Object o) {
@@ -95,10 +93,10 @@ public class TaskList extends Fragment implements RecyclerViewHandler<Task> {
                 Log.d("ERR", error.getMessage());
             }
         });
-        if(projectId == null){
+
+        if(projectId == null) {
+            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fContentFooter, new Fragment()).commit() ;
             LiveResponse taskGetAllLiveResponse =  taskViewModel.getAll();
-
-
             taskGetAllLiveResponse.gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Task>>() {
                 @Override
                 public void onChanged(List<Task> tasks) {
@@ -130,10 +128,9 @@ public class TaskList extends Fragment implements RecyclerViewHandler<Task> {
                     Log.d("TaskViewModel ERR", error.getMessage());
                 }
             });
-
         } else {
-            //get all project tasks
-           LiveResponse getAllByProjectLiveResponse = taskViewModel.getAllByProject(projectId);
+            // get all project tasks
+            LiveResponse getAllByProjectLiveResponse = taskViewModel.getAllByProject(projectId);
             getAllByProjectLiveResponse.gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer() {
                 @Override
                 public void onChanged(Object o) {
@@ -167,7 +164,6 @@ public class TaskList extends Fragment implements RecyclerViewHandler<Task> {
                     Log.d("ERR", error.getMessage());
                 }
             });
-
         }
 
         addButton = this.getActivity().findViewById(R.id.addButton);
@@ -176,7 +172,7 @@ public class TaskList extends Fragment implements RecyclerViewHandler<Task> {
             addButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     try {
-                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContent,(Fragment)TaskForm.class.newInstance()).commit() ;
+                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContent, TaskForm.newInstance(projectId)).commit();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -185,7 +181,6 @@ public class TaskList extends Fragment implements RecyclerViewHandler<Task> {
         }
 
         return taskListview;
-
     }
 
     private void refreshUi(){

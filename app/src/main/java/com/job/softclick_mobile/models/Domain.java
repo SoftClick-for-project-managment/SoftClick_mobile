@@ -1,6 +1,8 @@
 package com.job.softclick_mobile.models;
 
-public class Domain {
+import java.io.Serializable;
+
+public class Domain implements Serializable {
     private  Long idDomain;
     private String nameDomain;
 

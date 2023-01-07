@@ -7,33 +7,29 @@ import java.util.Date;
 
 public class Project implements Serializable {
     private Long idProject;
-    private String nameProject;
 
+    private String nameProject;
 
     private String descriptionProject;
 
     private Double revenueProject;
 
-
     private Domain domainProjet;
-
 
     private Timestamp dateDebut;
 
-
     private Timestamp dateFin;
-
 
     private Employee chefProject;
 
-
     private Status projectStatus;
-
 
     private Priority projectPriority;
 
+    public Project() {
+    }
 
-    public Project( String nameProject, String descriptionProject, Double revenueProject, Domain domainProjet, Timestamp dateDebut, Timestamp dateFin, Employee chefProject, Status projectStatus, Priority projectPriority) {
+    public Project(String nameProject, String descriptionProject, Double revenueProject, Domain domainProjet, Timestamp dateDebut, Timestamp dateFin, Employee chefProject, Status projectStatus, Priority projectPriority) {
 
         this.nameProject = nameProject;
         this.descriptionProject = descriptionProject;

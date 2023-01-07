@@ -79,7 +79,7 @@ public class EmployeeSelectItemAdapter extends BaseAdapter {
         }
     }
 
-    public int getPosition(int id) {
+    public int getPosition(Long id) {
         AtomicInteger position = new AtomicInteger();
         employees.forEach(e -> {
             int i = employees.indexOf(e);

@@ -108,7 +108,7 @@ public class DetailsTask extends Fragment {
                                     Fragment fragment = new TaskForm();
 
                                     Bundle bundle = new Bundle();
-                                    bundle.putSerializable("task",task);
+                                    bundle.putSerializable("task", task);
                                     fragment.setArguments(bundle);
 
                                     FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
@@ -141,10 +141,9 @@ public class DetailsTask extends Fragment {
             binding.backArrow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    TaskList invoiceListFragment = new TaskList();
                     FooterFragment footerFragment = new FooterFragment();
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fContentFooter, footerFragment).commit();
-                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContent, invoiceListFragment).commit();
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContent, TaskList.newInstance(task.getProjectId())).commit();
                 }
             });
         }

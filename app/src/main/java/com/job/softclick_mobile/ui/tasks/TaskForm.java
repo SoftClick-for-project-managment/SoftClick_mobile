@@ -57,6 +57,7 @@ import retrofit2.HttpException;
 public class TaskForm extends Fragment {
     private FragmentTaskFormBinding binding;
     private Task task;
+    private Long projectId;
     private ITaskViewModel taskViewModel;
     private IStatusViewModel statusViewModel;
     private IEmployeeViewModel employeeViewModel;
@@ -67,9 +68,10 @@ public class TaskForm extends Fragment {
         // Required empty public constructor
     }
 
-    public static TaskForm newInstance(String param) {
+    public static TaskForm newInstance(Long projectId) {
         TaskForm fragment = new TaskForm();
         Bundle args = new Bundle();
+        args.putLong("projectId", projectId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -79,6 +81,7 @@ public class TaskForm extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             task = (Task) getArguments().getSerializable("task");
+            projectId = getArguments().getLong("projectId");
         }
     }
 
@@ -130,7 +133,7 @@ public class TaskForm extends Fragment {
                         setupStatusSpinner(triple.getFirst());
                         setupEmployeeSpinner(triple.getSecond());
                         if(task != null) {
-                            binding.statustask.setSelection(((ArrayAdapter<String>)binding.statustask.getAdapter()).getPosition(task.getStatus().getNameEtat()));
+                            binding.statustask.setSelection(((ArrayAdapter<String>)binding.statustask.getAdapter()).getPosition(task.getStatus().getNameStatus()));
                             binding.taskEmployee.setSelection(((EmployeeSelectItemAdapter)binding.taskEmployee.getAdapter()).getPosition(task.getEmployee().getId()));
                             binding.taskname.setText(task.getName());
                             binding.startdate.setText(task.getStartDate().split(" ")[0]);
@@ -340,7 +343,7 @@ public class TaskForm extends Fragment {
 
     private void setupStatusSpinner(List<Status> statuses) {
         statuses.forEach(s -> {
-            if (s.getNameEtat() == binding.statustask.getSelectedItem()){
+            if (s.getNameStatus() == binding.statustask.getSelectedItem()){
                 status = s;
             }
         });
@@ -349,7 +352,7 @@ public class TaskForm extends Fragment {
         List<String> statusList = new ArrayList<>();
         statusList.add("Select status");
         statuses.forEach(s -> {
-            statusList.add(s.getNameEtat());
+            statusList.add(s.getNameStatus());
         });
 
         // Initializing an ArrayAdapter
@@ -420,7 +423,7 @@ public class TaskForm extends Fragment {
                     binding.Enddate.getText().toString()+" "+binding.timeEnd.getText().toString(),
                     binding.taskdescription.getText().toString(),
                     status,
-                    null,
+                    projectId,
                     employee,
                     null,
                     null
@@ -431,8 +434,14 @@ public class TaskForm extends Fragment {
                 @Override
                 public void onChanged(Object o) {
                     if((Boolean) o == true ){
-                        binding.progressBar.setVisibility(View.GONE);
-                        binding.backArrow.callOnClick();
+                        Toast.makeText(getContext(), "task created successfully", Toast.LENGTH_SHORT).show();
+                        if (projectId != null) {
+                            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fContentFooter, new FooterFragment()).commit();
+                            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContent, TaskList.newInstance(projectId)).commit();
+                        } else {
+                            binding.progressBar.setVisibility(View.GONE);
+                            binding.backArrow.callOnClick();
+                        }
                     }
                 }
             });
@@ -468,7 +477,7 @@ public class TaskForm extends Fragment {
                     binding.Enddate.getText().toString()+" "+binding.timeEnd.getText().toString(),
                     binding.taskdescription.getText().toString(),
                     status,
-                    null,
+                    this.task.getProjectId(),
                     employee,
                     null,
                     null
@@ -480,10 +489,13 @@ public class TaskForm extends Fragment {
                     System.out.println("changed");
                     if ((Boolean) o == true) {
                         Toast.makeText(getContext(), "task updated successfully", Toast.LENGTH_SHORT).show();
-
-                        binding.progressBar.setVisibility(View.GONE);
-                        binding.backArrow.callOnClick();
-                        System.out.println("back called");
+                        if (projectId != null) {
+                            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fContentFooter, new FooterFragment()).commit();
+                            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContent, TaskList.newInstance(projectId)).commit();
+                        } else {
+                            binding.progressBar.setVisibility(View.GONE);
+                            binding.backArrow.callOnClick();
+                        }
                     }
                 }
             });
