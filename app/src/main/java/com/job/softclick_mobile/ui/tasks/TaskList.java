@@ -51,7 +51,7 @@ public class TaskList extends Fragment implements RecyclerViewHandler<Task> {
     public static TaskList newInstance(Long projectId) {
         TaskList fragment = new TaskList();
         Bundle args = new Bundle();
-        args.putLong("projectId",projectId);
+        args.putLong("projectId", projectId);
 
         fragment.setArguments(args);
         return fragment;
@@ -79,7 +79,7 @@ public class TaskList extends Fragment implements RecyclerViewHandler<Task> {
         // ViewModels
         statusViewModel = new ViewModelProvider(this).get(StatusViewModel.class);
         taskViewModel = new ViewModelProvider(this).get(TaskViewModel.class);
-        LiveResponse statusGetAllLiveResponse = statusViewModel.getAll();
+        LiveResponse statusGetAllLiveResponse =  statusViewModel.getAll();
 
         statusGetAllLiveResponse.gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Status>>() {
             @Override
@@ -92,12 +92,12 @@ public class TaskList extends Fragment implements RecyclerViewHandler<Task> {
             @Override
             public void onChanged(Object o) {
                 Throwable error = (Throwable) o;
-                Log.d("StatusViewModel ERR", error.getMessage());
+                Log.d("ERR", error.getMessage());
             }
         });
+        if(projectId == null){
+            LiveResponse taskGetAllLiveResponse =  taskViewModel.getAll();
 
-        if(projectId == null) {
-            LiveResponse taskGetAllLiveResponse = taskViewModel.getAll();
 
             taskGetAllLiveResponse.gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Task>>() {
                 @Override
@@ -108,9 +108,9 @@ public class TaskList extends Fragment implements RecyclerViewHandler<Task> {
                     statusList.forEach(s -> {
                         statusTaskList.set(new StatusTaskList());
                         sTaskList.set(new ArrayList<>());
-                        statusTaskList.get().setItemText(s.getNameEtat());
+                        statusTaskList.get().setItemText(s.getNameStatus());
                         tasks.forEach(t -> {
-                            if (t.getStatus().getIdEtat() == s.getIdEtat()){
+                            if (t.getStatus().getIdStatus() == s.getIdStatus()) {
                                 sTaskList.get().add(t);
                             }
                         });
@@ -144,9 +144,9 @@ public class TaskList extends Fragment implements RecyclerViewHandler<Task> {
                     statusList.forEach(s -> {
                         statusTaskList.set(new StatusTaskList());
                         sTaskList.set(new ArrayList<>());
-                        statusTaskList.get().setItemText(s.getNameEtat());
+                        statusTaskList.get().setItemText(s.getNameStatus());
                         tasks.forEach(t -> {
-                            if (t.getStatus().getIdEtat() == s.getIdEtat()){
+                            if (t.getStatus().getIdStatus() == s.getIdStatus()) {
                                 sTaskList.get().add(t);
                             }
                         });

@@ -4,9 +4,12 @@ import java.io.Serializable;
 
 public class Employee implements Serializable {
 
-    private int id;
+    private Long id;
     private String employeeImage;
     private String employeeFirstName, employeeLastName, employeeFunction, employeeEmail, employeePhone;
+
+    public Employee() {
+    }
 
     public Employee(String employeeImage, String employeeFirstName, String employeeLastName, String employeeFunction, String employeeEmail, String employeePhone) {
         this.employeeImage = employeeImage;
@@ -17,13 +20,12 @@ public class Employee implements Serializable {
         this.employeePhone = employeePhone;
     }
 
-    public Employee() {
-    }
-
-    public int getId() {
+    public Long getId() {
         return id;
     }
-
+    public void setId(Long id) {
+        this.id= id;
+    }
     public String getEmployeeImage() {
         return employeeImage;
     }

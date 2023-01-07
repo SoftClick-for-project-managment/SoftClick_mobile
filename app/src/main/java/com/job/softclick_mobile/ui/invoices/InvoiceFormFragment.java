@@ -113,12 +113,12 @@ public class InvoiceFormFragment extends Fragment {
             clients.add(clientss.get(i).getNom().toString()+" "+clientss.get(i).getPrenom().toString());
         }
         projectss = new ArrayList<>();
-        projectss.add(new Project("Violance", "projet detection de violance based A I", 500000));
-        projectss.add(new Project("gestion de dossier", "stocker les dossier legaliseés et les chercher par une simple scan intelligent", 600000));
-        projectss.add(new Project("Violance3", "projet detection de violance based A I", 500000));
-        projectss.add(new Project("gestion de dossier2", "stocker les dossier legaliseés et les chercher par une simple scan intelligent", 600000));
-        projectss.add(new Project("Violance23", "projet detection de violance based A I", 500000));
-        projectss.add(new Project("gestion de dossier2.0", "stocker les dossier legaliseés et les chercher par une simple scan intelligent", 600000));
+        projectss.add(new Project("Violance", "projet detection de violance based A I", 500000d));
+        projectss.add(new Project("gestion de dossier", "stocker les dossier legaliseés et les chercher par une simple scan intelligent", 600000d));
+        projectss.add(new Project("Violance3", "projet detection de violance based A I", 500000d));
+        projectss.add(new Project("gestion de dossier2", "stocker les dossier legaliseés et les chercher par une simple scan intelligent", 600000d));
+        projectss.add(new Project("Violance23", "projet detection de violance based A I", 500000d));
+        projectss.add(new Project("gestion de dossier2.0", "stocker les dossier legaliseés et les chercher par une simple scan intelligent", 600000d));
         List<String> projects = new ArrayList<String>();
         for(int i=0;i<projectss.size();i++){
             projects.add(projectss.get(i).getNameProject());

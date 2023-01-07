@@ -85,4 +85,9 @@ public class InvoiceRepository implements IBaseRepository<Invoice, Long> {
     public LiveResponse delete(Long aLong) {
         return null;
     }
+
+    @Override
+    public LiveResponse search(Invoice invoice) {
+        return null;
+    }
 }

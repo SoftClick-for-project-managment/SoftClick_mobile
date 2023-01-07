@@ -7,7 +7,10 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,50 +19,34 @@ import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import com.job.softclick_mobile.R;
-import com.job.softclick_mobile.databinding.FragmentDetailExpenseBinding;
 import com.job.softclick_mobile.databinding.FragmentEmployeeDetailsBinding;
+import com.job.softclick_mobile.databinding.FragmentExpenseDetailsBinding;
 import com.job.softclick_mobile.models.Expense;
 import com.job.softclick_mobile.ui.layout.FooterFragment;
+import com.job.softclick_mobile.utils.LiveResponse;
+import com.job.softclick_mobile.viewmodels.expense.ExpenseViewModel;
+import com.job.softclick_mobile.viewmodels.expense.IExpenseViewModel;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link DetailExpenseFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class DetailExpenseFragment extends Fragment {
+import retrofit2.HttpException;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-    private FragmentDetailExpenseBinding binding;
+public class ExpenseDetailsFragment extends Fragment {
+
+    private FragmentExpenseDetailsBinding binding;
     private Expense expense;
+    IExpenseViewModel expenseViewModel;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
-    public DetailExpenseFragment() {
+    public ExpenseDetailsFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment DetailExpenseFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static DetailExpenseFragment newInstance(String param1, String param2) {
-        DetailExpenseFragment fragment = new DetailExpenseFragment();
+    public static ExpenseDetailsFragment newInstance(String param1, String param2) {
+        ExpenseDetailsFragment fragment = new ExpenseDetailsFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -75,19 +62,19 @@ public class DetailExpenseFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
 
-        binding = FragmentDetailExpenseBinding.inflate(inflater, container, false);
+        binding = FragmentExpenseDetailsBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
-        Date date = new Date(expense.getTime());
+        expenseViewModel = new ViewModelProvider(this).get(ExpenseViewModel.class);
+        Date date = expense.getDate();
         SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String dateFormatted = sdfDate.format(date);
-        binding.pageTitle.setText(expense.getType().toUpperCase()+" Details");
+        binding.pageTitle.setText(expense.getTypeExpense().toUpperCase()+" Details");
         binding.amount.setText((String.valueOf(expense.getAmount())));
-        binding.description.setText(expense.getDescription());
         binding.date.setText(dateFormatted);
-        binding.category.setText(expense.getCategory());
-        binding.project.setText(expense.getProject());
+        binding.category.setText(expense.getExpenseCategory().getCategory());
+        binding.task.setText(expense.getTask().getName());
+
         if (binding.moreOptions != null) {
             binding.moreOptions.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -118,7 +105,9 @@ public class DetailExpenseFragment extends Fragment {
                                 case R.id.delete:
                                     Toast.makeText(getActivity(), "Under Construction ", Toast.LENGTH_LONG).show();
                                     AlertDialog diaBox = AskOption();
+
                                     diaBox.show();
+
                                     break;
 
                                 default:
@@ -136,10 +125,10 @@ public class DetailExpenseFragment extends Fragment {
             binding.back.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ExpensesListFragment expenseList = new ExpensesListFragment();
+                    ExpensesListFragment invoiceListFragment = new ExpensesListFragment();
                     FooterFragment footerFragment = new FooterFragment();
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fContentFooter, footerFragment).commit();
-                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContent, expenseList).commit();
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContent, invoiceListFragment).commit();
                 }
             });
         }
@@ -153,13 +142,14 @@ public class DetailExpenseFragment extends Fragment {
         AlertDialog myQuittingDialogBox = new AlertDialog.Builder(getContext())
                 // set message, title, and icon
                 .setTitle("Delete")
-                .setMessage("Do you want to Delete this Expense/Income ?")
+                .setMessage("Do you want to Delete this Expense?")
                 .setIcon(R.drawable.delete)
 
                 .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
 
                     public void onClick(DialogInterface dialog, int whichButton) {
                         //your deleting code
+                        deleteExpense();
                         dialog.dismiss();
                     }
 
@@ -175,4 +165,42 @@ public class DetailExpenseFragment extends Fragment {
 
         return myQuittingDialogBox;
     }
+
+    public void deleteExpense(){
+        binding.progressBar.setVisibility(View.VISIBLE);
+        //binding.formBody.setVisibility(View.GONE);
+
+
+        System.out.println("Expense ::: " + this.expense.getAmount());
+
+        LiveResponse createLiveResponse =  expenseViewModel.delete((long) this.expense.getId());
+        createLiveResponse.gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer() {
+            @Override
+            public void onChanged(Object o) {
+                if((Boolean) o == true ){
+                    binding.progressBar.setVisibility(View.GONE);
+                    binding.back.callOnClick();
+                }
+            }
+        });
+
+        createLiveResponse.geteMutableLiveData().observe(getViewLifecycleOwner(), new Observer() {
+            @Override
+            public void onChanged(Object o) {
+                Throwable error = (Throwable) o;
+                if (error instanceof HttpException) {
+                    Log.d("DEBUG", error.getMessage());
+                    error.printStackTrace();
+                    Toast.makeText(getContext(), "This screen is under maintenance", Toast.LENGTH_SHORT).show();
+                } else if (error instanceof IOException) {
+
+                }
+                //binding.formBody.setVisibility(View.VISIBLE);
+                binding.progressBar.setVisibility(View.GONE);
+                Log.d("ERR", error.getMessage());
+            }
+        });
+
+
     }
+}

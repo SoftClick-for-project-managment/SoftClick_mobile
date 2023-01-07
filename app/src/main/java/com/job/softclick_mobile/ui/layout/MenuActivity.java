@@ -185,7 +185,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
             {
                 try{
                     fragmentClass = ClientListFragment.class;
-                    fragmentManager.beginTransaction().replace(R.id.fContentFooter, (Fragment) FooterFragment.class.newInstance()).commit();
+                    fragmentManager.beginTransaction().replace(R.id.fContentFooter, new FooterFragment((ClientListFragment.class))).commit();
                     fragment = (Fragment) fragmentClass.newInstance();
                 }
                 catch (Exception e ){
@@ -197,7 +197,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
             {
                 try{
                     fragmentClass = EmployeeListFragment.class;
-                    fragmentManager.beginTransaction().replace(R.id.fContentFooter, (Fragment) FooterFragment.class.newInstance()).commit();
+                    fragmentManager.beginTransaction().replace(R.id.fContentFooter, new FooterFragment(EmployeeListFragment.class)).commit();
                     fragment = (Fragment) fragmentClass.newInstance();
                 }
                 catch (Exception e ){
@@ -231,7 +231,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
             {
                 try{
                     fragmentClass = ListProjectsFragment.class;
-                    fragmentManager.beginTransaction().replace(R.id.fContentFooter, (Fragment) FooterFragment.class.newInstance()).commit();
+                    fragmentManager.beginTransaction().replace(R.id.fContentFooter, new FooterFragment(ListProjectsFragment.class)).commit();
                     fragment = (Fragment) fragmentClass.newInstance();
                 }
                 catch (Exception e ){

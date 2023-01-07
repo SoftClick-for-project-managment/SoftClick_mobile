@@ -6,13 +6,22 @@
     android:padding="20dp"
     tools:context=".ui.expense.ExpensesListFragment"
     >
-
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:indeterminateDrawable="@drawable/ind_progress_bar"
+        android:indeterminateDuration="500"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerInParent="true"
+        tools:progress="@integer/material_motion_duration_medium_1"
+        />
     <!-- TODO: Update blank fragment layout -->
     <LinearLayout
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
         <androidx.cardview.widget.CardView
             android:layout_margin="5dp"
             android:layout_width="match_parent"
