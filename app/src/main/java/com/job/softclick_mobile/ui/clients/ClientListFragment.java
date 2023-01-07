@@ -2,6 +2,7 @@ package com.job.softclick_mobile.ui.clients;
 
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -21,17 +22,22 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.adapters.ClientListAdapter;
 import com.job.softclick_mobile.adapters.ItemAdapter;
+import com.job.softclick_mobile.adapters.MainRecyclerAdapter;
+import com.job.softclick_mobile.models.Project;
+import com.job.softclick_mobile.models.Project_section;
 import com.job.softclick_mobile.models.Task;
 import com.job.softclick_mobile.ui.contracts.RecyclerViewHandler;
 import com.job.softclick_mobile.models.Client;
 import com.job.softclick_mobile.ui.tasks.TaskForm;
 import com.job.softclick_mobile.ui.tasks.TaskList;
+import com.job.softclick_mobile.viewmodels.ActivitySharedViewModel;
 import com.job.softclick_mobile.viewmodels.clients.ClientViewModel;
 import com.job.softclick_mobile.viewmodels.clients.IClientViewModel;
 import com.job.softclick_mobile.viewmodels.task.ITaskViewModel;
 import com.job.softclick_mobile.viewmodels.task.TaskViewModel;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -41,6 +47,7 @@ public class ClientListFragment extends Fragment implements RecyclerViewHandler<
     private FloatingActionButton addButton;
     private ClientListAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
+    private ActivitySharedViewModel activitySharedViewModel;
     private IClientViewModel clientViewModel;
     private List<Client> clients =new ArrayList<>();
     private ArrayList<Client> clientArrayList;
@@ -57,6 +64,20 @@ public class ClientListFragment extends Fragment implements RecyclerViewHandler<
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        activitySharedViewModel =  new ViewModelProvider(getActivity()).get(ActivitySharedViewModel.class);
+        activitySharedViewModel.getSearchClient().observe(getViewLifecycleOwner(), new Observer<Client>() {
+            @Override
+            public void onChanged(Client client) {
+
+                searchClient(client);
+                Toast.makeText(getActivity().getApplicationContext(), client.getNom(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
@@ -155,5 +176,22 @@ public class ClientListFragment extends Fragment implements RecyclerViewHandler<
         fragmentTransaction.replace(R.id.flContent, fragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+    }
+
+    public void searchClient(Client client){
+        clientViewModel.search(client).gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Client>>() {
+            @Override
+            public void onChanged(List<Client> clients) {
+                clientArrayList = new ArrayList<>();
+                AtomicReference<ArrayList<Client>> sClientList = new AtomicReference<>(new ArrayList<>());
+                clients.forEach(client -> {
+                    clientArrayList.add(client);
+                });
+                progressBar.setVisibility(View.INVISIBLE);
+                recyclerView.setVisibility(View.VISIBLE);
+                refreshUi();
+                //mainRecyclerAdapter.notifyDataSetChanged();
+            }
+        });
     }
 }

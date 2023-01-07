@@ -11,18 +11,19 @@ import androidx.lifecycle.ViewModelProvider;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.databinding.ActivityMenuBinding;
+import com.job.softclick_mobile.models.Role;
 import com.job.softclick_mobile.models.User;
 import com.job.softclick_mobile.services.storage.StoredUser;
 import com.job.softclick_mobile.ui.auth.LoginActivity;
+import com.job.softclick_mobile.ui.auth.ProfileFragment;
 import com.job.softclick_mobile.ui.team.TeamListFragment;
 import com.job.softclick_mobile.ui.tasks.TaskList;
 import com.job.softclick_mobile.ui.employees.EmployeeListFragment;
@@ -39,14 +40,14 @@ import java.io.IOException;
 public class MenuActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private ActivityMenuBinding binding;
-    private  FragmentManager fragmentManager = getSupportFragmentManager();
+    private FragmentManager fragmentManager = getSupportFragmentManager();
     private IUserViewModel userViewModel;
     private User authUser;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         binding = ActivityMenuBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
@@ -94,24 +95,74 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         // Insert the fragment by replacing any existing fragment
         fragmentManager = getSupportFragmentManager();
         try {
-           Class fragmentClass = PrincipalFragment.class;
-            Fragment fragment = (Fragment) fragmentClass.newInstance();
             fragmentManager.beginTransaction().replace(R.id.fContentFooter, (Fragment) FooterFragment.class.newInstance()).commit();
-            fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
+
+        // Check the user's role and hide the menu item if necessary
+        checkUserRole();
+
+
     }
 
+    private void checkUserRole() {
+
+        for(Role role: authUser.getRoles()) {
+
+            Menu menu = binding.navView.getMenu();
+            MenuItem menuItemTasks = menu.findItem(R.id.tasks_item);
+            MenuItem menuItemTeams = menu.findItem(R.id.teams_item);
+            MenuItem menuItemProjects = menu.findItem(R.id.projects_item);
+            MenuItem menuItemClients = menu.findItem(R.id.clients_item);
+            MenuItem menuItemEmployees = menu.findItem(R.id.employees_item);
+            MenuItem menuItemExpenses = menu.findItem(R.id.expenses_item);
+            MenuItem menuItemInvoices = menu.findItem(R.id.invoices_item);
+
+            switch (role.getName())  {
+                case Role.ROLE_DIRECTOR:
+                    menuItemTasks.setVisible(true);
+                    menuItemTeams.setVisible(true);
+                    menuItemProjects.setVisible(true);
+                    menuItemClients.setVisible(true);
+                    menuItemEmployees.setVisible(true);
+                    menuItemExpenses.setVisible(true);
+                    menuItemInvoices.setVisible(true);
+                    break;
+                case Role.ROLE_PROJECT_MANAGER:
+                    menuItemTasks.setVisible(true);
+                    menuItemTeams.setVisible(false);
+                    menuItemProjects.setVisible(true);
+                    menuItemClients.setVisible(false);
+                    menuItemEmployees.setVisible(false);
+                    menuItemExpenses.setVisible(false);
+                    menuItemInvoices.setVisible(false);
+                    break;
+                case Role.ROLE_EMPLOYEE:
+                case Role.ROLE_TEAM_MANAGER:
+                    menuItemTasks.setVisible(true);
+                    menuItemTeams.setVisible(true);
+                    menuItemProjects.setVisible(false);
+                    menuItemClients.setVisible(false);
+                    menuItemEmployees.setVisible(false);
+                    menuItemExpenses.setVisible(false);
+                    menuItemInvoices.setVisible(false);
+                    break;
+                case Role.ROLE_ADMIN:
+                    break;
+            }
+
+        }
+
+    }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item){
 
         // Create a new fragment and specify the fragment to show based on nav item clicked
-        Class fragmentClass = null;
         Fragment fragment = null;
-
+        Class fragmentClass = null;
 
 
         switch (item.getItemId()) {
@@ -143,7 +194,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
             {
                 try{
                     fragmentClass = ClientListFragment.class;
-                    fragmentManager.beginTransaction().replace(R.id.fContentFooter, (Fragment) FooterFragment.class.newInstance()).commit();
+                    fragmentManager.beginTransaction().replace(R.id.fContentFooter, new FooterFragment((ClientListFragment.class))).commit();
                     fragment = (Fragment) fragmentClass.newInstance();
                 }
                 catch (Exception e ){
@@ -155,7 +206,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
             {
                 try{
                     fragmentClass = EmployeeListFragment.class;
-                    fragmentManager.beginTransaction().replace(R.id.fContentFooter, (Fragment) FooterFragment.class.newInstance()).commit();
+                    fragmentManager.beginTransaction().replace(R.id.fContentFooter, new FooterFragment(EmployeeListFragment.class)).commit();
                     fragment = (Fragment) fragmentClass.newInstance();
                 }
                 catch (Exception e ){
@@ -189,7 +240,17 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
             {
                 try{
                     fragmentClass = ListProjectsFragment.class;
-                    fragmentManager.beginTransaction().replace(R.id.fContentFooter, (Fragment) FooterFragment.class.newInstance()).commit();
+                    fragmentManager.beginTransaction().replace(R.id.fContentFooter, new FooterFragment(ListProjectsFragment.class)).commit();
+                    fragment = (Fragment) fragmentClass.newInstance();
+                }
+                catch (Exception e ){
+                }
+                break;
+            }
+            case R.id.profile_item:
+            {
+                try{
+                    fragmentClass = ProfileFragment.class;
                     fragment = (Fragment) fragmentClass.newInstance();
                 }
                 catch (Exception e ){
@@ -223,6 +284,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
 
         return true;
     }
+
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
         super.onPointerCaptureChanged(hasCapture);

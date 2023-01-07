@@ -17,6 +17,7 @@ public class UserRepository implements IUserRepository {
     LiveResponse<TokenPeer, Throwable> loginLiveResponse = new LiveResponse<>();
     LiveResponse<Boolean, Throwable> signupLiveResponse = new LiveResponse<>();
     LiveResponse<User, Throwable> authenticatedUserLiveResponse = new LiveResponse<>();
+    LiveResponse<Boolean, Throwable> updateLiveResponse = new LiveResponse<>();
 
     public UserRepository() {
         Retrofit httpClient = HttpClient.getInstance();
@@ -80,12 +81,32 @@ public class UserRepository implements IUserRepository {
     }
 
     @Override
-    public LiveResponse update(Long aLong, User user) {
-        return null;
+    public LiveResponse update(Long key, User user) {
+        apiService.update(key, user).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    updateLiveResponse.gettMutableLiveData().setValue(true);
+                } else {
+                    updateLiveResponse.geteMutableLiveData().setValue(new HttpException(response));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                updateLiveResponse.geteMutableLiveData().setValue(t);
+            }
+        });
+        return updateLiveResponse;
     }
 
     @Override
     public LiveResponse delete(Long aLong) {
+        return null;
+    }
+
+    @Override
+    public LiveResponse search(User user) {
         return null;
     }
 

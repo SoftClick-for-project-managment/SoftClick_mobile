@@ -8,6 +8,9 @@ public class Employee implements Serializable {
     private String employeeImage;
     private String employeeFirstName, employeeLastName, employeeFunction, employeeEmail, employeePhone;
 
+    public Employee() {
+    }
+
     public Employee(String employeeImage, String employeeFirstName, String employeeLastName, String employeeFunction, String employeeEmail, String employeePhone) {
         this.employeeImage = employeeImage;
         this.employeeFirstName = employeeFirstName;
@@ -17,17 +20,12 @@ public class Employee implements Serializable {
         this.employeePhone = employeePhone;
     }
 
-    public Employee() {
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public Long getId() {
         return id;
     }
-
+    public void setId(Long id) {
+        this.id= id;
+    }
     public String getEmployeeImage() {
         return employeeImage;
     }

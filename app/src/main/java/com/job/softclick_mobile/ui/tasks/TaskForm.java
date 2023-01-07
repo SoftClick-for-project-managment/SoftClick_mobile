@@ -89,7 +89,7 @@ public class TaskForm extends Fragment {
                 setupStatusSpinner(sList);
 
                 if(task != null) {
-                    binding.statustask.setSelection(((ArrayAdapter<String>)binding.statustask.getAdapter()).getPosition(task.getStatus().getNameEtat()));
+                    binding.statustask.setSelection(((ArrayAdapter<String>)binding.statustask.getAdapter()).getPosition(task.getStatus().getNameStatus()));
 
                     binding.taskname.setText(task.getName());
                     binding.startdate.setText(task.getStartDate().split(" ")[0]);
@@ -250,7 +250,7 @@ public class TaskForm extends Fragment {
 
     private void setupStatusSpinner(List<Status> statuses) {
         statuses.forEach(s -> {
-            if (s.getNameEtat() == binding.statustask.getSelectedItem()){
+            if (s.getNameStatus() == binding.statustask.getSelectedItem()){
                 status = s;
             }
         });
@@ -265,7 +265,7 @@ public class TaskForm extends Fragment {
         List<String> statusList = new ArrayList<>();
         statusList.add("Select Task status");
         statuses.forEach(s -> {
-            statusList.add(s.getNameEtat());
+            statusList.add(s.getNameStatus());
         });
 
         // Initializing an ArrayAdapter

@@ -141,5 +141,10 @@ public class TeamsRepository implements ITeamsRepository {
 
         return createLiveResponse;
     }
+
+    @Override
+    public LiveResponse search(Team team) {
+        return null;
+    }
 }
 

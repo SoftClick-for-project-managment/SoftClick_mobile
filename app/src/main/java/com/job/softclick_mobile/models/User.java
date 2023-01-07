@@ -4,13 +4,22 @@ import java.io.Serializable;
 import java.util.Collection;
 
 public class User implements Serializable {
+    private Long id;
     private String username;
     private String password;
-    private boolean active;
+    private Boolean active;
     private Employee employee;
     private Collection<Role> roles;
 
     public User() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getUsername() {
@@ -29,11 +38,11 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public boolean isActive() {
+    public Boolean isActive() {
         return active;
     }
 
-    public void setActive(boolean active) {
+    public void setActive(Boolean active) {
         this.active = active;
     }
 

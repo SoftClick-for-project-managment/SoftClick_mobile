@@ -1,6 +1,7 @@
 package com.job.softclick_mobile.services.http;
 
 import com.job.softclick_mobile.models.Expense;
+import com.job.softclick_mobile.models.Task;
 
 
 import java.util.List;
@@ -14,7 +15,7 @@ import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface ExpenseApi {
-    @GET("expense")
+    @GET("expenses")
     Call<List<Expense>> getAll();
 
     @GET("expenses/{id}")
@@ -28,4 +29,6 @@ public interface ExpenseApi {
 
     @DELETE("expenses/{id}")
     Call delete(@Path("id") Long expenseId);
+    @GET("expenses/task/{taskId}")
+    Call<List<Expense>> getAllByTask(@Path("taskId") Long taskId);
 }
