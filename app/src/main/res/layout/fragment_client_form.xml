@@ -180,7 +180,7 @@
                             android:background="@color/transparent"
                             android:fontFamily="@font/roboto_regular"
                             android:hint="Phone"
-                            android:inputType="textPersonName"
+                            android:inputType="phone"
                             android:maxLines="1"
                             android:paddingLeft="17dp"
                             android:paddingTop="15dp"
