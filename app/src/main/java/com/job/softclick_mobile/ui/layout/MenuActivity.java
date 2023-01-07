@@ -102,7 +102,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
 
 
         // Check the user's role and hide the menu item if necessary
-        checkUserRole();
+       // checkUserRole();
 
 
     }

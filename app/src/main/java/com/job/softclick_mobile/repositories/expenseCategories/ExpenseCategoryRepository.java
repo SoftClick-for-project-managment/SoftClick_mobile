@@ -62,4 +62,9 @@ public class ExpenseCategoryRepository implements  IExpenseCategoryRepository {
     public LiveResponse delete(Long aLong) {
         return new LiveResponse();
     }
+
+    @Override
+    public LiveResponse search(ExpenseCategory expenseCategory) {
+        return null;
+    }
 }
