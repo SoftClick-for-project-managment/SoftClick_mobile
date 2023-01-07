@@ -378,7 +378,7 @@ public class ExpenseFormFragment extends Fragment {
         binding.formBody.setVisibility(View.GONE);
         long millis = System.currentTimeMillis();
         Date date =new Date(millis);
-        Task newTask =new Task();
+        Task newTask = new Task();
         newTask.setId(task.getId());
         // ExpenseCategory expenseCategory=new ExpenseCategory(binding.category.getSelectedItem().toString());
         ExpenseCategory expenseCategoryNew =new ExpenseCategory();
@@ -426,7 +426,7 @@ public class ExpenseFormFragment extends Fragment {
         long millis = System.currentTimeMillis();
         Date date =new Date(millis);
         Timestamp dateStamp =new Timestamp(date.getTime());
-        Task taskNew =new Task();
+        Task taskNew = new Task();
         taskNew.setId(task.getId());
         ExpenseCategory expenseCategoryNew =new ExpenseCategory();
         expenseCategoryNew.setId(expenseCategory.getId());
