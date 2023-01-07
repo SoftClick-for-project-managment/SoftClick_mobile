@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class Employee implements Serializable {
 
-    private int id;
+    private Long id;
     private String employeeImage;
     private String employeeFirstName, employeeLastName, employeeFunction, employeeEmail, employeePhone;
 
@@ -20,7 +20,11 @@ public class Employee implements Serializable {
     public Employee() {
     }
 
-    public int getId() {
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
         return id;
     }
 
