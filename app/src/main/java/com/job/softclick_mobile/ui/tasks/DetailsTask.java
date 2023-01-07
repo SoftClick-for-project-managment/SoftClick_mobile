@@ -159,8 +159,11 @@ public class DetailsTask extends Fragment {
         binding.statusValue.setText(task.getStatus().getNameEtat());
         binding.Startdatevalue.setText(task.getStartDate());
         binding.EnddateValue.setText(task.getEndDate());
-        binding.DescriptionValue.setText(task.getDescription());
         binding.employeeValue.setText(task.getEmployee().getEmployeeFirstName()+" "+task.getEmployee().getEmployeeLastName());
+        if (task.getDescription() != null)
+            binding.DescriptionValue.setText(task.getDescription());
+        else
+            binding.taskDescriptionCard.setVisibility(View.GONE);
     }
 
     private AlertDialog AskOption() {

@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -130,7 +131,7 @@ public class TaskForm extends Fragment {
                         setupEmployeeSpinner(triple.getSecond());
                         if(task != null) {
                             binding.statustask.setSelection(((ArrayAdapter<String>)binding.statustask.getAdapter()).getPosition(task.getStatus().getNameEtat()));
-
+                            binding.taskEmployee.setSelection(((EmployeeSelectItemAdapter)binding.taskEmployee.getAdapter()).getPosition(task.getEmployee().getId()));
                             binding.taskname.setText(task.getName());
                             binding.startdate.setText(task.getStartDate().split(" ")[0]);
                             binding.Enddate.setText(task.getEndDate().split(" ")[0]);
@@ -302,12 +303,13 @@ public class TaskForm extends Fragment {
     }
 
     private void setupEmployeeSpinner(List<Employee> employees) {
+        Spinner spinner = binding.taskEmployee;
+
         employees.forEach(s -> {
-            if ((s.getEmployeeLastName() + " " + s.getEmployeeLastName()).equals(binding.taskEmployee.getSelectedItem())){
+            if ((s.getEmployeeFirstName()+" "+s.getEmployeeLastName()).equals(spinner.getSelectedItem())){
                 employee = s;
             }
         });
-        Spinner spinner = binding.taskEmployee;
 
         List<Employee> employeeList = new ArrayList<>();
         Employee dummyEmp = new Employee();

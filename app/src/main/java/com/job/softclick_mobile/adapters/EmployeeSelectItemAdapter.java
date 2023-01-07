@@ -1,8 +1,6 @@
 package com.job.softclick_mobile.adapters;
 
-import android.content.ClipData;
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +12,7 @@ import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.models.Employee;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class EmployeeSelectItemAdapter extends BaseAdapter {
 
@@ -78,5 +77,14 @@ public class EmployeeSelectItemAdapter extends BaseAdapter {
             imageView = view.findViewById(R.id.imageView);
             textView = view.findViewById(R.id.textView);
         }
+    }
+
+    public int getPosition(int id) {
+        AtomicInteger position = new AtomicInteger();
+        employees.forEach(e -> {
+            int i = employees.indexOf(e);
+            if (e.getId() == id) position.set(i);
+        });
+        return position.get();
     }
 }
