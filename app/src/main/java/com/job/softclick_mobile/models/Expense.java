@@ -1,70 +1,74 @@
 package com.job.softclick_mobile.models;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
+import java.util.Date;
 
 public class Expense implements Serializable {
-    private String expenseId;
-    private String description;
-    private long amount;
-    private long time;
-    private String type;
-    private String category;
-    private String project;
 
-    public Expense(){
+    private Long id;
+    private Long amount;
+    private String typeExpense;
+    private Date date;
 
-    }
-    public Expense(String expenseId, String description, long amount, long time, String type, String category, String project){
-        this.expenseId=expenseId;
-        this.description=description;
-        this.amount=amount;
-        this.time=time;
-        this.type=type;
-        this.category=category;
-        this.project=project;
-    }
-    public String getCategory(){
-        return this.category;
-    }
-    public String getProject(){
-        return this.project;
-    }
-    public void setCategory(String category){
-        this.category=category;
+    private ExpenseCategory expenseCategory;
+   private Task task;
 
+    public Expense( Long amount, String typeExpense, Date date, ExpenseCategory expenseCategory, Task task) {
+        this.amount = amount;
+        this.typeExpense = typeExpense;
+        this.date = date;
+        this.expenseCategory = expenseCategory;
+        this.task = task;
     }
-    public void setProject(String project){
-        this.project=project;
 
+    public Long getId() {
+        return id;
     }
-    public long getAmount(){
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getAmount() {
         return amount;
     }
-    public void setAmount(long amount){
-        this.amount=amount;
+
+    public void setAmount(Long amount) {
+        this.amount = amount;
     }
-    public String getExpenseId(){
-        return this.expenseId;
+
+    public String getTypeExpense() {
+        return typeExpense;
     }
-    public void setExpenseId(String expenseId){
-        this.expenseId=expenseId;
+
+    public void setTypeExpense(String typeExpense) {
+        this.typeExpense = typeExpense;
     }
-    public long getTime(){
-        return time;
+
+    public Date getDate() {
+        return date;
     }
-    public void setTime(long time){
-        this.time=time;
+
+    public void setDate(Date date) {
+        this.date = date;
     }
-    public String getType(){
-        return this.type;
+
+    public ExpenseCategory getExpenseCategory() {
+        return expenseCategory;
     }
-    public void setType(String type){
-        this.type=type;
+
+    public void setExpenseCategory(ExpenseCategory expenseCategory) {
+        this.expenseCategory = expenseCategory;
     }
-    public String getDescription(){
-        return description;
+
+    public Task getTask() {
+        return task;
     }
-    public void setDescription(String description){
-        this.description=description;
+
+    public void setTask(Task task) {
+        this.task = task;
     }
 }
