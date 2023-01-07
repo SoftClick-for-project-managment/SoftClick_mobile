@@ -31,7 +31,7 @@
         android:textSize="18sp" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/chef_projet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/title_project"
@@ -42,7 +42,7 @@
         android:textSize="16sp" />
 
     <TextView
-        android:id="@+id/genre"
+        android:id="@+id/status_project"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"

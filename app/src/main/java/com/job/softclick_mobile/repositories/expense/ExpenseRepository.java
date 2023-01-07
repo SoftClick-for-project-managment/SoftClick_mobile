@@ -168,4 +168,9 @@ public class ExpenseRepository implements IExpenseRepository, IBaseRepository<Ex
 
         return expenseListByTaskLiveResponse;
     }
+
+    @Override
+    public LiveResponse search(Expense expense) {
+        return null;
+    }
 }

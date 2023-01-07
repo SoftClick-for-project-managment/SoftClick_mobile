@@ -10,4 +10,5 @@ public interface IBaseRepository<T, Key> {
     LiveResponse create(T t);
     LiveResponse update(Key key, T t);
     LiveResponse delete(Key key);
+    LiveResponse search(T t);
 }

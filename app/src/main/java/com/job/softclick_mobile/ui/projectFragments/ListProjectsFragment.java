@@ -2,14 +2,20 @@ package com.job.softclick_mobile.ui.projectFragments;
 
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -17,10 +23,21 @@ import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.adapters.MainRecyclerAdapter;
 import com.job.softclick_mobile.adapters.RvItemClickListener;
 import com.job.softclick_mobile.databinding.FragmentListProjectsBinding;
+import com.job.softclick_mobile.databinding.FragmentProjectSearchBinding;
+import com.job.softclick_mobile.models.Domain;
+import com.job.softclick_mobile.models.Employee;
+import com.job.softclick_mobile.models.Priority;
 import com.job.softclick_mobile.models.Project;
 import com.job.softclick_mobile.models.Project_section;
+import com.job.softclick_mobile.models.Status;
+import com.job.softclick_mobile.models.Task;
+import com.job.softclick_mobile.viewmodels.ActivitySharedViewModel;
+import com.job.softclick_mobile.viewmodels.project.IProjectViewModel;
+import com.job.softclick_mobile.viewmodels.project.ProjectViewModel;
+import com.job.softclick_mobile.viewmodels.task.ITaskViewModel;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -36,15 +53,20 @@ public class ListProjectsFragment extends Fragment implements RvItemClickListene
     private static final String ARG_PARAM2 = "param2";
 
     private FragmentListProjectsBinding binding;
+    private FragmentProjectSearchBinding searchbind;
 
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
+    private ActivitySharedViewModel activitySharedViewModel;
+    private IProjectViewModel projectViewModel;
     List<Project_section> sections = new ArrayList<>();
     RecyclerView mainRecyclerView;
     private FloatingActionButton addButton;
+    private TextView search;
+    private MainRecyclerAdapter mainRecyclerAdapter;
 
     public ListProjectsFragment() {
         // Required empty public constructor
@@ -69,6 +91,20 @@ public class ListProjectsFragment extends Fragment implements RvItemClickListene
     }
 
     @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        activitySharedViewModel =  new ViewModelProvider(getActivity()).get(ActivitySharedViewModel.class);
+        activitySharedViewModel.getSearchProject().observe(getViewLifecycleOwner(), new Observer<Project>() {
+            @Override
+            public void onChanged(Project project) {
+
+                searchProject(project,mainRecyclerAdapter );
+                Toast.makeText(getActivity().getApplicationContext(), project.getNameProject(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
@@ -82,12 +118,41 @@ public class ListProjectsFragment extends Fragment implements RvItemClickListene
                              Bundle savedInstanceState) {
 
         binding = FragmentListProjectsBinding.inflate(inflater, container, false);
-        initData();
+        searchbind = FragmentProjectSearchBinding.inflate(inflater, container, false);
+    //    initData();
         mainRecyclerView = binding.mainRecycleView;
-        MainRecyclerAdapter mainRecyclerAdapter = new MainRecyclerAdapter(sections, this);
+        projectViewModel = new ViewModelProvider(this).get(ProjectViewModel.class);
+         mainRecyclerAdapter = new MainRecyclerAdapter(sections, this);
         mainRecyclerView.setAdapter(mainRecyclerAdapter);
+        projectViewModel.getAll().gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Project>>() {
+            @Override
+            public void onChanged(List<Project> projects) {
+
+                HashMap<String,Project_section> projects_pairs = new HashMap<>();
+
+                for (Project project:projects
+                     ) {
+                    String priorityName = project.getProjectPriority().getNamePriority();
+
+                    if(projects_pairs.containsKey(priorityName)){
+                        projects_pairs.get(priorityName).addProjectToSection(project);
+                    }else{
+                        Project_section new_project_section = new Project_section(priorityName,new ArrayList<>());
+                        new_project_section.addProjectToSection(project);
+                        projects_pairs.put(priorityName,new_project_section);
+                    }
+                }
+
+                List<Project_section> project_sectionList = new ArrayList<Project_section>(projects_pairs.values());
+                sections = project_sectionList;
+                mainRecyclerAdapter.setProject_sectionList(sections);
+
+            }
+        });
+
 
         addButton = this.getActivity().findViewById(R.id.addButton);
+
         if (addButton != null) {
             addButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
@@ -102,35 +167,12 @@ public class ListProjectsFragment extends Fragment implements RvItemClickListene
             });
         }
 
+
+
         return binding.getRoot();
     }
 
-    private void initData() {
-        String priority_1 = "hight priority";
-        List<Project> section_priority_1 = new ArrayList<>();
-        section_priority_1.add(new Project("Violance", "projet detection de violance based A I", 500000));
-        section_priority_1.add(new Project("gestion de dossier", "stocker les dossier legaliseés et les chercher par une simple scan intelligent", 600000));
 
-        String priority_2 = "meduim priority";
-        List<Project> section_priority_2 = new ArrayList<>();
-        section_priority_2.add(new Project("mat3am jami3i", "mat3am jami3i , payment reservation , validation de repas ...", 300000));
-
-        String priority_3 = "normal priority";
-        List<Project> section_priority_3 = new ArrayList<>();
-        section_priority_3.add(new Project("ecommerce site web", "t-shirt plateform qui automatise les adds on fb et google", 800000));
-        section_priority_3.add(new Project("mobile app reservation", "application mobile de reservation de rendez vous", 200000));
-
-        String priority_4 = "not important";
-        List<Project> section_priority_4 = new ArrayList<>();
-        section_priority_4.add(new Project("maintenance stock", "maintenir un site web avec nouvelle technologies", 15000));
-        section_priority_4.add(new Project("maintenance inventair", "maintenir un site web qui suite inventaires dans les entreprises", 350000));
-
-
-        sections.add(new Project_section(priority_1, section_priority_1));
-        sections.add(new Project_section(priority_2, section_priority_2));
-        sections.add(new Project_section(priority_3, section_priority_3));
-        sections.add(new Project_section(priority_4, section_priority_4));
-    }
 
 
     @Override
@@ -151,5 +193,31 @@ public class ListProjectsFragment extends Fragment implements RvItemClickListene
 
         //          getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContent,(Fragment) DetailProjectFragment.class.newInstance(),"DET").addToBackStack("DET").commit() ;
 
+    }
+    public void searchProject(Project project,MainRecyclerAdapter mainRecyclerAdapter ){
+        projectViewModel.search(project).gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Project>>() {
+            @Override
+            public void onChanged(List<Project> projects) {
+                HashMap<String,Project_section> projects_pairs = new HashMap<>();
+
+                for (Project project:projects
+                ) {
+                    String priorityName = project.getProjectPriority().getNamePriority();
+
+                    if(projects_pairs.containsKey(priorityName)){
+                        projects_pairs.get(priorityName).addProjectToSection(project);
+                    }else{
+                        Project_section new_project_section = new Project_section(priorityName,new ArrayList<>());
+                        new_project_section.addProjectToSection(project);
+                        projects_pairs.put(priorityName,new_project_section);
+                    }
+                }
+
+                List<Project_section> project_sectionList = new ArrayList<Project_section>(projects_pairs.values());
+                sections = project_sectionList;
+                mainRecyclerAdapter.setProject_sectionList(sections);
+                //mainRecyclerAdapter.notifyDataSetChanged();
+            }
+        });
     }
 }

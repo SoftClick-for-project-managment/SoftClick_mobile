@@ -141,6 +141,11 @@ public class TaskRepository implements ITaskRepository, IBaseRepository<Task, Lo
     }
 
     @Override
+    public LiveResponse search(Task task) {
+        return null;
+    }
+
+    @Override
     public LiveResponse<List<Task>,Throwable> getAllByProject(Long id) {
         service.getAllByProject(id).enqueue(new Callback<List<Task>>() {
             @Override
