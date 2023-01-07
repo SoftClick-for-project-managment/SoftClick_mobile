@@ -22,7 +22,7 @@ public class ExpenseListAdapter extends RecyclerView.Adapter<ExpenseListAdapter.
         public TextView description;
         public TextView date;
         public TextView category;
-
+        public TextView task;
 
         public ExpenseViewHolder(@NonNull View itemView, RecyclerViewHandler recyclerViewHandler) {
             super(itemView);
@@ -30,7 +30,7 @@ public class ExpenseListAdapter extends RecyclerView.Adapter<ExpenseListAdapter.
             description = itemView.findViewById(R.id.description);
             date = itemView.findViewById(R.id.date);
             category = itemView.findViewById(R.id.category);
-
+            task= itemView.findViewById(R.id.task);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -61,17 +61,20 @@ public class ExpenseListAdapter extends RecyclerView.Adapter<ExpenseListAdapter.
     @Override
     public void onBindViewHolder(@NonNull ExpenseListAdapter.ExpenseViewHolder holder, int position) {
         Expense currentExpense = mExpensesList.get(position);
-        Date date = new Date(currentExpense.getTime());
+        Date date = currentExpense.getDate();
         SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String dateFormatted = sdfDate.format(date);
         holder.date.setText(dateFormatted);
-        if(currentExpense.getType()=="expense"){
+        if(currentExpense.getTypeExpense()=="expense"){
             holder.amount.setTextColor(Color.parseColor("#E91E3C"));
         }else{
             holder.amount.setTextColor(Color.parseColor("#018786"));
         }
+
+        holder.task.setText(currentExpense.getTask().getName());
+
         holder.amount.setText(String.valueOf(currentExpense.getAmount()));
-        holder.category.setText(currentExpense.getCategory());
+        holder.category.setText(currentExpense.getExpenseCategory().getCategory());
     }
 
     @Override

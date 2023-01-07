@@ -1,13 +1,21 @@
 package com.job.softclick_mobile.ui.expense;
+
 import android.os.Bundle;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
@@ -17,23 +25,24 @@ import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.adapters.ExpenseListAdapter;
 import com.job.softclick_mobile.models.Expense;
 import com.job.softclick_mobile.ui.contracts.RecyclerViewHandler;
+import com.job.softclick_mobile.viewmodels.expense.ExpenseViewModel;
+import com.job.softclick_mobile.viewmodels.expense.IExpenseViewModel;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ExpensesListFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class ExpensesListFragment extends Fragment  implements RecyclerViewHandler {
+
+public class ExpensesListFragment extends Fragment implements RecyclerViewHandler<Expense>{
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter adapter;
+    private ExpenseListAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
     private FloatingActionButton addButton;
-    private ArrayList<Expense> expensesArrayList;
+    private List<Expense> expenseList = new ArrayList<>();
+    private ArrayList<Expense> expenseArrayList;
+    private IExpenseViewModel expenseViewModel;
+    private ProgressBar progressBar;
     private long income=0;
     private long expense=0;
-    private View view;
+    View view;
 
     public ExpensesListFragment() {
         // Required empty public constructor
@@ -60,21 +69,50 @@ public class ExpensesListFragment extends Fragment  implements RecyclerViewHandl
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_expenses_list, container, false);
         recyclerView = view.findViewById(R.id.recycler) ;
-
-        expensesArrayList= new ArrayList<>();
-        expensesArrayList.add(new Expense(UUID.randomUUID().toString(), "blabla", 8347123, 944809, "expense", "frontend ", "UpWork "));
-        expensesArrayList.add(new Expense(UUID.randomUUID().toString(), "blabla", 384123, 14809, "income", "frontend ", "SGI"));
-        expensesArrayList.add(new Expense(UUID.randomUUID().toString(), "blabla", 348374, 34809, "expense", "UX/UI", "YOUTUBE"));
-        expensesArrayList.add(new Expense(UUID.randomUUID().toString(), "blabla", 123348, 344809, "expense", "backend", "DRIBBBLE "));
-        expensesArrayList.add(new Expense(UUID.randomUUID().toString(), "blabla", 33433, 144809, "expense", "backend", "UpWork "));
-        expensesArrayList.add(new Expense(UUID.randomUUID().toString(), "blabla", 12356, 144809, "income", "frontend ", "UpWork "));
-        expensesArrayList.add(new Expense(UUID.randomUUID().toString(), "blabla", 3847123, 234809, "expense", "frontend d", "SPOTIFY "));
+        progressBar = view.findViewById(R.id.progressBar);
 
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this.getContext());
-        adapter = new ExpenseListAdapter(expensesArrayList, this);
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
+
+
+        expenseViewModel = new ViewModelProvider(this).get(ExpenseViewModel.class);
+
+        expenseViewModel.getAll().geteMutableLiveData().observe(getViewLifecycleOwner(), new Observer() {
+
+            @Override
+            public void onChanged(Object o) {
+                progressBar.setVisibility(View.INVISIBLE);
+                Throwable error = (Throwable) o;
+                Log.d("ERR", error.getMessage());
+            }
+        });
+
+        expenseViewModel.getAll().gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Expense>>() {
+
+            @Override
+            public void onChanged(List<Expense> expenses) {
+                Log.d("expenses: ",expenses.toString());
+                expenseArrayList = new ArrayList<>();
+
+                expenses.forEach(expense -> {
+                    expenseArrayList.add(expense);
+                });
+
+                progressBar.setVisibility(View.INVISIBLE);
+                for(Expense e:expenseArrayList){
+                    if (e.getTypeExpense()=="income"){
+                        income+=e.getAmount();
+
+
+                    }else {
+                        expense+=e.getAmount();
+                    }
+                }
+                setUpGraph();
+                refreshUi();
+            }
+        });
 
         addButton = this.getActivity().findViewById(R.id.addButton);
         if(addButton != null) {
@@ -91,18 +129,9 @@ public class ExpensesListFragment extends Fragment  implements RecyclerViewHandl
             });
         }
 
-
-        for(Expense e:expensesArrayList){
-            if (e.getType()=="income"){
-                income+=e.getAmount();
-            }else{
-                expense+=e.getAmount();
-            }
-        }
-        setUpGraph();
         return view;
-    }
 
+    }
     private void setUpGraph() {
         List<PieEntry> pieEntryList = new ArrayList<>();
         List<Integer> colorsList = new ArrayList<>();
@@ -124,12 +153,16 @@ public class ExpensesListFragment extends Fragment  implements RecyclerViewHandl
         piechart.setData(pieData);
         piechart.invalidate();
     }
+    private void refreshUi(){
+        adapter = new ExpenseListAdapter(expenseArrayList, this);
+        recyclerView.setAdapter(adapter);
+    }
 
     @Override
     public void onItemClick(int position) {
-        Expense expense= expensesArrayList.get(position);
+        Expense expense = expenseArrayList.get(position);
 
-        Fragment fragment = new DetailExpenseFragment();
+        Fragment fragment = new ExpenseDetailsFragment();
 
         Bundle bundle = new Bundle();
         bundle.putSerializable("expense", expense);

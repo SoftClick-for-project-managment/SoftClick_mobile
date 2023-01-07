@@ -64,7 +64,6 @@ public class EmployeeDetailsFragment extends Fragment {
         View view = binding.getRoot();
         employeeViewModel = new ViewModelProvider(this).get(EmployeeViewModel.class);
 
-
         binding.employeeFirstName.setText(employee.getEmployeeFirstName());
         binding.employeeLastName.setText(employee.getEmployeeLastName());
         binding.employeeEmail.setText(employee.getEmployeeEmail());
