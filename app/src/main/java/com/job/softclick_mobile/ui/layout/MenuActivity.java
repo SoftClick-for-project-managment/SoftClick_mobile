@@ -107,7 +107,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    private void checkUserRole() {
+    /*private void checkUserRole() {
 
         for(Role role: authUser.getRoles()) {
 
@@ -155,7 +155,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
 
         }
 
-    }
+    }*/
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item){
