@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.job.softclick_mobile.models.Client;
 import com.job.softclick_mobile.models.Employee;
+import com.job.softclick_mobile.models.Expense;
 import com.job.softclick_mobile.models.Invoice;
 import com.job.softclick_mobile.models.Project;
 import com.job.softclick_mobile.models.Team;
@@ -16,6 +17,7 @@ public class ActivitySharedViewModel extends ViewModel {
     private MutableLiveData<Employee> searchEmployee = new MutableLiveData<>();
     private MutableLiveData<Team> searchTeam = new MutableLiveData<>();
     private MutableLiveData<Invoice> searchInvoice = new MutableLiveData<>();
+    private MutableLiveData<Expense> searchExpense = new MutableLiveData<>();
 
     public void setSearchProject(Project project) {
         this.searchProject.setValue(project);
@@ -50,5 +52,12 @@ public class ActivitySharedViewModel extends ViewModel {
     }
     public LiveData<Invoice> getSearchInvoice(){
         return  searchInvoice;
+    }
+
+    public void setSearchExpense(Expense expense) {
+        this.searchExpense.setValue(expense);
+    }
+    public LiveData<Expense> getSearchExpense(){
+        return  searchExpense;
     }
 }

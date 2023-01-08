@@ -2,6 +2,7 @@ package com.job.softclick_mobile.ui.expense;
 
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -15,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
@@ -23,8 +25,10 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.adapters.ExpenseListAdapter;
+import com.job.softclick_mobile.models.Employee;
 import com.job.softclick_mobile.models.Expense;
 import com.job.softclick_mobile.ui.contracts.RecyclerViewHandler;
+import com.job.softclick_mobile.viewmodels.ActivitySharedViewModel;
 import com.job.softclick_mobile.viewmodels.expense.ExpenseViewModel;
 import com.job.softclick_mobile.viewmodels.expense.IExpenseViewModel;
 
@@ -43,6 +47,7 @@ public class ExpensesListFragment extends Fragment implements RecyclerViewHandle
     private long incomeValue=0;
     private long expenseValue=0;
     View view;
+    private ActivitySharedViewModel activitySharedViewModel;
 
     public ExpensesListFragment() {
         // Required empty public constructor
@@ -61,6 +66,20 @@ public class ExpensesListFragment extends Fragment implements RecyclerViewHandle
         if (getArguments() != null) {
 
         }
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        activitySharedViewModel =  new ViewModelProvider(getActivity()).get(ActivitySharedViewModel.class);
+        activitySharedViewModel.getSearchExpense().observe(getViewLifecycleOwner(), new Observer<Expense>() {
+            @Override
+            public void onChanged(Expense expense) {
+
+                searchExpense(expense);
+
+            }
+        });
     }
 
     @Override
@@ -178,5 +197,21 @@ public class ExpensesListFragment extends Fragment implements RecyclerViewHandle
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
 
+    }
+
+    public void searchExpense(Expense expense){
+        expenseViewModel.search(expense).gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Expense>>() {
+            @Override
+            public void onChanged(List<Expense> expenses) {
+                expenseArrayList = new ArrayList<>();
+                expenses.forEach(employee -> {
+                    expenseArrayList.add(employee);
+                });
+                progressBar.setVisibility(View.INVISIBLE);
+                recyclerView.setVisibility(View.VISIBLE);
+                refreshUi();
+                //mainRecyclerAdapter.notifyDataSetChanged();
+            }
+        });
     }
 }

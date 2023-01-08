@@ -32,6 +32,7 @@ import com.job.softclick_mobile.viewmodels.employees.SkillViewModel;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -141,10 +142,10 @@ public class TeamSearchFragment extends Fragment {
                 }
 
                 Team searchTeam = new Team();
-                searchTeam.setTeamName(name_team);
-              //  searchTeam.setMembes(new ArraySet<>());//TODO complete it
-               // searchTeam.addMember(employee);
-
+                searchTeam.setTeam_Name(name_team);
+                Set<Employee> members= new ArraySet<>();
+                members.add(employee);
+                searchTeam.setMembers(members);//TODO complete it
 
                 sharedViewModel.setSearchTeam(searchTeam);
             }

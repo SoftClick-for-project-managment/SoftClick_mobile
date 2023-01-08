@@ -24,6 +24,9 @@ public class Expense implements Serializable {
         this.task = task;
     }
 
+    public Expense() {
+    }
+
     public Long getId() {
         return id;
     }

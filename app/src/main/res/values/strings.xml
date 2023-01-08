@@ -74,4 +74,6 @@
     <string name="member_team">Member</string>
     <string name="client_invoice">Client</string>
     <string name="project_invoice">Project</string>
+    <string name="combotask">Task</string>
+    <string name="expenseCategory">Category</string>
 </resources>

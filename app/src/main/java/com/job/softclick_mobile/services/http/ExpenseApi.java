@@ -1,5 +1,6 @@
 package com.job.softclick_mobile.services.http;
 
+import com.job.softclick_mobile.models.Employee;
 import com.job.softclick_mobile.models.Expense;
 import com.job.softclick_mobile.models.Task;
 
@@ -29,6 +30,10 @@ public interface ExpenseApi {
 
     @DELETE("expenses/{id}")
     Call<Void> delete(@Path("id") Long expenseId);
+
     @GET("expenses/task/{taskId}")
     Call<List<Expense>> getAllByTask(@Path("taskId") Long taskId);
+
+    @POST("expenses/search")
+    Call<List<Expense>> search(@Body Expense expense);
 }
