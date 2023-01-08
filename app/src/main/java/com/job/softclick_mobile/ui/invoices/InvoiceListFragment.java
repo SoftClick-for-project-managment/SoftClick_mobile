@@ -1,68 +1,53 @@
 package com.job.softclick_mobile.ui.invoices;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.viewmodel.CreationExtras;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.adapters.InvoiceListAdapter;
-import com.job.softclick_mobile.models.Client;
 import com.job.softclick_mobile.models.Invoice;
-import com.job.softclick_mobile.models.Project;
 import com.job.softclick_mobile.ui.contracts.RecyclerViewHandler;
+import com.job.softclick_mobile.viewmodels.invoices.IInvoiceViewModel;
+import com.job.softclick_mobile.viewmodels.invoices.InvoiceViewModel;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link InvoiceListFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class InvoiceListFragment extends Fragment implements RecyclerViewHandler {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
     private RecyclerView recyclerView;
     private List<Invoice> invoices;
+    private InvoiceListAdapter adapter;
     private FloatingActionButton addButton;
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private RecyclerView.LayoutManager layoutManager;
+    private ArrayList<Invoice> invoiceArrayList;
+    private IInvoiceViewModel invoiceViewModel;
+    private ProgressBar progressBar;
 
     public InvoiceListFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment InvoiceListFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static InvoiceListFragment newInstance(String param1, String param2) {
         InvoiceListFragment fragment = new InvoiceListFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -71,8 +56,6 @@ public class InvoiceListFragment extends Fragment implements RecyclerViewHandler
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 
@@ -83,21 +66,35 @@ public class InvoiceListFragment extends Fragment implements RecyclerViewHandler
         View view = inflater.inflate(R.layout.fragment_invoice_list, container, false);
         recyclerView = view.findViewById(R.id.invoiceListRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        Client client=new Client("Mable","Murphy","jayda.legros@rau.com      ","+1 (754) 958-2911", "Zulauf, Tillman and Beer","Spinkamouth","KY");
-        Project project=new Project("Violance", "projet detection de violance based A I", 500000d);
-        Project project2=new Project("gestion de dossier", "stocker les dossier legaliseés et les chercher par une simple scan intelligent", 600000d);
-        invoices = new ArrayList<>();
-        SimpleDateFormat formater = null;
+        progressBar = view.findViewById(R.id.progressBar);
+        recyclerView.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(this.getContext());
+        recyclerView.setLayoutManager(layoutManager);
+        invoiceViewModel = new ViewModelProvider(this).get(InvoiceViewModel.class);
+        invoiceViewModel.getAll().geteMutableLiveData().observe(getViewLifecycleOwner(), new Observer() {
+            @Override
+            public void onChanged(Object o) {
+                progressBar.setVisibility(View.INVISIBLE);
+                Throwable error = (Throwable) o;
+                Log.d("ERR", error.getMessage());
+            }
+        });
 
-        Date aujourdhui = new Date();
-        formater = new SimpleDateFormat("dd-MM-yy");
-        invoices.add(new Invoice(formater.format(aujourdhui) , "10000",client,project));
-        invoices.add(new Invoice(formater.format(aujourdhui), "500000",client,project2));
-        invoices.add(new Invoice("12-5-2019", "7000",client,project));
-        invoices.add(new Invoice("12-12-2022", "500000",client,project2));
-        invoices.add(new Invoice("12-3-2023" , "200",client,project));
-        invoices.add(new Invoice("1-1-2018", "50",client,project2));
-        recyclerView.setAdapter(new InvoiceListAdapter(invoices, this));
+        invoiceViewModel.getAll().gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Invoice>>() {
+
+            @Override
+            public void onChanged(List<Invoice> invoices) {
+                invoiceArrayList = new ArrayList<>();
+                invoices.forEach(invoice -> {
+                    invoiceArrayList.add(invoice);
+                });
+
+                progressBar.setVisibility(View.INVISIBLE);
+                refreshUi();
+            }
+        });
+
+
         addButton = this.getActivity().findViewById(R.id.addButton);
         if (addButton != null) {
             addButton.setOnClickListener(new View.OnClickListener() {
@@ -115,19 +112,22 @@ public class InvoiceListFragment extends Fragment implements RecyclerViewHandler
         return view;
 
     }
+    private void refreshUi(){
+        adapter = new InvoiceListAdapter(invoiceArrayList, this);
+        recyclerView.setAdapter(adapter);
+    }
 
     @Override
     public void onItemClick(int position) {
+        Invoice invoice = invoiceArrayList.get(position);
+        Fragment fragment = new InvoiceDetailsFragment();
         Bundle bundle = new Bundle();
-        bundle.putSerializable("invoice", invoices.get(position));
-        InvoiceDetailsFragment invoiceDetailsFragment = new InvoiceDetailsFragment();
-        invoiceDetailsFragment.setArguments(bundle);
-        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContent, invoiceDetailsFragment).commit();
-    }
-
-    @NonNull
-    @Override
-    public CreationExtras getDefaultViewModelCreationExtras() {
-        return super.getDefaultViewModelCreationExtras();
+        bundle.putSerializable("invoice", invoice);
+        fragment.setArguments(bundle);
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.flContent, fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 }

@@ -12,6 +12,10 @@ public class Client implements Serializable {
     private String ville;
     private String pays;
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public Client() {
     }
 
@@ -88,7 +92,8 @@ public class Client implements Serializable {
     @Override
     public String toString() {
         return "Client{" +
-                "nom='" + nom + '\'' +
+                "id=" + id +
+                ", nom='" + nom + '\'' +
                 ", prenom='" + prenom + '\'' +
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +

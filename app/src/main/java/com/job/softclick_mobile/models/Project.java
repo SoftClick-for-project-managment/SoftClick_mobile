@@ -52,7 +52,8 @@ public class Project implements Serializable {
         this.revenueProject = revenueProject;
 
     }
-
+    public Project() {
+    }
 
     public Project(String nameProject, Domain domainProjet, Employee chefProject, Status projectStatus, Priority projectPriority) {
         this.nameProject = nameProject;
