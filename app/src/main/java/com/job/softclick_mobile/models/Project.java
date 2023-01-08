@@ -40,6 +40,8 @@ public class Project implements Serializable {
 
     private Set<Task> tasks = new HashSet<>();
 
+    private Set<Team> teams = new HashSet<>();
+
 
     public Project( String nameProject, String descriptionProject, Double revenueProject, Domain domainProjet, Timestamp dateDebut, Timestamp dateFin, Employee chefProject, Status projectStatus, Priority projectPriority) {
 
@@ -177,5 +179,16 @@ public class Project implements Serializable {
 
     public Set<Task> getTasks() {
         return tasks;
+    }
+
+    public Set<Team> getTeams() {
+        return teams;
+    }
+
+    public void setTeams(Set<Team> teams) {
+        this.teams = teams;
+    }
+    public void addTeam(Team team){
+        this.teams.add(team);
     }
 }
