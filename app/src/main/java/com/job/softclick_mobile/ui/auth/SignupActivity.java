@@ -64,10 +64,12 @@ public class SignupActivity extends AppCompatActivity {
             employee.setEmployeeFunction("Business Engineer");
 
             List<Role> roles = new ArrayList<>();
-            Role role = new Role();
-            role.setName(Role.ROLE_DIRECTOR);
-            role.setName(Role.ROLE_EMPLOYEE);
-            roles.add(role);
+            Role role1 = new Role();
+//            Role role2 = new Role();
+            role1.setName(Role.ROLE_DIRECTOR);
+//            role2.setName(Role.ROLE_EMPLOYEE);
+            roles.add(role1);
+//            roles.add(role2);
 
             User user = new User();
             user.setPassword(password);

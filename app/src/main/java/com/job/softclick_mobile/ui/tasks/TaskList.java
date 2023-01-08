@@ -1,6 +1,5 @@
 package com.job.softclick_mobile.ui.tasks;
 
-
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -71,7 +70,7 @@ public class TaskList extends Fragment implements RecyclerViewHandler<Task> {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        View taskListview = inflater.inflate(R.layout.fragment_task_list, container, false);
+        View taskListview =  inflater.inflate(R.layout.fragment_task_list, container, false);
         recyclerView = taskListview.findViewById(R.id.main_recyclervie);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -80,15 +79,13 @@ public class TaskList extends Fragment implements RecyclerViewHandler<Task> {
         // ViewModels
         statusViewModel = new ViewModelProvider(this).get(StatusViewModel.class);
         taskViewModel = new ViewModelProvider(this).get(TaskViewModel.class);
-        LiveResponse statusGetAllLiveResponse = statusViewModel.getAll();
-
+        LiveResponse statusGetAllLiveResponse =  statusViewModel.getAll();
         statusGetAllLiveResponse.gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Status>>() {
             @Override
             public void onChanged(List<Status> sList) {
                 statusList = sList;
             }
         });
-
         statusGetAllLiveResponse.geteMutableLiveData().observe(getViewLifecycleOwner(), new Observer() {
             @Override
             public void onChanged(Object o) {
@@ -96,10 +93,10 @@ public class TaskList extends Fragment implements RecyclerViewHandler<Task> {
                 Log.d("ERR", error.getMessage());
             }
         });
-        if (projectId == null) {
-            LiveResponse taskGetAllLiveResponse = taskViewModel.getAll();
 
-
+        if(projectId == null) {
+            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fContentFooter, new Fragment()).commit() ;
+            LiveResponse taskGetAllLiveResponse =  taskViewModel.getAll();
             taskGetAllLiveResponse.gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Task>>() {
                 @Override
                 public void onChanged(List<Task> tasks) {
@@ -128,12 +125,11 @@ public class TaskList extends Fragment implements RecyclerViewHandler<Task> {
                 public void onChanged(Object o) {
                     progressBar.setVisibility(View.INVISIBLE);
                     Throwable error = (Throwable) o;
-                    Log.d("ERR", error.getMessage());
+                    Log.d("TaskViewModel ERR", error.getMessage());
                 }
             });
-
         } else {
-            //get all project tasks
+            // get all project tasks
             LiveResponse getAllByProjectLiveResponse = taskViewModel.getAllByProject(projectId);
             getAllByProjectLiveResponse.gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer() {
                 @Override
@@ -168,16 +164,15 @@ public class TaskList extends Fragment implements RecyclerViewHandler<Task> {
                     Log.d("ERR", error.getMessage());
                 }
             });
-
         }
 
         addButton = this.getActivity().findViewById(R.id.addButton);
 
-        if (addButton != null) {
+        if(addButton != null) {
             addButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     try {
-                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContent, (Fragment) TaskForm.class.newInstance()).commit();
+                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContent, TaskForm.newInstance(projectId)).commit();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -186,10 +181,9 @@ public class TaskList extends Fragment implements RecyclerViewHandler<Task> {
         }
 
         return taskListview;
-
     }
 
-    private void refreshUi() {
+    private void refreshUi(){
         adapter = new ItemAdapter(mList, this);
         recyclerView.setAdapter(adapter);
     }
@@ -211,4 +205,3 @@ public class TaskList extends Fragment implements RecyclerViewHandler<Task> {
         fragmentTransaction.commit();
     }
 }
-

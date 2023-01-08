@@ -17,7 +17,11 @@
         tools:progress="@integer/material_motion_duration_medium_1"
         />
 
-    <LinearLayout
+    <ScrollView
+        android:id="@+id/profileBody"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
         android:id="@+id/loginBody"
         android:visibility="visible"
         android:layout_width="match_parent"
@@ -224,6 +228,6 @@
 
         </LinearLayout>
     </LinearLayout>
-
+    </ScrollView>
 
 </RelativeLayout>

@@ -36,6 +36,8 @@ import com.job.softclick_mobile.viewmodels.user.IUserViewModel;
 import com.job.softclick_mobile.viewmodels.user.UserViewModel;
 
 import java.io.IOException;
+import java.util.Collection;
+import java.util.Iterator;
 
 public class MenuActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
