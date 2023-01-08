@@ -5,6 +5,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -96,6 +97,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         fragmentManager = getSupportFragmentManager();
         try {
             fragmentManager.beginTransaction().replace(R.id.fContentFooter, (Fragment) FooterFragment.class.newInstance()).commit();
+            fragmentManager.beginTransaction().replace(R.id.flContent,(Fragment) PrincipalFragment.class.newInstance()).commit();;
         } catch (Exception e) {
             e.printStackTrace();
         }
