@@ -346,11 +346,6 @@ public class AddProjectFragment extends Fragment {
 
         Status status = new Status(1l,"");
 
-
-
-
-
-
         if (name.equals("")) {
             name_project.setHint(" Project name is required ! ");
             name_project.setHintTextColor(getResources().getColor(R.color.design_default_color_error));

@@ -40,8 +40,8 @@ public class ExpensesListFragment extends Fragment implements RecyclerViewHandle
     private ArrayList<Expense> expenseArrayList;
     private IExpenseViewModel expenseViewModel;
     private ProgressBar progressBar;
-    private long income=0;
-    private long expense=0;
+    private long incomeValue=0;
+    private long expenseValue=0;
     View view;
 
     public ExpensesListFragment() {
@@ -100,13 +100,17 @@ public class ExpensesListFragment extends Fragment implements RecyclerViewHandle
                 });
 
                 progressBar.setVisibility(View.INVISIBLE);
+                incomeValue=0;expenseValue=0;
                 for(Expense e:expenseArrayList){
-                    if (e.getTypeExpense()=="income"){
-                        income+=e.getAmount();
+                    if (e.getTypeExpense().equals("income")){
+                        incomeValue+=e.getAmount();
+                        Log.d("3","incomeValue"+incomeValue);
 
 
                     }else {
-                        expense+=e.getAmount();
+                        expenseValue+=e.getAmount();
+                        Log.d("4","expenseValue"+expenseValue);
+
                     }
                 }
                 setUpGraph();
@@ -135,17 +139,17 @@ public class ExpensesListFragment extends Fragment implements RecyclerViewHandle
     private void setUpGraph() {
         List<PieEntry> pieEntryList = new ArrayList<>();
         List<Integer> colorsList = new ArrayList<>();
-        if (income != 0) {
-            pieEntryList.add(new PieEntry(income, "Income"));
+        if (incomeValue != 0) {
+            pieEntryList.add(new PieEntry(incomeValue, "Income"));
             colorsList.add(getResources().getColor((R.color.teal_700)));
 
         }
-        if (expense != 0) {
-            pieEntryList.add(new PieEntry(expense, "Expense"));
+        if (expenseValue != 0) {
+            pieEntryList.add(new PieEntry(expenseValue, "Expense"));
             colorsList.add(getResources().getColor((R.color.red)));
 
         }
-        PieDataSet pieDataSet = new PieDataSet(pieEntryList, String.valueOf(income = expense));
+        PieDataSet pieDataSet = new PieDataSet(pieEntryList, String.valueOf(incomeValue = expenseValue));
         pieDataSet.setColors(colorsList);
         pieDataSet.setValueTextColor(getResources().getColor((R.color.white)));
         PieData pieData = new PieData(pieDataSet);
