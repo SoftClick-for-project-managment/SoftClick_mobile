@@ -32,10 +32,10 @@ public class HttpClient {
                     .create();
 
             instance = new Retrofit.Builder()
-//                    .baseUrl("http://192.168.43.91:8080/api/v1/")
-//                    .baseUrl("http://192.168.1.104:8080/api/v1/")
-//                    .baseUrl("http://192.168.1.80:8080/api/v1/")
-                    .baseUrl("https://softclick-qa-api-app.azurewebsites.net/api/v1/")
+                    //.baseUrl("http://10.0.2.2:8080/api/v1/")
+                    //.baseUrl("http://192.168.43.176:8080/api/v1/")
+                    .baseUrl("http://192.168.43.176:8080/api/v1/")
+
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .client(client)
                     .build();

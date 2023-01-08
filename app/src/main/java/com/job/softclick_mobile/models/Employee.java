@@ -1,12 +1,14 @@
 package com.job.softclick_mobile.models;
 
 import java.io.Serializable;
+import java.util.Set;
 
 public class Employee implements Serializable {
 
     private Long id;
     private String employeeImage;
     private String employeeFirstName, employeeLastName, employeeFunction, employeeEmail, employeePhone;
+    private Set<Skill> skills;
 
     public Employee() {
     }
@@ -74,4 +76,14 @@ public class Employee implements Serializable {
         this.employeePhone = employeePhone;
     }
 
+    public Set<Skill> getSkills() {
+        return skills;
+    }
+
+    public void setSkills(Set<Skill> skills) {
+        this.skills = skills;
+    }
+    public void addSkill(Skill skill){
+        this.skills.add(skill);
+    }
 }

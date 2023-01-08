@@ -1,7 +1,6 @@
 package com.job.softclick_mobile.ui.layout;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -15,7 +14,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
@@ -48,7 +46,6 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
     private IUserViewModel userViewModel;
     private User authUser;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,11 +60,11 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         authUserLiveResp.gettMutableLiveData().observe(this, new Observer<User>() {
             @Override
             public void onChanged(User user) {
-                authUser = user;
-                TextView textView = binding.navView.findViewById(R.id.userName);
-                textView.setText(authUser.getEmployee().getEmployeeFirstName() + " " + authUser.getEmployee().getEmployeeLastName());
-                checkUserRole();
-                Toast.makeText(MenuActivity.this, "Welcome "+authUser.getEmployee().getEmployeeFirstName(), Toast.LENGTH_SHORT).show();
+                if(user != null) {
+                    authUser = user;
+                    checkUserRole();
+                }
+
             }
         });
         authUserLiveResp.geteMutableLiveData().observe(this, new Observer<Throwable>() {
@@ -108,6 +105,10 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
             e.printStackTrace();
         }
 
+
+
+
+
     }
 
     private void checkUserRole() {
@@ -125,7 +126,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
 
             switch (role.getName())  {
                 case Role.ROLE_DIRECTOR:
-                    menuItemTasks.setVisible(false);
+                    menuItemTasks.setVisible(true);
                     menuItemTeams.setVisible(true);
                     menuItemProjects.setVisible(true);
                     menuItemClients.setVisible(true);
@@ -155,14 +156,18 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
                 case Role.ROLE_ADMIN:
                     break;
             }
+
         }
+
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item){
+
         // Create a new fragment and specify the fragment to show based on nav item clicked
         Fragment fragment = null;
         Class fragmentClass = null;
+
 
         switch (item.getItemId()) {
             case R.id.tasks_item:
@@ -181,7 +186,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
             {
                 try{
                     fragmentClass = TeamListFragment.class;
-                    fragmentManager.beginTransaction().replace(R.id.fContentFooter, (Fragment) FooterFragment.class.newInstance()).commit();
+                    fragmentManager.beginTransaction().replace(R.id.fContentFooter, new FooterFragment(TeamListFragment.class)).commit();
                     fragment = (Fragment) fragmentClass.newInstance();
                 }
                 catch (Exception e ){
@@ -217,7 +222,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
             {
                 try{
                     fragmentClass = ExpensesListFragment.class;
-                    fragmentManager.beginTransaction().replace(R.id.fContentFooter, (Fragment) FooterFragment.class.newInstance()).commit();
+                    fragmentManager.beginTransaction().replace(R.id.fContentFooter, new FooterFragment(ExpensesListFragment.class)).commit();
                     fragment = (Fragment) fragmentClass.newInstance();
                 }
                 catch (Exception e ){
@@ -228,7 +233,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
             {
                 try{
                     fragmentClass = InvoiceListFragment.class;
-                    fragmentManager.beginTransaction().replace(R.id.fContentFooter, (Fragment) FooterFragment.class.newInstance()).commit();
+                    fragmentManager.beginTransaction().replace(R.id.fContentFooter, new FooterFragment(InvoiceListFragment.class)).commit();
                     fragment = (Fragment) fragmentClass.newInstance();
                 }
                 catch (Exception e ){

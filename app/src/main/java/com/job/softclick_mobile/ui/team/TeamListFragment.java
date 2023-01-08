@@ -10,6 +10,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ListPopupWindow;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,9 +25,11 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.adapters.Team_List_Adapter;
 import com.job.softclick_mobile.databinding.FragmentTeamListBinding;
+import com.job.softclick_mobile.models.Client;
 import com.job.softclick_mobile.models.Employee;
 import com.job.softclick_mobile.ui.contracts.RecyclerViewHandler;
 import com.job.softclick_mobile.models.Team;
+import com.job.softclick_mobile.viewmodels.ActivitySharedViewModel;
 import com.job.softclick_mobile.viewmodels.employees.EmployeeViewModel;
 import com.job.softclick_mobile.viewmodels.employees.IEmployeeViewModel;
 import com.job.softclick_mobile.viewmodels.teams.TeamViewModel;
@@ -34,6 +37,7 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class TeamListFragment extends Fragment implements RecyclerViewHandler {
     private FragmentTeamListBinding binding;
@@ -47,6 +51,7 @@ public class TeamListFragment extends Fragment implements RecyclerViewHandler {
     private Team_List_Adapter adapter;
     private ProgressBar progressBar;
     private List<Team> teamList = new ArrayList<>();
+    private ActivitySharedViewModel activitySharedViewModel;
 
 
     @Override
@@ -57,6 +62,21 @@ public class TeamListFragment extends Fragment implements RecyclerViewHandler {
 //            mParam1 = getArguments().getString("ARG_PARAM1");
         }
     }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        activitySharedViewModel =  new ViewModelProvider(getActivity()).get(ActivitySharedViewModel.class);
+        activitySharedViewModel.getSearchTeam().observe(getViewLifecycleOwner(), new Observer<Team>() {
+            @Override
+            public void onChanged(Team team) {
+
+                searchTeam(team);
+                Toast.makeText(getActivity().getApplicationContext(), team.getTeam_Name(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -167,5 +187,21 @@ public class TeamListFragment extends Fragment implements RecyclerViewHandler {
         FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.flContent,fragment);
         fragmentTransaction.commit();
+    }
+
+    public void searchTeam(Team team){
+        teamViewModel.search(team).gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Team>>() {
+            @Override
+            public void onChanged(List<Team> teams) {
+                TeamsArrayList = new ArrayList<>();
+                teams.forEach(client -> {
+                    TeamsArrayList.add(client);
+                });
+                progressBar.setVisibility(View.INVISIBLE);
+                recyclerView.setVisibility(View.VISIBLE);
+                refreshUi();
+                //mainRecyclerAdapter.notifyDataSetChanged();
+            }
+        });
     }
 }

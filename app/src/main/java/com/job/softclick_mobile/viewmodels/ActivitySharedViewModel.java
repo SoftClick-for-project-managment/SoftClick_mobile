@@ -5,11 +5,19 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.job.softclick_mobile.models.Client;
+import com.job.softclick_mobile.models.Employee;
+import com.job.softclick_mobile.models.Expense;
+import com.job.softclick_mobile.models.Invoice;
 import com.job.softclick_mobile.models.Project;
+import com.job.softclick_mobile.models.Team;
 
 public class ActivitySharedViewModel extends ViewModel {
     private MutableLiveData<Project> searchProject = new MutableLiveData<>();
     private MutableLiveData<Client> searchClient = new MutableLiveData<>();
+    private MutableLiveData<Employee> searchEmployee = new MutableLiveData<>();
+    private MutableLiveData<Team> searchTeam = new MutableLiveData<>();
+    private MutableLiveData<Invoice> searchInvoice = new MutableLiveData<>();
+    private MutableLiveData<Expense> searchExpense = new MutableLiveData<>();
 
     public void setSearchProject(Project project) {
         this.searchProject.setValue(project);
@@ -23,5 +31,33 @@ public class ActivitySharedViewModel extends ViewModel {
     }
     public LiveData<Client> getSearchClient(){
         return  searchClient;
+    }
+
+    public void setSearchEmployee(Employee employee) {
+        this.searchEmployee.setValue(employee);
+    }
+    public LiveData<Employee> getSearchEmployee(){
+        return  searchEmployee;
+    }
+
+    public void setSearchTeam(Team team) {
+        this.searchTeam.setValue(team);
+    }
+    public LiveData<Team> getSearchTeam(){
+        return  searchTeam;
+    }
+
+    public void setSearchInvoice(Invoice invoice) {
+        this.searchInvoice.setValue(invoice);
+    }
+    public LiveData<Invoice> getSearchInvoice(){
+        return  searchInvoice;
+    }
+
+    public void setSearchExpense(Expense expense) {
+        this.searchExpense.setValue(expense);
+    }
+    public LiveData<Expense> getSearchExpense(){
+        return  searchExpense;
     }
 }

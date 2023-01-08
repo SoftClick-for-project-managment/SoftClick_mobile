@@ -11,6 +11,9 @@ public class Team implements Serializable {
     private String description;
     private Set<Employee> members;
 
+    public Team() {
+    }
+
     public Set<Employee> getMembers() {
         return members;
     }

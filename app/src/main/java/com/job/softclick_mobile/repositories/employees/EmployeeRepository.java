@@ -2,6 +2,7 @@ package com.job.softclick_mobile.repositories.employees;
 
 import android.util.Log;
 
+import com.job.softclick_mobile.models.Client;
 import com.job.softclick_mobile.models.Employee;
 import com.job.softclick_mobile.repositories.IBaseRepository;
 import com.job.softclick_mobile.services.http.EmployeeApi;
@@ -20,6 +21,7 @@ public class EmployeeRepository implements IEmployeeRepository, IBaseRepository<
 
     private EmployeeApi service;
     LiveResponse<List<Employee>, Throwable> employeeListLiveResponse = new LiveResponse<>();
+    LiveResponse<List<Employee>, Throwable> searchLiveDataList = new LiveResponse<>();
     LiveResponse<Employee, Throwable> employeeLiveResponse = new LiveResponse<>();
     LiveResponse<Boolean, Throwable> createLiveResponse = new LiveResponse<>();
 
@@ -141,6 +143,27 @@ public class EmployeeRepository implements IEmployeeRepository, IBaseRepository<
 
     @Override
     public LiveResponse search(Employee employee) {
-        return null;
+        service.search(employee).enqueue(new Callback<List<Employee>>() {
+            @Override
+            public void onResponse(Call<List<Employee>> call, Response<List<Employee>> response) {
+                //Log.d("DEBUG", response.body().toString());
+                if (response.code() != 200) {
+                    //Log.d("DEBUG", response.body().toString());
+                    searchLiveDataList.geteMutableLiveData().setValue(new HttpException(response));
+                } else {
+                    List<Employee> t = response.body();
+                    searchLiveDataList.gettMutableLiveData().setValue(t);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Employee>> call, Throwable t) {
+                Log.d("DEBUG", t.getMessage());
+                Log.d("CONSOLE LOG", "Check your internet connection");
+                searchLiveDataList.geteMutableLiveData().setValue(t);
+            }
+        });
+
+        return searchLiveDataList;
     }
 }

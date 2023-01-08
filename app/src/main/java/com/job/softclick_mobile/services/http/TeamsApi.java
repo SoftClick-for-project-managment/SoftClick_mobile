@@ -1,5 +1,6 @@
 package com.job.softclick_mobile.services.http;
 
+import com.job.softclick_mobile.models.Employee;
 import com.job.softclick_mobile.models.Team;
 
 import java.util.List;
@@ -28,5 +29,8 @@ public interface TeamsApi {
 
     @DELETE("teams/{id}")
     Call<Void> delete(@Path("id") Long teamId);
+
+    @POST("teams/search")
+    Call<List<Team>> search(@Body Team team);
 
 }
