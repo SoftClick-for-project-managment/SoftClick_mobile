@@ -1,126 +1,207 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.team.AddteamFragment">
 
-    <ImageView
-        android:layout_width="49dp"
-        android:layout_height="46dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="316dp"
-        android:layout_marginTop="68dp"
-        android:src="@drawable/team1"
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerInParent="true"
+        android:indeterminateDrawable="@drawable/ind_progress_bar"
+        android:indeterminateDuration="500"
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints" />
+        tools:progress="@integer/material_motion_duration_medium_1" />
 
-    <ImageView
-        android:layout_width="49dp"
-        android:layout_height="46dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:src="@drawable/team2"
-        app:layout_constraintEnd_toStartOf="@+id/teamname"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteY="180dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+        <RelativeLayout
+            android:id="@+id/subheader"
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:paddingVertical="20dp">
+            <ImageView
+                android:id="@+id/back"
+                android:layout_width="35dp"
+                android:layout_height="25dp"
+                android:layout_marginHorizontal="30dp"
+                app:srcCompat="@drawable/back_arrow"/>
+            <TextView
+                android:id="@+id/teampagetitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/back"
+                android:text="CREATE YOUR TEAM!"
+                android:textColor="@color/black"
+                android:textSize="20dp"
+                android:fontFamily="@font/roboto_medium" />
 
+            <ImageView
+                android:layout_width="44dp"
+                android:layout_height="41dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="-3dp"
+                android:layout_marginEnd="55dp"
+                android:src="@drawable/team1" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="108dp"
-        android:layout_marginTop="72dp"
-        android:text="CREATE YOUR TEAM!"
-        android:id="@+id/teampagetitle"
-        android:textColor="@color/black"
-        android:textSize="20dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints" />
+            <View android:layout_width="match_parent"
+                android:layout_height="1dip"
+                android:background="@color/gray"
+                android:layout_alignParentBottom="true" />
+        </RelativeLayout>
 
-    <ImageView
-        android:id="@+id/back"
-        android:layout_width="73dp"
-        android:layout_height="32dp"
+        <RelativeLayout
+            android:id="@+id/formBody"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="68dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/back_arrow" />
-
-    <EditText
-        android:id="@+id/teamname"
-        android:layout_width="247dp"
-        android:layout_height="48dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="84dp"
-        android:layout_marginTop="180dp"
-        android:background="@drawable/back"
-        android:padding="10dp"
-        android:text="Team Name"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints" />
-
-    <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/addmember"
-        android:layout_width="250dp"
-        android:layout_height="48dp"
-        android:inputType="none"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="44dp"
-        android:padding="10dp"
-        android:clickable="false"
-        android:focusable="false"
-        android:hint="Add a member to your team"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/teamname"
-        />
-
-    <EditText
-        android:id="@+id/description"
-        android:layout_width="250dp"
-        android:layout_height="157dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="44dp"
-        android:background="@drawable/back"
-        android:padding="10dp"
-        android:text="Description ..."
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addmember"
-         />
-
-    <Button
-        android:id="@+id/createbutton"
-        android:layout_width="164dp"
-        android:layout_height="65dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="112dp"
-        android:layout_marginTop="44dp"
-        android:text="CREATE"
-        android:backgroundTint="@color/primary"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/description"
-        />
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#e0dcdc"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:divider="?android:dividerHorizontal"
+                    android:showDividers="middle"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp">
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        >
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+                        <EditText
+                            android:id="@+id/teamname"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/transparent"
+                            android:fontFamily="@font/roboto_regular"
+                            android:layout_toRightOf="@+id/teamimage"
+                            android:maxLines="1"
+                            android:paddingLeft="17dp"
+                            android:paddingTop="15dp"
+                            android:paddingBottom="15dp"
+                            android:hint="Team Name"
+                            android:textCursorDrawable="@drawable/cursor_color" />
+                        <ImageView
+                            android:id="@+id/teamimage"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="17dp"
+                            android:src="@drawable/team2" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp">
+                        <EditText
+                            android:id="@+id/description"
+                            android:layout_width="match_parent"
+                            android:background="@color/transparent"
+                            android:fontFamily="@font/roboto_regular"
+                            android:layout_height="157dp"
+                            android:hint="Description ..."
+                            android:layout_toRightOf="@+id/description_icon"
+                            />
+                        <ImageView
+                            android:id="@+id/description_icon"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_marginLeft="17dp"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/description" />
+                    </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/teammembers"
+                    android:background="@color/transparent"
+                    android:fontFamily="@font/roboto_regular"
+                    android:hint="Members"
+                    android:inputType="textPersonName"
+                    android:maxLines="1"
+                    android:paddingLeft="17dp"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:textCursorDrawable="@drawable/cursor_color"
+                    android:textSize="16sp"/>
+
+
+
+                <TextView
+                    android:id="@+id/addmeberstoteam"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/button_bg"
+                    android:fontFamily="@font/roboto_regular"
+                    android:gravity="center"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="50dp"
+                    android:text="Add members to Team"
+                    android:clickable="true"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:layout_marginBottom="20dp"/>
+
+            </RelativeLayout>
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="#e0dcdc"/>
+
+                        <TextView
+                            android:id="@+id/createbutton"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/button_bg"
+                            android:fontFamily="@font/roboto_regular"
+                            android:gravity="center"
+                            android:paddingTop="15dp"
+                            android:paddingBottom="15dp"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="20dp"
+                            android:layout_marginTop="50dp"
+                            android:text="Create"
+                            android:clickable="true"
+                            android:textColor="@color/white"
+                            android:textSize="18sp"
+                            android:layout_marginBottom="20dp"/>
+                    </RelativeLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+        </RelativeLayout>
+                </LinearLayout>
+
+</RelativeLayout>

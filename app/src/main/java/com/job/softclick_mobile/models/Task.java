@@ -8,23 +8,16 @@ import java.util.Collection;
 import java.util.List;
 
 public class Task implements Serializable {
-
     private Long id;
-
     private String name;
-
     private String startDate;
-
     private String endDate;
-
     private String description;
 
     private Status status;
 
     private Long projectId;
-
     private Employee employee;
-
     private Priority priority;
 
     private Collection<Expense> expenses;
@@ -108,7 +101,7 @@ public class Task implements Serializable {
     public void setExpenses(Collection<Expense> expenses) {
         this.expenses = expenses;
     }
-
+    public Task(){}
     public Task(String name, String startDate, String endDate, String description, Status status, Long projectId, Employee employee, Priority priority, Collection<Expense> expenses) {
         this.name = name;
         this.startDate = startDate;

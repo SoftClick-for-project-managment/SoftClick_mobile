@@ -3,6 +3,7 @@ package com.job.softclick_mobile.ui.team;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,21 +16,33 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.adapters.Member_list_Adapter;
+import com.job.softclick_mobile.adapters.Team_List_Adapter;
 import com.job.softclick_mobile.databinding.FragmentDetailsBinding;
+import com.job.softclick_mobile.models.Employee;
 import com.job.softclick_mobile.models.Member;
 import com.job.softclick_mobile.models.Team;
+import com.job.softclick_mobile.ui.contracts.RecyclerViewHandler;
 import com.job.softclick_mobile.ui.layout.FooterFragment;
+import com.job.softclick_mobile.utils.LiveResponse;
+import com.job.softclick_mobile.viewmodels.teams.TeamViewModel;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
-public class DetailsFragment extends Fragment{
+import retrofit2.HttpException;
+
+public class DetailsFragment extends Fragment implements RecyclerViewHandler{
 
     ArrayList<Member> MembersArrayList;
     private RecyclerView recyclerView;
@@ -39,6 +52,8 @@ public class DetailsFragment extends Fragment{
     private FragmentDetailsBinding binding;
     private FloatingActionButton addButton;
     private Team team;
+    private TeamViewModel teamViewModel;
+    private Member_list_Adapter adapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -54,7 +69,17 @@ public class DetailsFragment extends Fragment{
         // Inflate the layout for this fragment
         binding = FragmentDetailsBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
-binding.teamname.setText(team.getTeamName());
+        binding.teamname.setText(team.getTeam_Name());
+        binding.description.setText(team.getDescription());
+        recyclerView = view.findViewById(R.id.memberRcyclerview);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        Set<Employee> members=team.getMembers();
+        adapter = new Member_list_Adapter(members, this);
+        recyclerView.setAdapter(adapter);
+
+
+
 
        /* recyclerView = view.findViewById(R.id.memberRcyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -76,12 +101,9 @@ binding.teamname.setText(team.getTeamName());
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        dataInitialize();
-        recyclerView=view.findViewById(R.id.memberRcyclerview);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setHasFixedSize(true);
-        member_list_adapter=new Member_list_Adapter(getContext(),MembersArrayList);
-        recyclerView.setAdapter(member_list_adapter);
+        //dataInitialize();
+
+
         addButton = this.getActivity().findViewById(R.id.addButton);
 
         if(addButton != null) {
@@ -110,6 +132,9 @@ binding.teamname.setText(team.getTeamName());
         }
 
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fContentFooter, new Fragment()).commit();
+        teamViewModel = new ViewModelProvider(this).get(TeamViewModel.class);
+
+
 
         if (binding.moreOptions != null) {
             binding.moreOptions.setOnClickListener(new View.OnClickListener() {
@@ -185,13 +210,14 @@ binding.teamname.setText(team.getTeamName());
         AlertDialog myQuittingDialogBox = new AlertDialog.Builder(getContext())
                 // set message, title, and icon
                 .setTitle("Delete")
-                .setMessage("Do you want to Delete this Employee?")
+                .setMessage("Do you want to Delete this Team?")
                 .setIcon(R.drawable.delete)
 
                 .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
 
                     public void onClick(DialogInterface dialog, int whichButton) {
                         //your deleting code
+                        deleteTeam();
                         dialog.dismiss();
                     }
 
@@ -206,6 +232,49 @@ binding.teamname.setText(team.getTeamName());
                 .create();
 
         return myQuittingDialogBox;
+    }
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+    }
+
+    public void deleteTeam(){
+        binding.progressBar.setVisibility(View.VISIBLE);
+
+
+
+        System.out.println("Team ::: " + this.team.getTeam_Name());
+
+        LiveResponse createLiveResponse =  teamViewModel.delete((long) this.team.getIdTeam());
+        createLiveResponse.gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer() {
+            @Override
+            public void onChanged(Object o) {
+                if((Boolean) o == true ){
+                    binding.progressBar.setVisibility(View.GONE);
+                    binding.back.callOnClick();
+                }
+            }
+        });
+
+        createLiveResponse.geteMutableLiveData().observe(getViewLifecycleOwner(), new Observer() {
+            @Override
+            public void onChanged(Object o) {
+                Throwable error = (Throwable) o;
+                if (error instanceof HttpException) {
+                    Log.d("DEBUG", error.getMessage());
+                    error.printStackTrace();
+                    Toast.makeText(getContext(), "This screen is under maintenance", Toast.LENGTH_SHORT).show();
+                } else if (error instanceof IOException) {
+
+                }
+                //binding.formBody.setVisibility(View.VISIBLE);
+                binding.progressBar.setVisibility(View.GONE);
+                Log.d("ERR", error.getMessage());
+            }
+        });
+
+
     }
 }
 
