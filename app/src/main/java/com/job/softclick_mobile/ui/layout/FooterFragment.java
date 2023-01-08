@@ -21,7 +21,9 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.ui.clients.ClientListFragment;
 import com.job.softclick_mobile.ui.employees.EmployeeListFragment;
+import com.job.softclick_mobile.ui.invoices.InvoiceListFragment;
 import com.job.softclick_mobile.ui.projectFragments.ListProjectsFragment;
+import com.job.softclick_mobile.ui.team.TeamListFragment;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -116,8 +118,11 @@ public class FooterFragment extends Fragment {
         }else if(fragmentClass == ClientListFragment.class){
             fragmentManager.beginTransaction().replace(R.id.bottom_search_lContent, new ClientSearchFragment()).commit();
         }
-        else{
-            fragmentManager.beginTransaction().replace(R.id.bottom_search_lContent,new ProjectSearchFragment()  ).commit();
+        else if(fragmentClass == TeamListFragment.class){
+            fragmentManager.beginTransaction().replace(R.id.bottom_search_lContent,new TeamSearchFragment()).commit();
+        }
+        else if(fragmentClass == InvoiceListFragment.class){
+            fragmentManager.beginTransaction().replace(R.id.bottom_search_lContent,new InvoiceSearchFragment()).commit();
         }
         mBottomSheet = view.findViewById(R.id.bottom_search_lContent);
 

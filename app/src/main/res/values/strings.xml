@@ -64,4 +64,8 @@
     <string name="lastNameEmploye_hint">Last Name</string>
     <string name="FunctionEmploye_hint">Function</string>
     <string name="skill_employe">Skill</string>
+    <string name="TeamName_hint">Name Team</string>
+    <string name="member_team">Member</string>
+    <string name="client_invoice">Client</string>
+    <string name="project_invoice">Project</string>
 </resources>

@@ -70,6 +70,9 @@ public class Project implements Serializable {
         this.projectPriority = projectPriority;
     }
 
+    public Project() {
+    }
+
     public Long getIdProject() {
         return idProject;
     }
