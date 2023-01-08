@@ -11,18 +11,17 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface TaskApi {
     @GET("tasks")
-    Call<List<Task>> getAll();
+    Call<List<Task>> getAll(@Query(value = "pid", encoded = true) Long projectId);
 
     @GET("tasks/{id}")
     Call<Task> getSingle(@Path("id") Long taskId);
 
     @POST("tasks")
     Call<Void> create(@Body Task task);
-    @GET("tasks/project/{projectId}")
-    Call<List<Task>> getAllByProject(@Path("projectId") Long projectId);
 
     @PUT("tasks/{id}")
     Call<Void> update(@Path("id") Long taskId, @Body Task task);

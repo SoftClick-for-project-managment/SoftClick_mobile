@@ -16,8 +16,6 @@ public class Task implements Serializable {
 
     private Status status;
 
-    @SerializedName("project")
-    @Expose(serialize = false)
     private Long projectId;
     private Employee employee;
     private Priority priority;

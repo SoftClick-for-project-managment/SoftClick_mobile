@@ -65,9 +65,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
             public void onChanged(User user) {
                 authUser = user;
                 TextView textView = binding.navView.findViewById(R.id.userName);
-
                 textView.setText(authUser.getEmployee().getEmployeeFirstName() + " " + authUser.getEmployee().getEmployeeLastName());
-
                 checkUserRole();
                 Toast.makeText(MenuActivity.this, "Welcome "+authUser.getEmployee().getEmployeeFirstName(), Toast.LENGTH_SHORT).show();
             }
@@ -157,18 +155,14 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
                 case Role.ROLE_ADMIN:
                     break;
             }
-
         }
-
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item){
-
         // Create a new fragment and specify the fragment to show based on nav item clicked
         Fragment fragment = null;
         Class fragmentClass = null;
-
 
         switch (item.getItemId()) {
             case R.id.tasks_item:
