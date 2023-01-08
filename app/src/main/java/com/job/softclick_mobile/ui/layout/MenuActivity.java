@@ -1,6 +1,7 @@
 package com.job.softclick_mobile.ui.layout;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -14,6 +15,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
@@ -36,6 +38,8 @@ import com.job.softclick_mobile.viewmodels.user.IUserViewModel;
 import com.job.softclick_mobile.viewmodels.user.UserViewModel;
 
 import java.io.IOException;
+import java.util.Collection;
+import java.util.Iterator;
 
 public class MenuActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -43,6 +47,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
     private FragmentManager fragmentManager = getSupportFragmentManager();
     private IUserViewModel userViewModel;
     private User authUser;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +64,9 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onChanged(User user) {
                 authUser = user;
+                TextView textView = binding.navView.findViewById(R.id.userName);
+                textView.setText(authUser.getEmployee().getEmployeeFirstName() + " " + authUser.getEmployee().getEmployeeLastName());
+                checkUserRole();
                 Toast.makeText(MenuActivity.this, "Welcome "+authUser.getEmployee().getEmployeeFirstName(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -100,11 +108,6 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
             e.printStackTrace();
         }
 
-
-        // Check the user's role and hide the menu item if necessary
-        checkUserRole();
-
-
     }
 
     private void checkUserRole() {
@@ -122,7 +125,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
 
             switch (role.getName())  {
                 case Role.ROLE_DIRECTOR:
-                    menuItemTasks.setVisible(true);
+                    menuItemTasks.setVisible(false);
                     menuItemTeams.setVisible(true);
                     menuItemProjects.setVisible(true);
                     menuItemClients.setVisible(true);
@@ -152,18 +155,14 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
                 case Role.ROLE_ADMIN:
                     break;
             }
-
         }
-
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item){
-
         // Create a new fragment and specify the fragment to show based on nav item clicked
         Fragment fragment = null;
         Class fragmentClass = null;
-
 
         switch (item.getItemId()) {
             case R.id.tasks_item:

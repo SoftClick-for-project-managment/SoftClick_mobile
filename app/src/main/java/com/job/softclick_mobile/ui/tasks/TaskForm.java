@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -17,17 +18,25 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.util.Pair;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.material.progressindicator.BaseProgressIndicator;
 import com.job.softclick_mobile.R;
+import com.job.softclick_mobile.adapters.EmployeeSelectItemAdapter;
 import com.job.softclick_mobile.databinding.FragmentTaskFormBinding;
 import com.job.softclick_mobile.models.Client;
+import com.job.softclick_mobile.models.Employee;
 import com.job.softclick_mobile.models.Status;
 import com.job.softclick_mobile.models.Task;
 import com.job.softclick_mobile.ui.layout.FooterFragment;
 import com.job.softclick_mobile.utils.LiveResponse;
+import com.job.softclick_mobile.viewmodels.employees.EmployeeViewModel;
+import com.job.softclick_mobile.viewmodels.employees.IEmployeeViewModel;
 import com.job.softclick_mobile.viewmodels.status.IStatusViewModel;
 import com.job.softclick_mobile.viewmodels.status.StatusViewModel;
 import com.job.softclick_mobile.viewmodels.task.ITaskViewModel;
@@ -42,22 +51,27 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import kotlin.Triple;
 import retrofit2.HttpException;
 
 public class TaskForm extends Fragment {
     private FragmentTaskFormBinding binding;
     private Task task;
+    private Long projectId;
     private ITaskViewModel taskViewModel;
     private IStatusViewModel statusViewModel;
+    private IEmployeeViewModel employeeViewModel;
     private Status status;
+    private Employee employee;
 
     public TaskForm() {
         // Required empty public constructor
     }
 
-    public static TaskForm newInstance(String param) {
+    public static TaskForm newInstance(Long projectId) {
         TaskForm fragment = new TaskForm();
         Bundle args = new Bundle();
+        args.putLong("projectId", projectId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -67,6 +81,7 @@ public class TaskForm extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             task = (Task) getArguments().getSerializable("task");
+            projectId = getArguments().getLong("projectId");
         }
     }
 
@@ -77,61 +92,103 @@ public class TaskForm extends Fragment {
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fContentFooter,new Fragment()).commit() ;
         binding = FragmentTaskFormBinding.inflate(inflater, container, false);
         View taskView = binding.getRoot();
+
         taskViewModel = new ViewModelProvider(this).get(TaskViewModel.class);
         statusViewModel = new ViewModelProvider(this).get(StatusViewModel.class);
+        employeeViewModel = new ViewModelProvider(this).get(EmployeeViewModel.class);
+
         // show progress bar and hide the form body initially
         binding.progressBar.setVisibility(View.VISIBLE);
         binding.formBody.setVisibility(View.INVISIBLE);
 
-        statusViewModel.getAll().gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Status>>() {
+        MediatorLiveData<Triple<List<Status>, List<Employee>, Throwable>> mediatorLiveData = new MediatorLiveData<>();
+        LiveResponse<List<Status>, Throwable> statusLiveResp = statusViewModel.getAll();
+        LiveResponse<List<Employee>, Throwable> employeeLiveResp = employeeViewModel.getAll();
+
+        mediatorLiveData.addSource(statusLiveResp.gettMutableLiveData(), new Observer<List<Status>>() {
             @Override
-            public void onChanged(List<Status> sList) {
-                setupStatusSpinner(sList);
+            public void onChanged(@Nullable List<Status> statusList) {
+                Triple<List<Status>, List<Employee>, Throwable> triple = mediatorLiveData.getValue();
+                mediatorLiveData.setValue(new Triple<>(statusList, triple != null ? triple.getSecond() : null, null));
+            }
+        });
+        mediatorLiveData.addSource(employeeLiveResp.gettMutableLiveData(), new Observer<List<Employee>>() {
+            @Override
+            public void onChanged(@Nullable List<Employee> employeeList) {
+                Triple<List<Status>, List<Employee>, Throwable> triple = mediatorLiveData.getValue();
+                mediatorLiveData.setValue(new Triple<>(triple != null ? triple.getFirst() : null, employeeList, null));
+            }
+        });
+        mediatorLiveData.addSource(employeeLiveResp.geteMutableLiveData(), new Observer<Throwable>() {
+            @Override
+            public void onChanged(@Nullable Throwable throwable) {
+                mediatorLiveData.setValue(new Triple<>(null, null, throwable));
+            }
+        });
+        mediatorLiveData.observe(getViewLifecycleOwner(), new Observer<Triple<List<Status>, List<Employee>, Throwable>>() {
+            @Override
+            public void onChanged(@Nullable Triple<List<Status>, List<Employee>, Throwable> triple) {
+                if (triple != null) {
+                    if (triple.getFirst() != null && triple.getSecond() != null) {
+                        setupStatusSpinner(triple.getFirst());
+                        setupEmployeeSpinner(triple.getSecond());
+                        if(task != null) {
+                            binding.statustask.setSelection(((ArrayAdapter<String>)binding.statustask.getAdapter()).getPosition(task.getStatus().getNameStatus()));
+                            binding.taskEmployee.setSelection(((EmployeeSelectItemAdapter)binding.taskEmployee.getAdapter()).getPosition(task.getEmployee().getId()));
+                            binding.taskname.setText(task.getName());
+                            binding.startdate.setText(task.getStartDate().split(" ")[0]);
+                            binding.Enddate.setText(task.getEndDate().split(" ")[0]);
+                            binding.timeStart.setText(task.getStartDate().split(" ")[1]);
+                            binding.timeEnd.setText(task.getEndDate().split(" ")[1]);
+                            binding.taskdescription.setText((task.getDescription()));
+                            binding.subheaderTitle.setText("Task Edition ");
+                            binding.createtaskBtn.setText("Edit");
 
-                if(task != null) {
-                    binding.statustask.setSelection(((ArrayAdapter<String>)binding.statustask.getAdapter()).getPosition(task.getStatus().getNameStatus()));
 
-                    binding.taskname.setText(task.getName());
-                    binding.startdate.setText(task.getStartDate().split(" ")[0]);
-                    binding.Enddate.setText(task.getEndDate().split(" ")[0]);
-                    binding.timeStart.setText(task.getStartDate().split(" ")[1]);
-                    binding.timeEnd.setText(task.getEndDate().split(" ")[1]);
-                    binding.taskdescription.setText((task.getDescription()));
-                    binding.subheaderTitle.setText("Task Edition ");
-                    binding.createtaskBtn.setText("Edit");
+                            binding.backArrow.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    DetailsTask employeeDetailsFragment = new DetailsTask();
+                                    Bundle bundle = new Bundle();
+                                    bundle.putSerializable("task", task);
+                                    employeeDetailsFragment.setArguments(bundle);
+                                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContent,employeeDetailsFragment).commit();
+                                }
+                            });
 
-                    
-                    binding.backArrow.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            DetailsTask employeeDetailsFragment = new DetailsTask();
-                            Bundle bundle = new Bundle();
-                            bundle.putSerializable("task", task);
-                            employeeDetailsFragment.setArguments(bundle);
-                            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContent,employeeDetailsFragment).commit();
+                            binding.createtaskBtn.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Log.d("DEBUG", task.getId().toString());
+                                    updateTask(task.getId());
+                                }
+                            });
+                        } else {
+                            binding.backArrow.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    TaskList taskList =new TaskList();
+                                    FooterFragment footerFragment=new FooterFragment();
+                                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fContentFooter, footerFragment).commit();
+                                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContent,taskList).commit();
+                                }
+                            });
                         }
-                    });
-
-                    binding.createtaskBtn.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Log.d("DEBUG", task.getId().toString());
-                            updateTask(task.getId());
-                        }
-                    });
-                } else {
-                    binding.backArrow.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            TaskList taskList =new TaskList();
-                            FooterFragment footerFragment=new FooterFragment();
-                            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fContentFooter, footerFragment).commit();
-                            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContent,taskList).commit();
-                        }
-                    });
+                        binding.progressBar.setVisibility(View.GONE);
+                        binding.formBody.setVisibility(View.VISIBLE);
+                    }
+                } else if (triple.getThird() != null) {
+                    binding.progressBar.setVisibility(View.GONE);
+                    binding.formBody.setVisibility(View.VISIBLE);
+                    Throwable th = triple.getThird();
+                    if (th instanceof HttpException) {
+                        binding.backArrow.callOnClick();
+                        Toast.makeText(getContext(), "This screen is under maintenance", Toast.LENGTH_SHORT).show();
+                    } else if (th instanceof IOException) {
+                        Toast.makeText(getContext(), "Check your internet connection and try again", Toast.LENGTH_SHORT).show();
+                    }
+                    Log.d("ERR", th.getMessage());
                 }
-                binding.progressBar.setVisibility(View.GONE);
-                binding.formBody.setVisibility(View.VISIBLE);
             }
         });
 
@@ -248,6 +305,42 @@ public class TaskForm extends Fragment {
         return taskView;
     }
 
+    private void setupEmployeeSpinner(List<Employee> employees) {
+        Spinner spinner = binding.taskEmployee;
+
+        employees.forEach(s -> {
+            if ((s.getEmployeeFirstName()+" "+s.getEmployeeLastName()).equals(spinner.getSelectedItem())){
+                employee = s;
+            }
+        });
+
+        List<Employee> employeeList = new ArrayList<>();
+        Employee dummyEmp = new Employee();
+        dummyEmp.setEmployeeFirstName("Select Employee");
+        employeeList.add(dummyEmp);
+        employees.forEach(e -> employeeList.add(e));
+
+        EmployeeSelectItemAdapter adapter = new EmployeeSelectItemAdapter(getContext(), employeeList);
+        spinner.setAdapter(adapter);
+
+        // Spinner on item selected listener
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(
+                    AdapterView<?> parent, View view,
+                    int position, long id) {
+                if (position > 0) {
+                    employee = employees.get(position-1);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(
+                    AdapterView<?> parent) {
+            }
+        });
+    }
+
     private void setupStatusSpinner(List<Status> statuses) {
         statuses.forEach(s -> {
             if (s.getNameStatus() == binding.statustask.getSelectedItem()){
@@ -255,15 +348,9 @@ public class TaskForm extends Fragment {
             }
         });
         Spinner spinner = binding.statustask;
-        // Initializing a String List
-//        List<String> statusList = new ArrayList<>(Arrays.asList(new String[]{
-//                "Select Task status",
-//                "OPEN",
-//                "IN PROGRESS",
-//                "DONE"
-//        }));
+
         List<String> statusList = new ArrayList<>();
-        statusList.add("Select Task status");
+        statusList.add("Select status");
         statuses.forEach(s -> {
             statusList.add(s.getNameStatus());
         });
@@ -307,7 +394,6 @@ public class TaskForm extends Fragment {
                     public void onItemSelected(
                             AdapterView<?> parent, View view,
                             int position, long id) {
-
                         // Get the spinner selected item text
 //                        String selectedItemText = (String) parent
 //                                .getItemAtPosition(position);
@@ -327,95 +413,126 @@ public class TaskForm extends Fragment {
     }
 
     private void createTask(){
-        binding.progressBar.setVisibility(View.VISIBLE);
-        binding.formBody.setVisibility(View.GONE);
+        if (validateForm()) {
+            binding.progressBar.setVisibility(View.VISIBLE);
+            binding.formBody.setVisibility(View.GONE);
 
-        Task task = new Task(
-            binding.taskname.getText().toString(),
-            binding.startdate.getText().toString()+" "+binding.timeStart.getText().toString(),
-            binding.Enddate.getText().toString()+" "+binding.timeEnd.getText().toString(),
-            binding.taskdescription.getText().toString(),
-            status,
-            null,
-            null,
-            null,
-            null
-        );
+            Task task = new Task(
+                    binding.taskname.getText().toString(),
+                    binding.startdate.getText().toString()+" "+binding.timeStart.getText().toString(),
+                    binding.Enddate.getText().toString()+" "+binding.timeEnd.getText().toString(),
+                    binding.taskdescription.getText().toString(),
+                    status,
+                    projectId,
+                    employee,
+                    null,
+                    null
+            );
 
-        LiveResponse createLiveResponse = taskViewModel.create(task);
-        createLiveResponse.gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer() {
-            @Override
-            public void onChanged(Object o) {
-                if((Boolean) o == true ){
+            LiveResponse createLiveResponse = taskViewModel.create(task);
+            createLiveResponse.gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer() {
+                @Override
+                public void onChanged(Object o) {
+                    if((Boolean) o == true ){
+                        Toast.makeText(getContext(), "task created successfully", Toast.LENGTH_SHORT).show();
+                        if (projectId != null) {
+                            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fContentFooter, new FooterFragment()).commit();
+                            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContent, TaskList.newInstance(projectId)).commit();
+                        } else {
+                            binding.progressBar.setVisibility(View.GONE);
+                            binding.backArrow.callOnClick();
+                        }
+                    }
+                }
+            });
+            createLiveResponse.geteMutableLiveData().observe(getViewLifecycleOwner(), new Observer() {
+                @Override
+                public void onChanged(Object o) {
+                    Throwable error = (Throwable) o;
+                    if (error instanceof HttpException) {
+                        Log.d("DEBUG", error.getMessage());
+                        error.printStackTrace();
+                        Toast.makeText(getContext(), "This screen is under maintenance", Toast.LENGTH_SHORT).show();
+                    } else if (error instanceof IOException) {
+
+                    }
+                    binding.formBody.setVisibility(View.VISIBLE);
                     binding.progressBar.setVisibility(View.GONE);
-                    binding.backArrow.callOnClick();
+                    Log.d("ERR", error.getMessage());
                 }
-            }
-        });
-        createLiveResponse.geteMutableLiveData().observe(getViewLifecycleOwner(), new Observer() {
-            @Override
-            public void onChanged(Object o) {
-                Throwable error = (Throwable) o;
-                if (error instanceof HttpException) {
-                    Log.d("DEBUG", error.getMessage());
-                    error.printStackTrace();
-                    Toast.makeText(getContext(), "This screen is under maintenance", Toast.LENGTH_SHORT).show();
-                } else if (error instanceof IOException) {
-
-                }
-                binding.formBody.setVisibility(View.VISIBLE);
-                binding.progressBar.setVisibility(View.GONE);
-                Log.d("ERR", error.getMessage());
-            }
-        });
+            });
+        } else {
+            Toast.makeText(getActivity(), "Oops!, you are missing some fields", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void updateTask(Long key) {
-        binding.progressBar.setVisibility(View.VISIBLE);
-        binding.formBody.setVisibility(View.GONE);
+        if (validateForm()) {
+            binding.progressBar.setVisibility(View.VISIBLE);
+            binding.formBody.setVisibility(View.GONE);
 
-        Task task = new Task(
-                binding.taskname.getText().toString(),
-                binding.startdate.getText().toString()+" "+binding.timeStart.getText().toString(),
-                binding.Enddate.getText().toString()+" "+binding.timeEnd.getText().toString(),
-                binding.taskdescription.getText().toString(),
-                status,
-                null,
-                null,
-                null,
-                null
-        );
-        Log.d("DEBUG", key.toString());
-        LiveResponse createLiveResponse = taskViewModel.update(key, task);
-//        this.task = task;
-        createLiveResponse.gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer() {
-            @Override
-            public void onChanged(Object o) {
-                System.out.println("changed");
-                if ((Boolean) o == true) {
-                    Toast.makeText(getContext(), "task updated successfully", Toast.LENGTH_SHORT).show();
+            Task task = new Task(
+                    binding.taskname.getText().toString(),
+                    binding.startdate.getText().toString()+" "+binding.timeStart.getText().toString(),
+                    binding.Enddate.getText().toString()+" "+binding.timeEnd.getText().toString(),
+                    binding.taskdescription.getText().toString(),
+                    status,
+                    this.task.getProjectId(),
+                    employee,
+                    null,
+                    null
+            );
+            LiveResponse createLiveResponse = taskViewModel.update(key, task);
+            createLiveResponse.gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer() {
+                @Override
+                public void onChanged(Object o) {
+                    System.out.println("changed");
+                    if ((Boolean) o == true) {
+                        Toast.makeText(getContext(), "task updated successfully", Toast.LENGTH_SHORT).show();
+                        if (projectId != null) {
+                            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fContentFooter, new FooterFragment()).commit();
+                            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContent, TaskList.newInstance(projectId)).commit();
+                        } else {
+                            binding.progressBar.setVisibility(View.GONE);
+                            binding.backArrow.callOnClick();
+                        }
+                    }
+                }
+            });
+            createLiveResponse.geteMutableLiveData().observe(getViewLifecycleOwner(), new Observer() {
+                @Override
+                public void onChanged(Object o) {
+                    Throwable error = (Throwable) o;
+                    if (error instanceof HttpException) {
+                        Log.d("DEBUG", error.getMessage());
+                        error.printStackTrace();
+                        Toast.makeText(getContext(), "This screen is under maintenance", Toast.LENGTH_SHORT).show();
+                    } else if (error instanceof IOException) {
 
+                    }
+                    binding.formBody.setVisibility(View.VISIBLE);
                     binding.progressBar.setVisibility(View.GONE);
-                    binding.backArrow.callOnClick();
-                    System.out.println("back called");
+                    Log.d("ERR", error.getMessage());
                 }
-            }
-        });
-        createLiveResponse.geteMutableLiveData().observe(getViewLifecycleOwner(), new Observer() {
-            @Override
-            public void onChanged(Object o) {
-                Throwable error = (Throwable) o;
-                if (error instanceof HttpException) {
-                    Log.d("DEBUG", error.getMessage());
-                    error.printStackTrace();
-                    Toast.makeText(getContext(), "This screen is under maintenance", Toast.LENGTH_SHORT).show();
-                } else if (error instanceof IOException) {
+            });
+        } else {
+            Toast.makeText(getActivity(), "Oops!, you are missing some fields", Toast.LENGTH_SHORT).show();
+        }
+    }
 
-                }
-                binding.formBody.setVisibility(View.VISIBLE);
-                binding.progressBar.setVisibility(View.GONE);
-                Log.d("ERR", error.getMessage());
-            }
-        });
+    private boolean validateForm() {
+        if (
+                !binding.taskname.getText().toString().equals("")
+                && !binding.startdate.getText().toString().equals("")
+                && !binding.timeStart.getText().toString().equals("")
+                && !binding.Enddate.getText().toString().equals("")
+                && !binding.timeEnd.getText().toString().equals("")
+                && status != null
+                && employee != null
+        ) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

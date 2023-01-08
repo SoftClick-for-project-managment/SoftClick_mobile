@@ -67,22 +67,22 @@ public class DetailsTask extends Fragment {
         binding.progressBar.setVisibility(View.VISIBLE);
 
         taskViewModel = new ViewModelProvider(this).get(TaskViewModel.class);
+        LiveResponse<Task, Throwable> taskLiveResp = taskViewModel.getSingle(task.getId());
 
-        taskViewModel.getSingle(task.getId()).geteMutableLiveData().observe(getViewLifecycleOwner(), new Observer<Object>() {
+        taskLiveResp.geteMutableLiveData().observe(getViewLifecycleOwner(), new Observer<Throwable>() {
             @Override
-            public void onChanged(Object o) {
-                Throwable error = (Throwable) o;
-                if (error instanceof HttpException) {
+            public void onChanged(Throwable th) {
+                if (th instanceof HttpException) {
                     binding.backArrow.callOnClick();
                     Toast.makeText(getContext(), "This screen is under maintenance", Toast.LENGTH_SHORT).show();
-                } else if (error instanceof IOException) {
-
+                } else if (th instanceof IOException) {
+                    Toast.makeText(getContext(), "Check your internet connection and try again", Toast.LENGTH_SHORT).show();
                 }
-                Log.d("ERR", error.getMessage());
+                Log.d("ERR", th.getMessage());
             }
         });
 
-        taskViewModel.getSingle(task.getId()).gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer<Task>() {
+        taskLiveResp.gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer<Task>() {
             @Override
             public void onChanged(Task t) {
                 task = t;
@@ -108,7 +108,7 @@ public class DetailsTask extends Fragment {
                                     Fragment fragment = new TaskForm();
 
                                     Bundle bundle = new Bundle();
-                                    bundle.putSerializable("task",task);
+                                    bundle.putSerializable("task", task);
                                     fragment.setArguments(bundle);
 
                                     FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
@@ -141,10 +141,9 @@ public class DetailsTask extends Fragment {
             binding.backArrow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    TaskList invoiceListFragment = new TaskList();
                     FooterFragment footerFragment = new FooterFragment();
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fContentFooter, footerFragment).commit();
-                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContent, invoiceListFragment).commit();
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContent, TaskList.newInstance(task.getProjectId())).commit();
                 }
             });
         }
@@ -159,7 +158,11 @@ public class DetailsTask extends Fragment {
         binding.statusValue.setText(task.getStatus().getNameStatus());
         binding.Startdatevalue.setText(task.getStartDate());
         binding.EnddateValue.setText(task.getEndDate());
-        binding.DescriptionValue.setText(task.getDescription());
+        binding.employeeValue.setText(task.getEmployee().getEmployeeFirstName()+" "+task.getEmployee().getEmployeeLastName());
+        if (task.getDescription() != null)
+            binding.DescriptionValue.setText(task.getDescription());
+        else
+            binding.taskDescriptionCard.setVisibility(View.GONE);
     }
 
     private AlertDialog AskOption() {

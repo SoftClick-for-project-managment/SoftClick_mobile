@@ -33,7 +33,7 @@ public class TaskRepository implements ITaskRepository, IBaseRepository<Task, Lo
 
     @Override
     public LiveResponse getAll() {
-        service.getAll().enqueue(new Callback<List<Task>>() {
+        service.getAll(null).enqueue(new Callback<List<Task>>() {
             @Override
             public void onResponse(Call<List<Task>> call, Response<List<Task>> response) {
                 if ( response.isSuccessful() ) {
@@ -147,7 +147,7 @@ public class TaskRepository implements ITaskRepository, IBaseRepository<Task, Lo
 
     @Override
     public LiveResponse<List<Task>,Throwable> getAllByProject(Long id) {
-        service.getAllByProject(id).enqueue(new Callback<List<Task>>() {
+        service.getAll(id).enqueue(new Callback<List<Task>>() {
             @Override
             public void onResponse(Call<List<Task>> call, Response<List<Task>> response) {
                 if (response.isSuccessful()) {

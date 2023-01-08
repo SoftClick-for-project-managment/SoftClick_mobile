@@ -22,13 +22,13 @@ public interface ExpenseApi {
     Call<Expense> getSingle(@Path("id") Long expenseId);
 
     @POST("expenses")
-    Call create(@Body Expense expense);
+    Call<Void> create(@Body Expense expense);
 
     @PUT("expenses/{id}")
-    Call update(@Path("id") Long expenseId, @Body Expense expense);
+    Call<Void> update(@Path("id") Long expenseId, @Body Expense expense);
 
     @DELETE("expenses/{id}")
-    Call delete(@Path("id") Long expenseId);
+    Call<Void> delete(@Path("id") Long expenseId);
     @GET("expenses/task/{taskId}")
     Call<List<Expense>> getAllByTask(@Path("taskId") Long taskId);
 }
