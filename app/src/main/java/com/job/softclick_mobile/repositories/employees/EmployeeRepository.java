@@ -81,6 +81,7 @@ public class EmployeeRepository implements IEmployeeRepository, IBaseRepository<
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 Log.d("DEBUG", response.code() + "");
+                Log.d("Employee Id :", employee.getId() + "");
                 if (response.code() != 201) {
                     createLiveResponse.geteMutableLiveData().setValue(new HttpException(response));
                 } else {
@@ -96,6 +97,7 @@ public class EmployeeRepository implements IEmployeeRepository, IBaseRepository<
 
         return createLiveResponse;
     }
+
 
     @Override
     public LiveResponse update(Long aLong, Employee employee) {

@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.databinding.FragmentEmployeeDetailsBinding;
 import com.job.softclick_mobile.models.Employee;
+import com.job.softclick_mobile.models.Skill;
 import com.job.softclick_mobile.ui.layout.FooterFragment;
 import com.job.softclick_mobile.utils.LiveResponse;
 import com.job.softclick_mobile.viewmodels.employees.EmployeeViewModel;
@@ -38,7 +39,6 @@ public class EmployeeDetailsFragment extends Fragment {
 
 
     public EmployeeDetailsFragment() {
-        // Required empty public constructor
     }
 
     public static EmployeeDetailsFragment newInstance(String param1, String param2) {
@@ -67,8 +67,15 @@ public class EmployeeDetailsFragment extends Fragment {
         binding.employeeFirstName.setText(employee.getEmployeeFirstName());
         binding.employeeLastName.setText(employee.getEmployeeLastName());
         binding.employeeEmail.setText(employee.getEmployeeEmail());
-        binding.employeePhone.setText(employee.getEmployeePhone());
+        binding.employeePhone.setText(employee.getId().toString());
         binding.employeeFunction.setText(employee.getEmployeeFunction());
+
+        String text = "";
+        for(Skill skill: employee.getSkills()) {
+            text += skill.getSkillName() + " | ";
+        }
+
+        binding.employeeSkills.setText(text.trim());
 
         if (binding.moreOptions != null) {
             binding.moreOptions.setOnClickListener(new View.OnClickListener() {
