@@ -36,6 +36,7 @@ import com.job.softclick_mobile.viewmodels.user.IUserViewModel;
 import com.job.softclick_mobile.viewmodels.user.UserViewModel;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -45,6 +46,9 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
     private FragmentManager fragmentManager = getSupportFragmentManager();
     private IUserViewModel userViewModel;
     private User authUser;
+    private Collection<Role> roles = new ArrayList<>();
+    private Role role;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

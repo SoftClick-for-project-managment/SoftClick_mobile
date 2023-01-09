@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SoftClick_mobile</string>
+    <string name="app_name">SoftClick</string>
     <string name="openNavDrawer">Navigation Drawer Open</string>
     <string name="closeNavDrawer">Navigation Drawer Close</string>
     <!-- TODO: Remove or change this placeholder text -->
