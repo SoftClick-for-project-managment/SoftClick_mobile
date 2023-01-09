@@ -3,6 +3,8 @@ package com.job.softclick_mobile.models;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 
 public class Project implements Serializable {
@@ -33,6 +35,12 @@ public class Project implements Serializable {
     private Priority projectPriority;
 
 
+    private Set<Invoice> invoices = new HashSet<>();
+
+
+    private Set<Task> tasks = new HashSet<>();
+
+
     public Project( String nameProject, String descriptionProject, Double revenueProject, Domain domainProjet, Timestamp dateDebut, Timestamp dateFin, Employee chefProject, Status projectStatus, Priority projectPriority) {
 
         this.nameProject = nameProject;
@@ -60,6 +68,9 @@ public class Project implements Serializable {
         this.chefProject = chefProject;
         this.projectStatus = projectStatus;
         this.projectPriority = projectPriority;
+    }
+
+    public Project() {
     }
 
     public Long getIdProject() {
@@ -145,15 +156,26 @@ public class Project implements Serializable {
     @Override
     public String toString() {
         return "Project{" +
-                "nameProject='" + nameProject + '\'' +
+                "idProject=" + idProject +
+                ", nameProject='" + nameProject + '\'' +
                 ", descriptionProject='" + descriptionProject + '\'' +
                 ", revenueProject=" + revenueProject +
                 ", domainProjet=" + domainProjet +
-                ", dateDebut=" + dateDebut.toString() +
+                ", dateDebut=" + dateDebut +
                 ", dateFin=" + dateFin +
-                ", chefProject=" + chefProject.getEmployeeFirstName() +
+                ", chefProject=" + chefProject +
                 ", projectStatus=" + projectStatus +
                 ", projectPriority=" + projectPriority +
+                ", invoices=" + invoices.toString() +
+                ", tasks=" + tasks.toString() +
                 '}';
+    }
+
+    public Set<Invoice> getInvoices() {
+        return invoices;
+    }
+
+    public Set<Task> getTasks() {
+        return tasks;
     }
 }

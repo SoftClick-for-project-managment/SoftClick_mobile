@@ -224,7 +224,33 @@
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp">
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp">
+                    <Spinner
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/taskEmployee"
+                        android:layout_toRightOf="@+id/taskEmployee_icon"
+                        android:background="@color/transparent"
+                        android:fontFamily="@font/roboto_regular"
+                        android:paddingLeft="17dp"
+                        />
+
+                    <ImageView
+                        android:id="@+id/taskEmployee_icon"
+                        android:layout_width="26dp"
+                        android:layout_height="30dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="17dp"
+                        app:srcCompat="@drawable/employees" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp">
                     <EditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -243,7 +269,7 @@
                     <ImageView
                         android:id="@+id/taskdescription_icon"
                         android:layout_width="26dp"
-                        android:layout_height="50dp"
+                        android:layout_height="30dp"
                         android:layout_marginLeft="17dp"
                         android:src="@drawable/write" />
 

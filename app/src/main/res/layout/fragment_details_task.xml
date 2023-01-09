@@ -61,6 +61,7 @@
             android:rowCount="4"
             android:columnCount="2">
             <androidx.cardview.widget.CardView
+                android:id="@+id/taskNameCard"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:layout_row="0"
@@ -95,6 +96,7 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
+                android:id="@+id/taskStatusCard"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:layout_row="0"
@@ -126,6 +128,7 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
+                android:id="@+id/taskStartDateCard"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:layout_row="1"
@@ -158,6 +161,7 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
+                android:id="@+id/taskEndDateCard"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:layout_row="1"
@@ -190,6 +194,7 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
+                android:id="@+id/taskDescriptionCard"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:layout_row="2"
@@ -217,6 +222,38 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="task description"
+                        android:textColor="@color/secondary"
+                        android:textSize="16sp"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                android:id="@+id/taskEmployeeCard"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_row="2"
+                android:layout_column="1"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:layout_columnWeight="1"
+                android:orientation="vertical"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="@color/transparent">
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_marginVertical="15dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/employeeLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Employee"
+                        android:textSize="16sp" />
+                    <TextView
+                        android:id="@+id/employeeValue"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="task employee"
                         android:textColor="@color/secondary"
                         android:textSize="16sp"/>
                 </LinearLayout>

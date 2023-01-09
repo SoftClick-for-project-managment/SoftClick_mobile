@@ -37,6 +37,8 @@ import com.job.softclick_mobile.viewmodels.user.IUserViewModel;
 import com.job.softclick_mobile.viewmodels.user.UserViewModel;
 
 import java.io.IOException;
+import java.util.Collection;
+import java.util.Iterator;
 
 public class MenuActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -59,8 +61,11 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         authUserLiveResp.gettMutableLiveData().observe(this, new Observer<User>() {
             @Override
             public void onChanged(User user) {
-                authUser = user;
-                Toast.makeText(MenuActivity.this, "Welcome "+authUser.getEmployee().getEmployeeFirstName(), Toast.LENGTH_SHORT).show();
+                if(user != null) {
+                    authUser = user;
+                    checkUserRole();
+                }
+
             }
         });
         authUserLiveResp.geteMutableLiveData().observe(this, new Observer<Throwable>() {
@@ -103,13 +108,12 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         }
 
 
-        // Check the user's role and hide the menu item if necessary
-       // checkUserRole();
+
 
 
     }
 
-    /*private void checkUserRole() {
+    private void checkUserRole() {
 
         for(Role role: authUser.getRoles()) {
 
@@ -157,7 +161,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
 
         }
 
-    }*/
+    }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item){
@@ -184,7 +188,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
             {
                 try{
                     fragmentClass = TeamListFragment.class;
-                    fragmentManager.beginTransaction().replace(R.id.fContentFooter, (Fragment) FooterFragment.class.newInstance()).commit();
+                    fragmentManager.beginTransaction().replace(R.id.fContentFooter, new FooterFragment(TeamListFragment.class)).commit();
                     fragment = (Fragment) fragmentClass.newInstance();
                 }
                 catch (Exception e ){
@@ -220,7 +224,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
             {
                 try{
                     fragmentClass = ExpensesListFragment.class;
-                    fragmentManager.beginTransaction().replace(R.id.fContentFooter, (Fragment) FooterFragment.class.newInstance()).commit();
+                    fragmentManager.beginTransaction().replace(R.id.fContentFooter, new FooterFragment(ExpensesListFragment.class)).commit();
                     fragment = (Fragment) fragmentClass.newInstance();
                 }
                 catch (Exception e ){
@@ -231,7 +235,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
             {
                 try{
                     fragmentClass = InvoiceListFragment.class;
-                    fragmentManager.beginTransaction().replace(R.id.fContentFooter, (Fragment) FooterFragment.class.newInstance()).commit();
+                    fragmentManager.beginTransaction().replace(R.id.fContentFooter, new FooterFragment(InvoiceListFragment.class)).commit();
                     fragment = (Fragment) fragmentClass.newInstance();
                 }
                 catch (Exception e ){
