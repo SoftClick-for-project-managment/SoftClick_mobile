@@ -430,7 +430,18 @@ public class ExpenseFormFragment extends Fragment {
         taskNew.setId(task.getId());
         ExpenseCategory expenseCategoryNew =new ExpenseCategory();
         expenseCategoryNew.setId(expenseCategory.getId());
-
+        binding.incomeRadio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                type="income";
+            }
+        });
+        binding.expenseRadio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                type="expense";
+            }
+        });
         Expense expense = new Expense(
                 Long.parseLong(binding.amount.getText().toString()),
                 type,
