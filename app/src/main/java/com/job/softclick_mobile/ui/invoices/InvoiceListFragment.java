@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -18,8 +19,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.adapters.InvoiceListAdapter;
+import com.job.softclick_mobile.models.Expense;
 import com.job.softclick_mobile.models.Invoice;
 import com.job.softclick_mobile.ui.contracts.RecyclerViewHandler;
+import com.job.softclick_mobile.viewmodels.ActivitySharedViewModel;
 import com.job.softclick_mobile.viewmodels.invoices.IInvoiceViewModel;
 import com.job.softclick_mobile.viewmodels.invoices.InvoiceViewModel;
 
@@ -40,6 +43,7 @@ public class InvoiceListFragment extends Fragment implements RecyclerViewHandler
     private ArrayList<Invoice> invoiceArrayList;
     private IInvoiceViewModel invoiceViewModel;
     private ProgressBar progressBar;
+    private ActivitySharedViewModel activitySharedViewModel;
 
     public InvoiceListFragment() {
         // Required empty public constructor
@@ -57,6 +61,19 @@ public class InvoiceListFragment extends Fragment implements RecyclerViewHandler
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
         }
+    }
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        activitySharedViewModel =  new ViewModelProvider(getActivity()).get(ActivitySharedViewModel.class);
+        activitySharedViewModel.getSearchInvoice().observe(getViewLifecycleOwner(), new Observer<Invoice>() {
+            @Override
+            public void onChanged(Invoice invoice) {
+
+                searchInvoice(invoice);
+
+            }
+        });
     }
 
     @Override
@@ -129,5 +146,21 @@ public class InvoiceListFragment extends Fragment implements RecyclerViewHandler
         fragmentTransaction.replace(R.id.flContent, fragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+    }
+
+    public void searchInvoice(Invoice invoice){
+        invoiceViewModel.search(invoice).gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Invoice>>() {
+            @Override
+            public void onChanged(List<Invoice> invoices) {
+                invoiceArrayList = new ArrayList<>();
+                invoices.forEach(invoice -> {
+                    invoiceArrayList.add(invoice);
+                });
+                progressBar.setVisibility(View.INVISIBLE);
+                recyclerView.setVisibility(View.VISIBLE);
+                refreshUi();
+                //mainRecyclerAdapter.notifyDataSetChanged();
+            }
+        });
     }
 }
