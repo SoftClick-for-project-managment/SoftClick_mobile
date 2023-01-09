@@ -95,4 +95,8 @@ public class Employee implements Serializable {
     public void setTeams(Set<Team> teams) {
         this.teams = teams;
     }
+
+    public void addSkill(Skill skill) {
+        this.skills.add(skill);
+    }
 }
