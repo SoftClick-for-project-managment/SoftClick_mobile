@@ -286,8 +286,9 @@ public class AddteamFragment extends Fragment {
         }
 
         teamNew.setMembers(selectedEmployees);
-        LiveResponse createLiveResponse =  teamViewModel.update(key, team);
         this.team = teamNew;
+        LiveResponse createLiveResponse =  teamViewModel.update(key, team);
+
 
         System.out.println("Team : " + team.getTeam_Name());
 

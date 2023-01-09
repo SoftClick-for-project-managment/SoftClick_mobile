@@ -58,9 +58,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TimeZone;
 
 /**
@@ -96,6 +98,7 @@ public class AddProjectFragment<items> extends Fragment {
     boolean[] selectedItems;
     Hashtable<String,Long> teamHash=new Hashtable<>();
     long[] teamIds;
+    List<Long> selectedTeamIds = new ArrayList<>();
 
 
     String[] clients = new String[]{
@@ -251,6 +254,8 @@ public class AddProjectFragment<items> extends Fragment {
             Combo_priority.setText(project.getProjectPriority().getNamePriority());
             Combo_chef.setText(project.getChefProject().getEmployeeLastName()+" "+project.getChefProject().getEmployeeFirstName());
 
+
+
             //and complete all fields ... TODO
 
         }
@@ -293,6 +298,7 @@ public class AddProjectFragment<items> extends Fragment {
         date_picker_debut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 materialDatePicker_debut.show(getParentFragmentManager(), "DATE_PICKER");
 
             }
@@ -390,20 +396,16 @@ public class AddProjectFragment<items> extends Fragment {
                         SparseBooleanArray checkedItemPositions = listView.getCheckedItemPositions();
                         // Create a list to store the selected values
                         List<String> selectedValues = new ArrayList<>();
-                     /*   selectedSkillIds = new ArrayList<>();
+                        selectedTeamIds = new ArrayList<>();
 
                         // Iterate through the checked item positions and add the selected values to the list
                         for (int j = 0; j < checkedItemPositions.size(); j++) {
                             if (checkedItemPositions.valueAt(j)) {
                                 selectedValues.add(items[checkedItemPositions.keyAt(j)].toString());
-                                selectedSkillIds.add(teamIds[checkedItemPositions.keyAt(j)]);
+                                selectedTeamIds.add(teamIds[checkedItemPositions.keyAt(j)]);
 
                             }
                         }
-*/
-
-
-                        // Do something with the selected values
 
                         dialogInterface.dismiss();
                     }
@@ -468,7 +470,19 @@ public class AddProjectFragment<items> extends Fragment {
             date_picker_debut.setHintTextColor(getResources().getColor(R.color.design_default_color_error));
             return null;
         }
+
+        Set<Team> selectedTeams = new HashSet<>();
+
+        for(int i=0; i<selectedTeamIds.size(); i++){
+            Team selectedTeam = new Team();
+            selectedTeam.setIdTeam(selectedTeamIds.get(i));
+            selectedTeams.add(selectedTeam);
+        }
+
+
+
         added_project = new Project(name,description_text,revenue_text,domain,new Timestamp(date_debut.getTime()),new Timestamp(date_fin.getTime()),chef,status,priority);
+        added_project.setTeams(selectedTeams);
 
         return added_project;
     }
