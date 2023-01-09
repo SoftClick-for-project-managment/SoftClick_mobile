@@ -1,6 +1,7 @@
 package com.job.softclick_mobile.services.http;
 
 
+import com.job.softclick_mobile.models.Expense;
 import com.job.softclick_mobile.models.Invoice;
 
 import java.util.List;
@@ -28,4 +29,7 @@ public interface InvoiceApi {
 
     @DELETE("invoices/{id}")
     Call<Void> delete(@Path("id") Long invoiceId);
+
+    @POST("invoices/search")
+    Call<List<Invoice>> search(@Body Invoice invoice);
 }

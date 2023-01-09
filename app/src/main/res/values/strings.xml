@@ -76,4 +76,5 @@
     <string name="project_invoice">Project</string>
     <string name="combotask">Task</string>
     <string name="expenseCategory">Category</string>
+    <string name="selectTeams">Select teams</string>
 </resources>
