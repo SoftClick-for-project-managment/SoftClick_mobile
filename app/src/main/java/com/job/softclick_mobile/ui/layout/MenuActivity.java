@@ -46,8 +46,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
     private FragmentManager fragmentManager = getSupportFragmentManager();
     private IUserViewModel userViewModel;
     private User authUser;
-    private Collection<Role> roles = new ArrayList<>();
-    private Role role;
+
 
 
     @Override
