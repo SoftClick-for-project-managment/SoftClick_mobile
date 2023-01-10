@@ -1,6 +1,7 @@
 package com.job.softclick_mobile.repositories.expense;
 import android.util.Log;
 
+import com.job.softclick_mobile.models.Employee;
 import com.job.softclick_mobile.models.Expense;
 import com.job.softclick_mobile.models.Expense;
 import com.job.softclick_mobile.models.Expense;
@@ -27,6 +28,7 @@ public class ExpenseRepository implements IExpenseRepository, IBaseRepository<Ex
     private ExpenseApi service;
     LiveResponse <List<Expense>,Throwable> expenseListByTaskLiveResponse = new LiveResponse<>();
     LiveResponse<List<Expense>, Throwable> expenseListLiveResponse = new LiveResponse<>();
+    LiveResponse<List<Expense>, Throwable> searchLiveDataList = new LiveResponse<>();
     LiveResponse<Expense, Throwable> expenseLiveResponse = new LiveResponse<>();
     LiveResponse<Boolean, Throwable> createLiveResponse = new LiveResponse<>();
     LiveResponse<Boolean, Throwable> updateLiveResponse = new LiveResponse<>();
@@ -171,6 +173,27 @@ public class ExpenseRepository implements IExpenseRepository, IBaseRepository<Ex
 
     @Override
     public LiveResponse search(Expense expense) {
-        return null;
+        service.search(expense).enqueue(new Callback<List<Expense>>() {
+            @Override
+            public void onResponse(Call<List<Expense>> call, Response<List<Expense>> response) {
+                //Log.d("DEBUG", response.body().toString());
+                if (response.code() != 200) {
+                    //Log.d("DEBUG", response.body().toString());
+                    searchLiveDataList.geteMutableLiveData().setValue(new HttpException(response));
+                } else {
+                    List<Expense> t = response.body();
+                    searchLiveDataList.gettMutableLiveData().setValue(t);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Expense>> call, Throwable t) {
+                Log.d("DEBUG", t.getMessage());
+                Log.d("CONSOLE LOG", "Check your internet connection");
+                searchLiveDataList.geteMutableLiveData().setValue(t);
+            }
+        });
+
+        return searchLiveDataList;
     }
 }

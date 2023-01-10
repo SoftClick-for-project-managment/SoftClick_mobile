@@ -2,6 +2,9 @@ package com.job.softclick_mobile.repositories.teams;
 
 
 
+import android.util.Log;
+
+import com.job.softclick_mobile.models.Employee;
 import com.job.softclick_mobile.models.Team;
 
 import com.job.softclick_mobile.services.http.HttpClient;
@@ -19,6 +22,7 @@ import retrofit2.Retrofit;
 public class TeamsRepository implements ITeamsRepository {
     private TeamsApi service;
     private LiveResponse<List<Team>, Throwable> TeamListliveResponse = new LiveResponse<>();
+    private LiveResponse<List<Team>, Throwable> searchLiveDataList = new LiveResponse<>();
     LiveResponse<Team, Throwable> TeamLiveResponse = new LiveResponse<>();
     LiveResponse<Boolean, Throwable> createLiveResponse = new LiveResponse<>();
 
@@ -73,10 +77,11 @@ public class TeamsRepository implements ITeamsRepository {
 
     @Override
     public LiveResponse create(Team team) {
-        service.create(team).enqueue(new Callback() {
+        service.create(team).enqueue(new Callback<Void>() {
             @Override
-            public void onResponse(Call call, Response response) {
-                if (response.code() != 200 || response.code() != 201) {
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                Log.d("DEBUG", response.code() + "");
+                if (response.code() != 201) {
                     createLiveResponse.geteMutableLiveData().setValue(new HttpException(response));
                 } else {
                     createLiveResponse.gettMutableLiveData().setValue(true);
@@ -84,7 +89,7 @@ public class TeamsRepository implements ITeamsRepository {
             }
 
             @Override
-            public void onFailure(Call call, Throwable t) {
+            public void onFailure(Call<Void> call, Throwable t) {
                 createLiveResponse.geteMutableLiveData().setValue(t);
             }
         });
@@ -94,18 +99,77 @@ public class TeamsRepository implements ITeamsRepository {
 
     @Override
     public LiveResponse update(Long aLong, Team team) {
-        return new LiveResponse();
+
+        service.update(aLong, team).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                Log.d("DEBUG", response.code() + "");
+                if (response.code() != 200) {
+                    createLiveResponse.geteMutableLiveData().setValue(new HttpException(response));
+                } else {
+                    createLiveResponse.gettMutableLiveData().setValue(true);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                createLiveResponse.geteMutableLiveData().setValue(t);
+            }
+        });
+
+        return createLiveResponse;
     }
 
 
 
     @Override
     public LiveResponse delete(Long aLong) {
-        return new LiveResponse();
+        service.delete(aLong).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                Log.d("DEBUG", response.code() + "");
+                if (response.code() != 200) {
+                    createLiveResponse.geteMutableLiveData().setValue(new HttpException(response));
+                } else {
+                    createLiveResponse.gettMutableLiveData().setValue(true);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                createLiveResponse.geteMutableLiveData().setValue(t);
+            }
+        });
+
+        return createLiveResponse;
     }
 
     @Override
     public LiveResponse search(Team team) {
-        return null;
+
+        service.search(team).enqueue(new Callback<List<Team>>() {
+            @Override
+            public void onResponse(Call<List<Team>> call, Response<List<Team>> response) {
+                //Log.d("DEBUG", response.body().toString());
+                if (response.code() != 200) {
+                    //Log.d("DEBUG", response.body().toString());
+                    searchLiveDataList.geteMutableLiveData().setValue(new HttpException(response));
+                } else {
+                    List<Team> t = response.body();
+                    searchLiveDataList.gettMutableLiveData().setValue(t);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Team>> call, Throwable t) {
+                Log.d("DEBUG", t.getMessage());
+                Log.d("CONSOLE LOG", "Check your internet connection");
+                searchLiveDataList.geteMutableLiveData().setValue(t);
+            }
+        });
+
+        return searchLiveDataList;
+
     }
 }
+

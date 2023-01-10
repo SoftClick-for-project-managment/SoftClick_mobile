@@ -1,6 +1,9 @@
 package com.job.softclick_mobile.repositories.invoices;
 
 
+import android.util.Log;
+
+import com.job.softclick_mobile.models.Expense;
 import com.job.softclick_mobile.models.Invoice;
 import com.job.softclick_mobile.repositories.IBaseRepository;
 import com.job.softclick_mobile.services.http.HttpClient;
@@ -15,10 +18,12 @@ import retrofit2.HttpException;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class InvoiceRepository implements IBaseRepository<Invoice, Long> {
+public class InvoiceRepository implements IInvoiceRepository, IBaseRepository<Invoice, Long> {
     private InvoiceApi service;
     LiveResponse<List<Invoice>, Throwable> invoiceListLiveResponse = new LiveResponse<>();
+    LiveResponse<List<Invoice>, Throwable> searchLiveDataList = new LiveResponse<>();
     LiveResponse<Invoice, Throwable> invoiceLiveResponse = new LiveResponse<>();
+    LiveResponse<Boolean, Throwable> createLiveResponse = new LiveResponse<>();
 
     public InvoiceRepository() {
         Retrofit httpClient = HttpClient.getInstance();
@@ -44,7 +49,6 @@ public class InvoiceRepository implements IBaseRepository<Invoice, Long> {
                 invoiceListLiveResponse.geteMutableLiveData().setValue(t);
             }
         });
-
         return invoiceListLiveResponse;
     }
 
@@ -73,21 +77,94 @@ public class InvoiceRepository implements IBaseRepository<Invoice, Long> {
 
     @Override
     public LiveResponse create(Invoice invoice) {
-        return null;
+        service.create(invoice).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                Log.d("DEBUG", response.code() + "");
+                if (response.code() != 201) {
+                    createLiveResponse.geteMutableLiveData().setValue(new HttpException(response));
+                } else {
+                    createLiveResponse.gettMutableLiveData().setValue(true);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                createLiveResponse.geteMutableLiveData().setValue(t);
+            }
+        });
+
+        return createLiveResponse;
     }
 
     @Override
     public LiveResponse update(Long aLong, Invoice invoice) {
-        return null;
+        service.update(aLong, invoice).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                Log.d("DEBUG", response.code() + "");
+                if (response.code() != 200) {
+                    createLiveResponse.geteMutableLiveData().setValue(new HttpException(response));
+                } else {
+                    createLiveResponse.gettMutableLiveData().setValue(true);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                createLiveResponse.geteMutableLiveData().setValue(t);
+            }
+        });
+
+        return createLiveResponse;
     }
 
     @Override
     public LiveResponse delete(Long aLong) {
-        return null;
+        service.delete(aLong).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                Log.d("DEBUG", response.code() + "");
+                if (response.code() != 200) {
+                    createLiveResponse.geteMutableLiveData().setValue(new HttpException(response));
+                } else {
+                    createLiveResponse.gettMutableLiveData().setValue(true);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                createLiveResponse.geteMutableLiveData().setValue(t);
+            }
+        });
+
+        return createLiveResponse;
     }
 
     @Override
     public LiveResponse search(Invoice invoice) {
-        return null;
-    }
+
+            service.search(invoice).enqueue(new Callback<List<Invoice>>() {
+                @Override
+                public void onResponse(Call<List<Invoice>> call, Response<List<Invoice>> response) {
+                    //Log.d("DEBUG", response.body().toString());
+                    if (response.code() != 200) {
+                        //Log.d("DEBUG", response.body().toString());
+                        searchLiveDataList.geteMutableLiveData().setValue(new HttpException(response));
+                    } else {
+                        List<Invoice> t = response.body();
+                        searchLiveDataList.gettMutableLiveData().setValue(t);
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<List<Invoice>> call, Throwable t) {
+                    Log.d("DEBUG", t.getMessage());
+                    Log.d("CONSOLE LOG", "Check your internet connection");
+                    searchLiveDataList.geteMutableLiveData().setValue(t);
+                }
+            });
+
+            return searchLiveDataList;
+        }
 }

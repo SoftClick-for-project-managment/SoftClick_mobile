@@ -6,11 +6,15 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.databinding.FragmentClientFormBinding;
@@ -100,7 +104,7 @@ public class ClientFormFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     ClientListFragment ClientList =new ClientListFragment();
-                    FooterFragment footerFragment=new FooterFragment();
+                    FooterFragment footerFragment=new FooterFragment(ClientListFragment.class);
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fContentFooter, footerFragment).commit();
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContent,ClientList).commit();
                 }
@@ -115,59 +119,127 @@ public class ClientFormFragment extends Fragment {
 
         }
 
-
-
-
-
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fContentFooter,new Fragment()).commit() ;
 
         return view;
 
     }
+    private boolean isValidEmailId(String email){
 
+        return Pattern.compile("^[a-zA-Z0-9_+&*-]+(?:\\." +
+                "[a-zA-Z0-9_+&*-]+)*@" +
+                "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
+                "A-Z]{2,7}$").matcher(email).matches();
+    }
+
+
+    public Client validate() {
+
+        Client added_client;
+        String nameClient = binding.firstName.getText().toString().trim();
+        String prenom = binding.lastName.getText().toString().trim();
+
+       String email = binding.email.getText().toString().trim();
+
+        String phone = binding.phone.getText().toString().trim();
+        String companyName = binding.companyName.getText().toString().trim();
+        String country = binding.country.getText().toString().trim();
+        String city = binding.city.getText().toString().trim();
+
+        boolean error = false ;
+
+        if (email.equals("")){
+            binding.email.setHint("Email Address is required ");
+            binding.email.setHintTextColor(getResources().getColor(R.color.design_default_color_error));
+            error = true;
+        }
+        else if(!isValidEmailId(email)){
+            Toast.makeText(getContext(),"Invalid email address",Toast.LENGTH_SHORT).show();
+            error = true ;
+        }
+
+        if (nameClient.equals("")) {
+            binding.firstName.setHint(" Client name is required ! ");
+            binding.firstName.setHintTextColor(getResources().getColor(R.color.design_default_color_error));
+            error = true ;
+        }
+        if (prenom.equals("")) {
+
+            binding.lastName.setHint(" Client lastname  is required ! ");
+            binding.lastName.setHintTextColor(getResources().getColor(R.color.design_default_color_error));
+            error = true ;
+        }
+
+        if (phone.equals("")) {
+
+            binding.phone.setHint(" Client phone is required ! ");
+            binding.phone.setHintTextColor(getResources().getColor(R.color.design_default_color_error));
+            error = true ;
+        }
+
+        if (companyName.equals("")) {
+
+            binding.companyName.setHint(" Comapny name is required ! ");
+            binding.companyName.setHintTextColor(getResources().getColor(R.color.design_default_color_error));
+            error = true ;
+        }
+
+        if (error)
+            return null;
+
+        added_client = new Client(nameClient,prenom,email,phone,companyName,city,country);
+
+        return added_client;
+    }
 
     public void createClient(){
-        binding.progressBar.setVisibility(View.VISIBLE);
-        binding.formBody.setVisibility(View.GONE);
-        Client client = new Client(
-                binding.firstName.getText().toString(),
-                binding.lastName.getText().toString(),
-                binding.email.getText().toString(),
-                binding.phone.getText().toString(),
-                binding.companyName.getText().toString(),
-                binding.city.getText().toString(),
-                binding.country.getText().toString()
-        );
+        Client validate_client = validate();
+        if(validate_client!= null){
 
-        LiveResponse createLiveResponse =  clientViewModel.create(client);
-        createLiveResponse.gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer() {
-            @Override
-            public void onChanged(Object o) {
-                if((Boolean) o == true ){
-                    Toast.makeText(getContext(), "Client created successfully", Toast.LENGTH_SHORT).show();
+                Log.d("CONSOLE LOG", "project is  : "+validate_client.toString());
+                binding.progressBar.setVisibility(View.VISIBLE);
+                binding.formBody.setVisibility(View.GONE);
+                Client client = new Client(
+                        binding.firstName.getText().toString(),
+                        binding.lastName.getText().toString(),
+                        binding.email.getText().toString(),
+                        binding.phone.getText().toString(),
+                        binding.companyName.getText().toString(),
+                        binding.city.getText().toString(),
+                        binding.country.getText().toString()
+                );
+            LiveResponse createLiveResponse =  clientViewModel.create(client);
+            createLiveResponse.gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer() {
+                @Override
+                public void onChanged(Object o) {
+                    if((Boolean) o == true ){
+                        Toast.makeText(getContext(), "Client created successfully", Toast.LENGTH_SHORT).show();
+                        binding.progressBar.setVisibility(View.GONE);
+                        binding.backArrow.callOnClick();
+                    }
+                }
+            });
+
+
+            createLiveResponse.geteMutableLiveData().observe(getViewLifecycleOwner(), new Observer() {
+                @Override
+                public void onChanged(Object o) {
+                    Throwable error = (Throwable) o;
+                    if (error instanceof HttpException) {
+                        Log.d("DEBUG", error.getMessage());
+                        Toast.makeText(getContext(), "This screen is under maintenance", Toast.LENGTH_SHORT).show();
+                    } else if (error instanceof IOException) {
+                        Toast.makeText(getContext(), "Please check your internet connection", Toast.LENGTH_SHORT).show();
+                    }
+                    binding.formBody.setVisibility(View.VISIBLE);
                     binding.progressBar.setVisibility(View.GONE);
-                    binding.backArrow.callOnClick();
+                    error.printStackTrace();
+                    Log.d("ERR", error.getMessage());
                 }
-            }
-        });
-
-
-        createLiveResponse.geteMutableLiveData().observe(getViewLifecycleOwner(), new Observer() {
-            @Override
-            public void onChanged(Object o) {
-                Throwable error = (Throwable) o;
-                if (error instanceof HttpException) {
-                    Log.d("DEBUG", error.getMessage());
-                    Toast.makeText(getContext(), "This screen is under maintenance", Toast.LENGTH_SHORT).show();
-                } else if (error instanceof IOException) {
-                    Toast.makeText(getContext(), "Please check your internet connection", Toast.LENGTH_SHORT).show();
-                }
-                binding.formBody.setVisibility(View.VISIBLE);
-                binding.progressBar.setVisibility(View.GONE);
-                error.printStackTrace();
-                Log.d("ERR", error.getMessage());
-            }
-        });
+            });
+        }else{
+            return;
+        }
 
     }
 

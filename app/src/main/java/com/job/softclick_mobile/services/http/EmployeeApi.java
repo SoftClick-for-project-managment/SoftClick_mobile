@@ -1,5 +1,6 @@
 package com.job.softclick_mobile.services.http;
 
+import com.job.softclick_mobile.models.Client;
 import com.job.softclick_mobile.models.Employee;
 
 import java.util.List;
@@ -21,12 +22,15 @@ public interface EmployeeApi {
     Call<Employee> getSingle(@Path("id") Long employeeId);
 
     @POST("employees")
-    Call<Void> create(@Body Employee employee);
+    Call<Employee> create(@Body Employee employee);
 
     @PUT("employees/{id}")
     Call<Void> update(@Path("id") Long employeeId, @Body Employee employee);
 
     @DELETE("employees/{id}")
     Call<Void> delete(@Path("id") Long employeeId);
+
+    @POST("employees/search")
+    Call<List<Employee>> search(@Body Employee employee);
 
 }

@@ -1,6 +1,7 @@
 package com.job.softclick_mobile.services.http;
 
-import com.job.softclick_mobile.models.Employee;
+
+import com.job.softclick_mobile.models.Expense;
 import com.job.softclick_mobile.models.Invoice;
 
 import java.util.List;
@@ -21,11 +22,14 @@ public interface InvoiceApi {
     Call<Invoice> getSingle(@Path("id") Long invoiceId);
 
     @POST("invoices")
-    Call create(@Body Invoice invoice);
+    Call<Void> create(@Body Invoice invoice);
 
     @PUT("invoices/{id}")
-    Call update(@Path("id") Long invoiceId, @Body Invoice invoice);
+    Call<Void> update(@Path("id") Long invoiceId, @Body Invoice invoice);
 
     @DELETE("invoices/{id}")
-    Call delete(@Path("id") Long invoiceId);
+    Call<Void> delete(@Path("id") Long invoiceId);
+
+    @POST("invoices/search")
+    Call<List<Invoice>> search(@Body Invoice invoice);
 }

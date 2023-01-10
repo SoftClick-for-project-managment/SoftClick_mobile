@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.layout.ExpenseSearchFragment">
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/coordinator_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <LinearLayout
+
+            android:id="@+id/standard_bottom_sheet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:layout_marginBottom="50dp"
+            app:behavior_hideable="true"
+            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+
+                android:fontFamily="@font/roboto_bold"
+                android:text="Search Expense"
+                android:textSize="18sp" />
+
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:columnCount="2">
+
+
+                <com.google.android.material.textfield.TextInputLayout
+
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@color/white"
+                    android:elevation="5dp"
+                    android:hint="@string/expenseCategory"
+                    android:textColorHint="#574D4D"
+                    app:boxBackgroundMode="outline"
+                    app:endIconMode="dropdown_menu"
+                    app:hintAnimationEnabled="false"
+                    app:hintEnabled="false"
+                    app:hintTextAppearance="@style/TextAppearance.AppCompat.Large">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/categoryInvoice_combo"
+                        style="@style/Widget.Material3.AutoCompleteTextView.OutlinedBox.Dense"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:allowClickWhenDisabled="true"
+
+                        android:background="#00000000"
+                        android:focusable="false"
+                        android:fontFamily="@font/roboto_regular"
+                        android:hint="@string/expenseCategory"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:textSize="16sp"
+
+                        />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@color/white"
+                    android:elevation="5dp"
+                    android:hint="@string/combotask"
+                    android:textColorHint="#574D4D"
+                    app:boxBackgroundMode="outline"
+                    app:endIconMode="dropdown_menu"
+                    app:hintAnimationEnabled="false"
+                    app:hintEnabled="false"
+                    app:hintTextAppearance="@style/TextAppearance.AppCompat.Large">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/taskInvoice_combo"
+                        style="@style/Widget.Material3.AutoCompleteTextView.OutlinedBox.Dense"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:allowClickWhenDisabled="true"
+
+                        android:background="#00000000"
+                        android:focusable="false"
+                        android:fontFamily="@font/roboto_regular"
+                        android:hint="@string/combotask"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:textSize="16sp"
+
+                        />
+
+                </com.google.android.material.textfield.TextInputLayout>
+            </GridLayout>
+
+            <RadioGroup
+                android:gravity="center"
+                android:id="@+id/typeRadioGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="20dp">
+                <RadioButton
+                    android:id="@+id/expenseRadio_search"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:text="Expense"/>
+                <RadioButton
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:text="Income"
+                    android:id="@+id/incomeRadio_search"/>
+                <RadioButton
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:text="All"
+                    android:id="@+id/allRadio_search"/>
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/searchbtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="100dp"
+                android:background="@drawable/button_bg"
+                android:clickable="true"
+                android:fontFamily="@font/roboto_regular"
+                android:gravity="center"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:text="@string/searchbtn"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+        </LinearLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
+</FrameLayout>

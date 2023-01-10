@@ -1,5 +1,7 @@
 package com.job.softclick_mobile.ui.projectFragments;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,6 +14,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +23,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,11 +32,13 @@ import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClic
 import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.adapters.MainRecyclerAdapter;
 import com.job.softclick_mobile.databinding.FragmentAddProjectBinding;
+import com.job.softclick_mobile.databinding.FragmentListProjectsBinding;
 import com.job.softclick_mobile.models.Domain;
 import com.job.softclick_mobile.models.Employee;
 import com.job.softclick_mobile.models.Priority;
 import com.job.softclick_mobile.models.Project;
 import com.job.softclick_mobile.models.Status;
+import com.job.softclick_mobile.models.Team;
 import com.job.softclick_mobile.ui.layout.FooterFragment;
 import com.job.softclick_mobile.viewmodels.domains.DomainViewModel;
 import com.job.softclick_mobile.viewmodels.domains.IDomainViewModel;
@@ -44,6 +50,8 @@ import com.job.softclick_mobile.viewmodels.project.IProjectViewModel;
 import com.job.softclick_mobile.viewmodels.project.ProjectViewModel;
 import com.job.softclick_mobile.viewmodels.status.IStatusViewModel;
 import com.job.softclick_mobile.viewmodels.task.TaskViewModel;
+import com.job.softclick_mobile.viewmodels.teams.ITeamViewModel;
+import com.job.softclick_mobile.viewmodels.teams.TeamViewModel;
 
 import java.lang.reflect.Field;
 import java.sql.Timestamp;
@@ -51,8 +59,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TimeZone;
 
 /**
@@ -60,7 +71,7 @@ import java.util.TimeZone;
  * Use the {@link AddProjectFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class AddProjectFragment extends Fragment {
+public class AddProjectFragment<items> extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -75,13 +86,20 @@ public class AddProjectFragment extends Fragment {
     private AutoCompleteTextView Combo_priority;
     private AutoCompleteTextView Combo_chef;
     ImageView flesh_back;
-    TextView add_btn, update_btn, title_page;
-    Date date_debut=null;
-    Date date_fin = null;
+    TextView add_btn, update_btn, title_page , selectTeambtn , selectedTeamsText;
+    Date date_debut=new Date();
+    Date date_fin = new Date();
     private IDomainViewModel domainViewModel;
     HashMap<String,Long> domains_pairs = new HashMap<>();
     HashMap<String,Long> employe_pairs = new HashMap<>();
     HashMap<String,Integer> priority_pairs = new HashMap<>();
+
+    List<Team> teamArrayList = new ArrayList<>();
+    CharSequence[] items;
+    boolean[] selectedItems;
+    Hashtable<String,Long> teamHash=new Hashtable<>();
+    long[] teamIds;
+    List<Long> selectedTeamIds = new ArrayList<>();
 
 
     String[] clients = new String[]{
@@ -105,6 +123,7 @@ public class AddProjectFragment extends Fragment {
     private IProjectViewModel projectViewModel;
     private IEmployeeViewModel employeeViewModel;
     private IPriorityViewModel priorityViewModel;
+    private ITeamViewModel teamViewModel;
 
 
     public AddProjectFragment() {
@@ -143,7 +162,7 @@ public class AddProjectFragment extends Fragment {
         domainViewModel = new ViewModelProvider(this).get(DomainViewModel.class);
         employeeViewModel = new ViewModelProvider(this).get(EmployeeViewModel.class);
         priorityViewModel = new ViewModelProvider(this).get(PriorityViewModel.class);
-
+        teamViewModel = new ViewModelProvider(this).get(TeamViewModel.class);
 
         title_page = binding.pageTitle;
         name_project = binding.nameProjectInput;
@@ -157,6 +176,8 @@ public class AddProjectFragment extends Fragment {
         flesh_back = binding.fleshBack;
         add_btn = binding.addbtn;
         update_btn = binding.updatebtn;
+        selectTeambtn = binding.selectTeamsbtn;
+        selectedTeamsText = binding.selectedTeamsText;
 
 
 
@@ -234,6 +255,14 @@ public class AddProjectFragment extends Fragment {
             Combo_priority.setText(project.getProjectPriority().getNamePriority());
             Combo_chef.setText(project.getChefProject().getEmployeeLastName()+" "+project.getChefProject().getEmployeeFirstName());
 
+            date_picker_debut.setText(project.getDateDebut().toString());
+            date_debut.setTime(project.getDateDebut().getTime());
+
+            date_picker_fin.setText(project.getDateFin().toString());
+            date_fin.setTime(project.getDateFin().getTime());
+
+
+
             //and complete all fields ... TODO
 
         }
@@ -276,6 +305,7 @@ public class AddProjectFragment extends Fragment {
         date_picker_debut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 materialDatePicker_debut.show(getParentFragmentManager(), "DATE_PICKER");
 
             }
@@ -317,6 +347,84 @@ public class AddProjectFragment extends Fragment {
             }
         });
 
+        //-------------------------------------------------------------
+        teamViewModel.getAll().gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Team>>() {
+            @Override
+            public void onChanged(List<Team> teams) {
+                teamArrayList = new ArrayList<>();
+
+                teams.forEach(team -> {
+                    teamArrayList.add(team);
+                });
+                teamHash = new Hashtable<>();
+                items = new CharSequence[teamArrayList.size()];
+                selectedItems = new boolean[teamArrayList.size()];
+                List<Team> teamsProject = (project != null)? new ArrayList<>(project.getTeams()):new ArrayList<>();
+                for (int i = 0; i < teamArrayList.size(); i++) {
+                    teamHash.put(teamArrayList.get(i).getTeam_Name(), teamArrayList.get(i).getIdTeam());
+                    items[i] = teamArrayList.get(i).getTeam_Name();
+                    selectedItems[i] = false;
+
+                    for(Team team: teamsProject){
+                        if(teamArrayList.get(i).getIdTeam() == team.getIdTeam()){
+                            selectedItems[i] = true;
+                        }
+                    }
+                }
+                binding.selectedTeamsText.setText(itemsToString());
+
+                items = teamHash.keySet().toArray(new CharSequence[0]);
+
+                teamIds = new long[items.length];
+                for (int i = 0; i < items.length; i++) {
+                    teamIds[i] = teamHash.get(items[i]);
+                }
+            }
+        });
+        //-------------------------------------------------------------
+        binding.selectTeamsbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+                alertDialogBuilder.setCancelable(true);
+                alertDialogBuilder.setTitle("Select teams to work on this proejct");
+                alertDialogBuilder.setMultiChoiceItems(items, selectedItems, new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int which, boolean isChecked) {
+                        selectedItems[which] = isChecked;
+                    }
+                });
+                alertDialogBuilder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        binding.selectedTeamsText.setText(itemsToString());
+                        ListView listView = ((AlertDialog)dialogInterface).getListView();
+                        SparseBooleanArray checkedItemPositions = listView.getCheckedItemPositions();
+                        // Create a list to store the selected values
+                        List<String> selectedValues = new ArrayList<>();
+                        selectedTeamIds = new ArrayList<>();
+
+                        // Iterate through the checked item positions and add the selected values to the list
+                        for (int j = 0; j < checkedItemPositions.size(); j++) {
+                            if (checkedItemPositions.valueAt(j)) {
+                                selectedValues.add(items[checkedItemPositions.keyAt(j)].toString());
+                                selectedTeamIds.add(teamIds[checkedItemPositions.keyAt(j)]);
+
+                            }
+                        }
+
+                        dialogInterface.dismiss();
+                    }
+                });
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.setCanceledOnTouchOutside(true);
+                alertDialog.show();
+
+            }
+        });
+        //-------------------------------------------------------------
+
         return binding.getRoot();
     }
 
@@ -324,19 +432,26 @@ public class AddProjectFragment extends Fragment {
 
     public Project validate() {
         Project added_project = null;
-
+        boolean is_validated = true;
         String name = name_project.getText().toString().trim();
         String description_text = description.getText().toString().trim();
-        Double revenue_text = Double.parseDouble(revenue.getText().toString().trim());
+        Double revenue_text=0d ;
+        try{
+             revenue_text = Double.parseDouble(revenue.getText().toString().trim());
+        }catch (Exception e){
+            revenue.setHint(" Revenu is requered as number ! ");
+            revenue.setHintTextColor(getResources().getColor(R.color.design_default_color_error));
+            is_validated = false;
+        }
+
 
 
         Long domain_id = domains_pairs.get(Combo_domain.getText().toString());
-        Log.d("domain_id",domain_id.toString());
         Domain domain = new Domain();
         domain.setIdDomain(domain_id);
 
         Long chef_id = employe_pairs.get(Combo_chef.getText().toString());
-        Log.d("id_chef",chef_id.toString());
+
         Employee chef = new Employee();
         chef.setId(chef_id);
 
@@ -347,45 +462,69 @@ public class AddProjectFragment extends Fragment {
         Status status = new Status(1l,"");
 
 
-
-
-
-
         if (name.equals("")) {
             name_project.setHint(" Project name is required ! ");
             name_project.setHintTextColor(getResources().getColor(R.color.design_default_color_error));
+            is_validated = false;
 
-            return null;
 
         }
-        if (domain.equals("")) {
+        if (Combo_domain.getText().toString().equals("")) {
             Combo_domain.setHint(" Domain is required ! ");
             Combo_domain.setHintTextColor(getResources().getColor(R.color.design_default_color_error));
-            return null;
+            is_validated = false;
+
         }
         if (priority_name.equals("")) {
             Combo_priority.setHint(" priority is required ! ");
             Combo_priority.setHintTextColor(getResources().getColor(R.color.design_default_color_error));
-            return null;
+            is_validated = false;
+
+        }
+        if (Combo_chef.getText().toString().equals("")) {
+            Combo_chef.setHint(" chef is required ! ");
+            Combo_chef.setHintTextColor(getResources().getColor(R.color.design_default_color_error));
+            is_validated = false;
+
         }
 
         if (date_picker_debut.getText().toString().trim().equals("")) {
             date_picker_debut.setHint(" Date debut is required ! ");
             date_picker_debut.setHintTextColor(getResources().getColor(R.color.design_default_color_error));
+            is_validated = false;
+
+        }
+
+        if(!is_validated){
             return null;
         }
+
+        Set<Team> selectedTeams = new HashSet<>();
+
+        for(int i=0; i<selectedTeamIds.size(); i++){
+            Team selectedTeam = new Team();
+            selectedTeam.setIdTeam(selectedTeamIds.get(i));
+            selectedTeams.add(selectedTeam);
+        }
+
+
+
         added_project = new Project(name,description_text,revenue_text,domain,new Timestamp(date_debut.getTime()),new Timestamp(date_fin.getTime()),chef,status,priority);
+        added_project.setTeams(selectedTeams);
 
         return added_project;
     }
 
     public void update_project() {
+        binding.progressBar.setVisibility(View.VISIBLE);
+
         Project validated_project = validate();
         if (validated_project != null) {
             try {
                 projectViewModel.update(project.getIdProject(),validated_project);
-                getParentFragmentManager().beginTransaction().replace(R.id.fContentFooter, (Fragment) FooterFragment.class.newInstance()).commit();
-                Fragment fragment = new ListProjectsFragment();
+                binding.progressBar.setVisibility(View.VISIBLE);
+                getParentFragmentManager().beginTransaction().replace(R.id.fContentFooter, new FooterFragment(ListProjectsFragment.class)).commit();
+                ListProjectsFragment fragment = fragment = ListProjectsFragment.class.newInstance();
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.flContent, fragment);
@@ -399,15 +538,16 @@ public class AddProjectFragment extends Fragment {
     }
 
     public void add_project() {
+        binding.progressBar.setVisibility(View.VISIBLE);
         Project validated_project = validate();
         if (validated_project != null) {
             try {
 
                Log.d("CONSOLE LOG", "project is  : "+validated_project.toString());
                 projectViewModel.create(validated_project);
-
-                getParentFragmentManager().beginTransaction().replace(R.id.fContentFooter, (Fragment) FooterFragment.class.newInstance()).commit();
-                Fragment fragment = new ListProjectsFragment();
+                binding.progressBar.setVisibility(View.VISIBLE);
+                getParentFragmentManager().beginTransaction().replace(R.id.fContentFooter, new FooterFragment(ListProjectsFragment.class)).commit();
+                ListProjectsFragment fragment = fragment = ListProjectsFragment.class.newInstance();
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.flContent, fragment);
@@ -419,6 +559,16 @@ public class AddProjectFragment extends Fragment {
 
         }
 
+    }
+
+    private String itemsToString() {
+        String text = "";
+        for(int i=0; i<selectedItems.length; i++) {
+            if(selectedItems[i]) {
+                text += items[i] + " | ";
+            }
+        }
+        return text.trim();
     }
 
 

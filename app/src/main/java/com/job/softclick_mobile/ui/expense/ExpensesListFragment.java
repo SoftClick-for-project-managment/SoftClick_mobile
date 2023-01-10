@@ -2,6 +2,7 @@ package com.job.softclick_mobile.ui.expense;
 
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -15,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
@@ -23,8 +25,10 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.adapters.ExpenseListAdapter;
+import com.job.softclick_mobile.models.Employee;
 import com.job.softclick_mobile.models.Expense;
 import com.job.softclick_mobile.ui.contracts.RecyclerViewHandler;
+import com.job.softclick_mobile.viewmodels.ActivitySharedViewModel;
 import com.job.softclick_mobile.viewmodels.expense.ExpenseViewModel;
 import com.job.softclick_mobile.viewmodels.expense.IExpenseViewModel;
 
@@ -40,9 +44,10 @@ public class ExpensesListFragment extends Fragment implements RecyclerViewHandle
     private ArrayList<Expense> expenseArrayList;
     private IExpenseViewModel expenseViewModel;
     private ProgressBar progressBar;
-    private long income=0;
-    private long expense=0;
+    private long incomeValue=0;
+    private long expenseValue=0;
     View view;
+    private ActivitySharedViewModel activitySharedViewModel;
 
     public ExpensesListFragment() {
         // Required empty public constructor
@@ -61,6 +66,20 @@ public class ExpensesListFragment extends Fragment implements RecyclerViewHandle
         if (getArguments() != null) {
 
         }
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        activitySharedViewModel =  new ViewModelProvider(getActivity()).get(ActivitySharedViewModel.class);
+        activitySharedViewModel.getSearchExpense().observe(getViewLifecycleOwner(), new Observer<Expense>() {
+            @Override
+            public void onChanged(Expense expense) {
+
+                searchExpense(expense);
+
+            }
+        });
     }
 
     @Override
@@ -100,13 +119,17 @@ public class ExpensesListFragment extends Fragment implements RecyclerViewHandle
                 });
 
                 progressBar.setVisibility(View.INVISIBLE);
+                incomeValue=0;expenseValue=0;
                 for(Expense e:expenseArrayList){
-                    if (e.getTypeExpense()=="income"){
-                        income+=e.getAmount();
+                    if (e.getTypeExpense().equals("income")){
+                        incomeValue+=e.getAmount();
+                        Log.d("3","incomeValue"+incomeValue);
 
 
                     }else {
-                        expense+=e.getAmount();
+                        expenseValue+=e.getAmount();
+                        Log.d("4","expenseValue"+expenseValue);
+
                     }
                 }
                 setUpGraph();
@@ -135,17 +158,17 @@ public class ExpensesListFragment extends Fragment implements RecyclerViewHandle
     private void setUpGraph() {
         List<PieEntry> pieEntryList = new ArrayList<>();
         List<Integer> colorsList = new ArrayList<>();
-        if (income != 0) {
-            pieEntryList.add(new PieEntry(income, "Income"));
+        if (incomeValue != 0) {
+            pieEntryList.add(new PieEntry(incomeValue, "Income"));
             colorsList.add(getResources().getColor((R.color.teal_700)));
 
         }
-        if (expense != 0) {
-            pieEntryList.add(new PieEntry(expense, "Expense"));
+        if (expenseValue != 0) {
+            pieEntryList.add(new PieEntry(expenseValue, "Expense"));
             colorsList.add(getResources().getColor((R.color.red)));
 
         }
-        PieDataSet pieDataSet = new PieDataSet(pieEntryList, String.valueOf(income = expense));
+        PieDataSet pieDataSet = new PieDataSet(pieEntryList, String.valueOf(incomeValue = expenseValue));
         pieDataSet.setColors(colorsList);
         pieDataSet.setValueTextColor(getResources().getColor((R.color.white)));
         PieData pieData = new PieData(pieDataSet);
@@ -174,5 +197,21 @@ public class ExpensesListFragment extends Fragment implements RecyclerViewHandle
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
 
+    }
+
+    public void searchExpense(Expense expense){
+        expenseViewModel.search(expense).gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Expense>>() {
+            @Override
+            public void onChanged(List<Expense> expenses) {
+                expenseArrayList = new ArrayList<>();
+                expenses.forEach(employee -> {
+                    expenseArrayList.add(employee);
+                });
+                progressBar.setVisibility(View.INVISIBLE);
+                recyclerView.setVisibility(View.VISIBLE);
+                refreshUi();
+                //mainRecyclerAdapter.notifyDataSetChanged();
+            }
+        });
     }
 }

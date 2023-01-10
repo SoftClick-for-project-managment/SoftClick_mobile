@@ -2,6 +2,7 @@ package com.job.softclick_mobile.ui.employees;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -21,6 +22,7 @@ import android.widget.Toast;
 import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.databinding.FragmentEmployeeDetailsBinding;
 import com.job.softclick_mobile.models.Employee;
+import com.job.softclick_mobile.models.Skill;
 import com.job.softclick_mobile.ui.layout.FooterFragment;
 import com.job.softclick_mobile.utils.LiveResponse;
 import com.job.softclick_mobile.viewmodels.employees.EmployeeViewModel;
@@ -38,7 +40,6 @@ public class EmployeeDetailsFragment extends Fragment {
 
 
     public EmployeeDetailsFragment() {
-        // Required empty public constructor
     }
 
     public static EmployeeDetailsFragment newInstance(String param1, String param2) {
@@ -69,6 +70,20 @@ public class EmployeeDetailsFragment extends Fragment {
         binding.employeeEmail.setText(employee.getEmployeeEmail());
         binding.employeePhone.setText(employee.getEmployeePhone());
         binding.employeeFunction.setText(employee.getEmployeeFunction());
+        if(employee.getEmployeeImage() == null) {
+            binding.employeePhoto.setImageResource(R.drawable.user_photo);
+        }
+        else {
+            binding.employeePhoto.setImageBitmap(BitmapFactory.decodeFile(employee.getEmployeeImage()));
+        }
+
+
+        String text = "";
+        for(Skill skill: employee.getSkills()) {
+            text += skill.getSkillName() + " | ";
+        }
+
+        binding.employeeSkills.setText(text.trim());
 
         if (binding.moreOptions != null) {
             binding.moreOptions.setOnClickListener(new View.OnClickListener() {
@@ -120,10 +135,10 @@ public class EmployeeDetailsFragment extends Fragment {
             binding.back.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    EmployeeListFragment invoiceListFragment = new EmployeeListFragment();
-                    FooterFragment footerFragment = new FooterFragment();
+                    EmployeeListFragment employeListFragment = new EmployeeListFragment();
+                    FooterFragment footerFragment = new FooterFragment(EmployeeListFragment.class);
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fContentFooter, footerFragment).commit();
-                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContent, invoiceListFragment).commit();
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContent, employeListFragment).commit();
                 }
             });
         }

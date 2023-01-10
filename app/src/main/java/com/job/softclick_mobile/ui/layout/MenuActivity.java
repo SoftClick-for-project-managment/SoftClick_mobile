@@ -5,6 +5,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -14,6 +15,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
@@ -35,8 +37,11 @@ import com.job.softclick_mobile.utils.LiveResponse;
 import com.job.softclick_mobile.utils.PushNotificationHub;
 import com.job.softclick_mobile.viewmodels.user.IUserViewModel;
 import com.job.softclick_mobile.viewmodels.user.UserViewModel;
-
+import com.job.softclick_mobile.databinding.HeaderBinding;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 
 public class MenuActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -44,6 +49,9 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
     private FragmentManager fragmentManager = getSupportFragmentManager();
     private IUserViewModel userViewModel;
     private User authUser;
+    private HeaderBinding menuToolbar;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,9 +67,14 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         authUserLiveResp.gettMutableLiveData().observe(this, new Observer<User>() {
             @Override
             public void onChanged(User user) {
-                authUser = user;
-                checkUserRole();
-                Toast.makeText(MenuActivity.this, "Welcome "+authUser.getEmployee().getEmployeeFirstName(), Toast.LENGTH_SHORT).show();
+                if(user != null) {
+                    authUser = user;
+                    TextView textView = binding.navView.findViewById(R.id.userName);
+
+                    textView.setText(authUser.getEmployee().getEmployeeFirstName() + " " + authUser.getEmployee().getEmployeeLastName());
+                    checkUserRole();
+                }
+
             }
         });
         authUserLiveResp.geteMutableLiveData().observe(this, new Observer<Throwable>() {
@@ -97,10 +110,11 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         // Insert the fragment by replacing any existing fragment
         fragmentManager = getSupportFragmentManager();
         try {
-            fragmentManager.beginTransaction().replace(R.id.fContentFooter, (Fragment) FooterFragment.class.newInstance()).commit();
+            fragmentManager.beginTransaction().replace(R.id.flContent,(Fragment) PrincipalFragment.class.newInstance()).commit();;
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
     private void checkUserRole() {
@@ -118,7 +132,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
 
             switch (role.getName())  {
                 case Role.ROLE_DIRECTOR:
-                    menuItemTasks.setVisible(true);
+                    menuItemTasks.setVisible(false);
                     menuItemTeams.setVisible(true);
                     menuItemProjects.setVisible(true);
                     menuItemClients.setVisible(true);
@@ -127,7 +141,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
                     menuItemInvoices.setVisible(true);
                     break;
                 case Role.ROLE_PROJECT_MANAGER:
-                    menuItemTasks.setVisible(true);
+                    menuItemTasks.setVisible(false);
                     menuItemTeams.setVisible(false);
                     menuItemProjects.setVisible(true);
                     menuItemClients.setVisible(false);
@@ -148,14 +162,18 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
                 case Role.ROLE_ADMIN:
                     break;
             }
+
         }
+
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item){
+
         // Create a new fragment and specify the fragment to show based on nav item clicked
         Fragment fragment = null;
         Class fragmentClass = null;
+
 
         switch (item.getItemId()) {
             case R.id.tasks_item:
@@ -174,7 +192,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
             {
                 try{
                     fragmentClass = TeamListFragment.class;
-                    fragmentManager.beginTransaction().replace(R.id.fContentFooter, (Fragment) FooterFragment.class.newInstance()).commit();
+                    fragmentManager.beginTransaction().replace(R.id.fContentFooter, new FooterFragment(TeamListFragment.class)).commit();
                     fragment = (Fragment) fragmentClass.newInstance();
                 }
                 catch (Exception e ){
@@ -210,7 +228,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
             {
                 try{
                     fragmentClass = ExpensesListFragment.class;
-                    fragmentManager.beginTransaction().replace(R.id.fContentFooter, (Fragment) FooterFragment.class.newInstance()).commit();
+                    fragmentManager.beginTransaction().replace(R.id.fContentFooter, new FooterFragment(ExpensesListFragment.class)).commit();
                     fragment = (Fragment) fragmentClass.newInstance();
                 }
                 catch (Exception e ){
@@ -221,7 +239,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
             {
                 try{
                     fragmentClass = InvoiceListFragment.class;
-                    fragmentManager.beginTransaction().replace(R.id.fContentFooter, (Fragment) FooterFragment.class.newInstance()).commit();
+                    fragmentManager.beginTransaction().replace(R.id.fContentFooter, new FooterFragment(InvoiceListFragment.class)).commit();
                     fragment = (Fragment) fragmentClass.newInstance();
                 }
                 catch (Exception e ){

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SoftClick_mobile</string>
+    <string name="app_name">SoftClick</string>
     <string name="openNavDrawer">Navigation Drawer Open</string>
     <string name="closeNavDrawer">Navigation Drawer Close</string>
     <!-- TODO: Remove or change this placeholder text -->
@@ -36,6 +36,12 @@
     <string name="team8">Team 8</string>
     <string name="team9">Team 9</string>
     <string name="team10">Team 10</string>
+    <string name="welcome">Welcome</string>
+
+    <string name="shot_views">shot_views</string>
+    <string name="clients">clients</string>
+    <string name="employees">employees</string>
+    <string name="teams">teams</string>
 
 
     <string name="member1"> Soukaina</string>
@@ -60,4 +66,15 @@
     <string name="Organisation_name_hint">Organisation Name</string>
     <string name="client_ville_hint">Vile</string>
     <string name="pay_name_hint">Pay</string>
+    <string name="firstNameEmploye_hint">First Name</string>
+    <string name="lastNameEmploye_hint">Last Name</string>
+    <string name="FunctionEmploye_hint">Function</string>
+    <string name="skill_employe">Skill</string>
+    <string name="TeamName_hint">Name Team</string>
+    <string name="member_team">Member</string>
+    <string name="client_invoice">Client</string>
+    <string name="project_invoice">Project</string>
+    <string name="combotask">Task</string>
+    <string name="expenseCategory">Category</string>
+    <string name="selectTeams">Select teams</string>
 </resources>

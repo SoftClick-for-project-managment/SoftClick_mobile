@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,11 +23,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.adapters.MainRecyclerAdapter;
 import com.job.softclick_mobile.adapters.RvItemClickListener;
+
 import com.job.softclick_mobile.databinding.FragmentListProjectsBinding;
 import com.job.softclick_mobile.databinding.FragmentProjectSearchBinding;
-import com.job.softclick_mobile.models.Domain;
-import com.job.softclick_mobile.models.Employee;
-import com.job.softclick_mobile.models.Priority;
 import com.job.softclick_mobile.models.Project;
 import com.job.softclick_mobile.models.Project_section;
 import com.job.softclick_mobile.models.Status;
@@ -67,6 +66,7 @@ public class ListProjectsFragment extends Fragment implements RvItemClickListene
     private FloatingActionButton addButton;
     private TextView search;
     private MainRecyclerAdapter mainRecyclerAdapter;
+    private ProgressBar progressBar;
 
     public ListProjectsFragment() {
         // Required empty public constructor
@@ -119,6 +119,7 @@ public class ListProjectsFragment extends Fragment implements RvItemClickListene
 
         binding = FragmentListProjectsBinding.inflate(inflater, container, false);
         searchbind = FragmentProjectSearchBinding.inflate(inflater, container, false);
+        progressBar = binding.progressBar;
     //    initData();
         mainRecyclerView = binding.mainRecycleView;
         projectViewModel = new ViewModelProvider(this).get(ProjectViewModel.class);
@@ -146,6 +147,8 @@ public class ListProjectsFragment extends Fragment implements RvItemClickListene
                 List<Project_section> project_sectionList = new ArrayList<Project_section>(projects_pairs.values());
                 sections = project_sectionList;
                 mainRecyclerAdapter.setProject_sectionList(sections);
+                mainRecyclerAdapter.notifyDataSetChanged();
+                progressBar.setVisibility(View.INVISIBLE);
 
             }
         });

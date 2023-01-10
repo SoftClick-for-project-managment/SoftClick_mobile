@@ -82,15 +82,17 @@ public class EmployeeListFragment extends Fragment implements RecyclerViewHandle
         });
 
         employeeViewModel.getAll().gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Employee>>() {
-            
+
             @Override
             public void onChanged(List<Employee> employees) {
                 //employeeList = employees;
                 employeeArrayList = new ArrayList<>();
                 //AtomicReference<ArrayList<Employee>> sEmployeeList = new AtomicReference<>(new ArrayList<>());
-
+                System.out.println("Employee Teams :");
                 employees.forEach(employee -> {
-                        employeeArrayList.add(employee);
+                    employeeArrayList.add(employee);
+
+                    System.out.println(employee.getTeams());
                 });
 
                 progressBar.setVisibility(View.INVISIBLE);

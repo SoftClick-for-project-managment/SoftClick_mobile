@@ -141,13 +141,13 @@
 
                             <TextView
                                 android:id="@+id/domain_project"
-                                android:layout_width="148dp"
-                                android:layout_height="wrap_content"
+                                android:layout_width="wrap_content"
+                                android:layout_height="40dp"
                                 android:layout_marginLeft="200dp"
                                 android:layout_marginTop="5dp"
                                 android:fontFamily="@font/roboto_bold"
                                 android:text="Intelligence Artificial"
-                                android:textSize="15sp" />
+                                android:textSize="16sp" />
 
 
 
@@ -155,6 +155,8 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical"
+                                android:paddingVertical="15dp"
+                                android:layout_marginVertical="5dp"
                                 >
 
                                 <TextView
@@ -174,6 +176,8 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="@string/dirige_par"
+                                        android:textColor="#353333"
+
                                         />
 
                                     <TextView
@@ -183,7 +187,8 @@
                                         android:layout_marginLeft="40dp"
                                         android:text="@string/chefname"
                                         android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                                        android:textSize="15sp" />
+                                        android:textSize="15sp"
+                                        />
 
                                 </LinearLayout>
                                 <LinearLayout
@@ -196,6 +201,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="@string/prioritydeprojet"
+                                        android:textColor="#353333"
                                         />
 
                                     <TextView
@@ -214,6 +220,7 @@
                                     android:layout_height="wrap_content"
                                     android:text="@string/commande_par"
                                     android:layout_marginLeft="10dp"
+                                    android:textColor="#353333"
                                     />
 
                                 <TextView
@@ -221,7 +228,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="120dp"
-                                    android:text=" - mr lghali \n - mr faisal \n- mr hassan"
+                                    android:text=" "
                                     android:textSize="15sp" />
 
                                 <TextView
@@ -229,6 +236,7 @@
                                     android:layout_height="wrap_content"
                                     android:text="@string/equipe_par"
                                     android:layout_marginLeft="10dp"
+                                    android:textColor="#353333"
                                     />
 
                                 <TextView
@@ -236,7 +244,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="120dp"
-                                    android:text=" - Front end Num 1 \n - Front end Num 5 \n- Devops "
+                                    android:text=""
                                     android:textSize="15sp" />
 
                                 <LinearLayout
@@ -249,6 +257,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="@string/etat_avancement"
+                                        android:textColor="#353333"
                                         />
                                     <com.google.android.material.progressindicator.LinearProgressIndicator
                                         android:id="@+id/etat_avancement"
@@ -273,6 +282,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="@string/revenue"
+                                        android:textColor="#353333"
                                         />
 
                                     <TextView
@@ -283,26 +293,7 @@
                                         android:textSize="15sp" />
 
                                 </LinearLayout>
-                                <LinearLayout
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="horizontal"
-                                    android:layout_marginLeft="10dp"
-                                    >
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="@string/depense"
-                                        />
 
-                                    <TextView
-                                        android:id="@+id/depense_total"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="20000 DH"
-                                        android:textSize="15sp" />
-
-                                </LinearLayout>
 
                             </LinearLayout>
 
