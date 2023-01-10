@@ -23,4 +23,7 @@ public class ExampleInstrumentedTest {
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
         assertEquals("com.job.softclick_mobile", appContext.getPackageName());
     }
+
+
+
 }
