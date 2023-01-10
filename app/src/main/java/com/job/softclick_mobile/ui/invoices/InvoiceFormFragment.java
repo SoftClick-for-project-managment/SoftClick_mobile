@@ -60,6 +60,7 @@ public class InvoiceFormFragment extends Fragment {
     private Hashtable<String, Integer> ClientHash;
     private Hashtable<String, Integer> ProjectHash;
     private List<String> clientName;
+    private List<String> projectName;
 
     public InvoiceFormFragment() {
         // Required empty public constructor
@@ -144,11 +145,11 @@ public class InvoiceFormFragment extends Fragment {
             binding.createBtn.setText("Edit");
             binding.pageTitle.setText("Invoice Edition");
             int index = invoice.getDate().toString().indexOf(":");
-            String date_ ="";
-            String time_="";
-            if(index == -1){
+            String date_ = "";
+            String time_ = "";
+            if (index == -1) {
                 date_ = invoice.getDate().toString();
-            }else {
+            } else {
                 date_ = invoice.getDate().toString().substring(0, index);
                 time_ = invoice.getDate().toString().substring(index + 1, invoice.getDate().toString().length());
             }
@@ -171,11 +172,9 @@ public class InvoiceFormFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
 
-                    if(TextUtils.isEmpty(binding.date.getText()) || TextUtils.isEmpty(binding.timedate.getText()) || TextUtils.isEmpty(binding.total.getText())|| TextUtils.isEmpty(binding.projectCombo.getText()) || TextUtils.isEmpty(binding.clientCombo.getText())){
-                        Toast.makeText(getActivity(), "please fill out all fields", Toast.LENGTH_SHORT).show();
-                    }
-                    else{
-                    updateInvoice((long) invoice.getId());}
+
+                        updateInvoice((long) invoice.getId());
+
                 }
             });
 
@@ -194,12 +193,9 @@ public class InvoiceFormFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
 
-                    if(TextUtils.isEmpty(binding.date.getText()) || TextUtils.isEmpty(binding.timedate.getText()) || TextUtils.isEmpty(binding.total.getText())|| TextUtils.isEmpty(binding.projectCombo.getText()) || TextUtils.isEmpty(binding.clientCombo.getText())){
-                        Toast.makeText(getActivity(), "please fill out all fields", Toast.LENGTH_SHORT).show();
-                    }
-                    else{
+
                         createInvoice();
-                    }
+
 
                 }
             });
@@ -229,6 +225,8 @@ public class InvoiceFormFragment extends Fragment {
     }
 
     public void createInvoice() {
+        boolean error=validate();
+        if(!error){
         binding.progressBar.setVisibility(View.VISIBLE);
         binding.formBody.setVisibility(View.GONE);
         long idclient = ClientHash.get(Combo_client.getText().toString());
@@ -274,7 +272,8 @@ public class InvoiceFormFragment extends Fragment {
                 binding.progressBar.setVisibility(View.GONE);
                 Log.d("ERR", error.getMessage());
             }
-        });
+        });}
+        else return;
 
 
     }
@@ -301,17 +300,63 @@ public class InvoiceFormFragment extends Fragment {
             ProjectHash.put(arraylist.get(i).getNameProject(), arraylist.get(i).getIdProject().intValue());
         }
         Set<String> stringList = ProjectHash.keySet();
-        clientName = new ArrayList<>();
-        clientName.addAll(stringList);
-        for (int i = 0; i < clientName.size(); i++) {
-            System.out.println(clientName.get(i).toString());
+        projectName = new ArrayList<>();
+        projectName.addAll(stringList);
+        for (int i = 0; i < projectName.size(); i++) {
+            System.out.println(projectName.get(i).toString());
         }
-        ArrayAdapter<String> adapter_client = new ArrayAdapter<String>(getActivity(),
-                R.layout.dropdown_item, clientName);
-        combo.setAdapter(adapter_client);
+        ArrayAdapter<String> adapter_project = new ArrayAdapter<String>(getActivity(),
+                R.layout.dropdown_item, projectName);
+        combo.setAdapter(adapter_project);
     }
 
+    public boolean validate() {
+
+        String date=binding.date.getText().toString();
+        String time=binding.timedate.getText().toString();
+        String clientname=binding.clientCombo.getText().toString();
+        String projectname=binding.projectCombo.getText().toString();
+        String total=binding.total.getText().toString();
+
+        boolean error = false ;
+
+        if (date.equals("")){
+            binding.date.setHint("Date  is required ");
+            binding.date.setHintTextColor(getResources().getColor(R.color.design_default_color_error));
+            error = true;
+        }
+
+        if (time.equals("")) {
+            binding.timedate.setHint(" Time is required ! ");
+            binding.timedate.setHintTextColor(getResources().getColor(R.color.design_default_color_error));
+            error = true ;
+        }
+        if (clientname.equals("")) {
+
+            binding.clientCombo.setHint(" Client name  is required ! ");
+            binding.clientCombo.setHintTextColor(getResources().getColor(R.color.design_default_color_error));
+            error = true ;
+        }
+
+        if (projectname.equals("")) {
+
+            binding.projectCombo.setHint(" Project name is required ! ");
+            binding.projectCombo.setHintTextColor(getResources().getColor(R.color.design_default_color_error));
+            error = true ;
+        }
+
+        if (total.equals("")) {
+
+            binding.total.setHint(" total is required ! ");
+            binding.total.setHintTextColor(getResources().getColor(R.color.design_default_color_error));
+            error = true ;
+        }
+
+        return error;
+    }
     public void updateInvoice(Long key) {
+        boolean error=validate();
+        if(!error){
         binding.progressBar.setVisibility(View.VISIBLE);
         binding.formBody.setVisibility(View.GONE);
         long id = ClientHash.get(Combo_client.getText().toString());
@@ -321,7 +366,7 @@ public class InvoiceFormFragment extends Fragment {
         Project selectedproject = new Project();
         selectedproject.setIdProject(idproject);
         Invoice invoice = new Invoice(
-                binding.date.getText().toString(),
+                binding.date.getText().toString()+" : "+binding.timedate.getText().toString(),
                 binding.total.getText().toString(),
                 selected,
                 selectedproject
@@ -361,7 +406,8 @@ public class InvoiceFormFragment extends Fragment {
                 binding.progressBar.setVisibility(View.GONE);
                 Log.d("ERR", error.getMessage());
             }
-        });
+        });}
+        else return;
 
 
     }

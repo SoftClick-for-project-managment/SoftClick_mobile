@@ -62,10 +62,11 @@ public class InvoiceListFragment extends Fragment implements RecyclerViewHandler
         if (getArguments() != null) {
         }
     }
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        activitySharedViewModel =  new ViewModelProvider(getActivity()).get(ActivitySharedViewModel.class);
+        activitySharedViewModel = new ViewModelProvider(getActivity()).get(ActivitySharedViewModel.class);
         activitySharedViewModel.getSearchInvoice().observe(getViewLifecycleOwner(), new Observer<Invoice>() {
             @Override
             public void onChanged(Invoice invoice) {
@@ -92,6 +93,7 @@ public class InvoiceListFragment extends Fragment implements RecyclerViewHandler
             @Override
             public void onChanged(Object o) {
                 progressBar.setVisibility(View.INVISIBLE);
+                recyclerView.setVisibility(View.VISIBLE);
                 Throwable error = (Throwable) o;
                 Log.d("ERR", error.getMessage());
             }
@@ -107,6 +109,7 @@ public class InvoiceListFragment extends Fragment implements RecyclerViewHandler
                 });
 
                 progressBar.setVisibility(View.INVISIBLE);
+                recyclerView.setVisibility(View.VISIBLE);
                 refreshUi();
             }
         });
@@ -129,7 +132,8 @@ public class InvoiceListFragment extends Fragment implements RecyclerViewHandler
         return view;
 
     }
-    private void refreshUi(){
+
+    private void refreshUi() {
         adapter = new InvoiceListAdapter(invoiceArrayList, this);
         recyclerView.setAdapter(adapter);
     }
@@ -148,7 +152,7 @@ public class InvoiceListFragment extends Fragment implements RecyclerViewHandler
         fragmentTransaction.commit();
     }
 
-    public void searchInvoice(Invoice invoice){
+    public void searchInvoice(Invoice invoice) {
         invoiceViewModel.search(invoice).gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Invoice>>() {
             @Override
             public void onChanged(List<Invoice> invoices) {

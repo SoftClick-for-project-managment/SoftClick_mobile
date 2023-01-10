@@ -47,6 +47,7 @@ public class InvoiceDetailsFragment extends Fragment {
     public InvoiceDetailsFragment() {
         // Required empty public constructor
     }
+
     public static InvoiceDetailsFragment newInstance(String param1, String param2) {
         InvoiceDetailsFragment fragment = new InvoiceDetailsFragment();
         Bundle args = new Bundle();
@@ -58,7 +59,7 @@ public class InvoiceDetailsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            invoice=(Invoice) getArguments().getSerializable("invoice");
+            invoice = (Invoice) getArguments().getSerializable("invoice");
             System.out.println(invoice.toString());
         }
     }
@@ -99,16 +100,16 @@ public class InvoiceDetailsFragment extends Fragment {
         invoiceViewModel = new ViewModelProvider(this).get(InvoiceViewModel.class);
         date = binding.date;
         total = binding.total;
-        client=binding.client;
-        project=binding.project;
+        client = binding.client;
+        project = binding.project;
         project.setText(invoice.getProject().getNameProject().toString());
         String dataDate = invoice.getDate().toString();
         date.setText(dataDate);
         String dataTotal = invoice.getTotal();
         total.setText(dataTotal);
 //        String projectname=invoice.getProject().getNameProject().toString();
-     //   project.setText(projectname);
-        String clientname=invoice.getClient().getNom()+" "+invoice.getClient().getPrenom();
+        //   project.setText(projectname);
+        String clientname = invoice.getClient().getNom() + " " + invoice.getClient().getPrenom();
         client.setText(clientname);
         back = binding.imageView;
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fContentFooter, new Fragment()).commit();
@@ -137,7 +138,7 @@ public class InvoiceDetailsFragment extends Fragment {
                                 break;
 
                             case R.id.delete:
-                                Toast.makeText(getActivity(), "Under Construction ", Toast.LENGTH_LONG).show();
+                               // Toast.makeText(getActivity(), "Under Construction ", Toast.LENGTH_LONG).show();
                                 AlertDialog diaBox = AskOption();
                                 diaBox.show();
                                 break;
@@ -194,18 +195,19 @@ public class InvoiceDetailsFragment extends Fragment {
         });
         return view;
     }
-    public void deleteInvoice(){
+
+    public void deleteInvoice() {
         binding.progressBar.setVisibility(View.VISIBLE);
         //binding.formBody.setVisibility(View.GONE);
 
 
         System.out.println("Invoice ::: " + this.invoice.getTotal());
 
-        LiveResponse createLiveResponse =  invoiceViewModel.delete((long) this.invoice.getId());
+        LiveResponse createLiveResponse = invoiceViewModel.delete((long) this.invoice.getId());
         createLiveResponse.gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer() {
             @Override
             public void onChanged(Object o) {
-                if((Boolean) o == true ){
+                if ((Boolean) o == true) {
                     binding.progressBar.setVisibility(View.GONE);
                     back.callOnClick();
                 }

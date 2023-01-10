@@ -25,6 +25,7 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.adapters.ExpenseListAdapter;
+import com.job.softclick_mobile.databinding.FragmentExpensesListBinding;
 import com.job.softclick_mobile.models.Employee;
 import com.job.softclick_mobile.models.Expense;
 import com.job.softclick_mobile.ui.contracts.RecyclerViewHandler;
@@ -37,6 +38,7 @@ import java.util.List;
 
 public class ExpensesListFragment extends Fragment implements RecyclerViewHandler<Expense>{
     private RecyclerView recyclerView;
+    private FragmentExpensesListBinding binding;
     private ExpenseListAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
     private FloatingActionButton addButton;
@@ -123,11 +125,13 @@ public class ExpensesListFragment extends Fragment implements RecyclerViewHandle
                 for(Expense e:expenseArrayList){
                     if (e.getTypeExpense().equals("income")){
                         incomeValue+=e.getAmount();
+
                         Log.d("3","incomeValue"+incomeValue);
 
 
                     }else {
                         expenseValue+=e.getAmount();
+
                         Log.d("4","expenseValue"+expenseValue);
 
                     }

@@ -34,6 +34,7 @@ import com.job.softclick_mobile.ui.projectFragments.ListProjectsFragment;
 import com.job.softclick_mobile.ui.expense.ExpensesListFragment;
 import com.job.softclick_mobile.ui.clients.ClientListFragment;
 import com.job.softclick_mobile.utils.LiveResponse;
+import com.job.softclick_mobile.utils.PushNotificationHub;
 import com.job.softclick_mobile.viewmodels.user.IUserViewModel;
 import com.job.softclick_mobile.viewmodels.user.UserViewModel;
 import com.job.softclick_mobile.databinding.HeaderBinding;
@@ -109,7 +110,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         // Insert the fragment by replacing any existing fragment
         fragmentManager = getSupportFragmentManager();
         try {
-            fragmentManager.beginTransaction().replace(R.id.flContent,(Fragment) PrincipalFragment.class.newInstance()).commit();;
+            fragmentManager.beginTransaction().replace(R.id.flContent,(Fragment) PrincipalFragment.class.newInstance()).commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
