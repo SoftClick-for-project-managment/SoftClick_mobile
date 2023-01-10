@@ -65,7 +65,7 @@ public class ExpenseListAdapter extends RecyclerView.Adapter<ExpenseListAdapter.
         SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String dateFormatted = sdfDate.format(date);
         holder.date.setText(dateFormatted);
-        if(currentExpense.getTypeExpense()=="expense"){
+        if(currentExpense.getTypeExpense().equals("expense")){
             holder.amount.setTextColor(Color.parseColor("#E91E3C"));
         }else{
             holder.amount.setTextColor(Color.parseColor("#018786"));
