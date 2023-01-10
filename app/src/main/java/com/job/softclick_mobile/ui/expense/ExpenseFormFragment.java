@@ -137,7 +137,7 @@ public class ExpenseFormFragment extends Fragment {
                         @Override
                         public void onClick(View v) {
                             ExpensesListFragment expenseList =new ExpensesListFragment();
-                            FooterFragment footerFragment=new FooterFragment();
+                            FooterFragment footerFragment=new FooterFragment(ExpensesListFragment.class);
                             getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fContentFooter, footerFragment).commit();
                             getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContent,expenseList).commit();
                         }
@@ -199,7 +199,7 @@ public class ExpenseFormFragment extends Fragment {
                         @Override
                         public void onClick(View v) {
                             ExpensesListFragment expenseList =new ExpensesListFragment();
-                            FooterFragment footerFragment=new FooterFragment();
+                            FooterFragment footerFragment=new FooterFragment(ExpensesListFragment.class);
                             getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fContentFooter, footerFragment).commit();
                             getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContent,expenseList).commit();
                         }

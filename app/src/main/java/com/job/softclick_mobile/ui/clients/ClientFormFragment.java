@@ -104,7 +104,7 @@ public class ClientFormFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     ClientListFragment ClientList =new ClientListFragment();
-                    FooterFragment footerFragment=new FooterFragment();
+                    FooterFragment footerFragment=new FooterFragment(ClientListFragment.class);
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fContentFooter, footerFragment).commit();
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContent,ClientList).commit();
                 }
