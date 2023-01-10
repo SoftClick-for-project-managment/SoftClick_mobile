@@ -96,6 +96,7 @@ public class EmployeeListFragment extends Fragment implements RecyclerViewHandle
                 });
 
                 progressBar.setVisibility(View.INVISIBLE);
+                recyclerView.setVisibility(View.VISIBLE);
                 refreshUi();
             }
         });
