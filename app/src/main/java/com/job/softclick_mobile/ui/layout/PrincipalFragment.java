@@ -23,6 +23,7 @@ import com.job.softclick_mobile.models.Invoice;
 import com.job.softclick_mobile.models.Project;
 import com.job.softclick_mobile.models.Task;
 import com.job.softclick_mobile.models.Team;
+import com.job.softclick_mobile.models.User;
 import com.job.softclick_mobile.repositories.teams.ITeamsRepository;
 import com.job.softclick_mobile.viewmodels.clients.ClientViewModel;
 import com.job.softclick_mobile.viewmodels.clients.IClientViewModel;
@@ -38,6 +39,8 @@ import com.job.softclick_mobile.viewmodels.task.ITaskViewModel;
 import com.job.softclick_mobile.viewmodels.task.TaskViewModel;
 import com.job.softclick_mobile.viewmodels.teams.ITeamViewModel;
 import com.job.softclick_mobile.viewmodels.teams.TeamViewModel;
+import com.job.softclick_mobile.viewmodels.user.IUserViewModel;
+import com.job.softclick_mobile.viewmodels.user.UserViewModel;
 
 import java.util.List;
 
@@ -50,6 +53,7 @@ public class PrincipalFragment extends Fragment {
     private IInvoiceViewModel invoiceViewModel;
     private IExpenseViewModel expenseViewModel;
     private IProjectViewModel projectViewModel;
+    private IUserViewModel userViewModel;
     private MutableLiveData<Boolean> loadingLiveData = new MutableLiveData<>();
 
     public PrincipalFragment() {
@@ -85,6 +89,7 @@ public class PrincipalFragment extends Fragment {
         expenseViewModel = new ViewModelProvider(this).get(ExpenseViewModel.class);
         teamViewModel = new ViewModelProvider(this).get(TeamViewModel.class);
         projectViewModel = new ViewModelProvider(this).get(ProjectViewModel.class);
+        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
 
         loadingLiveData.setValue(true);
         loadingLiveData.observe(getViewLifecycleOwner(), new Observer<Boolean>() {
@@ -146,6 +151,14 @@ public class PrincipalFragment extends Fragment {
             public void onChanged(Object o) {
                 List<Project> projectList = (List<Project>) o;
                 binding.projectCard.projectsnumber.setText(""+projectList.size());
+                loadingLiveData.setValue(false);
+            }
+        });
+        userViewModel.getAuthenticated().gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer() {
+            @Override
+            public void onChanged(Object o) {
+                User user = (User) o;
+                binding.employeename.setText(user.getEmployee().getEmployeeFirstName());
                 loadingLiveData.setValue(false);
             }
         });
