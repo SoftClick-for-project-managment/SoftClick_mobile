@@ -3,6 +3,7 @@ package com.job.softclick_mobile.repositories.invoices;
 
 import android.util.Log;
 
+import com.job.softclick_mobile.models.Expense;
 import com.job.softclick_mobile.models.Invoice;
 import com.job.softclick_mobile.repositories.IBaseRepository;
 import com.job.softclick_mobile.services.http.HttpClient;
@@ -20,6 +21,7 @@ import retrofit2.Retrofit;
 public class InvoiceRepository implements IInvoiceRepository, IBaseRepository<Invoice, Long> {
     private InvoiceApi service;
     LiveResponse<List<Invoice>, Throwable> invoiceListLiveResponse = new LiveResponse<>();
+    LiveResponse<List<Invoice>, Throwable> searchLiveDataList = new LiveResponse<>();
     LiveResponse<Invoice, Throwable> invoiceLiveResponse = new LiveResponse<>();
     LiveResponse<Boolean, Throwable> createLiveResponse = new LiveResponse<>();
 
@@ -141,6 +143,28 @@ public class InvoiceRepository implements IInvoiceRepository, IBaseRepository<In
 
     @Override
     public LiveResponse search(Invoice invoice) {
-        return null;
-    }
+
+            service.search(invoice).enqueue(new Callback<List<Invoice>>() {
+                @Override
+                public void onResponse(Call<List<Invoice>> call, Response<List<Invoice>> response) {
+                    //Log.d("DEBUG", response.body().toString());
+                    if (response.code() != 200) {
+                        //Log.d("DEBUG", response.body().toString());
+                        searchLiveDataList.geteMutableLiveData().setValue(new HttpException(response));
+                    } else {
+                        List<Invoice> t = response.body();
+                        searchLiveDataList.gettMutableLiveData().setValue(t);
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<List<Invoice>> call, Throwable t) {
+                    Log.d("DEBUG", t.getMessage());
+                    Log.d("CONSOLE LOG", "Check your internet connection");
+                    searchLiveDataList.geteMutableLiveData().setValue(t);
+                }
+            });
+
+            return searchLiveDataList;
+        }
 }

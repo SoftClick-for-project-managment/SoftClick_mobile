@@ -1,5 +1,6 @@
 package com.job.softclick_mobile.adapters;
 
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,7 +68,15 @@ public class EmployeeListAdapter extends RecyclerView.Adapter<EmployeeListAdapte
     public void onBindViewHolder(@NonNull EmployeeViewHolder holder, int position) {
         Employee currentEmployee = mEmployeeList.get(position);
 
-        holder.imageView.setImageResource(R.drawable.user_photo);
+        if(currentEmployee.getEmployeeImage() == null) {
+            System.out.println("null"+currentEmployee.getEmployeeEmail());
+            holder.imageView.setImageResource(R.drawable.user_photo);
+        }
+        else {
+            System.out.println("not null"+currentEmployee.getEmployeeImage());
+            //holder.imageView.setImageURI(Uri.parse(currentEmployee.getEmployeeImage()));
+            holder.imageView.setImageBitmap(BitmapFactory.decodeFile(currentEmployee.getEmployeeImage()));
+        }
         holder.fullNameView.setText(currentEmployee.getEmployeeFirstName()+" "+currentEmployee.getEmployeeLastName());
         holder.functionView.setText(currentEmployee.getEmployeeFunction());
         holder.emailView.setText(currentEmployee.getEmployeeEmail());

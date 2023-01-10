@@ -60,7 +60,7 @@ public class AddteamFragment extends Fragment {
     private List<String> employeeName;
     private AutoCompleteTextView Combo_employee;
     private ListPopupWindow employeepopup;
-   CharSequence[] items;
+    CharSequence[] items = {};
     boolean[] selectedItems = {};
     Set<Employee> teamMembers = new HashSet<>();
     long[] employeeIds;
@@ -121,13 +121,12 @@ public class AddteamFragment extends Fragment {
                 }
             });
 
-
         } else {
             binding.back.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     TeamListFragment teamListFragment = new TeamListFragment();
-                    FooterFragment footerFragment = new FooterFragment();
+                    FooterFragment footerFragment = new FooterFragment(TeamListFragment.class);
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fContentFooter, footerFragment).commit();
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContent, teamListFragment).commit();
                 }
@@ -164,16 +163,17 @@ public class AddteamFragment extends Fragment {
                     if(team !=null && team.getMembers() != null){
                         teamMembers = team.getMembers();
                     }
+
                     for (Employee employee : teamMembers) {
                         if (employeeArrayList.get(i).getId() == employee.getId()) {
+                            System.out.println(employee.getEmployeeFirstName());
                             selectedItems[i] = true;
                         }
                     }
-                    binding.teammembers.setText(itemsToString());
 
                 }
 
-
+                binding.teammembers.setText(itemsToString());
 
                 items = EmployeeHash.keySet().toArray(new CharSequence[0]);
 
@@ -190,7 +190,7 @@ public class AddteamFragment extends Fragment {
 
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
                 alertDialogBuilder.setCancelable(true);
-                alertDialogBuilder.setTitle("Select team members");
+                alertDialogBuilder.setTitle("Select Employee Skills");
                 alertDialogBuilder.setMultiChoiceItems(items, selectedItems, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int which, boolean isChecked) {
@@ -286,10 +286,11 @@ public class AddteamFragment extends Fragment {
         }
 
         teamNew.setMembers(selectedEmployees);
+        this.team = teamNew;
         LiveResponse createLiveResponse =  teamViewModel.update(key, team);
-        //this.team = teamNew;
 
-        //System.out.println("Team : " + team.getTeam_Name());
+
+        System.out.println("Team : " + team.getTeam_Name());
 
         createLiveResponse.gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer() {
             @Override

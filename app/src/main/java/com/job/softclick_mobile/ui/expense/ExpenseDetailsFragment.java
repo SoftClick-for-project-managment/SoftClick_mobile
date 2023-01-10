@@ -126,7 +126,7 @@ public class ExpenseDetailsFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     ExpensesListFragment invoiceListFragment = new ExpensesListFragment();
-                    FooterFragment footerFragment = new FooterFragment();
+                    FooterFragment footerFragment = new FooterFragment(ExpensesListFragment.class);
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fContentFooter, footerFragment).commit();
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContent, invoiceListFragment).commit();
                 }

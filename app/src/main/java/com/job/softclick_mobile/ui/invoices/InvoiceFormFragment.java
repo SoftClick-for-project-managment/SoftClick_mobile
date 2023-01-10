@@ -144,13 +144,19 @@ public class InvoiceFormFragment extends Fragment {
             binding.createBtn.setText("Edit");
             binding.pageTitle.setText("Invoice Edition");
             int index = invoice.getDate().toString().indexOf(":");
-            String date_ = invoice.getDate().toString().substring(0, index);
-            String time_=invoice.getDate().toString().substring(index+1, invoice.getDate().toString().length());
+            String date_ ="";
+            String time_="";
+            if(index == -1){
+                date_ = invoice.getDate().toString();
+            }else {
+                date_ = invoice.getDate().toString().substring(0, index);
+                time_ = invoice.getDate().toString().substring(index + 1, invoice.getDate().toString().length());
+            }
             binding.date.setText(date_);
             binding.timedate.setText(time_);
             binding.total.setText(invoice.getTotal());
             Combo_project.setText(invoice.getProject().getNameProject().toString());
-            Combo_client.setText(invoice.getClient().getNom().toString() + " " + invoice.getClient().getPrenom().toString());
+            Combo_client.setText(invoice.getClient().getNom().toString());
             back.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -179,7 +185,7 @@ public class InvoiceFormFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     InvoiceListFragment invoiceListFragment = new InvoiceListFragment();
-                    FooterFragment footerFragment = new FooterFragment();
+                    FooterFragment footerFragment = new FooterFragment(InvoiceListFragment.class);
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fContentFooter, footerFragment).commit();
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContent, invoiceListFragment).commit();
                 }
@@ -228,7 +234,7 @@ public class InvoiceFormFragment extends Fragment {
         long idclient = ClientHash.get(Combo_client.getText().toString());
         Client selectedclient = new Client();
         selectedclient.setId(idclient);
-        long idproject = ClientHash.get(Combo_client.getText().toString());
+        long idproject = ProjectHash.get(Combo_project.getText().toString());
         Project selectedproject = new Project();
         selectedproject.setIdProject(idproject);
         System.out.println(selectedclient.toString());
@@ -290,11 +296,11 @@ public class InvoiceFormFragment extends Fragment {
     }
 
     private void HashTableProject(Hashtable<String, Integer> hachTable, ArrayList<Project> arraylist, AutoCompleteTextView combo) {
-        hachTable = new Hashtable<String, Integer>();
+        ProjectHash = new Hashtable<String, Integer>();
         for (int i = 0; i < arraylist.size(); i++) {
-            hachTable.put(arraylist.get(i).getNameProject(), arraylist.get(i).getIdProject().intValue());
+            ProjectHash.put(arraylist.get(i).getNameProject(), arraylist.get(i).getIdProject().intValue());
         }
-        Set<String> stringList = hachTable.keySet();
+        Set<String> stringList = ProjectHash.keySet();
         clientName = new ArrayList<>();
         clientName.addAll(stringList);
         for (int i = 0; i < clientName.size(); i++) {

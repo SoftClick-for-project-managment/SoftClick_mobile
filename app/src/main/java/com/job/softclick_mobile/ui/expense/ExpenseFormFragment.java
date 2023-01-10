@@ -137,7 +137,7 @@ public class ExpenseFormFragment extends Fragment {
                         @Override
                         public void onClick(View v) {
                             ExpensesListFragment expenseList =new ExpensesListFragment();
-                            FooterFragment footerFragment=new FooterFragment();
+                            FooterFragment footerFragment=new FooterFragment(ExpensesListFragment.class);
                             getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fContentFooter, footerFragment).commit();
                             getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContent,expenseList).commit();
                         }
@@ -199,7 +199,7 @@ public class ExpenseFormFragment extends Fragment {
                         @Override
                         public void onClick(View v) {
                             ExpensesListFragment expenseList =new ExpensesListFragment();
-                            FooterFragment footerFragment=new FooterFragment();
+                            FooterFragment footerFragment=new FooterFragment(ExpensesListFragment.class);
                             getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fContentFooter, footerFragment).commit();
                             getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContent,expenseList).commit();
                         }
@@ -430,7 +430,18 @@ public class ExpenseFormFragment extends Fragment {
         taskNew.setId(task.getId());
         ExpenseCategory expenseCategoryNew =new ExpenseCategory();
         expenseCategoryNew.setId(expenseCategory.getId());
-
+        binding.incomeRadio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                type="income";
+            }
+        });
+        binding.expenseRadio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                type="expense";
+            }
+        });
         Expense expense = new Expense(
                 Long.parseLong(binding.amount.getText().toString()),
                 type,

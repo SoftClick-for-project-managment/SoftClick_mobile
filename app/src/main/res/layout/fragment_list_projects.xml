@@ -7,6 +7,16 @@
     tools:context=".ui.projectFragments.ListProjectsFragment"
     android:orientation="vertical"
     android:layout_marginBottom="60dp">
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:indeterminateDrawable="@drawable/ind_progress_bar"
+        android:indeterminateDuration="500"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerInParent="true"
+        tools:progress="@integer/material_motion_duration_medium_1"
+        android:layout_gravity="center"
+        />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/main_recycle_view"
         android:layout_width="match_parent"

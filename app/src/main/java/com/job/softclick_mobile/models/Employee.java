@@ -9,9 +9,7 @@ public class Employee implements Serializable {
     private String employeeImage;
     private String employeeFirstName, employeeLastName, employeeFunction, employeeEmail, employeePhone;
     private Set<Skill> skills;
-
-    public Employee() {
-    }
+    private Set<Team> teams;
 
     public Employee(String employeeImage, String employeeFirstName, String employeeLastName, String employeeFunction, String employeeEmail, String employeePhone) {
         this.employeeImage = employeeImage;
@@ -22,12 +20,26 @@ public class Employee implements Serializable {
         this.employeePhone = employeePhone;
     }
 
+    public Employee() {
+
+    }
+
+    public Employee(String employeeFirstName, String employeeLastName, String employeeFunction, String employeeEmail, String employeePhone) {
+        this.employeeFirstName = employeeFirstName;
+        this.employeeLastName = employeeLastName;
+        this.employeeFunction = employeeFunction;
+        this.employeeEmail = employeeEmail;
+        this.employeePhone = employeePhone;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public Long getId() {
         return id;
     }
-    public void setId(Long id) {
-        this.id= id;
-    }
+
     public String getEmployeeImage() {
         return employeeImage;
     }
@@ -83,7 +95,16 @@ public class Employee implements Serializable {
     public void setSkills(Set<Skill> skills) {
         this.skills = skills;
     }
-    public void addSkill(Skill skill){
+
+    public Set<Team> getTeams() {
+        return teams;
+    }
+
+    public void setTeams(Set<Team> teams) {
+        this.teams = teams;
+    }
+
+    public void addSkill(Skill skill) {
         this.skills.add(skill);
     }
 }

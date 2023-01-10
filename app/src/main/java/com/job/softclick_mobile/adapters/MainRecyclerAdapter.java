@@ -20,6 +20,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
 
     List<Project_section> project_sectionList;
     RvItemClickListener rvItemClickListener;
+    Child_recyclerAdapter child_recyclerAdapter;
 
 
 
@@ -45,7 +46,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
 
         holder.priority.setText(priority);
 
-        Child_recyclerAdapter child_recyclerAdapter = new Child_recyclerAdapter(projects);
+         child_recyclerAdapter = new Child_recyclerAdapter(projects);
 
         child_recyclerAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
@@ -58,6 +59,8 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
 
 
         holder.child_recycler_view.setAdapter(child_recyclerAdapter);
+
+
 
 
     }
@@ -81,6 +84,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
 
     public void setProject_sectionList(List<Project_section> project_sectionList) {
         this.project_sectionList = project_sectionList;
+
         this.notifyDataSetChanged();
     }
 }
