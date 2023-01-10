@@ -32,6 +32,7 @@ import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClic
 import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.adapters.MainRecyclerAdapter;
 import com.job.softclick_mobile.databinding.FragmentAddProjectBinding;
+import com.job.softclick_mobile.databinding.FragmentListProjectsBinding;
 import com.job.softclick_mobile.models.Domain;
 import com.job.softclick_mobile.models.Employee;
 import com.job.softclick_mobile.models.Priority;
@@ -515,12 +516,15 @@ public class AddProjectFragment<items> extends Fragment {
     }
 
     public void update_project() {
+        binding.progressBar.setVisibility(View.VISIBLE);
+
         Project validated_project = validate();
         if (validated_project != null) {
             try {
                 projectViewModel.update(project.getIdProject(),validated_project);
-                getParentFragmentManager().beginTransaction().replace(R.id.fContentFooter, (Fragment) FooterFragment.class.newInstance()).commit();
-                Fragment fragment = new ListProjectsFragment();
+                binding.progressBar.setVisibility(View.VISIBLE);
+                getParentFragmentManager().beginTransaction().replace(R.id.fContentFooter, new FooterFragment(ListProjectsFragment.class)).commit();
+                ListProjectsFragment fragment = fragment = ListProjectsFragment.class.newInstance();
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.flContent, fragment);
@@ -534,15 +538,16 @@ public class AddProjectFragment<items> extends Fragment {
     }
 
     public void add_project() {
+        binding.progressBar.setVisibility(View.VISIBLE);
         Project validated_project = validate();
         if (validated_project != null) {
             try {
 
                Log.d("CONSOLE LOG", "project is  : "+validated_project.toString());
                 projectViewModel.create(validated_project);
-
-                getParentFragmentManager().beginTransaction().replace(R.id.fContentFooter, (Fragment) FooterFragment.class.newInstance()).commit();
-                Fragment fragment = new ListProjectsFragment();
+                binding.progressBar.setVisibility(View.VISIBLE);
+                getParentFragmentManager().beginTransaction().replace(R.id.fContentFooter, new FooterFragment(ListProjectsFragment.class)).commit();
+                ListProjectsFragment fragment = fragment = ListProjectsFragment.class.newInstance();
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.flContent, fragment);
