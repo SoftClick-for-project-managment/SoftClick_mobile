@@ -170,9 +170,7 @@ public class AddteamFragment extends Fragment {
                             selectedItems[i] = true;
                         }
                     }
-
                 }
-
                 binding.teammembers.setText(itemsToString());
 
                 items = EmployeeHash.keySet().toArray(new CharSequence[0]);
@@ -190,7 +188,7 @@ public class AddteamFragment extends Fragment {
 
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
                 alertDialogBuilder.setCancelable(true);
-                alertDialogBuilder.setTitle("Select Employee Skills");
+                alertDialogBuilder.setTitle("Select Team Members");
                 alertDialogBuilder.setMultiChoiceItems(items, selectedItems, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int which, boolean isChecked) {

@@ -174,7 +174,18 @@ public class ExpenseFormFragment extends Fragment {
                     }else{
                         binding.expenseRadio.setChecked(true);
                     }
-
+                    binding.incomeRadio.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            type="income";
+                        }
+                    });
+                    binding.expenseRadio.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            type="expense";
+                        }
+                    });
                     binding.backArrow.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
