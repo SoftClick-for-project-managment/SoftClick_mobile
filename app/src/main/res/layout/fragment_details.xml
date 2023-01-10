@@ -5,12 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.team.DetailsFragment">
-    <LinearLayout
-        android:id="@+id/header"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_marginTop="@dimen/_8sdp">
     <ProgressBar
         android:id="@+id/progressBar"
         android:visibility="gone"
@@ -22,6 +16,13 @@
         tools:progress="@integer/material_motion_duration_medium_1"
 
         />
+    <LinearLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/_8sdp">
+
 
         <LinearLayout
             android:layout_width="match_parent"
