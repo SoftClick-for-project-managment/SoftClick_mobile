@@ -221,7 +221,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="120dp"
-                                    android:text=" - mr lghali \n - mr faisal \n- mr hassan"
+                                    android:text=" "
                                     android:textSize="15sp" />
 
                                 <TextView
@@ -236,7 +236,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="120dp"
-                                    android:text=" - Front end Num 1 \n - Front end Num 5 \n- Devops "
+                                    android:text=""
                                     android:textSize="15sp" />
 
                                 <LinearLayout
@@ -283,26 +283,7 @@
                                         android:textSize="15sp" />
 
                                 </LinearLayout>
-                                <LinearLayout
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="horizontal"
-                                    android:layout_marginLeft="10dp"
-                                    >
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="@string/depense"
-                                        />
 
-                                    <TextView
-                                        android:id="@+id/depense_total"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="20000 DH"
-                                        android:textSize="15sp" />
-
-                                </LinearLayout>
 
                             </LinearLayout>
 

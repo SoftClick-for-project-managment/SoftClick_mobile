@@ -7,6 +7,7 @@ import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.util.Log;
@@ -25,12 +26,19 @@ import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.databinding.FragmentDetailProjectBinding;
 import com.job.softclick_mobile.models.Invoice;
 import com.job.softclick_mobile.models.Project;
+import com.job.softclick_mobile.models.Task;
+import com.job.softclick_mobile.models.Team;
 import com.job.softclick_mobile.ui.layout.FooterFragment;
 import com.job.softclick_mobile.ui.tasks.TaskList;
+import com.job.softclick_mobile.viewmodels.invoices.IInvoiceViewModel;
+import com.job.softclick_mobile.viewmodels.invoices.InvoiceViewModel;
 import com.job.softclick_mobile.viewmodels.project.IProjectViewModel;
 import com.job.softclick_mobile.viewmodels.project.ProjectViewModel;
+import com.job.softclick_mobile.viewmodels.teams.ITeamViewModel;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -46,11 +54,14 @@ public class DetailProjectFragment extends Fragment {
 
     private FragmentDetailProjectBinding binding;
     private IProjectViewModel projectViewModel;
-    TextView project_name, domain, date_debut, date_fin, description, name_chef, clients, equips, revenue, depense,priority_name;
+    TextView project_name, domain, date_debut, date_fin, description, name_chef, clients, equips, revenue,priority_name;
     private Button see_tasks_btn;
     LinearProgressIndicator etat_avancement;
     ImageView flesh_back, moreOptions;
     private Long id_project;
+    private List<Invoice> invoicesList;
+    private IInvoiceViewModel invoiceViewModel;
+    private ITeamViewModel teamViewModel;
 
     // TODO: Rename and change types of parameters
     private Project project;
@@ -95,6 +106,7 @@ public class DetailProjectFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = FragmentDetailProjectBinding.inflate(inflater, container, false);
         projectViewModel = new ViewModelProvider(this).get(ProjectViewModel.class);
+        invoiceViewModel = new ViewModelProvider(this).get(InvoiceViewModel.class);
         project_name = binding.projectName;
         domain = binding.domainProject;
         date_debut = binding.dateDebut;
@@ -104,7 +116,6 @@ public class DetailProjectFragment extends Fragment {
         clients = binding.clientsText;
         equips = binding.equipesText;
         revenue = binding.revenuTotal;
-        depense = binding.depenseTotal;
         etat_avancement = binding.etatAvancement;
         flesh_back = binding.fleshBack;
         moreOptions = binding.moreOptions;
@@ -206,7 +217,40 @@ public class DetailProjectFragment extends Fragment {
     }
 
     public void fetchDate() {
-        SimpleDateFormat formatter=new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+
+
+        Invoice invoiceProject = new Invoice("","",null,project);
+        invoiceViewModel.search(invoiceProject).gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<Invoice>>() {
+            @Override
+            public void onChanged(List<Invoice> invoices) {
+                String clients_names = "";
+                for (Invoice invoice : invoices
+                ) {
+                    clients_names += "- " + invoice.getClient().getNom() + " \n";
+
+                }
+                clients.setText(clients_names);
+            }
+        });
+
+        String teams = "";
+        if (project.getTeams() != null) {
+        for (Team team : project.getTeams()) {
+            teams += "- "+team.getTeam_Name() + " \n ";
+        }
+    }
+        equips.setText(teams);
+
+        Double avancement=0d;
+        if(project.getTasks() != null && project.getTasks().size()>0) {
+            for (Task task : project.getTasks()) {
+                if (task.getStatus().getNameStatus().trim().equals("new")) {
+                    avancement++;
+                }
+            }
+            avancement = (avancement *100 )/ project.getTasks().size();
+        }
 
         project_name.setText(project.getNameProject());
         domain.setText(project.getDomainProjet().getNameDomain());
@@ -215,17 +259,10 @@ public class DetailProjectFragment extends Fragment {
         description.setText(project.getDescriptionProject());
         name_chef.setText(project.getChefProject().getEmployeeLastName());
         priority_name.setText(project.getProjectPriority().getNamePriority());
+        etat_avancement.setProgress(avancement.intValue());
 
-        String clients_names ="";
-        for (Invoice invoice:project.getInvoices()
-             ) {
-            clients_names += "- "+invoice.getClient().getNom()+" \n";
-
-        }
-        clients.setText(clients_names);
-        equips.setText("- équipe frontend N° 1 \n équipe fullstack N° 5");
         revenue.setText(project.getRevenueProject().toString() + " DH ");
-        depense.setText("200000 DH");
-        etat_avancement.setProgress(25);
+
+
     }
 }
