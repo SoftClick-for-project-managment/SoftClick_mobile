@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
@@ -67,6 +68,9 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
             public void onChanged(User user) {
                 if(user != null) {
                     authUser = user;
+                    TextView textView = binding.navView.findViewById(R.id.userName);
+
+                    textView.setText(authUser.getEmployee().getEmployeeFirstName() + " " + authUser.getEmployee().getEmployeeLastName());
                     checkUserRole();
                 }
 
@@ -110,10 +114,6 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
             e.printStackTrace();
         }
 
-
-
-
-
     }
 
     private void checkUserRole() {
@@ -131,7 +131,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
 
             switch (role.getName())  {
                 case Role.ROLE_DIRECTOR:
-                    menuItemTasks.setVisible(true);
+                    menuItemTasks.setVisible(false);
                     menuItemTeams.setVisible(true);
                     menuItemProjects.setVisible(true);
                     menuItemClients.setVisible(true);
@@ -140,7 +140,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
                     menuItemInvoices.setVisible(true);
                     break;
                 case Role.ROLE_PROJECT_MANAGER:
-                    menuItemTasks.setVisible(true);
+                    menuItemTasks.setVisible(false);
                     menuItemTeams.setVisible(false);
                     menuItemProjects.setVisible(true);
                     menuItemClients.setVisible(false);

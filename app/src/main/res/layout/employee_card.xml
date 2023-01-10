@@ -25,11 +25,23 @@
         android:layout_marginBottom="20dp"
         android:layout_gravity="center_vertical|center_horizontal">
 
-        <ImageView
-            android:id="@+id/employeePhoto"
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/roundCardView"
             android:layout_width="90dp"
             android:layout_height="90dp"
-            android:src="@drawable/user_photo"/>
+            android:layout_gravity="center_horizontal"
+            android:layout_centerHorizontal="true"
+            android:elevation="0dp"
+            app:cardCornerRadius="60dp">
+
+            <ImageView
+                android:id="@+id/employeePhoto"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:src="@drawable/user_photo" />
+        </androidx.cardview.widget.CardView>
+
 
         <RelativeLayout
             android:layout_width="match_parent"

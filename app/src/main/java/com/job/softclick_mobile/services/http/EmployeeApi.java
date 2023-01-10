@@ -22,7 +22,7 @@ public interface EmployeeApi {
     Call<Employee> getSingle(@Path("id") Long employeeId);
 
     @POST("employees")
-    Call<Void> create(@Body Employee employee);
+    Call<Employee> create(@Body Employee employee);
 
     @PUT("employees/{id}")
     Call<Void> update(@Path("id") Long employeeId, @Body Employee employee);

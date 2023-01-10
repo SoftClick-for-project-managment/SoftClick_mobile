@@ -24,6 +24,7 @@ public class EmployeeRepository implements IEmployeeRepository, IBaseRepository<
     LiveResponse<List<Employee>, Throwable> searchLiveDataList = new LiveResponse<>();
     LiveResponse<Employee, Throwable> employeeLiveResponse = new LiveResponse<>();
     LiveResponse<Boolean, Throwable> createLiveResponse = new LiveResponse<>();
+    LiveResponse<Employee, Throwable> createLiveResponsee = new LiveResponse<>();
 
     public EmployeeRepository() {
         Retrofit httpClient = HttpClient.getInstance();
@@ -77,25 +78,27 @@ public class EmployeeRepository implements IEmployeeRepository, IBaseRepository<
 
     @Override
     public LiveResponse create(Employee employee) {
-        service.create(employee).enqueue(new Callback<Void>() {
+        service.create(employee).enqueue(new Callback<Employee>() {
             @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
+            public void onResponse(Call<Employee> call, Response<Employee> response) {
                 Log.d("DEBUG", response.code() + "");
                 if (response.code() != 201) {
-                    createLiveResponse.geteMutableLiveData().setValue(new HttpException(response));
+                    createLiveResponsee.geteMutableLiveData().setValue(new HttpException(response));
                 } else {
-                    createLiveResponse.gettMutableLiveData().setValue(true);
+                    Employee e = response.body();
+                    createLiveResponsee.gettMutableLiveData().setValue(e);
                 }
             }
 
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-                createLiveResponse.geteMutableLiveData().setValue(t);
+            public void onFailure(Call<Employee> call, Throwable t) {
+                createLiveResponsee.geteMutableLiveData().setValue(t);
             }
         });
 
-        return createLiveResponse;
+        return createLiveResponsee;
     }
+
 
     @Override
     public LiveResponse update(Long aLong, Employee employee) {
