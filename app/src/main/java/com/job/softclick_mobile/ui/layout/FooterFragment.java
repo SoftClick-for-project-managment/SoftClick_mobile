@@ -1,5 +1,6 @@
 package com.job.softclick_mobile.ui.layout;
 
+import android.content.res.ObbInfo;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -19,6 +20,7 @@ import android.widget.LinearLayout;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.job.softclick_mobile.R;
+import com.job.softclick_mobile.databinding.FragmentFooterBinding;
 import com.job.softclick_mobile.ui.clients.ClientListFragment;
 import com.job.softclick_mobile.ui.employees.EmployeeListFragment;
 import com.job.softclick_mobile.ui.expense.ExpensesListFragment;
@@ -34,6 +36,7 @@ import com.job.softclick_mobile.ui.team.TeamListFragment;
 public class FooterFragment extends Fragment {
     private BottomAppBar mBottomAppBar;
     private FrameLayout mBottomSheet;
+    private FragmentFooterBinding binding;
     private BottomSheetBehavior mbBottomSheetBehavior;
     private Class fragmentClass;
 
@@ -140,7 +143,11 @@ public class FooterFragment extends Fragment {
         mBottomAppBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                try {
+                    fragmentManager.beginTransaction().replace(R.id.flContent,(Fragment) PrincipalFragment.class.newInstance()).commit();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -149,4 +156,5 @@ public class FooterFragment extends Fragment {
 
         return view;
     }
+
 }

@@ -110,7 +110,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         // Insert the fragment by replacing any existing fragment
         fragmentManager = getSupportFragmentManager();
         try {
-            fragmentManager.beginTransaction().replace(R.id.flContent,(Fragment) PrincipalFragment.class.newInstance()).commit();;
+            fragmentManager.beginTransaction().replace(R.id.flContent,(Fragment) PrincipalFragment.class.newInstance()).commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
