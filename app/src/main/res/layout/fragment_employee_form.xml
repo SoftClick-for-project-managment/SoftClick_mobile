@@ -211,13 +211,13 @@
                             android:background="@color/transparent"
                             android:fontFamily="@font/roboto_regular"
                             android:hint="Phone"
-                            android:inputType="textPersonName"
                             android:maxLines="1"
                             android:paddingLeft="17dp"
                             android:paddingTop="15dp"
                             android:paddingBottom="15dp"
                             android:textCursorDrawable="@drawable/cursor_color"
-                            android:textSize="16sp"/>
+                            android:textSize="16sp"
+                            android:inputType="phone"/>
 
                         <ImageView
                             android:id="@+id/employeePhone_icon"

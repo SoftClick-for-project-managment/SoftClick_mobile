@@ -347,35 +347,41 @@ public class EmployeeFormFragment extends Fragment {
             byteArrayOutputStream = new ByteArrayOutputStream();
             String base64Image = "";
             byte[] bytes = {};
+            File imageFile;
 
             if(bitmap!= null) {
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
                 bytes = byteArrayOutputStream.toByteArray();
                 base64Image = Base64.encodeToString(bytes, Base64.DEFAULT);
 
+                File directory = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+
+                int index = validateEmployee.getEmployeeEmail().indexOf("@");
+                String userName = validateEmployee.getEmployeeEmail().substring(0, index);
+                String fileName = userName.toString() + ".jpg";
+                imageFile = new File(directory, fileName);
+
+                FileOutputStream fos = null;
+                try {
+                    fos = new FileOutputStream(imageFile);
+                    fos.write(bytes);
+                    fos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
             }
             else {
+                imageFile = null;
                 System.out.println("bitmap null");
             }
 
-            File directory = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
 
-            String fileName = "employee_test_image2" + ".jpg";
-            File imageFile = new File(directory, fileName);
-
-            FileOutputStream fos = null;
-            try {
-                fos = new FileOutputStream(imageFile);
-                fos.write(bytes);
-                fos.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
 
             //__________________________________________
 
             Employee employee = new Employee(
-                    "employee4.png",
+                    null,
                     binding.firstName.getText().toString(),
                     binding.lastName.getText().toString(),
                     binding.employeeFunction.getText().toString(),
@@ -391,7 +397,10 @@ public class EmployeeFormFragment extends Fragment {
                 selectedSkills.add(selectedSkill);
             }
 
-            employee.setEmployeeImage(imageFile.getAbsolutePath());
+            if(imageFile!=null){
+                employee.setEmployeeImage(imageFile.getAbsolutePath());
+            }
+
 
             employee.setSkills(selectedSkills);
 
