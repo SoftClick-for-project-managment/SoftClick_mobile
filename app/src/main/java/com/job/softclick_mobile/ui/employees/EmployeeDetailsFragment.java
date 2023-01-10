@@ -120,10 +120,10 @@ public class EmployeeDetailsFragment extends Fragment {
             binding.back.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    EmployeeListFragment invoiceListFragment = new EmployeeListFragment();
-                    FooterFragment footerFragment = new FooterFragment();
+                    EmployeeListFragment employeListFragment = new EmployeeListFragment();
+                    FooterFragment footerFragment = new FooterFragment(EmployeeListFragment.class);
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fContentFooter, footerFragment).commit();
-                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContent, invoiceListFragment).commit();
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContent, employeListFragment).commit();
                 }
             });
         }

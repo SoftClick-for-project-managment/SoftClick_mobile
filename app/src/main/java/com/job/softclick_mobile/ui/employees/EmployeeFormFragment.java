@@ -98,7 +98,7 @@ public class EmployeeFormFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     EmployeeListFragment employeeListFragment=new EmployeeListFragment();
-                    FooterFragment footerFragment=new FooterFragment();
+                    FooterFragment footerFragment=new FooterFragment(EmployeeListFragment.class);
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fContentFooter, footerFragment).commit();
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContent,employeeListFragment).commit();
                 }

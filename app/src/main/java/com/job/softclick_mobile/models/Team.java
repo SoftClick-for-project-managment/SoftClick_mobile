@@ -61,10 +61,6 @@ public class Team implements Serializable {
 
     @Override
     public String toString() {
-        return "Team{" +
-                "idTeam=" + idTeam +
-                ", team_Name='" + team_Name + '\'' +
-                ", description='" + description + '\'' +
-                '}';
+        return "- "+this.getTeam_Name();
     }
 }

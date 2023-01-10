@@ -124,7 +124,7 @@ public class DetailsFragment extends Fragment implements RecyclerViewHandler{
                 @Override
                 public void onClick(View v) {
                     TeamListFragment teamListFragment = new TeamListFragment();
-                    FooterFragment footerFragment = new FooterFragment();
+                    FooterFragment footerFragment = new FooterFragment(TeamListFragment.class);
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fContentFooter, footerFragment).commit();
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flContent, teamListFragment).commit();
                 }
