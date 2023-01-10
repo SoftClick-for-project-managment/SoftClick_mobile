@@ -86,8 +86,8 @@ public class AddProjectFragment<items> extends Fragment {
     private AutoCompleteTextView Combo_chef;
     ImageView flesh_back;
     TextView add_btn, update_btn, title_page , selectTeambtn , selectedTeamsText;
-    Date date_debut=null;
-    Date date_fin = null;
+    Date date_debut=new Date();
+    Date date_fin = new Date();
     private IDomainViewModel domainViewModel;
     HashMap<String,Long> domains_pairs = new HashMap<>();
     HashMap<String,Long> employe_pairs = new HashMap<>();
@@ -253,6 +253,12 @@ public class AddProjectFragment<items> extends Fragment {
             Combo_domain.setText(project.getDomainProjet().getNameDomain());
             Combo_priority.setText(project.getProjectPriority().getNamePriority());
             Combo_chef.setText(project.getChefProject().getEmployeeLastName()+" "+project.getChefProject().getEmployeeFirstName());
+
+            date_picker_debut.setText(project.getDateDebut().toString());
+            date_debut.setTime(project.getDateDebut().getTime());
+
+            date_picker_fin.setText(project.getDateFin().toString());
+            date_fin.setTime(project.getDateFin().getTime());
 
 
 
@@ -425,19 +431,26 @@ public class AddProjectFragment<items> extends Fragment {
 
     public Project validate() {
         Project added_project = null;
-
+        boolean is_validated = true;
         String name = name_project.getText().toString().trim();
         String description_text = description.getText().toString().trim();
-        Double revenue_text = Double.parseDouble(revenue.getText().toString().trim());
+        Double revenue_text=0d ;
+        try{
+             revenue_text = Double.parseDouble(revenue.getText().toString().trim());
+        }catch (Exception e){
+            revenue.setHint(" Revenu is requered as number ! ");
+            revenue.setHintTextColor(getResources().getColor(R.color.design_default_color_error));
+            is_validated = false;
+        }
+
 
 
         Long domain_id = domains_pairs.get(Combo_domain.getText().toString());
-        Log.d("domain_id",domain_id.toString());
         Domain domain = new Domain();
         domain.setIdDomain(domain_id);
 
         Long chef_id = employe_pairs.get(Combo_chef.getText().toString());
-        Log.d("id_chef",chef_id.toString());
+
         Employee chef = new Employee();
         chef.setId(chef_id);
 
@@ -447,27 +460,41 @@ public class AddProjectFragment<items> extends Fragment {
 
         Status status = new Status(1l,"");
 
+
         if (name.equals("")) {
             name_project.setHint(" Project name is required ! ");
             name_project.setHintTextColor(getResources().getColor(R.color.design_default_color_error));
+            is_validated = false;
 
-            return null;
 
         }
-        if (domain.equals("")) {
+        if (Combo_domain.getText().toString().equals("")) {
             Combo_domain.setHint(" Domain is required ! ");
             Combo_domain.setHintTextColor(getResources().getColor(R.color.design_default_color_error));
-            return null;
+            is_validated = false;
+
         }
         if (priority_name.equals("")) {
             Combo_priority.setHint(" priority is required ! ");
             Combo_priority.setHintTextColor(getResources().getColor(R.color.design_default_color_error));
-            return null;
+            is_validated = false;
+
+        }
+        if (Combo_chef.getText().toString().equals("")) {
+            Combo_chef.setHint(" chef is required ! ");
+            Combo_chef.setHintTextColor(getResources().getColor(R.color.design_default_color_error));
+            is_validated = false;
+
         }
 
         if (date_picker_debut.getText().toString().trim().equals("")) {
             date_picker_debut.setHint(" Date debut is required ! ");
             date_picker_debut.setHintTextColor(getResources().getColor(R.color.design_default_color_error));
+            is_validated = false;
+
+        }
+
+        if(!is_validated){
             return null;
         }
 
