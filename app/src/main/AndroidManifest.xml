@@ -15,8 +15,6 @@
         android:theme="@style/Theme.SoftClick_mobile"
         android:usesCleartextTraffic="true">
 
-
-
         <activity
             android:name="com.job.softclick_mobile.ui.auth.LoginActivity"
             android:exported="true">

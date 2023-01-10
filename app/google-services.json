@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "438726836743",
+    "project_id": "softclick-2f37a",
+    "storage_bucket": "softclick-2f37a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:438726836743:android:06b0263d3092b72678e0a2",
+        "android_client_info": {
+          "package_name": "com.job.softclick_mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "438726836743-qosksuifq3npviaj6lns98pl9ubv5fuk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBz1jS73GwbqIFyoPdRgR9oYFJAqKiowTA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "438726836743-qosksuifq3npviaj6lns98pl9ubv5fuk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

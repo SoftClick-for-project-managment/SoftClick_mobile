@@ -24,6 +24,7 @@ import com.job.softclick_mobile.models.Status;
 import com.job.softclick_mobile.models.Task;
 import com.job.softclick_mobile.ui.layout.FooterFragment;
 import com.job.softclick_mobile.utils.LiveResponse;
+import com.job.softclick_mobile.utils.PushNotificationHub;
 import com.job.softclick_mobile.viewmodels.task.TaskViewModel;
 
 import java.io.IOException;
