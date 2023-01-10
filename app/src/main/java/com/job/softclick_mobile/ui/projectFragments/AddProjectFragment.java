@@ -373,7 +373,7 @@ public class AddProjectFragment<items> extends Fragment {
                 }
                 binding.selectedTeamsText.setText(itemsToString());
 
-                items = teamHash.keySet().toArray(new CharSequence[0]);
+//                items = teamHash.keySet().toArray(new CharSequence[0]);
 
                 teamIds = new long[items.length];
                 for (int i = 0; i < items.length; i++) {
