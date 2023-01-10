@@ -172,9 +172,7 @@ public class AddteamFragment extends Fragment {
                     }
                 }
                 binding.teammembers.setText(itemsToString());
-
-                items = EmployeeHash.keySet().toArray(new CharSequence[0]);
-
+//                items = EmployeeHash.keySet().toArray(new CharSequence[0]);
                 employeeIds = new long[items.length];
                 for (int i = 0; i < items.length; i++) {
                     employeeIds[i] = EmployeeHash.get(items[i]);

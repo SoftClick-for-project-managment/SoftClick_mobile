@@ -245,7 +245,7 @@ public class DetailProjectFragment extends Fragment {
         Double avancement=0d;
         if(project.getTasks() != null && project.getTasks().size()>0) {
             for (Task task : project.getTasks()) {
-                if (task.getStatus().getNameStatus().trim().equals("new")) {
+                if (task.getStatus().getNameStatus().trim().equals("DONE")) {
                     avancement++;
                 }
             }

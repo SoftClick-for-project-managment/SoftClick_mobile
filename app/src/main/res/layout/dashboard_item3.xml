@@ -2,26 +2,26 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginRight="@dimen/_10sdp"
-    android:layout_marginTop="@dimen/_10sdp"
+    android:layout_marginRight="10dp"
+    android:layout_marginTop="10dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.google.android.material.card.MaterialCardView
-        android:layout_width="@dimen/_140sdp"
-        android:layout_height="@dimen/_105sdp"
+        android:layout_width="140dp"
+        android:layout_height="105dp"
         app:cardBackgroundColor="#D0E7CF"
-        app:cardCornerRadius="@dimen/_14sdp"
+        app:cardCornerRadius="14dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="@dimen/_50sdp"
-            android:layout_height="@dimen/_50sdp"
-            android:layout_marginTop="@dimen/_10ssp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="10sp"
             android:src="@drawable/expense1"
             android:background="@drawable/imageborder"
-            android:layout_marginLeft="@dimen/_80sdp"
+            android:layout_marginLeft="80dp"
             />
         <TextView
             android:id="@+id/expensesnumber"
@@ -29,19 +29,19 @@
             android:layout_height="wrap_content"
             android:text="85"
             android:textColor="@color/black"
-            android:textSize="@dimen/_25sdp"
+            android:textSize="25dp"
             android:textStyle="bold"
-            android:layout_marginLeft="@dimen/_8sdp"
-            android:layout_marginTop="@dimen/_30sdp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="30dp"
             />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Expenses"
             android:textColor="@color/black"
-            android:textSize="@dimen/_20sdp"
-            android:layout_marginLeft="@dimen/_8sdp"
-            android:layout_marginTop="@dimen/_65sdp"
+            android:textSize="20dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="65dp"
             />
 
     </com.google.android.material.card.MaterialCardView>
