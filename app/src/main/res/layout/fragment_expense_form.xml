@@ -70,10 +70,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/amount"
+                        android:inputType="numberDecimal"
+
                         android:background="@color/transparent"
                         android:fontFamily="@font/roboto_regular"
                         android:hint="amount"
-                        android:inputType="textPersonName"
                         android:maxLines="1"
                         android:paddingLeft="17dp"
                         android:paddingTop="15dp"
