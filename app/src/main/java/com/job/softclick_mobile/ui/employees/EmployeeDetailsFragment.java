@@ -2,6 +2,7 @@ package com.job.softclick_mobile.ui.employees;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -67,8 +68,15 @@ public class EmployeeDetailsFragment extends Fragment {
         binding.employeeFirstName.setText(employee.getEmployeeFirstName());
         binding.employeeLastName.setText(employee.getEmployeeLastName());
         binding.employeeEmail.setText(employee.getEmployeeEmail());
-        binding.employeePhone.setText(employee.getId().toString());
+        binding.employeePhone.setText(employee.getEmployeePhone());
         binding.employeeFunction.setText(employee.getEmployeeFunction());
+        if(employee.getEmployeeImage() == null) {
+            binding.employeePhoto.setImageResource(R.drawable.user_photo);
+        }
+        else {
+            binding.employeePhoto.setImageBitmap(BitmapFactory.decodeFile(employee.getEmployeeImage()));
+        }
+
 
         String text = "";
         for(Skill skill: employee.getSkills()) {

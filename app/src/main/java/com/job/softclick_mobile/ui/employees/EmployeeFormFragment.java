@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -12,8 +13,10 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.InputType;
+import android.util.Base64;
 import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
@@ -26,6 +29,7 @@ import android.widget.Toast;
 import com.job.softclick_mobile.R;
 import com.job.softclick_mobile.databinding.ActivityMenuBinding;
 import com.job.softclick_mobile.databinding.FragmentEmployeeFormBinding;
+import com.job.softclick_mobile.models.Client;
 import com.job.softclick_mobile.models.Employee;
 import com.job.softclick_mobile.models.Role;
 import com.job.softclick_mobile.models.Skill;
@@ -40,6 +44,9 @@ import com.job.softclick_mobile.viewmodels.employees.SkillViewModel;
 import com.job.softclick_mobile.viewmodels.user.IUserViewModel;
 import com.job.softclick_mobile.viewmodels.user.UserViewModel;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
@@ -49,7 +56,9 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import retrofit2.HttpException;
 
@@ -240,6 +249,12 @@ public class EmployeeFormFragment extends Fragment {
             binding.employeeEmail.setText(employee.getEmployeeEmail());
             binding.employeePhone.setText(employee.getEmployeePhone());
             binding.employeeFunction.setText(employee.getEmployeeFunction());
+            if(employee.getEmployeeImage() == null) {
+                binding.employeePhoto.setImageResource(R.drawable.user_photo);
+            }
+            else {
+                binding.employeePhoto.setImageBitmap(BitmapFactory.decodeFile(employee.getEmployeeImage()));
+            }
 
             for(Skill skill: employee.getSkills()){
                 employeeSkills.add(skill);
@@ -321,69 +336,110 @@ public class EmployeeFormFragment extends Fragment {
     }
 
     public void createEmployee(){
-        System.out.println("Create Employee function <<<<<<<<<<<<<<<<");
-        binding.progressBar.setVisibility(View.VISIBLE);
-        binding.formBody.setVisibility(View.GONE);
+        Employee validateEmployee = validate();
+        if(validateEmployee != null) {
+            System.out.println("Create Employee function <<<<<<<<<<<<<<<<");
+            binding.progressBar.setVisibility(View.VISIBLE);
+            binding.formBody.setVisibility(View.GONE);
+
+            //__________________________________________
+            ByteArrayOutputStream byteArrayOutputStream;
+            byteArrayOutputStream = new ByteArrayOutputStream();
+            String base64Image = "";
+            byte[] bytes = {};
+
+            if(bitmap!= null) {
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+                bytes = byteArrayOutputStream.toByteArray();
+                base64Image = Base64.encodeToString(bytes, Base64.DEFAULT);
+
+            }
+            else {
+                System.out.println("bitmap null");
+            }
+
+            File directory = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+
+            String fileName = "employee_test_image2" + ".jpg";
+            File imageFile = new File(directory, fileName);
+
+            FileOutputStream fos = null;
+            try {
+                fos = new FileOutputStream(imageFile);
+                fos.write(bytes);
+                fos.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            //__________________________________________
+
+            Employee employee = new Employee(
+                    "employee4.png",
+                    binding.firstName.getText().toString(),
+                    binding.lastName.getText().toString(),
+                    binding.employeeFunction.getText().toString(),
+                    binding.employeeEmail.getText().toString(),
+                    binding.employeePhone.getText().toString()
+            );
+
+            Set<Skill> selectedSkills = new HashSet<>();
+
+            for(int i=0; i<selectedSkillIds.size(); i++){
+                Skill selectedSkill = new Skill();
+                selectedSkill.setId(selectedSkillIds.get(i));
+                selectedSkills.add(selectedSkill);
+            }
+
+            employee.setEmployeeImage(imageFile.getAbsolutePath());
+
+            employee.setSkills(selectedSkills);
+
+            System.out.println("Employee Email ::: " + employee.getEmployeeEmail());
+            System.out.println("Employee Skills::: " + employee.getSkills());
+
+            LiveResponse createLiveResponse =  employeeViewModel.create(employee);
 
 
-        Employee employee = new Employee(
-                "employee4.png",
-                binding.firstName.getText().toString(),
-                binding.lastName.getText().toString(),
-                binding.employeeFunction.getText().toString(),
-                binding.employeeEmail.getText().toString(),
-                binding.employeePhone.getText().toString()
-        );
+            createLiveResponse.gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer<Employee>() {
+                @Override
+                public void onChanged(Employee e) {
+                    if(e != null ){
+                        System.out.println("Employee Id <<<<<<<<<" + e.getId());
+                        createUser(e);
+                        binding.progressBar.setVisibility(View.GONE);
+                        binding.back.callOnClick();
 
-        Set<Skill> selectedSkills = new HashSet<>();
+                    }
+                }
+            });
 
-        for(int i=0; i<selectedSkillIds.size(); i++){
-            Skill selectedSkill = new Skill();
-            selectedSkill.setId(selectedSkillIds.get(i));
-            selectedSkills.add(selectedSkill);
+            createLiveResponse.geteMutableLiveData().observe(getViewLifecycleOwner(), new Observer() {
+                @Override
+                public void onChanged(Object o) {
+                    Throwable error = (Throwable) o;
+                    if (error instanceof HttpException) {
+                        Log.d("DEBUG", error.getMessage());
+
+                        error.printStackTrace();
+                        Toast.makeText(getContext(), "Can't Create the Employee!", Toast.LENGTH_SHORT).show();
+                    } else if (error instanceof IOException) {
+
+                    }
+                    binding.formBody.setVisibility(View.VISIBLE);
+                    binding.progressBar.setVisibility(View.GONE);
+                    Log.d("ERR", error.getMessage());
+                }
+            });
+        }
+        else{
+            return;
         }
 
-        employee.setSkills(selectedSkills);
 
-        System.out.println("Employee Email ::: " + employee.getEmployeeEmail());
-        System.out.println("Employee Skills::: " + employee.getSkills());
-
-        LiveResponse createLiveResponse =  employeeViewModel.create(employee);
-
-
-        createLiveResponse.gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer() {
-            @Override
-            public void onChanged(Object o) {
-                if((Boolean) o == true ){
-                    binding.progressBar.setVisibility(View.GONE);
-                    binding.back.callOnClick();
-
-                }
-            }
-        });
-
-        createLiveResponse.geteMutableLiveData().observe(getViewLifecycleOwner(), new Observer() {
-            @Override
-            public void onChanged(Object o) {
-                Throwable error = (Throwable) o;
-                if (error instanceof HttpException) {
-                    Log.d("DEBUG", error.getMessage());
-                    error.printStackTrace();
-                    Toast.makeText(getContext(), "This screen is under maintenance", Toast.LENGTH_SHORT).show();
-                } else if (error instanceof IOException) {
-
-                }
-                binding.formBody.setVisibility(View.VISIBLE);
-                binding.progressBar.setVisibility(View.GONE);
-                Log.d("ERR", error.getMessage());
-            }
-        });
-        createUser(employee);
     }
 
     public void createUser(Employee e){
-        binding.progressBar.setVisibility(View.VISIBLE);
-        binding.formBody.setVisibility(View.GONE);
 
         User user = new User();
 
@@ -395,6 +451,7 @@ public class EmployeeFormFragment extends Fragment {
 
         System.out.println("UserName ------> " + user.getUsername());
         System.out.println("UserPass ------> " + user.getPassword());
+        System.out.println("UserEmployee ------> " + user.getEmployee().getEmployeeEmail());
 
         role = new Role();
         role.setName(Role.ROLE_EMPLOYEE);
@@ -435,63 +492,81 @@ public class EmployeeFormFragment extends Fragment {
 
     }
 
-    public void updateEmployee(Long key){
-        binding.progressBar.setVisibility(View.VISIBLE);
-        binding.formBody.setVisibility(View.GONE);
-
-        Employee employee = new Employee(
-                "employee4.png",
-                binding.firstName.getText().toString(),
-                binding.lastName.getText().toString(),
-                binding.employeeFunction.getText().toString(),
-                binding.employeeEmail.getText().toString(),
-                binding.employeePhone.getText().toString()
-        );
-
-        Set<Skill> selectedSkills = new HashSet<>();
-
-        for(int i=0; i<selectedSkillIds.size(); i++){
-            Skill selectedSkill = new Skill();
-            selectedSkill.setId(selectedSkillIds.get(i));
-            selectedSkills.add(selectedSkill);
+    public static <T, E> T getKey(Map<T, E> map, E value) {
+        for (Map.Entry<T, E> entry : map.entrySet()) {
+            if (value.equals(entry.getValue())) {
+                return entry.getKey();
+            }
         }
+        return null;
+    }
 
-        employee.setSkills(selectedSkills);
+    public void updateEmployee(Long key){
+        Employee validateEmployee = validate();
+        if(validateEmployee != null) {
+            binding.progressBar.setVisibility(View.VISIBLE);
+            binding.formBody.setVisibility(View.GONE);
 
-        LiveResponse createLiveResponse =  employeeViewModel.update(key, employee);
+            Employee employee = new Employee(
+                    "employee4.png",
+                    binding.firstName.getText().toString(),
+                    binding.lastName.getText().toString(),
+                    binding.employeeFunction.getText().toString(),
+                    binding.employeeEmail.getText().toString(),
+                    binding.employeePhone.getText().toString()
+            );
 
-        this.employee = employee;
+            Set<Skill> selectedSkills = new HashSet<>();
 
-        System.out.println("Employee ::: " + employee.getEmployeeEmail());
+            for(int i=0; i<selectedSkillIds.size(); i++){
+                Skill selectedSkill = new Skill();
+                selectedSkill.setId(selectedSkillIds.get(i));
 
-        createLiveResponse.gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer() {
-            @Override
-            public void onChanged(Object o) {
-                System.out.println("changed");
-                if((Boolean) o == true ){
+
+                selectedSkill.setSkillName(getKey(skillHash, selectedSkillIds.get(i)));
+                selectedSkills.add(selectedSkill);
+            }
+
+            employee.setSkills(selectedSkills);
+
+            LiveResponse createLiveResponse =  employeeViewModel.update(key, employee);
+
+            this.employee = employee;
+
+            System.out.println("Employee ::: " + employee.getEmployeeEmail());
+
+            createLiveResponse.gettMutableLiveData().observe(getViewLifecycleOwner(), new Observer() {
+                @Override
+                public void onChanged(Object o) {
+                    System.out.println("changed");
+                    if((Boolean) o == true ){
+                        binding.progressBar.setVisibility(View.GONE);
+                        binding.back.callOnClick();
+                        System.out.println("back called");
+                    }
+                }
+            });
+
+            createLiveResponse.geteMutableLiveData().observe(getViewLifecycleOwner(), new Observer() {
+                @Override
+                public void onChanged(Object o) {
+                    Throwable error = (Throwable) o;
+                    if (error instanceof HttpException) {
+                        Log.d("DEBUG", error.getMessage());
+                        error.printStackTrace();
+                        Toast.makeText(getContext(), "This screen is under maintenance", Toast.LENGTH_SHORT).show();
+                    } else if (error instanceof IOException) {
+
+                    }
+                    binding.formBody.setVisibility(View.VISIBLE);
                     binding.progressBar.setVisibility(View.GONE);
-                    binding.back.callOnClick();
-                    System.out.println("back called");
+                    Log.d("ERR", error.getMessage());
                 }
-            }
-        });
+            });
 
-        createLiveResponse.geteMutableLiveData().observe(getViewLifecycleOwner(), new Observer() {
-            @Override
-            public void onChanged(Object o) {
-                Throwable error = (Throwable) o;
-                if (error instanceof HttpException) {
-                    Log.d("DEBUG", error.getMessage());
-                    error.printStackTrace();
-                    Toast.makeText(getContext(), "This screen is under maintenance", Toast.LENGTH_SHORT).show();
-                } else if (error instanceof IOException) {
-
-                }
-                binding.formBody.setVisibility(View.VISIBLE);
-                binding.progressBar.setVisibility(View.GONE);
-                Log.d("ERR", error.getMessage());
-            }
-        });
+        }else{
+            return;
+        }
 
 
     }
@@ -561,6 +636,78 @@ public class EmployeeFormFragment extends Fragment {
                 Log.d("ERR", error.getMessage());
             }
         });
+    }
+
+    private boolean isValidEmailId(String email){
+
+        return Pattern.compile("^[a-zA-Z0-9_+&*-]+(?:\\." +
+                "[a-zA-Z0-9_+&*-]+)*@" +
+                "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
+                "A-Z]{2,7}$").matcher(email).matches();
+    }
+
+
+    public Employee validate() {
+
+        Employee addedEmployee;
+        String employeeFirstName = binding.firstName.getText().toString().trim();
+        String employeeLastName = binding.lastName.getText().toString().trim();
+        String employeeEmail = binding.employeeEmail.getText().toString().trim();
+        String employeePhone = binding.employeePhone.getText().toString().trim();
+        String employeeFunction = binding.employeeFunction.getText().toString().trim();
+        String employeeSkills = binding.employeeSkills.getText().toString().trim();
+
+        boolean error = false ;
+
+        if (employeeEmail.equals("")){
+            binding.employeeEmail.setHint("Email Address is required ");
+            binding.employeeEmail.setHintTextColor(getResources().getColor(R.color.design_default_color_error));
+            error = true;
+        }
+        else if(!isValidEmailId(employeeEmail)){
+            Toast.makeText(getContext(),"Invalid email address",Toast.LENGTH_SHORT).show();
+            error = true ;
+        }
+
+        if (employeeFirstName.equals("")) {
+            binding.firstName.setHint(" Employee First Name is required ! ");
+            binding.firstName.setHintTextColor(getResources().getColor(R.color.design_default_color_error));
+            error = true ;
+        }
+        if (employeeLastName.equals("")) {
+
+            binding.lastName.setHint(" Employee Last Name is required ! ");
+            binding.lastName.setHintTextColor(getResources().getColor(R.color.design_default_color_error));
+            error = true ;
+        }
+
+        if (employeePhone.equals("")) {
+
+            binding.employeePhone.setHint(" Employee Phone is required ! ");
+            binding.employeePhone.setHintTextColor(getResources().getColor(R.color.design_default_color_error));
+            error = true ;
+        }
+
+        if (employeeFunction.equals("")) {
+
+            binding.employeeFunction.setHint(" Employee Function is required ! ");
+            binding.employeeFunction.setHintTextColor(getResources().getColor(R.color.design_default_color_error));
+            error = true ;
+        }
+
+
+        if (error)
+            return null;
+
+        addedEmployee = new Employee(
+                employeeFirstName,
+                employeeLastName,
+                employeeFunction,
+                employeeEmail,
+                employeePhone
+        );
+
+        return addedEmployee;
     }
 
 }

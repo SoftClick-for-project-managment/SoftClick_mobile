@@ -111,10 +111,6 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
             e.printStackTrace();
         }
 
-
-
-
-
     }
 
     private void checkUserRole() {
