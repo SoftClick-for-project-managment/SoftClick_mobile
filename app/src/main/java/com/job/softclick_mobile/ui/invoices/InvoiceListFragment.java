@@ -93,6 +93,7 @@ public class InvoiceListFragment extends Fragment implements RecyclerViewHandler
             @Override
             public void onChanged(Object o) {
                 progressBar.setVisibility(View.INVISIBLE);
+                recyclerView.setVisibility(View.VISIBLE);
                 Throwable error = (Throwable) o;
                 Log.d("ERR", error.getMessage());
             }
@@ -108,6 +109,7 @@ public class InvoiceListFragment extends Fragment implements RecyclerViewHandler
                 });
 
                 progressBar.setVisibility(View.INVISIBLE);
+                recyclerView.setVisibility(View.VISIBLE);
                 refreshUi();
             }
         });
